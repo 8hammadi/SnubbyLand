@@ -51,7 +51,12 @@ public :
     vector<pair<int, int>> nodes;
     vector<Road> roads;
 
-    void addNode(int a,int b);
+    void addNode(int a,int b){
+    	nodes.push_back(make_pair(a,b));
+    }
+    void addRoad(Road r){
+    	roads.push_back(r);
+    }
 };
 
 
@@ -79,7 +84,16 @@ public:
 	Map map;
 	
 
-	void loadGame(string fileName);
+	void loadGame(string fileName){
+		ifstream file;
+		file.open(fileName, ios::in);
+		file.read((char*)this, sizeof(Game));
+		file.close();
+	}
 	void saveGame(string fileName){
+		ofstream file;
+		file.open(fileName, ios::app); 
+		file.write((char*)this, sizeof(Game));
+		file.close();
 	}
 };
