@@ -7,7 +7,13 @@ s      |||save level in level
 l      |||load level from input
 n      |||show node of graphe
 q      |||last click
+1   pivot 1
+2   pivot 2
+w draw every thing
 
+o add linear  road
+
+p add Polar road
 */
 class Graphic
 {
@@ -17,9 +23,9 @@ private:
     SDL_Rect rect;
     SDL_Surface *s;
     SDL_Event event;
-    SDL_Texture *texture,*texturePlayer,*textureEnemy,*textureCoin;
+    SDL_Texture *texture,*texturePlayer,*textureEnemy,*textureCoin,*texturePoint;
     vector<pair<int,int>> sizeTable={{40,60},{20,30},{10,15}};
-
+    pair<int,int> P1={0,0},P2={100,100};
 
 public:
     Game* game;
@@ -27,7 +33,7 @@ public:
     int SCREEN_WIDTH = 1000, SCREEN_HEIGHT = 600;
     vector<vector<int>> Color = {{0,0,0},{255,255,255},{0,0,255},{255, 0, 0}, {0, 255, 0}, {0, 0, 255}};
     int color = 0;
-    int x, y,oldx,oldy;
+    int x=-100, y=-100,oldx=-100,oldy=-100,ooldx=-100,ooldy=-100;
 
     Graphic(const char *gameName,Game*g)
     {
@@ -39,6 +45,15 @@ public:
 
         s=IMG_Load("../images/player.png");
         texturePlayer=SDL_CreateTextureFromSurface(render, s);
+
+        s=IMG_Load("../images/coin.png");
+        textureCoin=SDL_CreateTextureFromSurface(render, s);
+
+        s=IMG_Load("../images/enemy.png");
+        textureEnemy=SDL_CreateTextureFromSurface(render, s);
+
+        s=IMG_Load("../images/coin.png");
+        texturePoint=SDL_CreateTextureFromSurface(render, s);
 
     }
 
@@ -88,25 +103,27 @@ public:
         color = 0;
         fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         color = 1;
-        for(i = 0; i < n; i++)
-        {
-            for(j = 0; j < m; j++)
-            {
-                fillRect((j * SCREEN_WIDTH / m)+e, (i * SCREEN_HEIGHT / n)+e,( SCREEN_WIDTH / m)-2*e, ( SCREEN_HEIGHT / n)-2*e);
-            }
-        }
+        if(i!=3)
+        {for(i = 0; i < n; i++)
+                {
+                    for(j = 0; j < m; j++)
+                    {
+                        fillRect((j * SCREEN_WIDTH / m)+e, (i * SCREEN_HEIGHT / n)+e,( SCREEN_WIDTH / m)-2*e, ( SCREEN_HEIGHT / n)-2*e);
+                    }
+                }}
     }
-    void draw(int i,Game game);
+
 
     void takeEvent();
 
     void drawTexture(SDL_Texture* T,int x,int y,int r){
+        r=0.5*SCREEN_HEIGHT/40;
         rect={x-r,y-r,2*r,2*r};
         SDL_RenderCopy(render,T,NULL,&rect);
     }
     void drawNodes(){
         for(auto node:game->graph.nodes){
-            drawTexture(texturePlayer,node.first,node.second,15);
+            drawTexture(textureEnemy,node.first,node.second,15);
         }
     }
 
@@ -119,45 +136,67 @@ void Graphic::takeEvent(){
             case SDL_QUIT:
                 continuer = 0;
             case SDL_MOUSEBUTTONDOWN:
+                ooldx=oldx;
+                ooldy=oldy;
                 oldx=x;
                 oldy=y;
                 x = event.motion.x;
                 y = event.motion.y;
-                cout<<x<<"  "<<y<<endl;
+
+                y-=y%((SCREEN_HEIGHT/40));
+                x-=x%((SCREEN_WIDTH/60));
+                cout<<"mouse"<<x<<"  "<<y<<endl;
+
+                drawTexture(textureCoin,ooldx,ooldy,0);
+                drawTexture(texturePlayer,x,y,0);
+                drawTexture(texturePlayer,oldx,oldy,0);
+                show();
                 break;
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
 
                     case SDLK_SPACE:
-                        sizeOfSquir=(++sizeOfSquir)%3;
+                        sizeOfSquir=(++sizeOfSquir)%4;
                         drawTable(sizeOfSquir,1);
                         break;
 
                     case SDLK_KP_9:
-
+                        
                         cout<<"Node added "<<x<<" "<<y<<endl;
                         game->graph.addNode(x,y);
                         break;
+                    case SDLK_KP_1:
+                        P1= make_pair(x,y);
+                        break;
+                    case SDLK_KP_2:
+                        P2=make_pair(x,y);
+                        break;
+                    case SDLK_w:
+                        drawTexture(texturePlayer,P1.first,P1.second,0);
+                        drawTexture(texturePlayer,P2.first,P2.second,0);
+                        drawNodes();
+                        show();
+                        break;
                     case SDLK_s:
 
-                        game->saveGame("level");
+                        game->saveGame();
                         cout<<"Game saved in level file";
                         break;
                     case SDLK_l:
                         
                         cout<<"fileName :::";
-                        cin>>game->name;
-                        game->loadGame(game->name);
+                        //cin>>game->name;
+                        game->loadGame();
                         cout<<"Done loaded";
                         break;
                     case SDLK_n:
                         drawNodes();
                         show();
                         break;
-                    case SDLK_e:
-                        // drawRoad();
+                    case SDLK_o:
+                        
                         break;
-                    case SDLK_a:
+                    case SDLK_p:
                         //addNode();
                     break;
                 }
