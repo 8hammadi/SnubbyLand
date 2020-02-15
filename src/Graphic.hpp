@@ -6,6 +6,7 @@ espace ||| change sizeOfSquir
 s      |||save level in level
 l      |||load level from input
 n      |||show node of graphe
+b         show roads
 q      |||last click
 1   pivot 1
 2   pivot 2
@@ -134,7 +135,14 @@ public:
         cout <<"LinearRoad added "<<endl;
     }
 
-
+    void drawRoad(){
+        for(auto r:game->roads){
+            for(int i=0;i<101;i++){
+                //t=i/100
+                drawTexture(r.M(i/100).first ,r.M(i/100).second,0 )
+            }
+        }
+    }
 };
 
 void Graphic::takeEvent(){
@@ -157,6 +165,7 @@ void Graphic::takeEvent(){
                 drawTexture(textureCoin,ooldx,ooldy,0);
                 drawTexture(texturePlayer,x,y,0);
                 drawTexture(texturePlayer,oldx,oldy,0);
+                drawRoad();
                 show();
                 break;
             case SDL_KEYDOWN:
