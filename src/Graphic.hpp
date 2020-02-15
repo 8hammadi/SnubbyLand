@@ -126,6 +126,13 @@ public:
             drawTexture(textureEnemy,node.first,node.second,15);
         }
     }
+    // void addPolarRoad(){
+    //     game->graph.addPolarRoad
+    // }
+    void addLinrearRoad(){
+        game->graph.addLinrearRoad(make_pair(x,y),make_pair(oldx,oldy));
+        cout <<"LinearRoad added "<<endl;
+    }
 
 
 };
@@ -194,10 +201,10 @@ void Graphic::takeEvent(){
                         show();
                         break;
                     case SDLK_o:
-                        
+                        addLinrearRoad();
                         break;
                     case SDLK_p:
-                        //addNode();
+                        // addPolarRoad();
                     break;
                 }
          
