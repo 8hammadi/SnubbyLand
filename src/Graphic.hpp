@@ -23,7 +23,7 @@ private:
     SDL_Rect rect;
     SDL_Surface *s;
     SDL_Event event;
-    SDL_Texture *texture,*texturePlayer,*textureEnemy,*textureCoin,*texturePoint;
+    SDL_Texture *texture,*texturePlayer,*textureEnemy,*textureCoin,*texturePlus,*texturePoint;
     vector<pair<int,int>> sizeTable={{40,60},{20,30},{10,15}};
     pair<int,int> P1={0,0},P2={100,100};
 
@@ -52,7 +52,7 @@ public:
         s=IMG_Load("../images/enemy.png");
         textureEnemy=SDL_CreateTextureFromSurface(render, s);
 
-        s=IMG_Load("../images/coin.png");
+        s=IMG_Load("../images/plus.png");
         texturePoint=SDL_CreateTextureFromSurface(render, s);
 
     }
@@ -130,7 +130,7 @@ public:
     //     game->graph.addPolarRoad
     // }
     void addLinrearRoad(){
-        game->graph.addLinrearRoad(make_pair(x,y),make_pair(oldx,oldy));
+        game->graph.addLinearRoad(make_pair(x,y),make_pair(oldx,oldy));
         cout <<"LinearRoad added "<<endl;
     }
 
