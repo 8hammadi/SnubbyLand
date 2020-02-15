@@ -82,7 +82,7 @@ public:
 	Snubby player;
 	vector<Enemy> enemys;
 	Map map;
-	
+	string name;
 
 	void loadGame(string fileName){
 		ifstream file;
