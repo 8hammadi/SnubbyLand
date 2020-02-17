@@ -26,7 +26,8 @@ private:
     SDL_Event event;
     SDL_Texture *texture,*texturePlayer,*textureEnemy,*textureCoin,*texturePlus,*texturePoint;
     vector<pair<int,int>> sizeTable={{40,60},{20,30},{10,15}};
-    pair<int,int> P1={0,0},P2={100,100};
+    pair<int,int> P1={0,0},P2={100,100},A={0,0},B={100,100};
+    double t;
 
 public:
     Game* game;
@@ -54,7 +55,7 @@ public:
         textureEnemy=SDL_CreateTextureFromSurface(render, s);
 
         s=IMG_Load("../images/plus.png");
-        texturePoint=SDL_CreateTextureFromSurface(render, s);
+        texturePlus=SDL_CreateTextureFromSurface(render, s);
 
     }
 
@@ -131,15 +132,26 @@ public:
     //     game->graph.addPolarRoad
     // }
     void addLinrearRoad(){
-        game->graph.addLinearRoad(make_pair(x,y),make_pair(oldx,oldy));
+        game->graph.addLinearRoad(A,B);
         cout <<"LinearRoad added "<<endl;
     }
-
+    void addPolarRoad(){
+        game->graph.addPolarRoad(A,B,P1,P2);
+        cout <<"PolarRoad added "<<endl;
+    }
     void drawRoad(){
-        for(auto r:game->roads){
-            for(int i=0;i<101;i++){
-                //t=i/100
-                drawTexture(r.M(i/100).first ,r.M(i/100).second,0 )
+        for(auto r:game->graph.linearRoads){
+            for(int i=0;i<200;i++){
+                t=(double)i/200;
+                drawTexture(textureCoin,r.M(t).first ,r.M(t).second,0 );
+                cout<< t<<" "<<r.M(t).first <<" "<<r.M(t).second<<endl;
+            }
+        }
+        for(auto r:game->graph.polarRoads){
+            for(int i=0;i<200;i++){
+                t=(double)i/200;
+                drawTexture(textureCoin,r.M(t).first ,r.M(t).second,0 );
+                cout<< t<<" "<<r.M(t).first <<" "<<r.M(t).second<<endl;
             }
         }
     }
@@ -162,10 +174,12 @@ void Graphic::takeEvent(){
                 x-=x%((SCREEN_WIDTH/60));
                 cout<<"mouse"<<x<<"  "<<y<<endl;
 
-                drawTexture(textureCoin,ooldx,ooldy,0);
+                drawTable(sizeOfSquir,1);
+                drawTexture(texturePlus,P1.first,P1.second,0);
+                drawTexture(texturePlus,P2.first,P2.second,0);
+                drawTexture(textureEnemy,A.first,A.second,0);
+                drawTexture(textureEnemy,B.first,B.second,0);
                 drawTexture(texturePlayer,x,y,0);
-                drawTexture(texturePlayer,oldx,oldy,0);
-                drawRoad();
                 show();
                 break;
             case SDL_KEYDOWN:
@@ -187,9 +201,13 @@ void Graphic::takeEvent(){
                     case SDLK_KP_2:
                         P2=make_pair(x,y);
                         break;
+                    case SDLK_KP_4:
+                        A= make_pair(x,y);
+                        break;
+                    case SDLK_KP_5:
+                        B=make_pair(x,y);
+                        break;  
                     case SDLK_w:
-                        drawTexture(texturePlayer,P1.first,P1.second,0);
-                        drawTexture(texturePlayer,P2.first,P2.second,0);
                         drawNodes();
                         show();
                         break;
@@ -213,8 +231,17 @@ void Graphic::takeEvent(){
                         addLinrearRoad();
                         break;
                     case SDLK_p:
-                        // addPolarRoad();
+                        addPolarRoad();
+                        break;
+                    case SDLK_d:
+                        drawRoad();
+                        show();
                     break;
+                    // case SDL_l:
+                    //     game->graph.nodes
+                    // break;
+                    // case SDLK_m:
+                    // break;
                 }
          
         }

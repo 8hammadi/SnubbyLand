@@ -35,30 +35,28 @@ public:
 class PolarRoad{
 public:
 	int i,j;
-	pair<int,int> A, B, P1, P2,C;
-	double a1,a2,b1,b2; 
-	int R1,R2;
-	double O1,O2;
+	pair<int,int> A, B, P1, P2;
+	double D;
 	PolarRoad(pair<int,int> a,pair<int,int> b,pair<int,int> p1, 	
 	pair<int,int> p2)
 	{
 		A=a, B=b, P1=p1, P2=p2;
-
-		a1=(P1.second-A.second)/(P1.first-A.first);
-		a2=(P2.second-B.second)/(P2.first-B.first);
-		b1=A.second-A.first*a1 ;
-		b2=B.second-B.second*a2 ;
-
-		C=make_pair((b1-b2)/(a2-a1),(a2*b1-a1*b2)/(a2-a1));
-		
-		R1=dist(A,C);
-		R2=dist(B,C);
-		O1=teta(A,C);
-		O2=teta(B,C);
+		D=0;
+		for(int i=0;i<100;i++){
+			D+=dist(M(i/100),M((i+1)/100));
+		}
 
 	};
 	pair<int,int> M(double t){
-		return make_pair(C.first+ (t*R1+(1-t)*R2)*cos( t*O1+(1-t)*O2) ,C.second+  (t*R1+(1-t)*R2)*sin( t*O1+(1-t)*O2));
+		return make_pair(
+			pow((1-t),3)*A.first + 3*pow((1 - t),2)*t*P1.first + 3*(1 - t)*pow(t,2)*P2.first + pow(t,3)*B.first,
+		pow((1-t),3)*A.second + 3*pow((1 - t),2)*t*P1.second + 3*(1 - t)*pow(t,2)*P2.second + pow(t,3)*B.second);
+	}
+	double Distance(pair<int,int> M){
+		double d=dist(M,A);
+		for(int i=0;i<100;i++){
+			d=min(d,dist(M(i/100)));
+		}return d;
 	}
 };
 
@@ -66,14 +64,21 @@ class LinearRoad{
 public:
 	int i,j;
 	pair<int,int> A, B;
-
+	double D;
 	LinearRoad(pair<int,int> a,pair<int,int> b){
 		A=a;B=b;
+		D=dist(A,B);
 	}
 
 	pair<int,int> M(double t){
 	return make_pair( t*A.first+(1-t)*B.first , t*A.second+(1-t)*B.second );
-}
+	}
+	double Distance(pair<int,int> M){
+		double d=dist(M,A);
+		for(int i=0;i<100;i++){
+			d=min(d,dist(M(i/100)));
+		}return d;
+	}
 
 };
 
@@ -84,19 +89,26 @@ private:
 	int i,j;
 public :
     vector<pair<int, int>> nodes;
-    vector<LinearRoad> linearRoad;
-    vector<PolarRoad> polarRoad;
-
+    vector<LinearRoad> linearRoads;
+    vector<PolarRoad> polarRoads;
+    vector<vector<int>> Adjacence;
+    int n,m;
     void addNode(int a,int b){
+    	if(iNode(make_pair(a,b))==-1)return;
     	nodes.push_back(make_pair(a,b));
+    	n++;
+
+    	//for(int i=0;i<n)
     }
     int iNode(pair<int,int> M){
     	for(int i=0;i<nodes.size();i++)if(nodes[i]==M)return i;
     	return -1;
     }
     void addLinearRoad(pair<int,int> A,pair<int,int> B){
-    	i=iNode(A);j=iNode(B);
-    	linearRoad.push_back(LinearRoad(A,B));
+    	linearRoads.push_back(LinearRoad(A,B));
+    }
+    void addPolarRoad(pair<int,int> A,pair<int,int> B,pair<int,int> P1,pair<int,int> P2){
+    	polarRoads.push_back(PolarRoad(A,B,P1,P2));
     }
 };
 
@@ -112,7 +124,16 @@ public:
 		this->idRoad=idRoad;
 		direction=1;
 	}
-	void nextRoad(Graph graph);
+	void nextRoad(Graph graph){
+
+	}
+	void nextMouve(){
+		lambda+=0.1;
+		if(lambda>1){
+			nextRoad();
+			lambda=0;
+		}
+	}
 };
 
 class Game{
@@ -163,6 +184,15 @@ public:
 		ifstream ensias("../files/"+fileName);
 
 		ensias>>name;
+		ensias>>n>>nEnemy;
+		// while(nEnemy--)ensias>>e.idRoad>>e.direction>>e.lambda;
+		// ensias>>coins.size();
+		// for(auto e:coins)ensias>>e.x>>e.y;
+		// ensias>>player.x>>player.y;
+		// for(auto e:graph.nodes)ensias>>e.first>>e.second;
+		// ensias>>graph.polarRoads.size()>>graph.linearRoads.size();
+		// for(auto e:graph.polarRoads)ensias>>e.i>>e.j>>e.C.first>>e.C.second;
+		// for(auto e:graph.linearRoads)ensias>>e.i>>e.j;
 
 		ensias.close();
 	}
@@ -181,10 +211,10 @@ public:
 		for(auto e:coins)ensias<<e.x<<" "<<e.y<<" ";
 		ensias<<player.x<<" "<<player.y;
 		for(auto e:graph.nodes)ensias<<" "<<e.first<<" "<<e.second;
-		ensias<<" "<<graph.polarRoad.size()<<" "<<graph.linearRoad.size();
+		ensias<<" "<<graph.polarRoads.size()<<" "<<graph.linearRoads.size();
 
-		for(auto e:graph.polarRoad)ensias<<" "<<e.i<<" "<<e.j<<" "<<e.C.first<<" "<<e.C.second<<" ";
-		for(auto e:graph.linearRoad)ensias<<" "<<e.i<<" "<<e.j;
+		for(auto e:graph.polarRoads)ensias<<" "<<e.i<<" "<<e.j<<" "<<e.C.first<<" "<<e.C.second<<" ";
+		for(auto e:graph.linearRoads)ensias<<" "<<e.i<<" "<<e.j;
 		ensias.close();
 	}
 };

@@ -1,12 +1,14 @@
+// g++ -o main main.c -lSDL2 -lpng -lSDL2_image  -lm 
 #include <bits/stdc++.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-
+#include <SDL2/SDL_image.h>
+#include <cmath>
 using namespace std;
 
-#include "variable.hpp"
+#include "math.hpp"
 #include "class.hpp"
-#include "fonction.hpp"
+#include "Graphic.hpp"
 
 int continuer=0;
 
