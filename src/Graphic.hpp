@@ -172,7 +172,7 @@ public:
         }
     }
     void addEnemy(){
-        if(game->graph.linearRoads.size())
+        if(game->graph.linearRoads.size()+game->graph.polarRoads.size())
         {game->enemys.push_back(Enemy(0,0.5));
             cout<<"Enemy added "<<endl;
         }
@@ -260,15 +260,15 @@ int Graphic::takeEvent(void *__)
 
 void Graphic::draw()
 {
-    //drawTable(sizeOfSquir, 1);
+    // drawTable(sizeOfSquir, 1);
     fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
      drawRoad();
-    // drawNodes();
-    // drawTexture(texturePlus, P1.first, P1.second, 0);
-    // drawTexture(texturePlus, P2.first, P2.second, 0);
-    // drawTexture(textureEnemy, A.first, A.second, 0);
-    // drawTexture(textureEnemy, B.first, B.second, 0);
-    //drawTexture(texturePlayer, x, y, 0);
+    drawNodes();
+    drawTexture(texturePlus, P1.first, P1.second, 0);
+    drawTexture(texturePlus, P2.first, P2.second, 0);
+    drawTexture(textureEnemy, A.first, A.second, 0);
+    drawTexture(textureEnemy, B.first, B.second, 0);
+    drawTexture(texturePlayer, x, y, 0);
      drawEnemys();
 }
 

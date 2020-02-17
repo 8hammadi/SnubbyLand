@@ -1,4 +1,4 @@
-// g++ -o main main.c -lSDL2 -lpng -lSDL2_image  -lm 
+// g++ -o main CreateGame.cpp -lSDL2 -lpng -lSDL2_image  -lm 
 #include <bits/stdc++.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -27,7 +27,7 @@ int main(){
             SDL.update();
             SDL.draw();
             SDL.show();
-            SDL.sleep(500);
+            SDL.sleep(1000/60);
         }
     cout<<game.graph.nodes.size();
     return 0;
