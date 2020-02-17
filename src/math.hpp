@@ -18,12 +18,10 @@ double Sca(pair<int,int> A,pair<int,int> B){
 }
 
 double Norme(pair<int,int> A,pair<int,int> B){
-	return sqrt( pow(B.first-A.first,2)+pow(B.second-A.second));
+	return sqrt( pow(B.first-A.first,2)+pow(B.second-A.second,2));
 }
 
-pair<int,int> Projection(pair<int,int> M,A,B){
-
-}
+//pair<int,int> Projection(pair<int,int> M,A,B){}
 double min(double a,double b){return a<b?a:b;}
 double max(double a,double b){return a>b?a:b;}
 

@@ -52,10 +52,10 @@ public:
 			pow((1-t),3)*A.first + 3*pow((1 - t),2)*t*P1.first + 3*(1 - t)*pow(t,2)*P2.first + pow(t,3)*B.first,
 		pow((1-t),3)*A.second + 3*pow((1 - t),2)*t*P1.second + 3*(1 - t)*pow(t,2)*P2.second + pow(t,3)*B.second);
 	}
-	double Distance(pair<int,int> M){
-		double d=dist(M,A);
+	double Distance(pair<int,int> M0){
+		double d=dist(M0,A);
 		for(int i=0;i<100;i++){
-			d=min(d,dist(M(i/100)));
+			d=min(d,dist(M0,M((double)i/100)));
 		}return d;
 	}
 };
@@ -73,10 +73,10 @@ public:
 	pair<int,int> M(double t){
 	return make_pair( t*A.first+(1-t)*B.first , t*A.second+(1-t)*B.second );
 	}
-	double Distance(pair<int,int> M){
-		double d=dist(M,A);
+	double Distance(pair<int,int> M0){
+		double d=dist(M0,A);
 		for(int i=0;i<100;i++){
-			d=min(d,dist(M(i/100)));
+			d=min(d,dist(M0,M((double)i/100)));
 		}return d;
 	}
 
@@ -117,22 +117,26 @@ class Enemy{
 public:
 	int idRoad;
 	bool direction=1;
-	float lambda=0.5;
-
-	Enemy(int idRoad,float lambda,Graph G){
+	float lambda=0;
+	double x=10,y=10;
+	Enemy(int idRoad,float lambda){
 		this->lambda=lambda;
 		this->idRoad=idRoad;
 		direction=1;
 	}
 	void nextRoad(Graph graph){
-
+		//we take randomly a another road
+		idRoad=(idRoad+1)%graph.linearRoads.size();
 	}
-	void nextMouve(){
-		lambda+=0.1;
+	void nextMouve(Graph graph){
+		lambda+=0.05;
+		cout<<lambda<<endl;
 		if(lambda>1){
-			nextRoad();
+			nextRoad(graph);
 			lambda=0;
 		}
+		x=graph.linearRoads[idRoad].M(lambda).first ;
+		y=graph.linearRoads[idRoad].M(lambda).second ;
 	}
 };
 
@@ -213,8 +217,9 @@ public:
 		for(auto e:graph.nodes)ensias<<" "<<e.first<<" "<<e.second;
 		ensias<<" "<<graph.polarRoads.size()<<" "<<graph.linearRoads.size();
 
-		for(auto e:graph.polarRoads)ensias<<" "<<e.i<<" "<<e.j<<" "<<e.C.first<<" "<<e.C.second<<" ";
-		for(auto e:graph.linearRoads)ensias<<" "<<e.i<<" "<<e.j;
+//		for(auto e:graph.polarRoads)ensias<<" "<<e.i<<" "<<e.j<<" "<<e.C.first<<" "<<e.C.second<<" ";
+//		for(auto e:graph.linearRoads)ensias<<" "<<e.i<<" "<<e.j;
 		ensias.close();
 	}
+
 };

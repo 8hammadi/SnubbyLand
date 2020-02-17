@@ -10,22 +10,26 @@ using namespace std;
 #include "class.hpp"
 #include "Graphic.hpp"
 
-void Main();
 
+Game game;
+Graphic SDL("SnubbyLand",&game);
+
+int threadEvent(void *_){
+    SDL.takeEvent(NULL);
+    return 0;
+};
 int main(){
-    Game game;
-
-    Graphic SDL("SnubbyLand",&game);
+    
+    SDL_CreateThread( threadEvent,"EventFonction",(void *)NULL);
     
     while(SDL.continuer){
-            
-            SDL.takeEvent();
-            //SDL.draw(0,game);
+            cout<<"ok"<<endl;
+            SDL.update();
+            SDL.draw();
             SDL.show();
-            SDL.sleep(20);
+            SDL.sleep(500);
         }
     cout<<game.graph.nodes.size();
-    SDL.show();
     return 0;
 }
 
