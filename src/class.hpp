@@ -1,38 +1,47 @@
 
 class Snubby
 {
-public:
-	int x, y;
+private :
+	pair<int,int> position;
 	string icon;
-	int up, down, right, left;
+	Keys keys;
 
-	void setPosition(int a, int b)
-	{
-		x = a;
-		y = b;
-	}
+	void setKeys(int keys);
+	int changePosition(int x,int y);
+
+public:
+	Snubby(int x, int y, int keys);
+	pair<int, int> getPosition();
+	string getIcon();
+	void setUp(bool b);
+	void setDown(bool b);
+	void setLeft(bool b);
+	void setRight(bool b);
 
 
-	void setKeys(int n)
-	{
-		switch(n)
-		{
-		case 0:
-			up = SDLK_z;
-			down = SDLK_s;
-		case 1:
-			break;
-		}
-	}
 };
 
-class Keys{
-private:
-	int up,left,right,down;
-	bool upActivated,
+class Keys
+{
 public:
+	SDL_Keycode up, left, right, down;
+	bool upActivated, leftActivated, rightActivated, downActivated;
+	Keys(SDL_Keycode up, SDL_Keycode down, SDL_Keycode left, SDL_Keycode right);
+};
 
+Keys::Keys(SDL_Keycode up, SDL_Keycode down, SDL_Keycode left, SDL_Keycode right)
+{
+	this->up = up;
+	this->left = left;
+	this->right = right;
+	this->down = down;
+	upActivated = false;
+	downActivated = false;
+	leftActivated = false;
+	rightActivated = false;
 }
+
+
 
 
 class Coins
@@ -122,7 +131,7 @@ public :
 	vector<pair<int, int>> nodes;
 	vector<LinearRoad> linearRoads;
 	vector<PolarRoad> polarRoads;
-	//vector<vector<int>> Adjacence;
+	vector<vector<int>> incidence;
 	int n, m;
 	void addNode(int a, int b)
 	{

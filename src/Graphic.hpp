@@ -84,22 +84,25 @@ public:
     }
     void fillRect(int x, int y, int w, int h)
     {
-        s = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
+        SDL_SetRenderDrawColor(renderer, Color[color][0], Color[color][1], Color[color][2], 255);
+        SDL_RenderFillRect(renderer, &rectangle);
+
+        //s = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
 
 
-        SDL_FillRect(s, NULL, SDL_MapRGB(s->format, Color[color][0], Color[color][1], Color[color][3]));
-        drawSurface(s, x, y, w, h);
+        //SDL_FillRect(s, NULL, SDL_MapRGB(s->format, Color[color][0], Color[color][1], Color[color][3]));
+        // drawSurface(s, x, y, w, h);
 
     }
-    void drawSurface(SDL_Surface *s, int x, int y, int w, int h)
-    {
-        texture = SDL_CreateTextureFromSurface(render,
-                                               s);
-        rect = {x, y, w, h};
+    // void drawSurface(SDL_Surface *s, int x, int y, int w, int h)
+    // {
+    //     texture = SDL_CreateTextureFromSurface(render,
+    //                                            s);
+    //     rect = {x, y, w, h};
 
 
-        SDL_RenderCopy(render, texture, NULL, &rect);
-    }
+    //     SDL_RenderCopy(render, texture, NULL, &rect);
+    // }
     void drawTable(int i, int e)
     {
         n = sizeTable[i].first;
