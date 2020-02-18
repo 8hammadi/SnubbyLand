@@ -23,11 +23,11 @@ int main(){
     SDL_CreateThread( threadEvent,"EventFonction",(void *)NULL);
     
     while(SDL.continuer){
-            cout<<"ok"<<endl;
+            SDL.go();
             SDL.update();
             SDL.draw();
             SDL.show();
-            SDL.sleep(1000/60);
+            SDL.sleep(10);
         }
     cout<<game.graph.nodes.size();
     return 0;
