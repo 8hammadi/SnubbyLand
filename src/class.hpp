@@ -35,18 +35,6 @@ public:
 
 // };
 
-
-class Coin
-{
-public:
-    int x, y;
-    bool isTaken = 0;
-    Coin(int x,int y){
-    	this->x=x;this->y=y;
-    }
-
-};
-
 // class Map
 // {
 // public:
@@ -211,6 +199,17 @@ public:
 class Game
 {
 private :
+/***************
+Graph
+vector<Coins>
+Snubby
+vector<Enemy>
+vector<vector<char>> map    //array
+
+
+
+
+***************/
     vector<pair<int, int>> v;
     pair<int, int> p;
     int n, m;
