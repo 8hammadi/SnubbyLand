@@ -1,21 +1,4 @@
-/*
 
-
-espace ||| change sizeOfSquir
-9      |||add Node in Your Graphe
-s      |||save level in level
-l      |||load level from input
-n      |||show node of graphe
-b         show roads
-q      |||last click
-1   pivot 1
-2   pivot 2
-w draw every thing
-
-o add linear  road
-
-p add Polar road
-*/
 class Graphic
 {
 private:
@@ -23,20 +6,20 @@ private:
     SDL_Renderer *render;
     SDL_Rect rect;
     SDL_Surface *s;
-    SDL_Texture *texture, *texturePlayer,*textureRoad, *textureEnemy, *textureCoin, *texturePlus, *texturePoint;
+    SDL_Texture *texture, *texturePlayer, *textureRoad, *textureEnemy, *textureCoin, *texturePlus, *texturePoint;
     vector<pair<int, int>> sizeTable = {{40, 60}, {20, 30}, {10, 15}}, Points;
     pair<int, int> P1 = {0, 0}, P2 = {100, 100}, A = {200, 0}, B = {300, 100};
     double t;
-    int PAS=30;
-    bool showRoadbool=0;
-    int modeMap=0,xx,yy;
+    int PAS = 30;
+    bool showRoadbool = 0;
+    int modeMap = 0, xx, yy;
 
 public:
-    SDL_Event event,eevent;
+    SDL_Event event, eevent;
     Game *game;
     int continuer = 1, i = 0, j = 0, n, m, k, l, sizeOfSquir = 0;
     int SCREEN_WIDTH = 900, SCREEN_HEIGHT = 600;
-    vector<vector<int>> Color = {{0, 0, 0}, {255, 255, 255}, {0, 0, 255}, {255, 0, 0}, {0, 255, 0}, {0, 0, 255}};
+    vector<vector<int>> Color = { {255, 255, 255}, {0, 0, 255}, {0, 0, 0}, {255, 0, 0}, {0, 255, 0}, {0, 0, 255}};
     int color = 0;
     int x = -100, y = -100, oldx = -100, oldy = -100, ooldx = -100, ooldy = -100;
 
@@ -64,7 +47,24 @@ public:
         textureRoad = SDL_CreateTextureFromSurface(render, s);
 
     }
+    void save(Game g)
+    {
+        std::ofstream ofs( "store.dat" );
+        boost::archive::text_oarchive ar(ofs);
 
+        // Save the data
+        ar &g;
+        cout<<"the game is saved"<<endl;
+    }
+    void load(Game &g)
+    {
+        std::ifstream ifs( "store.dat" );
+        boost::archive::text_iarchive ar(ifs);
+
+        // Load the data
+        ar &g;
+        cout<<"The game is loaded "<<endl;
+    }
     void sleep(int s)
     {
         SDL_Delay(s);
@@ -78,16 +78,18 @@ public:
 
     void text(int x, int y, int w, int h);
 
-    string getText(int x, int y, int w, int h);
-    void go(){
-        cout<<modeMap<<endl;
-        SDL_GetMouseState(&xx, &yy);
-        if(modeMap!=3)
-        {
-                game->map[yy/PAS][xx/PAS]=modeMap;  }
-        
+    string getText(){
+        return "hello";
     }
-    void freeMemory();
+    void go()
+    {
+        SDL_GetMouseState(&xx, &yy);
+        if(modeMap != 3)
+        {
+            game->map[yy / PAS][xx / PAS] = modeMap;
+        }
+
+    }
 
     void drawRect(int x, int y, int w, int h)
     {
@@ -98,18 +100,13 @@ public:
     void fillRect(int x, int y, int w, int h)
     {
         SDL_SetRenderDrawColor(render, Color[color][0], Color[color][1], Color[color][2], 255);
-        // s = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
-
-
-        // SDL_FillRect(s, NULL, SDL_MapRGB(s->format, ));
-        // drawSurface(s, x, y, w, h);
         rect = {x, y, w, h};
         SDL_RenderFillRect(render, &rect);
 
     }
     void drawTable(int i, int e)
     {
-        e=0.01;
+        e = 0;
         n = sizeTable[i].first;
         m = sizeTable[i].second;
         color = 3;
@@ -117,24 +114,14 @@ public:
 
         fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         color = 1;
+
         for(i = 0; i < 20; i++)
         {
             for(j = 0; j < 30; j++)
             {
-                color=game->map[i][j];
-                if(color!=0)continue;
-                SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-                rect = {j*PAS, i*PAS , PAS , PAS };
-                SDL_RenderFillRect(render, &rect);
-            }
-        }
-        for(i = 0; i < 20; i++)
-        {
-            for(j = 0; j < 30; j++)
-            {
-                color=game->map[i][j];
+                color = game->map[i][j];
                 SDL_SetRenderDrawColor(render, Color[color][0], Color[color][1], Color[color][2], 255);
-                rect = {j*PAS, i*PAS , PAS - 2 * e, PAS - 2 * e};
+                rect = {j * PAS, i * PAS, PAS - 2 * e, PAS - 2 * e};
                 SDL_RenderFillRect(render, &rect);
             }
         }
@@ -143,12 +130,11 @@ public:
 
     void draw();
     void update();
-    int takeEvent(void *);
-
+    int takeEvent();
     void drawTexture(SDL_Texture *T, int x, int y, int r)
     {
-        if(r==0)
-        r = SCREEN_HEIGHT / 40;
+        if(r == 0)
+            r = SCREEN_HEIGHT / 40;
         rect = {x, y, r, r};
         SDL_RenderCopy(render, T, NULL, &rect);
     }
@@ -170,6 +156,10 @@ public:
         game->graph.addPolarRoad(A, B, P1, P2);
         cout << "PolarRoad added " << endl;
     }
+    void addCircularRoad(){
+        game->graph.addCircularRoad(A,B);
+        cout<<"Circular Road added "<<endl;
+    }
     void drawRoad()
     {
         for(auto r : game->graph.linearRoads)
@@ -178,7 +168,6 @@ public:
             {
                 t = (double)i / 200;
                 drawTexture(textureRoad, r.M(t).first, r.M(t).second, 30 );
-                //cout << t << " " << r.M(t).first << " " << r.M(t).second << endl;
             }
         }
         for(auto r : game->graph.polarRoads)
@@ -187,7 +176,6 @@ public:
             {
                 t = (double)i / 200;
                 drawTexture(textureRoad, r.M(t).first, r.M(t).second, 30 );
-                //cout << t << " " << r.M(t).first << " " << r.M(t).second << endl;
             }
         }
     }
@@ -208,11 +196,46 @@ public:
     }
     void addCoins()
     {
-        game->coins.push_back(Coin(xx,yy));
+        game->coins.push_back(Coin(xx, yy));
     }
+    void receive()
+    {
+        int fd;
+        char *myfifo = (char*)"myProgram";
+        char *buf = (char *)malloc(1024);
+        while(1)
+        {
+            fd = open(myfifo, O_RDONLY);
+            read(fd, buf, MAX_BUF);
+            sscanf(buf, "%d", &i);
+            sscanf(buf, "%d %d %d", &game->player1.id, &game->player1.x, &game->player1.y);
+            cout << buf;
+            *buf = '\0';
+            close(fd);
+
+        }
+    }
+    void send()
+    {
+        int fd;
+        char *myfifo = (char *)"yourProgram";
+        char *buf = (char *)malloc(1024);
+        while(1)
+        {
+            fd = open(myfifo, O_WRONLY);
+            sprintf(buf, "%d %d %d", game->player.id, game->player.x, game->player.y);
+            write(fd, buf, strlen(buf));
+            close(fd);
+            //cout<<buf<<endl;
+            *buf = '\0';
+            sleep(80);
+        }
+    }
+
+
 };
 
-int Graphic::takeEvent(void *__)
+int Graphic::takeEvent()
 {
     while(continuer)
     {
@@ -231,7 +254,7 @@ int Graphic::takeEvent(void *__)
             Points.push_back(make_pair(x, y));
             y -= y % ((SCREEN_HEIGHT / 40));
             x -= x % ((SCREEN_WIDTH / 60));
-            
+
 
             break;
         case SDL_KEYDOWN:
@@ -239,15 +262,16 @@ int Graphic::takeEvent(void *__)
             {
 
             case SDLK_SPACE:
-                //sizeOfSquir = (++sizeOfSquir) % 3;
-                ++modeMap%=4;
+                ++modeMap %= 4;
+                if(modeMap == 3)cout << "Normal Map" << endl;
+                if(modeMap == 0)cout << "Mode Gomm" << endl;
                 break;
 
             case SDLK_KP_9:
 
                 cout << "Node added " << x << " " << y << endl;
                 game->graph.addNode(x, y);
-                Points.push_back(make_pair(x,y));
+                Points.push_back(make_pair(x, y));
                 break;
             case SDLK_r:
                 //game->graph.addPoints();
@@ -264,7 +288,12 @@ int Graphic::takeEvent(void *__)
             case SDLK_b:
                 B = make_pair(x, y);
                 break;
-
+            case SDLK_s:
+                save(*game);
+                break;
+            case SDLK_KP_0:
+                load(*game);
+                break;
 
             case SDLK_l:
                 addLinrearRoad();
@@ -275,7 +304,9 @@ int Graphic::takeEvent(void *__)
             case SDLK_e:
                 addEnemy();
                 break;
-
+            case SDLK_o:
+                addCircularRoad();
+                break;
             case SDLK_LEFT:
                 game->player.left();
                 break;
@@ -291,7 +322,7 @@ int Graphic::takeEvent(void *__)
             case SDLK_c:
                 addCoins();
                 break;
-            
+
             }
 
         }
@@ -303,7 +334,6 @@ int Graphic::takeEvent(void *__)
 void Graphic::draw()
 {
     drawTable(sizeOfSquir, 1);
-    //drawRoad();
     drawNodes();
     drawTexture(texturePlus, P1.first, P1.second, 0);
     drawTexture(texturePlus, P2.first, P2.second, 0);
@@ -311,8 +341,9 @@ void Graphic::draw()
     drawTexture(textureEnemy, B.first, B.second, 0);
     drawTexture(texturePlayer, x, y, 0);
     drawEnemys();
-    drawTexture(texturePlayer,game->player.x,game->player.y,30);
-    for(auto c:game->coins)drawTexture(textureCoin, c.x, c.y, 0);
+    drawTexture(texturePlayer, game->player.x, game->player.y, 30);
+    //drawTexture(texturePlayer, game->player1.x, game->player1.y, 30);
+    for(auto c : game->coins)drawTexture(textureCoin, c.x, c.y, 0);
 }
 
 void Graphic::update()
@@ -321,8 +352,9 @@ void Graphic::update()
     {
         e.nextMouve(game->graph);
     }
-    for(int i=0;i<game->coins.size();i++){
-        if(sqrt( pow(game->player.x-game->coins[i].x  ,2)-pow(game->player.y-game->coins[i].y  ,2) )<10)
-            game->coins.erase(game->coins.begin()+i);
+    for(int i = 0; i < game->coins.size(); i++)
+    {
+        if(sqrt( pow(game->player.x - game->coins[i].x, 2) - pow(game->player.y - game->coins[i].y, 2) ) < 10)
+            game->coins.erase(game->coins.begin() + i);
     }
 }

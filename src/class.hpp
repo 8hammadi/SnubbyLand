@@ -1,11 +1,24 @@
 
 class Snubby
 {
-public:
-    int x=0, y=0,pas=10;
-    string icon;
-    //int up, down, right, left;
+private:
+       // Allow serialization to access non-public data members.
+    friend class boost::serialization::access;
 
+    // Serialize the std::vector member of Info
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &id;
+        ar &x;
+        ar &y;
+        ar &pas;
+    }
+public:
+    int id;
+    int x = 0, y = 0, pas = 10;
+    string icon;
+    Snubby(){}
     void setPosition(int a, int b)
     {
         x = a;
@@ -13,54 +26,74 @@ public:
     }
 
 
-    void up(){
-    	y-=pas;
+    void up()
+    {
+        y -= pas;
     }
-    void down(){
-    	y+=pas;
+    void down()
+    {
+        y += pas;
     }
-    void left(){
-    	x-=pas;
+    void left()
+    {
+        x -= pas;
     }
-    void right(){
-    	x+=pas;
+    void right()
+    {
+        x += pas;
     }
 };
-
-// class Keys{
-// private:
-// 	int up,left,right,down;
-// 	bool upActivated,
-
-
-// };
 
 
 class Coin
 {
+private:
+       // Allow serialization to access non-public data members.
+    friend class boost::serialization::access;
+
+    // Serialize the std::vector member of Info
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &x;
+        ar &y;
+        ar &isTaken;
+    }
 public:
     int x, y;
     bool isTaken = 0;
-    Coin(int x,int y){
-    	this->x=x;this->y=y;
+    Coin(){}
+    Coin(int x, int y)
+    {
+        this->x = x;
+        this->y = y;
     }
 
 };
 
-// class Map
-// {
-// public:
-
-//     int n = 20, m = 30, squareSize = 30;
-//     int map;
-// };
-
 class PolarRoad
 {
+private:
+       // Allow serialization to access non-public data members.
+    friend class boost::serialization::access;
+
+    // Serialize the std::vector member of Info
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &i;
+        ar &j;
+        ar &A;
+        ar &B;
+        ar &P1;
+        ar &P2;
+        ar &D;
+    }
 public:
     int i, j;
     pair<int, int> A, B, P1, P2;
     double D;
+    PolarRoad(){;};
     PolarRoad(pair<int, int> a, pair<int, int> b, pair<int, int> p1,
               pair<int, int> p2)
     {
@@ -91,10 +124,21 @@ public:
 
 class LinearRoad
 {
+private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &A;
+        ar &B;
+        ar &D;
+    }
 public:
+
     int i, j;
     pair<int, int> A, B;
     double D;
+    LinearRoad() {;};
     LinearRoad(pair<int, int> a, pair<int, int> b)
     {
         A = a;
@@ -117,22 +161,63 @@ public:
     }
 
 };
+class CircularRoad{
+private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &C;
+        ar &R;
+        ar &D;
+        ar &P;
+    }
+public:
+    int i, j;
+    pair<int, int> C,P;
+    double D,R;
+    CircularRoad(){;};
+    CircularRoad(pair<int, int> c, pair<int, int> p)
+    {
+        C = c;
+        P = p;
+        R = dist(C, P);
+        D=2*3.14*R;
+    }
 
-// class Road:public LinearRoad:public PolarRoad{
-// 	public :
-// 	bool isPolar=0,isLinear=0,isCirculer=0 ;
-// 	//  
 
-// }
+    pair<int, int> M(double t)
+    {
+        return make_pair( C.first + R * cos(2*3.14*t),  C.second + R * cos(2*3.14*t) );
+    }
+    double Distance(pair<int, int> M0)
+    {
+
+        return abs(R-dist(M0,C));
+    }
+};
+
 class Graph
 {
 private:
     int i, j;
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &nodes;
+        ar &n;
+        ar &m;
+        ar &linearRoads;
+        ar &polarRoads;
+        //ar &circularRoads;
+
+    }
 public :
     vector<pair<int, int>> nodes;
     vector<LinearRoad> linearRoads;
     vector<PolarRoad> polarRoads;
-    vector<vector<int>> incidcence;
+    vector<CircularRoad> circularRoads;
     int n, m;
     void addNode(int a, int b)
     {
@@ -156,16 +241,34 @@ public :
     {
         polarRoads.push_back(PolarRoad(A, B, P1, P2));
     }
+    void addCircularRoad(pair<int, int> A, pair<int, int> B)
+    {
+        circularRoads.push_back(CircularRoad(A,B));
+    }
 };
 
 
 class Enemy
 {
+private:
+    // Allow serialization to access non-public data members.
+    friend class boost::serialization::access;
+
+    // Serialize the std::vector member of Info
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar & idRoad;
+        ar & lambda;
+        ar & direction;
+
+    }
 public:
     int idRoad;
     bool direction = 1;
     float lambda = 0;
     double x = 10, y = 10;
+    Enemy(){};
     Enemy(int idRoad, float lambda)
     {
         this->lambda = lambda;
@@ -174,7 +277,6 @@ public:
     }
     void nextRoad(Graph graph)
     {
-        //we take randomly a another road
         idRoad = (idRoad + 1) % (graph.linearRoads.size() + graph.polarRoads.size());
     }
     void nextMouve(Graph graph)
@@ -210,96 +312,33 @@ public:
 
 class Game
 {
+
 private :
+    // Allow serialization to access non-public data members.
+    friend class boost::serialization::access;
+
+    // Serialize the std::vector member of Info
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &map;
+        ar &graph;
+        ar &coins;
+        ar &player;
+        ar &enemys;
+    }
     vector<pair<int, int>> v;
     pair<int, int> p;
     int n, m;
     int x, y, nEnemy, nCoin, np, nl, i, j;
-
 public:
 
     Graph graph;
     vector<Coin> coins;
-    Snubby player;
+    Snubby player, player1;
     vector<Enemy> enemys;
-    int map[20][30]={{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+    bool gameOver=0;
+    int map[20][30] ;
     string name, fileName;
-
-
-    /*
-    	->	name of level
-    	->	n,m of Graphe
-
-    		n of enumy
-    		xi yi of enumy
-
-    		n of coins
-    		xi yi of coins
-
-    		x y player
-
-    		xi yi of node
-
-    		np nl number of polar and Linear road
-
-    		np line of:
-    		i j xc yc
-
-    		nl lines of:
-
-    		i j
-
-
-    */
-    void loadGame()
-    {
-        cout << "put name of level:";
-        cin >> fileName;
-        ifstream ensias("../files/" + fileName);
-
-        ensias >> name;
-        ensias >> n >> nEnemy;
-        // while(nEnemy--)ensias>>e.idRoad>>e.direction>>e.lambda;
-        // ensias>>coins.size();
-        // for(auto e:coins)ensias>>e.x>>e.y;
-        // ensias>>player.x>>player.y;
-        // for(auto e:graph.nodes)ensias>>e.first>>e.second;
-        // ensias>>graph.polarRoads.size()>>graph.linearRoads.size();
-        // for(auto e:graph.polarRoads)ensias>>e.i>>e.j>>e.C.first>>e.C.second;
-        // for(auto e:graph.linearRoads)ensias>>e.i>>e.j;
-
-        ensias.close();
-    }
-    void saveGame()
-    {
-        cout << "put file name of level:";
-        cin >> fileName;
-        cout << "put name of level:";
-        cin >> name;
-
-        ofstream ensias("../files/" + name);
-
-        ensias << name << " ";
-        ensias << graph.nodes.size() << " " << enemys.size() << " ";
-        for(auto e : enemys)ensias << e.idRoad << " " << e.direction << " " << e.lambda << " ";
-        ensias << coins.size() << " ";
-        for(auto e : coins)ensias << e.x << " " << e.y << " ";
-        ensias << player.x << " " << player.y;
-        for(auto e : graph.nodes)ensias << " " << e.first << " " << e.second;
-        ensias << " " << graph.polarRoads.size() << " " << graph.linearRoads.size();
-
-        //		for(auto e:graph.polarRoads)ensias<<" "<<e.i<<" "<<e.j<<" "<<e.C.first<<" "<<e.C.second<<" ";
-        //		for(auto e:graph.linearRoads)ensias<<" "<<e.i<<" "<<e.j;
-        ensias.close();
-    }
 
 };
