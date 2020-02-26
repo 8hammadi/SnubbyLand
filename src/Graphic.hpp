@@ -1,4 +1,3 @@
-
 class Graphic
 {
 private:
@@ -13,7 +12,14 @@ private:
     int PAS = 30;
     bool showRoadbool = 0;
     int modeMap = 0, xx, yy;
+    char *text = (char *)malloc(1024), *path = "../files/", *String = (char *)malloc(1024);
 
+
+
+    SDL_AudioSpec wav_spec;
+    Uint32 wav_length;
+    Uint8 *wav_buffer;
+    SDL_AudioDeviceID deviceId, deviceId1;
 public:
     SDL_Event event, eevent;
     Game *game;
@@ -26,7 +32,7 @@ public:
     Graphic(const char *gameName, Game *g)
     {
         game = g;
-        SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
+        SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO);
         window = SDL_CreateWindow(gameName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                   SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
         render = SDL_CreateRenderer(window, -1, 0);
@@ -47,23 +53,41 @@ public:
         textureRoad = SDL_CreateTextureFromSurface(render, s);
 
     }
+    void soundInit()
+    {
+        // SDL_Init(SDL_INIT_AUDIO);
+
+        // SDL_LoadWAV("../sound/background.mp3", &wav_spec, &wav_buffer, &wav_length);
+        // deviceId = SDL_OpenAudioDevice(NULL, 0, &wav_spec, NULL, 0);
+
+        // SDL_QueueAudio(deviceId, wav_buffer, wav_length);
+
+        // SDL_LoadWAV(SOUND1, &wav_spec, &wav_buffer, &wav_length);
+        // deviceId1 = SDL_OpenAudioDevice(NULL, 0, &wav_spec, NULL, 0);
+        // SDL_QueueAudio(deviceId1, wav_buffer, wav_length);
+
+        // SDL_PauseAudioDevice(deviceId, 0);
+    }
     void save(Game g)
     {
-        std::ofstream ofs( "store.dat" );
+        cout << "Tape the name of file :" << endl;
+        getText();
+        std::ofstream ofs( (string("../files/") + string(text)).c_str() );
         boost::archive::text_oarchive ar(ofs);
-
         // Save the data
         ar &g;
-        cout<<"the game is saved"<<endl;
+        cout << "the game is saved" << endl;
     }
     void load(Game &g)
     {
-        std::ifstream ifs( "store.dat" );
+        cout << "Tape the name of file :" << endl;
+        getText();
+        std::ifstream ifs((string("../files/") + string(text)).c_str() );
         boost::archive::text_iarchive ar(ifs);
 
         // Load the data
         ar &g;
-        cout<<"The game is loaded "<<endl;
+        cout << "The game is loaded " << endl;
     }
     void sleep(int s)
     {
@@ -76,11 +100,7 @@ public:
         SDL_Delay(5);
     }
 
-    void text(int x, int y, int w, int h);
 
-    string getText(){
-        return "hello";
-    }
     void go()
     {
         SDL_GetMouseState(&xx, &yy);
@@ -156,9 +176,10 @@ public:
         game->graph.addPolarRoad(A, B, P1, P2);
         cout << "PolarRoad added " << endl;
     }
-    void addCircularRoad(){
-        game->graph.addCircularRoad(A,B);
-        cout<<"Circular Road added "<<endl;
+    void addCircularRoad()
+    {
+        game->graph.addCircularRoad(A, B);
+        cout << "Circular Road added " << endl;
     }
     void drawRoad()
     {
@@ -201,7 +222,7 @@ public:
     void receive()
     {
         int fd;
-        char *myfifo = (char*)"myProgram";
+        char *myfifo = (char *)"myProgram";
         char *buf = (char *)malloc(1024);
         while(1)
         {
@@ -226,24 +247,48 @@ public:
             sprintf(buf, "%d %d %d", game->player.id, game->player.x, game->player.y);
             write(fd, buf, strlen(buf));
             close(fd);
-            //cout<<buf<<endl;
             *buf = '\0';
             sleep(80);
         }
     }
 
+    void getText()
+    {
+        bool a = 1;
+        *text = '\0';
+        while(a)
+        {
+            SDL_WaitEvent(&event);
+            switch (event.type)
+            {
+            case SDL_TEXTINPUT:
+                strcat(text, event.text.text);
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
 
+                {
+                case SDLK_SPACE:
+                    a = 0;
+                    break;
+                }
+            }
+        }
+        text = text + 1;
+    }
 };
 
 int Graphic::takeEvent()
 {
+
     while(continuer)
     {
         SDL_WaitEvent(&event);
         switch (event.type)
         {
+
         case SDL_QUIT:
             continuer = 0;
+            break;
         case SDL_MOUSEBUTTONDOWN:
             ooldx = oldx;
             ooldy = oldy;
@@ -272,6 +317,10 @@ int Graphic::takeEvent()
                 cout << "Node added " << x << " " << y << endl;
                 game->graph.addNode(x, y);
                 Points.push_back(make_pair(x, y));
+                break;
+            case SDLK_t:
+                getText();
+                cout << text << endl;
                 break;
             case SDLK_r:
                 //game->graph.addPoints();
@@ -322,6 +371,7 @@ int Graphic::takeEvent()
             case SDLK_c:
                 addCoins();
                 break;
+
 
             }
 
