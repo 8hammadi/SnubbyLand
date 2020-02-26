@@ -2,7 +2,7 @@
 class Snubby
 {
 private:
-       // Allow serialization to access non-public data members.
+    // Allow serialization to access non-public data members.
     friend class boost::serialization::access;
 
     // Serialize the std::vector member of Info
@@ -13,47 +13,70 @@ private:
         ar &x;
         ar &y;
         ar &pas;
+        // ar &iG;
+        // ar &jG;
     }
-    int i,j;
+    int i, j;
 public:
-    int id;
+    int id,iG,jG;
     int x = 0, y = 0, pas = 10;
-    int w=900/30,h=600/30;
-    Snubby(){}
+    int w = 900 / 30, h = 600 / 30;
+    double ongle = 0;
+    Snubby() {}
     void setPosition(int a, int b)
     {
         x = a;
         y = b;
     }
 
-
+    void  checkGreen(int map[20][30])
+    {
+        i = y / 30;
+        j = x / 30;
+        if(map[i][j] == 1)
+        {
+            iG = i;
+            jG = j;
+        }
+        // cout<<iG<<" "<<jG<<endl;
+    }
+    void initToLastGreen(){
+        x=30*jG;y=30*iG;
+    }
     void up(int map[20][30])
     {
-        if(isGoodMove(x,y-pas,map))
-        y -= pas;
+        if(isGoodMove(x, y - pas, map))
+            y -= pas;
+        checkGreen(map);
     }
     void down(int map[20][30])
     {
-        if(isGoodMove(x,y+pas,map))
-        y += pas;
+        if(isGoodMove(x, y + pas, map))
+            y += pas;
+        checkGreen(map);
     }
     void left(int map[20][30])
     {
-        if(isGoodMove(x-pas,y,map))
-        x -= pas;
+        if(isGoodMove(x - pas, y, map))
+            x -= pas;
+        checkGreen(map);
     }
     void right(int map[20][30])
     {
-        if(isGoodMove(x+pas,y,map))
-        x += pas;
+        if(isGoodMove(x + pas, y, map))
+            x += pas;
+        checkGreen(map);
     }
-    bool isGoodMove(int x,int y,int map[20][30]){
-        return isGoodSquar(x,y,map) and isGoodSquar(x+h,y+h,map) 
-        and isGoodSquar(x+h,y,map) and isGoodSquar(x,y+h,map); 
+    bool isGoodMove(int x, int y, int map[20][30])
+    {
+        return isGoodSquar(x, y, map) and isGoodSquar(x + h, y + h, map)
+               and isGoodSquar(x + h, y, map) and isGoodSquar(x, y + h, map);
     }
-    bool isGoodSquar(int x,int y,int map[20][30]){
-        j=x/30;i=y/30;
-        return  map[i][j]!=2 ;
+    bool isGoodSquar(int x, int y, int map[20][30])
+    {
+        j = x / 30;
+        i = y / 30;
+        return  map[i][j] != 2 ;
     }
 };
 
@@ -61,7 +84,7 @@ public:
 class Coin
 {
 private:
-       // Allow serialization to access non-public data members.
+    // Allow serialization to access non-public data members.
     friend class boost::serialization::access;
 
     // Serialize the std::vector member of Info
@@ -75,7 +98,7 @@ private:
 public:
     int x, y;
     bool isTaken = 0;
-    Coin(){}
+    Coin() {}
     Coin(int x, int y)
     {
         this->x = x;
@@ -87,7 +110,7 @@ public:
 class PolarRoad
 {
 private:
-       // Allow serialization to access non-public data members.
+    // Allow serialization to access non-public data members.
     friend class boost::serialization::access;
 
     // Serialize the std::vector member of Info
@@ -106,7 +129,7 @@ public:
     int i, j;
     pair<int, int> A, B, P1, P2;
     double D;
-    PolarRoad(){;};
+    PolarRoad() {;};
     PolarRoad(pair<int, int> a, pair<int, int> b, pair<int, int> p1,
               pair<int, int> p2)
     {
@@ -174,7 +197,8 @@ public:
     }
 
 };
-class CircularRoad{
+class CircularRoad
+{
 private:
     friend class boost::serialization::access;
     template<class Archive>
@@ -187,35 +211,37 @@ private:
     }
 public:
     int i, j;
-    pair<int, int> C,P;
-    double D,R;
-    CircularRoad(){;};
+    pair<int, int> C, P;
+    double D, R;
+    CircularRoad() {;};
     CircularRoad(pair<int, int> c, pair<int, int> p)
     {
         C = c;
         P = p;
         R = dist(C, P);
-        D=2*3.14*R;
+        D = 2 * 3.14 * R;
     }
 
 
     pair<int, int> M(double t)
     {
-        return make_pair( C.first + R * cos(2*3.14*t),  C.second + R * cos(2*3.14*t) );
+        return make_pair( C.first + R * cos(2 * 3.14 * t),  C.second + R * cos(2 * 3.14 * t) );
     }
     double Distance(pair<int, int> M0)
     {
 
-        return abs(R-dist(M0,C));
+        return abs(R - dist(M0, C));
     }
 };
-class Road{
-    public :
-    bool isPolar=0,isLinear=0,isCircular=0;
-    vector<pair<int,int>> points;
-    pair<int,int> A,B,C,D;
-    Road(){}
-    pair<int,int> M(double t){
+class Road
+{
+public :
+    bool isPolar = 0, isLinear = 0, isCircular = 0;
+    vector<pair<int, int>> points;
+    pair<int, int> A, B, C, D;
+    Road() {}
+    pair<int, int> M(double t)
+    {
         if(isPolar)return A;
         else if (isCircular) return B;
         else if (isPolar) return C;
@@ -233,7 +259,6 @@ private:
     {
         ar &nodes;
         ar &n;
-        ar &m;
         ar &linearRoads;
         ar &polarRoads;
         //ar &circularRoads;
@@ -244,7 +269,7 @@ public :
     vector<LinearRoad> linearRoads;
     vector<PolarRoad> polarRoads;
     vector<CircularRoad> circularRoads;
-    int n, m;
+    int n, np;
     void addNode(int a, int b)
     {
         if(iNode(make_pair(a, b)) != -1)return;
@@ -269,7 +294,7 @@ public :
     }
     void addCircularRoad(pair<int, int> A, pair<int, int> B)
     {
-        circularRoads.push_back(CircularRoad(A,B));
+        circularRoads.push_back(CircularRoad(A, B));
     }
 };
 
@@ -284,9 +309,9 @@ private:
     template<class Archive>
     void serialize(Archive &ar, const unsigned int version)
     {
-        ar & idRoad;
-        ar & lambda;
-        ar & direction;
+        ar &idRoad;
+        ar &lambda;
+        ar &direction;
 
     }
 public:
@@ -294,7 +319,7 @@ public:
     bool direction = 1;
     float lambda = 0;
     double x = 10, y = 10;
-    Enemy(){};
+    Enemy() {};
     Enemy(int idRoad, float lambda)
     {
         this->lambda = lambda;
@@ -362,9 +387,9 @@ public:
     Graph graph;
     vector<Coin> coins;
     vector<Enemy> enemys;
-    bool gameOver=0;
+    bool gameOver = 0;
     int map[20][30] ;
-    Snubby player,player1;
+    Snubby player, player1;
     string name, fileName;
 
 };

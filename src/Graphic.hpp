@@ -1,6 +1,9 @@
+//0 # 1 . 2 G
 class Graphic
 {
 private:
+    SDL_RendererFlip flip = SDL_FLIP_HORIZONTAL ;
+
     SDL_Window *window;
     SDL_Renderer *render;
     SDL_Rect rect;
@@ -28,7 +31,7 @@ public:
     vector<vector<int>> Color = { {255, 255, 255}, {0, 0, 255}, {0, 0, 0}, {255, 0, 0}, {0, 255, 0}, {0, 0, 255}};
     int color = 0;
     int x = -100, y = -100, oldx = -100, oldy = -100, ooldx = -100, ooldy = -100;
-
+    
     Graphic(const char *gameName, Game *g)
     {
         game = g;
@@ -241,6 +244,14 @@ public:
         rect = {100, 100, 100, 100};
         SDL_Point pp = {150, 150};
         SDL_RenderCopyEx(render, texturePlayer, NULL, &rect, 15, &pp, (const SDL_RendererFlip)NULL);
+    
+    }
+    void drawGun(){
+        rect = {game->player.x, game->player.y, 10, 10};
+        SDL_Point pp = {game->player.x+5, game->player.y+5};
+
+        SDL_RenderCopyEx(render, texturePlayer, NULL, &rect, game->player.ongle, &pp, flip);
+    
     }
     void send()
     {
@@ -329,6 +340,8 @@ int Graphic::takeEvent()
                 cout << text << endl;
                 break;
             case SDLK_r:
+                game->player.initToLastGreen();
+                //game->player.ongle++;
                 //game->graph.addPoints();
                 break;
             case SDLK_KP_1:
@@ -398,6 +411,7 @@ void Graphic::draw()
     drawTexture(texturePlayer, x, y, 0);
     drawEnemys();
     drawTexture(texturePlayer, game->player.x, game->player.y, 30);
+    drawGun();
     //drawTexture(texturePlayer, game->player1.x, game->player1.y, 30);
     for(auto c : game->coins)drawTexture(textureCoin, c.x, c.y, 0);
 
