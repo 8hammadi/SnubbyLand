@@ -12,7 +12,7 @@ private:
     int PAS = 30;
     bool showRoadbool = 0;
     int modeMap = 0, xx, yy;
-    char *text = (char *)malloc(1024), *path = "../files/", *String = (char *)malloc(1024);
+    char *text = (char *)malloc(1024), *path = (char*)"../files/", *String = (char *)malloc(1024);
 
 
 
@@ -357,16 +357,16 @@ int Graphic::takeEvent()
                 addCircularRoad();
                 break;
             case SDLK_LEFT:
-                game->player.left();
+                game->player.left(game->map);
                 break;
             case SDLK_UP:
-                game->player.up();
+                game->player.up(game->map);
                 break;
             case SDLK_RIGHT:
-                game->player.right();
+                game->player.right(game->map);
                 break;
             case SDLK_DOWN:
-                game->player.down();
+                game->player.down(game->map);
                 break;
             case SDLK_c:
                 addCoins();

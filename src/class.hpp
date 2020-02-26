@@ -14,10 +14,11 @@ private:
         ar &y;
         ar &pas;
     }
+    int i,j;
 public:
     int id;
     int x = 0, y = 0, pas = 10;
-    string icon;
+    int w=900/30,h=600/30;
     Snubby(){}
     void setPosition(int a, int b)
     {
@@ -26,21 +27,33 @@ public:
     }
 
 
-    void up()
+    void up(int map[20][30])
     {
+        if(isGoodMove(x,y-pas,map))
         y -= pas;
     }
-    void down()
+    void down(int map[20][30])
     {
+        if(isGoodMove(x,y+pas,map))
         y += pas;
     }
-    void left()
+    void left(int map[20][30])
     {
+        if(isGoodMove(x-pas,y,map))
         x -= pas;
     }
-    void right()
+    void right(int map[20][30])
     {
+        if(isGoodMove(x+pas,y,map))
         x += pas;
+    }
+    bool isGoodMove(int x,int y,int map[20][30]){
+        return isGoodSquar(x,y,map) and isGoodSquar(x+h,y+h,map) 
+        and isGoodSquar(x+h,y,map) and isGoodSquar(x,y+h,map); 
+    }
+    bool isGoodSquar(int x,int y,int map[20][30]){
+        j=x/30;i=y/30;
+        return  map[i][j]!=2 ;
     }
 };
 
@@ -335,10 +348,10 @@ public:
 
     Graph graph;
     vector<Coin> coins;
-    Snubby player, player1;
     vector<Enemy> enemys;
     bool gameOver=0;
     int map[20][30] ;
+    Snubby player,player1;
     string name, fileName;
 
 };
