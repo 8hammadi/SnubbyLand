@@ -209,7 +209,20 @@ public:
         return abs(R-dist(M0,C));
     }
 };
+class Road{
+    public :
+    bool isPolar=0,isLinear=0,isCircular=0;
+    vector<pair<int,int>> points;
+    pair<int,int> A,B,C,D;
+    Road(){}
+    pair<int,int> M(double t){
+        if(isPolar)return A;
+        else if (isCircular) return B;
+        else if (isPolar) return C;
+        else return D;
+    }
 
+};
 class Graph
 {
 private:

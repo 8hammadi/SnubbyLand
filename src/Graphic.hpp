@@ -12,7 +12,7 @@ private:
     int PAS = 30;
     bool showRoadbool = 0;
     int modeMap = 0, xx, yy;
-    char *text = (char *)malloc(1024), *path = (char*)"../files/", *String = (char *)malloc(1024);
+    char *text = (char *)malloc(1024), *path = (char *)"../files/", *String = (char *)malloc(1024);
 
 
 
@@ -236,6 +236,12 @@ public:
 
         }
     }
+    void drawRotationTest()
+    {
+        rect = {100, 100, 100, 100};
+        SDL_Point pp = {150, 150};
+        SDL_RenderCopyEx(render, texturePlayer, NULL, &rect, 15, &pp, (const SDL_RendererFlip)NULL);
+    }
     void send()
     {
         int fd;
@@ -394,6 +400,7 @@ void Graphic::draw()
     drawTexture(texturePlayer, game->player.x, game->player.y, 30);
     //drawTexture(texturePlayer, game->player1.x, game->player1.y, 30);
     for(auto c : game->coins)drawTexture(textureCoin, c.x, c.y, 0);
+
 }
 
 void Graphic::update()
