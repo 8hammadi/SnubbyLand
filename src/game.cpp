@@ -1,4 +1,4 @@
-// g++ -o main main.cpp -lSDL2 -lpng -lSDL2_image  -lm -lboost_serialization
+// g++ -o game game.cpp -lSDL2 -lpng -lSDL2_image  -lm -lboost_serialization
 #include <bits/stdc++.h>
 
 #include <bits/stdc++.h>
@@ -37,10 +37,15 @@ int threadEvent(void *_){
 int main(int argc, char const *argv[])
 {
 
+
+    SDL.index();
+    SDL.sleep(2000);
+    SDL.level();
+    SDL.sleep(2000);
+
     SDL_CreateThread( threadEvent,"EventFonction",(void *)NULL);
 
     while(SDL.continuer){
-            SDL.go();
             SDL.update();
             SDL.draw();
             SDL.show();

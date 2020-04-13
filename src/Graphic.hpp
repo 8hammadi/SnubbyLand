@@ -8,7 +8,7 @@ private:
     SDL_Renderer *render;
     SDL_Rect rect;
     SDL_Surface *s;
-    SDL_Texture *texture, *texturePlayer, *textureRoad, *textureEnemy, *textureCoin, *texturePlus, *texturePoint;
+    SDL_Texture *texture, *texturePlayer,*textureLevel,*textureIndex, *textureRoad, *textureEnemy, *textureCoin, *texturePlus, *texturePoint;
     vector<pair<int, int>> sizeTable = {{40, 60}, {20, 30}, {10, 15}}, Points;
     pair<int, int> P1 = {0, 0}, P2 = {100, 100}, A = {200, 0}, B = {300, 100};
     double t;
@@ -55,6 +55,12 @@ public:
         s = IMG_Load("../images/road.png");
         textureRoad = SDL_CreateTextureFromSurface(render, s);
 
+        s = IMG_Load("../images/index.png");
+        textureIndex = SDL_CreateTextureFromSurface(render, s);
+
+        s = IMG_Load("../images/level.png");
+        textureLevel = SDL_CreateTextureFromSurface(render, s);
+
     }
     void soundInit()
     {
@@ -80,6 +86,20 @@ public:
         // Save the data
         ar &g;
         cout << "the game is saved" << endl;
+    }
+
+    void index(){
+        cout<<"okokokokok"<<endl;
+        SDL_RenderCopy(render, textureIndex, NULL, NULL);
+        SDL_RenderPresent(render);
+
+
+    }
+
+    void level(){
+        SDL_RenderCopy(render, textureLevel, NULL, NULL);
+        SDL_RenderPresent(render);
+
     }
     void load(Game &g)
     {
