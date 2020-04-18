@@ -1,51 +1,44 @@
-// g++ -o main main.cpp -lSDL2 -lpng -lSDL2_image  -lm -lboost_serialization
-#include <bits/stdc++.h>
-
+// g++ -o game main.cpp -lSDL2 -lpng -lSDL2_image  -lm -lboost_serialization
+#define PI 3.14
+#define ensias cout<<"ok"<<endl;
 #include <bits/stdc++.h>
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
-#include <boost/serialization/utility.hpp> 
-
+#include <boost/serialization/utility.hpp>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include "SDL2/SDL_mixer.h"
-
 #include <cmath>
 #include <string.h>
-
-#define MAX_BUF 1024
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 using namespace std;
+#include "cnn.hpp"
+#include "level.hpp"
+#include "graphic.hpp"
+Level level;
+Graphic graphic(&level);
 
-#include <fcntl.h> 
-#include <sys/stat.h> 
-#include <sys/types.h> 
-#include <unistd.h> 
-#include "math.hpp"
-#include "class.hpp"
-#include "Graphic.hpp"
-
-Game game;
-Graphic SDL("SnubbyLand",&game);
-
-int threadEvent(void *_){
-    SDL.takeEvent();
-    return 0;
+int  test(void *a){
+     graphic.control();
+    return 1;
 };
+
 
 int main(int argc, char const *argv[])
 {
 
-    SDL_CreateThread( threadEvent,"EventFonction",(void *)NULL);
+    graphic.init();
+    
+    // SDL_CreateThread( quit,"EventFonction",(void *)NULL);
+    SDL_CreateThread( test,"EventFonction",(void *)NULL);
 
-    while(SDL.continuer){
-            SDL.go();
-            SDL.update();
-            SDL.draw();
-            SDL.show();
-            SDL.sleep(10);
-        }
+    graphic.index();
+
 
     return 0;
 }
