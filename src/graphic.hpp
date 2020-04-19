@@ -15,7 +15,7 @@ public:
     Level  *level;
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
-    int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40,b;
+    int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
     bool is_playing = 0, is_pause = 0, is_index = 0;
     Graphic(Level *l)
     {
@@ -179,7 +179,7 @@ void Graphic::draw_game()
 void Graphic::get_wall()
 {
 
-    rect = {100, 0, 600, 100} ;
+    rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
     SDL_RenderPresent(render);
 
@@ -199,7 +199,7 @@ void Graphic::get_wall()
             draw_wall();
 
 
-            rect = {100, 0, 600, 100} ;
+            rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
 
             SDL_RenderPresent(render);
@@ -235,7 +235,7 @@ void Graphic::get_goal_area()
     draw_wall();
     int g = 0;
 
-    rect = {100, 0, 400, 100} ;
+    rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
 
     SDL_RenderPresent(render);
@@ -256,7 +256,7 @@ void Graphic::get_goal_area()
             level->map[(int)((y - cx) / size_squar)][(int)((x - cx) / size_squar)] = g;
             draw_wall();
 
-            rect = {100, 0, 400, 100} ;
+            rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
 
             SDL_RenderPresent(render);
@@ -291,7 +291,7 @@ void Graphic::get_goal_area()
 void Graphic::get_position_player()
 {
 
-    rect = {100, 0, 400, 100} ;
+    rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
     SDL_RenderPresent(render);
 
@@ -310,7 +310,7 @@ void Graphic::get_position_player()
             level->player.x = cx + 10 * (int)(( x - cx) / 10 );
             level->player.y = cy + 10 * (int)(((y - cy) / 10));
             draw_game();
-            rect = {100, 0, 400, 100} ;
+            rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
             SDL_RenderPresent(render);
             SDL_Delay(40);
@@ -325,7 +325,7 @@ void Graphic::add_coin()
     draw_game();
 
 
-    rect = {100, 0, 400, 100} ;
+    rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
     SDL_RenderPresent(render);
     SDL_Delay(10);
@@ -344,7 +344,7 @@ void Graphic::add_coin()
             y = event.motion.y;
             level->coins.push_back(Coin(10 * (int)(x / 10), 10 * (int)(y / 10)));
             draw_game();
-            rect = {100, 0, 400, 100} ;
+            rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
             SDL_RenderPresent(render);
             SDL_Delay(40);
@@ -370,7 +370,7 @@ void Graphic::add_spiral_dot()
     draw_game();
 
 
-    rect = {100, 0, 400, 100} ;
+    rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
 
     SDL_RenderPresent(render);
@@ -390,7 +390,7 @@ void Graphic::add_spiral_dot()
             y = event.motion.y;
             level->spiral_dots.push_back(Spiral_dot(make_pair(x, y), 5, 100));
             draw_game();
-            rect = {100, 0, 400, 100} ;
+            rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
             SDL_RenderPresent(render);
             SDL_Delay(5);
@@ -555,7 +555,7 @@ void Graphic::play()
         check_state();
         draw_game();
 
-        rect = {100, 0, 400, 100} ;
+        rect = {0, 100 + 40 * 12, 1024, 100} ;
         SDL_RenderCopy(render, textureSlides[6], NULL, &rect);
         show();
     }
@@ -635,8 +635,8 @@ void Graphic::draw_levels()
 
     for(int i, j, k = 1; k < N_OF_LEVELS; k++)
     {
-        j = (k -1)/ 3;
-        i = (k -1)- j * 3;
+        j = (k - 1) / 3;
+        i = (k - 1) - j * 3;
 
         rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
         SDL_RenderCopy(render, textures[k], NULL, &rect);
@@ -718,51 +718,52 @@ void Graphic::get_level()
             b = event.motion.y;
 
             for(int i, j, k = 1; k < N_OF_LEVELS; k++)
+            {
+                j = (k - 1) / 3;
+                i = (k - 1) - j * 3;
+
+                rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
+
+                if( x > rect.x and x < rect.x + rect.w and b - y > rect.y and b - y < rect.y + rect.h )
                 {
-                    j = (k -1)/ 3;
-                    i = (k -1)- j * 3;
-
-                    rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
-
-                    if( x>rect.x and x<rect.x+rect.w and b-y>rect.y and b-y<rect.y+rect.h ){
-                        cout<<k<<endl;
-                        load_level(k);
-                        play();
-                        break;
-                    }
-
+                    cout << k << endl;
+                    load_level(k);
+                    play();
+                    break;
                 }
-            break;
-    
-    case SDL_MOUSEWHEEL:
-        if(event.wheel.y >= 0)
-            y -= 10;
-        else y += 10;
-        draw_levels();
-        break;
-    // case SDL_KEYDOWN:
-    //     switch (event.key.keysym.sym)
-    //     {
-    //     case SDLK_u:
-    //         y -= 20   ;
-    //         draw_levels();
-    //         break;
-    //     case SDLK_d:
-    //         y += 20;
-    //         draw_levels();
-    //         break;
-    //     case SDLK_KP_0:
-    //         load_level();
-    //         is_playing = 1;
-    //         play();
-    //         break;
-    //     }
 
-    case SDL_QUIT:
-        free_memory();
-        break;
+            }
+            break;
+
+        case SDL_MOUSEWHEEL:
+            if(event.wheel.y >= 0)
+                y -= 10;
+            else y += 10;
+            draw_levels();
+            break;
+        // case SDL_KEYDOWN:
+        //     switch (event.key.keysym.sym)
+        //     {
+        //     case SDLK_u:
+        //         y -= 20   ;
+        //         draw_levels();
+        //         break;
+        //     case SDLK_d:
+        //         y += 20;
+        //         draw_levels();
+        //         break;
+        //     case SDLK_KP_0:
+        //         load_level();
+        //         is_playing = 1;
+        //         play();
+        //         break;
+        //     }
+
+        case SDL_QUIT:
+            free_memory();
+            break;
+        }
     }
-}
 }
 
 
@@ -793,7 +794,7 @@ void Graphic::add_linear_enemy()
     draw_game();
 
     texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
-    rect = {100, 0, 400, 100} ;
+    rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, texture, NULL, &rect);
     pair<int, int> A, B;
     SDL_RenderPresent(render);
@@ -813,7 +814,7 @@ void Graphic::add_linear_enemy()
             y = event.motion.y;
             draw_game();
             texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
-            rect = {100, 0, 400, 100} ;
+            rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, texture, NULL, &rect);
 
             rect = {-level->player.w / 2  + x, -level->player.h / 2 + y, level->player.w, level->player.h};
