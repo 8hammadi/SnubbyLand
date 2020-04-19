@@ -74,7 +74,7 @@ void Graphic::init()
     textureSlides[2] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/coin_slide.png"));
     textureSlides[3] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player_slide.png"));
     textureSlides[4] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/green_area.png"));
-    textureSlides[5] == SDL_CreateTextureFromSurface(render, IMG_Load("../images/spiral.png"));
+    textureSlides[5] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/spiral.png"));
     textureSlides[6] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/playing_slide.png"));
     textureSlides[7] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause_slide.png"));
 }
@@ -209,7 +209,7 @@ void Graphic::get_wall()
         {
 
         case SDL_QUIT:
-            continuer = 0;
+            free_memory();
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
@@ -222,6 +222,9 @@ void Graphic::get_wall()
                 break;
             case SDLK_r:
                 on = 1;
+            case SDLK_n:
+                continuer = 0;
+                break;
             }
         }
     }
@@ -265,7 +268,7 @@ void Graphic::get_goal_area()
         switch (event.type)
         {
         case SDL_QUIT:
-            continuer = 0;
+            free_memory();
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
@@ -280,6 +283,9 @@ void Graphic::get_goal_area()
             case SDLK_g :
                 on = 1;
                 g = 5;
+                break;
+            case SDLK_n:
+                continuer = 0;
                 break;
             }
         }
@@ -302,7 +308,7 @@ void Graphic::get_position_player()
         switch (event.type)
         {
         case SDL_QUIT:
-            continuer = 0;
+            free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
@@ -314,7 +320,9 @@ void Graphic::get_position_player()
             SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
             SDL_RenderPresent(render);
             SDL_Delay(40);
+            continuer = 0;
             break;
+
         }
     }
 }
@@ -337,7 +345,7 @@ void Graphic::add_coin()
         switch (event.type)
         {
         case SDL_QUIT:
-            continuer = 0;
+            free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
@@ -355,6 +363,17 @@ void Graphic::add_coin()
             {
             case SDLK_LEFT:
                 level->coins.pop_back();
+
+                draw_game();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(40);
+
+
+                break;
+            case SDLK_n:
+                continuer = 0;
                 break;
             }
 
@@ -369,12 +388,11 @@ void Graphic::add_spiral_dot()
 {
     draw_game();
 
-
     rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
 
     SDL_RenderPresent(render);
-    SDL_Delay(5);
+    SDL_Delay(500);
 
     continuer = 1;
     while(continuer)
@@ -383,7 +401,7 @@ void Graphic::add_spiral_dot()
         switch (event.type)
         {
         case SDL_QUIT:
-            continuer = 0;
+            free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
@@ -406,25 +424,40 @@ void Graphic::add_spiral_dot()
                 level->spiral_dots[level->spiral_dots.size() - 1].R -= 5;
                 level->spiral_dots[level->spiral_dots.size() - 1].update();
                 draw_game();
-                show();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
                 break;
             case SDLK_RIGHT:
                 level->spiral_dots[level->spiral_dots.size() - 1].R += 5;
                 level->spiral_dots[level->spiral_dots.size() - 1].update();
                 draw_game();
-                show();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
                 break;
             case SDLK_UP:
                 level->spiral_dots[level->spiral_dots.size() - 1].n++;
                 level->spiral_dots[level->spiral_dots.size() - 1].update();
                 draw_game();
-                show();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
                 break;
             case SDLK_DOWN:
                 level->spiral_dots[level->spiral_dots.size() - 1].n--;
                 level->spiral_dots[level->spiral_dots.size() - 1].update();
                 draw_game();
-                show();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_n:
+                continuer = 0;
                 break;
             }
 
@@ -577,7 +610,7 @@ void Graphic::create_level()
     draw_wall();
     SDL_RenderPresent(render);
     SDL_Delay(5);
-    
+
     get_wall();
 
     get_goal_area();
