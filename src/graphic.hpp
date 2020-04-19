@@ -634,7 +634,7 @@ void Graphic::pause()
 {
     is_pause = 1;
 
-    rect = {100, 100, 400, 400} ;
+    rect = {0, 0, 1024, 200} ;
     SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
     show();
 
@@ -841,7 +841,7 @@ void Graphic::add_linear_enemy()
         switch (event.type)
         {
         case SDL_QUIT:
-            continuer = 0;
+            free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
@@ -864,6 +864,9 @@ void Graphic::add_linear_enemy()
             switch (event.key.keysym.sym)
             {
 
+            case SDLK_n:
+                continuer = 0;
+                break;
             case SDLK_KP_1:
                 A = make_pair(x, y);
 
