@@ -576,7 +576,8 @@ void Graphic::create_level()
 {
     draw_wall();
     SDL_RenderPresent(render);
-
+    SDL_Delay(5);
+    
     get_wall();
 
     get_goal_area();
