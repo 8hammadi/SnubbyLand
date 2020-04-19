@@ -1,6 +1,16 @@
 
 class Player
 {
+private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &x;
+        ar &y;
+
+    }
 public:
     int x = 500, y = 500, w = 30, h = 30, p;
     Model modul1 = Model({2, 4, 4});
@@ -31,8 +41,6 @@ public:
         dy = dy / sqrt(pow(dx, 2) + pow(dy, 2));
 
         auto r = modul1.predict({dx, -dy});
-        for(auto s : r)cout << s << " ";
-        cout << endl;
         if(max(r[0], max(r[1], max(r[2], r[3]))) < 0.5)exit(0);
         if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))y -= 10; //up
         else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )y += 10; //down
@@ -48,13 +56,25 @@ public:
 
 class Spiral_dot
 {
+private:
+    friend class boost::serialization::access;
 
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &n;
+        ar &R;
+        ar &C;
+        ar &enemys;
+
+    }
 public:
     vector<pair<int, int>> enemys;
     float ongle = 0;
     pair<int, int> C;
     int n;
     int R;
+    Spiral_dot(){};
     Spiral_dot(pair<int, int> C, int n, int R)
     {
         this->C = C;
@@ -98,53 +118,70 @@ public:
     }
 
 };
-class H_enemy
+
+class Linear_enemy
 {
+private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &A;
+        ar &B;
+
+    }
 public:
-    pair<int, int> A;
-    double t = 0, w = 400, h = 400;
-    int sens = 1; //1 or -1
-    vector<pair<int, int>> enemys;
-    int n = 10;
-    H_enemy(pair<int, int> a, int sens)
+    pair<int, int> A, B;
+    double t = 0;
+    int sens = 1;
+    Linear_enemy(){};
+    Linear_enemy(pair<int, int> a, pair<int, int> b)
     {
         A = a;
-        this->sens = sens;
-        if(sens==1)t=0;
-        else t=1;
+        B = b;
     }
+
     void next_move()
     {
-        t += 0.03 * sens;
-        enemys.clear();
-        for(int i = 0; i < n; i++)
-        {
-            enemys.push_back(make_pair(A.first + t * w, A.second +  h * i / n));
+        t += sens * 0.03;
 
-        }
-        if(t  >= 1 or t <= 0 )
+
+        if(t > 1 or t < 0)
         {
             sens *= -1;
-            t += 0.03 * sens;
         }
     }
-    void update()
-    {
-        enemys.clear();
-        for(int i = 0; i < n; i++)
-        {
-            enemys.push_back(make_pair(A.first + t * w, A.second +  h * i / n));
 
-        }
+    pair<int, int> enemy()
+    {
+        return make_pair(t * A.first + (1 - t) * B.first, t * A.second + (1 - t) * B.second);
     }
 };
 
+
+
+
+
 class Coin
 {
+private:
+    friend class boost::serialization::access;
+
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &is_taked;
+        ar &x;
+        ar &y;
+
+
+    }
 public:
     bool is_taked = 0;
     int x, y;
     int w = 10, h = 10;
+    Coin(){};
     Coin(int x, int y)
     {
         this->x = x;
@@ -164,7 +201,20 @@ public:
 };
 class Level
 {
+private:
+    friend class boost::serialization::access;
 
+    template<class Archive>
+    void serialize(Archive &ar, const unsigned int version)
+    {
+        ar &map;
+        ar &coins;
+        ar &player;
+        ar &linear_enemys;
+        ar &stable_enemys;
+        ar &spiral_dots;
+
+    }
 public:
     int map[12][20] = {{1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}
     };
@@ -172,8 +222,8 @@ public:
     Player player = Player(500, 500);
     int w_enemy = 20;
     pair<int, int> last_touch_on_green_area = make_pair(500, 500);
-    vector<H_enemy> h_enemys;
-    // vector<V_enemy> v_enemys;
+    vector<Linear_enemy> linear_enemys;
+    vector<pair<int, int>> stable_enemys;
     vector<Spiral_dot> spiral_dots;
 
     Level() {};
@@ -188,16 +238,13 @@ public:
             }
 
         }
-        for (auto sp : h_enemys)
+        for( auto e : linear_enemys)
         {
-            for(auto e : sp.enemys)
-            {
-                v.push_back(e);
-            }
-
+            v.push_back(e.enemy());
         }
+
         return v;
     };
-    void save();
-    void load();
+
 };
+

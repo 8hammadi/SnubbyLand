@@ -1,6 +1,7 @@
 // g++ -o game main.cpp -lSDL2 -lpng -lSDL2_image  -lm -lboost_serialization
 #define PI 3.14
-#define ensias cout<<"ok"<<endl;
+#define N_OF_NEW_LEVEL 5 // Change this if you want creat new level
+#define N_OF_LEVELS 5
 #include <bits/stdc++.h>
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>

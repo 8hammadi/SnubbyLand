@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="full" height="3000px" version="1.1" width="1024px" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs/>
+  <rect fill="#f8c291" height="100%" width="100%" x="0" y="0"/>
+  <rect fill="rgb(37,244,128)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="40"/>
+  <rect fill="rgb(200,60,99)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="230"/>
+  <rect fill="rgb(129,1,252)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="420"/>
+  <rect fill="rgb(163,181,195)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="610"/>
+  <rect fill="rgb(118,87,121)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="800"/>
+  <rect fill="rgb(239,22,146)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="990"/>
+  <rect fill="rgb(22,82,18)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="1180"/>
+  <rect fill="rgb(20,244,223)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="1370"/>
+  <rect fill="rgb(83,180,42)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="1560"/>
+  <rect fill="rgb(138,145,181)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="1750"/>
+  <rect fill="rgb(251,248,164)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="1940"/>
+  <rect fill="rgb(35,125,248)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="2130"/>
+  <rect fill="rgb(234,139,77)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="2320"/>
+  <rect fill="rgb(93,194,216)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="2510"/>
+  <rect fill="rgb(14,10,200)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="2700"/>
+  <rect fill="rgb(64,28,142)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="2890"/>
+  <rect fill="rgb(209,63,118)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="3080"/>
+  <rect fill="rgb(165,23,67)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="3270"/>
+  <rect fill="rgb(78,110,83)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="3460"/>
+  <rect fill="rgb(85,116,23)" height="150px" rx="10px" ry="10px" width="288px" x="40" y="3650"/>
+  <rect fill="rgb(150,17,172)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="40"/>
+  <rect fill="rgb(35,202,105)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="230"/>
+  <rect fill="rgb(242,172,22)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="420"/>
+  <rect fill="rgb(254,56,250)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="610"/>
+  <rect fill="rgb(185,152,200)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="800"/>
+  <rect fill="rgb(76,134,3)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="990"/>
+  <rect fill="rgb(145,28,187)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="1180"/>
+  <rect fill="rgb(125,60,225)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="1370"/>
+  <rect fill="rgb(128,135,58)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="1560"/>
+  <rect fill="rgb(1,77,20)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="1750"/>
+  <rect fill="rgb(147,249,81)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="1940"/>
+  <rect fill="rgb(42,218,116)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="2130"/>
+  <rect fill="rgb(94,87,135)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="2320"/>
+  <rect fill="rgb(116,250,181)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="2510"/>
+  <rect fill="rgb(170,206,171)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="2700"/>
+  <rect fill="rgb(185,55,153)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="2890"/>
+  <rect fill="rgb(177,21,116)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="3080"/>
+  <rect fill="rgb(111,152,51)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="3270"/>
+  <rect fill="rgb(121,215,142)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="3460"/>
+  <rect fill="rgb(212,205,197)" height="150px" rx="10px" ry="10px" width="288px" x="368" y="3650"/>
+  <rect fill="rgb(151,190,237)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="40"/>
+  <rect fill="rgb(153,209,175)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="230"/>
+  <rect fill="rgb(193,10,181)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="420"/>
+  <rect fill="rgb(11,43,236)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="610"/>
+  <rect fill="rgb(247,6,184)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="800"/>
+  <rect fill="rgb(201,205,149)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="990"/>
+  <rect fill="rgb(239,251,27)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="1180"/>
+  <rect fill="rgb(153,69,211)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="1370"/>
+  <rect fill="rgb(105,245,28)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="1560"/>
+  <rect fill="rgb(65,239,217)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="1750"/>
+  <rect fill="rgb(91,221,220)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="1940"/>
+  <rect fill="rgb(113,154,106)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="2130"/>
+  <rect fill="rgb(171,199,113)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="2320"/>
+  <rect fill="rgb(116,146,137)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="2510"/>
+  <rect fill="rgb(59,252,7)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="2700"/>
+  <rect fill="rgb(135,247,211)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="2890"/>
+  <rect fill="rgb(166,229,163)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="3080"/>
+  <rect fill="rgb(40,211,168)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="3270"/>
+  <rect fill="rgb(68,169,150)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="3460"/>
+  <rect fill="rgb(115,163,174)" height="150px" rx="10px" ry="10px" width="288px" x="696" y="3650"/>
+</svg>

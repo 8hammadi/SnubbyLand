@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="full" height="200px" version="1.1" width="1024px" xmlns="http://www.w3.org/2000/svg" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs/>
+  <rect fill="#f8c291" height="100%" width="100%" x="0" y="0"/>
+  <rect fill="rgb(0,0,0)" height="200px" rx="10px" ry="10px" width="1024px" x="0" y="0"/>
+  <rect fill="rgb(187,9,54)" height="194px" rx="10px" ry="10px" width="1018px" x="3" y="3"/>
+  <rect fill="rgb(0,0,0)" height="91px" rx="10px" ry="10px" width="334px" x="7.0" y="7.0"/>
+  <rect fill="rgb(204,182,31)" height="85px" rx="10px" ry="10px" width="328px" x="10.0" y="10.0"/>
+  <text fill="rgb(0,0,0)" stroke-opacity="1" stroke-width="50" style="font-size:20px; font-family:Arial" x="20.0" y="52.5">C -&gt; Continue</text>
+  <rect fill="rgb(0,0,0)" height="91px" rx="10px" ry="10px" width="334px" x="7.0" y="102.0"/>
+  <rect fill="rgb(59,127,110)" height="85px" rx="10px" ry="10px" width="328px" x="10.0" y="105.0"/>
+  <text fill="rgb(0,0,0)" stroke-opacity="1" stroke-width="50" style="font-size:20px; font-family:Arial" x="20.0" y="147.5">L -&gt; Levels</text>
+  <rect fill="rgb(0,0,0)" height="91px" rx="10px" ry="10px" width="334px" x="345.0" y="7.0"/>
+  <rect fill="rgb(76,196,22)" height="85px" rx="10px" ry="10px" width="328px" x="348.0" y="10.0"/>
+  <text fill="rgb(0,0,0)" stroke-opacity="1" stroke-width="50" style="font-size:20px; font-family:Arial" x="358.0" y="52.5">--</text>
+  <rect fill="rgb(0,0,0)" height="91px" rx="10px" ry="10px" width="334px" x="345.0" y="102.0"/>
+  <rect fill="rgb(204,42,4)" height="85px" rx="10px" ry="10px" width="328px" x="348.0" y="105.0"/>
+  <text fill="rgb(0,0,0)" stroke-opacity="1" stroke-width="50" style="font-size:20px; font-family:Arial" x="358.0" y="147.5">0 -&gt; Home</text>
+  <rect fill="rgb(0,0,0)" height="91px" rx="10px" ry="10px" width="334px" x="683.0" y="7.0"/>
+  <rect fill="rgb(110,202,90)" height="85px" rx="10px" ry="10px" width="328px" x="686.0" y="10.0"/>
+  <text fill="rgb(0,0,0)" stroke-opacity="1" stroke-width="50" style="font-size:20px; font-family:Arial" x="696.0" y="52.5">--</text>
+  <rect fill="rgb(0,0,0)" height="91px" rx="10px" ry="10px" width="334px" x="683.0" y="102.0"/>
+  <rect fill="rgb(231,84,107)" height="85px" rx="10px" ry="10px" width="328px" x="686.0" y="105.0"/>
+  <text fill="rgb(0,0,0)" stroke-opacity="1" stroke-width="50" style="font-size:20px; font-family:Arial" x="696.0" y="147.5">Alt+4 -&gt; Quit</text>
+</svg>
