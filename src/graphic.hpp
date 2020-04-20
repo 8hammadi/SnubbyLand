@@ -475,8 +475,8 @@ bool Graphic::check_it_not_black_area(int x, int y)
             level->map[(int)((y - cy   + level->player.w / 2) / size_squar)][(int)((x - cx + level->player.w / 2) / size_squar)] == -1 ||
             level->map[(int)((y - cy   + level->player.w / 2) / size_squar)][(int)((x - cx - level->player.w / 2) / size_squar)] == -1 ||
             level->map[(int)((y - cy   - level->player.w / 2) / size_squar)][(int)((x - cx + level->player.w / 2) / size_squar)] == -1 ||
-            ((y - cy - level->player.w / 2 ) / size_squar) < -0.125 || ((y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar) >= 12 ||
-            ((x - cx - level->player.w / 2 ) / size_squar) < -0.125 || ((x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar) >= 20
+            ((y - cy - level->player.w / 2 ) / size_squar) < -0.5 || ((y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar) >= 12 ||
+            ((x - cx - level->player.w / 2 ) / size_squar) < -0.5 || ((x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar) >= 20
       )
     {
         return 0;
