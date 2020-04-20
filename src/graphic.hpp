@@ -1,8 +1,5 @@
 
-// 1 & 2 free area
-//0 grean zone
-//-1 black area
-//5 goal area
+
 class Graphic
 {
 
@@ -225,6 +222,18 @@ void Graphic::get_wall()
                 on = 1;
             case SDLK_n:
                 continuer = 0;
+                break;
+            case SDLK_g:
+                level->random_map();
+
+                draw_wall();
+
+
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
+
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
                 break;
             }
         }
@@ -632,7 +641,7 @@ void Graphic::show()
 }
 void Graphic::create_level()
 {
-    load_level(N_OF_NEW_LEVEL);
+    // load_level(N_OF_NEW_LEVEL);
 
     draw_wall();
     SDL_RenderPresent(render);

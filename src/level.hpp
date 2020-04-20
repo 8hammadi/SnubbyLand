@@ -241,16 +241,29 @@ public:
 
         return v;
     };
+    void random_map()
+    {
+        int lvl = 10, w = 20, h = 12;
+        int **rmap = generateLevel(time(NULL), w, h);
 
+        for(int i = 0; i < h; i++)
+        {
+            for(int j = 0; j < w; j++)
+            {
+                map[i][j]=rmap[i][j];
+            }
+        }
+
+    }
     vector<double> get_input()
     {
         input.clear();
-        
-        input.push_back(100-player.x);
-        input.push_back(100-player.y);
 
-        input.push_back(12*40-player.x);
-        input.push_back(20*40-player.y);
+        input.push_back(100 - player.x);
+        input.push_back(100 - player.y);
+
+        input.push_back(12 * 40 - player.x);
+        input.push_back(20 * 40 - player.y);
 
         for(auto e : get_enemys())
         {

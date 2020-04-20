@@ -1,6 +1,6 @@
 // g++ -o game main.cpp -lSDL2 -lpng -lSDL2_image  -lm -lboost_serialization
 #define PI 3.14
-#define N_OF_NEW_LEVEL 2 // Change this if you want creat new level
+#define N_OF_NEW_LEVEL 6 // Change this if you want creat new level
 #define N_OF_LEVELS 5
 #include <bits/stdc++.h>
 #include <boost/serialization/vector.hpp>
@@ -18,6 +18,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 using namespace std;
+
+#include "map_generateur.hpp"
 #include "cnn.hpp"
 #include "level.hpp"
 #include "graphic.hpp"
