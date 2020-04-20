@@ -49,6 +49,7 @@ public:
     void load_level(int k);
     void save_level();
     void screen_level();
+    bool is_player_inside_after(int x, int y);
 
 };
 void Graphic::init()
@@ -61,7 +62,7 @@ void Graphic::init()
     textureEnemy = SDL_CreateTextureFromSurface(render, IMG_Load("../images/enemy.png"));
     textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/level.png"));
     string zzz;
-    for(int i = 0; i < N_OF_LEVELS; i++)
+    for(int i = 0; i < N_OF_LEVELS + 1; i++)
     {
         zzz = "../levels/" + to_string(i + 1) + ".png";
         textures[i + 1] = SDL_CreateTextureFromSurface(render, IMG_Load(zzz.c_str()));
@@ -81,7 +82,7 @@ void Graphic::init()
 
 void Graphic::index()
 {
-    rect={0,0,1024,200};
+    rect = {0, 0, 1024, 200};
     SDL_RenderCopy(render, textureSlides[0], NULL, &rect);
     SDL_RenderPresent(render);
     continuer = 1;
@@ -313,15 +314,24 @@ void Graphic::get_position_player()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-            level->player.x = cx + 10 * (int)(( x - cx) / 10 );
-            level->player.y = cy + 10 * (int)(((y - cy) / 10));
+            level->player.x = cx + 40 * (int)(( x - cx) / 40 ) + level->player.w / 2;
+            level->player.y = cy + 40 * (int)(((y - cy) / 40)) + level->player.h / 2;
             draw_game();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
             SDL_RenderPresent(render);
             SDL_Delay(40);
-            continuer = 0;
+            // continuer = 0;
             break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+
+            case SDLK_n:
+                continuer = 0;
+                break;
+            }
+
 
         }
     }
@@ -471,13 +481,12 @@ void Graphic::add_spiral_dot()
 
 bool Graphic::check_it_not_black_area(int x, int y)
 {
-    if(     level->map[(int)((y - cy   - level->player.w / 2) / size_squar)][(int)((x - cx - level->player.w / 2) / size_squar)] == -1 ||
-            level->map[(int)((y - cy   + level->player.w / 2) / size_squar)][(int)((x - cx + level->player.w / 2) / size_squar)] == -1 ||
-            level->map[(int)((y - cy   + level->player.w / 2) / size_squar)][(int)((x - cx - level->player.w / 2) / size_squar)] == -1 ||
-            level->map[(int)((y - cy   - level->player.w / 2) / size_squar)][(int)((x - cx + level->player.w / 2) / size_squar)] == -1 ||
-            ((y - cy - level->player.w / 2 ) / size_squar) < -0.5 || ((y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar) >= 12 ||
-            ((x - cx - level->player.w / 2 ) / size_squar) < -0.5 || ((x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar) >= 20
-      )
+
+    if(
+
+        (double)(y - cy - level->player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar >= 12 ||
+        (double)(x - cx - level->player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar >= 20
+    )
     {
         return 0;
     }
@@ -485,6 +494,22 @@ bool Graphic::check_it_not_black_area(int x, int y)
     return 1;
 }
 
+
+bool Graphic::is_player_inside_after(int x, int y)
+{
+
+    if(
+        level->map[(int)((y - cy   ) / size_squar)][(int)((x - cx ) / size_squar)] == -1 ||
+        level->map[(int)((y - cy  ) / size_squar)][(int)((x - cx ) / size_squar)] == -1 ||
+        level->map[(int)((y - cy  ) / size_squar)][(int)((x - cx ) / size_squar)] == -1 ||
+        level->map[(int)((y - cy ) / size_squar)][(int)((x - cx ) / size_squar)] == -1
+    )
+    {
+        return 0;
+    }
+
+    return 1;
+}
 void Graphic::control()
 {
     continuer = 1;
@@ -507,19 +532,19 @@ void Graphic::control()
             switch (event.key.keysym.sym)
             {
             case SDLK_LEFT:
-                if(check_it_not_black_area(level->player.x - 9, level->player.y))
+                if(check_it_not_black_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
                     level->player.x -= 10;
                 break;
             case SDLK_UP:
-                if(check_it_not_black_area(level->player.x, level->player.y - 9 ))
+                if(check_it_not_black_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
                     level->player.y -= 10;
                 break;
             case SDLK_RIGHT:
-                if(check_it_not_black_area(level->player.x + 9, level->player.y))
+                if(check_it_not_black_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
                     level->player.x += 10;
                 break;
             case SDLK_DOWN:
-                if(check_it_not_black_area(level->player.x, level->player.y + 9))
+                if(check_it_not_black_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
                     level->player.y += 10;
                 break;
             case SDLK_p:
@@ -555,7 +580,7 @@ void Graphic::check_state()
     }
     for(auto e : level->get_enemys())
     {
-        if(level->player.touche_enemy(e, level->w_enemy/2))
+        if(level->player.touche_enemy(e, level->w_enemy / 2))
         {
             level->player.x = level->last_touch_on_green_area.first;
             level->player.y = level->last_touch_on_green_area.second;
@@ -607,6 +632,8 @@ void Graphic::show()
 }
 void Graphic::create_level()
 {
+    load_level(N_OF_NEW_LEVEL);
+
     draw_wall();
     SDL_RenderPresent(render);
     SDL_Delay(5);
@@ -667,7 +694,7 @@ void Graphic::draw_levels()
     SDL_RenderCopy(render, textures[0], NULL, &rect);
 
 
-    for(int i, j, k = 1; k < N_OF_LEVELS; k++)
+    for(int i, j, k = 1; k < N_OF_LEVELS + 1; k++)
     {
         j = (k - 1) / 3;
         i = (k - 1) - j * 3;
@@ -751,7 +778,7 @@ void Graphic::get_level()
             x = event.motion.x;
             b = event.motion.y;
 
-            for(int i, j, k = 1; k < N_OF_LEVELS; k++)
+            for(int i, j, k = 1; k < N_OF_LEVELS + 1; k++)
             {
                 j = (k - 1) / 3;
                 i = (k - 1) - j * 3;
