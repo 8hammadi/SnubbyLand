@@ -37,7 +37,6 @@ public:
     void index();
     void check_state();
     void play();
-    void random_control();
     void show();
     void pause();
     void draw_levels();
@@ -530,7 +529,7 @@ void Graphic::control()
             SDL_Delay(10);
             continue;
         }
-        event.type=SDL_QUIT;
+        event.type = SDL_QUIT;
         SDL_WaitEvent(&event);
         switch (event.type)
         {
@@ -564,12 +563,15 @@ void Graphic::control()
                 continuer = 0;
                 is_index = 1;
                 break;
-            case SDLK_s:
-                save_level();
-                break;
+            // case SDLK_s:
+            //     save_level();
+            //     break;
             case SDLK_i:
                 for(auto i : level->player.get_input())cout << i << " ";
                 cout << endl;
+                break;
+            case SDLK_s:
+                automatique = 1 - automatique;
                 break;
             }
 
@@ -600,17 +602,7 @@ void Graphic::check_state()
         };
     }
 }
-void Graphic::random_control()
-{
-    continuer = 1;
-    while(continuer)
-    {
-        SDL_Delay(100);
-        if(!level->coins.empty())
-            level->player.go_to_coin(level->coins[0].x, level->coins[0].y);
-        if(level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
-    }
-}
+
 void Graphic::play()
 {
     is_playing = 1;
@@ -622,7 +614,7 @@ void Graphic::play()
             SDL_Delay(40);
             continue;
         }
-        // if(automatique+1)level->next_auto_move();
+        if(automatique+1)level->next_auto_move(event);
         update();
         check_state();
         draw_game();
@@ -646,7 +638,7 @@ void Graphic::show()
 }
 void Graphic::create_level()
 {
-    load_level(N_OF_NEW_LEVEL);
+    // load_level(N_OF_NEW_LEVEL);
 
     draw_wall();
     SDL_RenderPresent(render);
@@ -682,26 +674,29 @@ void Graphic::pause()
 
     while(is_pause)
     {
+
         SDL_WaitEvent(&event_quit);
         switch (event_quit.type)
         {
         case SDL_QUIT:
             free_memory();
-            break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
-            case SDLK_p:
-                is_pause = 0;
-                break;
             case SDLK_i:
                 automatique = 1;
                 is_pause = 0;
                 break;
-
+            case SDLK_p:
+                is_pause = 0;
+                break;
+            case SDLK_s:
+                automatique = 0;
+                is_pause = 0;
+                break;
             }
         }
-        SDL_Delay(50);
+        SDL_Delay(10);
     }
 }
 

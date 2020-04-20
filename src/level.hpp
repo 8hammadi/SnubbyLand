@@ -15,12 +15,13 @@ public:
     int x = 500, y = 500, w = 30, h = 30, p;
     vector<double> input;
 
-    Model brain = Model({2, 4, 4});
+    Model brain = Model({44, 40, 20, 4});
     Level *level;
     Player(int a, int b)
     {
         x = a;
         y = b;
+        brain.init_params();
 
     }
     bool touche_enemy(pair<int, int> enemy, int r)
@@ -34,20 +35,23 @@ public:
         return 0;
     };
 
-    void go_to_coin(int a, int b)
-    {
-        double dx = x - a, dy = y - b;
-        dx = dx / sqrt(pow(dx, 2) + pow(dy, 2));
-        dy = dy / sqrt(pow(dx, 2) + pow(dy, 2));
 
-        auto r = brain.predict({dx, -dy});
-        if(max(r[0], max(r[1], max(r[2], r[3]))) < 0.5)exit(0);
-        if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))y -= 10; //up
-        else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )y += 10; //down
-        else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))x += 10; //R
-        else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))))x -= 10; //L
-    }
     vector<double> get_input();
+
+    void think(SDL_Event &event)
+    {
+
+        auto r = brain.predict(get_input());
+        event.type = SDL_KEYDOWN;
+        SDL_PushEvent(&event);
+
+        cout<<r[0]<<" "<<r[1]<<" "<<r[2]<<" "<<r[3]<<endl;
+        if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))event.key.keysym.sym = SDLK_DOWN; //up
+        else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )event.key.keysym.sym = SDLK_RIGHT; //down
+        else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))event.key.keysym.sym = SDLK_UP; //R
+        else if(r[3] == max(r[0], max(r[1], max(r[2], r[3])))) event.key.keysym.sym = SDLK_LEFT;; //L
+
+    }
 
 };
 
@@ -225,6 +229,7 @@ public:
     vector<pair<int, int>> stable_enemys;
     vector<Spiral_dot> spiral_dots;
 
+    int n, last_direction = 1;
     Level()
     {
         player.level = this;
@@ -269,11 +274,14 @@ public:
 
     }
 
-    void next_auto_move()
+    void next_auto_move(SDL_Event &event)
     {
-        player.x += rand() % 10;
-        player.y += rand() % 10;
+        player.think(event);
+
     }
+
+
+
 };
 
 
