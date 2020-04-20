@@ -1,7 +1,7 @@
 // g++ -o game main.cpp -lSDL2 -lpng -lSDL2_image  -lm -lboost_serialization
 #define PI 3.14
-#define N_OF_NEW_LEVEL 6 // Change this if you want creat new level
-#define N_OF_LEVELS 5
+#define N_OF_NEW_LEVEL 7 // Change this if you want creat new level
+#define N_OF_LEVELS 6
 #include <bits/stdc++.h>
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>

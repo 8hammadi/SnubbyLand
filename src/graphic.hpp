@@ -13,7 +13,8 @@ public:
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0;
+    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = 0;
+    int pipe;
     Graphic(Level *l)
     {
         level = l;
@@ -529,12 +530,12 @@ void Graphic::control()
             SDL_Delay(10);
             continue;
         }
-
+        event.type=SDL_QUIT;
         SDL_WaitEvent(&event);
         switch (event.type)
         {
         case SDL_QUIT:
-            continuer = 0;
+            free_memory();
             break;
 
         case SDL_KEYDOWN:
@@ -559,14 +560,17 @@ void Graphic::control()
             case SDLK_p:
                 pause();
                 break;
-            case SDLK_a:
+            case SDLK_h:
                 continuer = 0;
                 is_index = 1;
                 break;
             case SDLK_s:
                 save_level();
                 break;
-
+            case SDLK_i:
+                for(auto i : level->player.get_input())cout << i << " ";
+                cout << endl;
+                break;
             }
 
         }
@@ -618,6 +622,7 @@ void Graphic::play()
             SDL_Delay(40);
             continue;
         }
+        // if(automatique+1)level->next_auto_move();
         update();
         check_state();
         draw_game();
@@ -641,7 +646,7 @@ void Graphic::show()
 }
 void Graphic::create_level()
 {
-    // load_level(N_OF_NEW_LEVEL);
+    load_level(N_OF_NEW_LEVEL);
 
     draw_wall();
     SDL_RenderPresent(render);
@@ -687,6 +692,10 @@ void Graphic::pause()
             switch (event.key.keysym.sym)
             {
             case SDLK_p:
+                is_pause = 0;
+                break;
+            case SDLK_i:
+                automatique = 1;
                 is_pause = 0;
                 break;
 

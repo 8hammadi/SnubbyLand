@@ -1,4 +1,4 @@
-
+class Level;
 class Player
 {
 private:
@@ -13,8 +13,10 @@ private:
     }
 public:
     int x = 500, y = 500, w = 30, h = 30, p;
-    Model brain = Model({2, 4, 4});
+    vector<double> input;
 
+    Model brain = Model({2, 4, 4});
+    Level *level;
     Player(int a, int b)
     {
         x = a;
@@ -45,6 +47,7 @@ public:
         else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))x += 10; //R
         else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))))x -= 10; //L
     }
+    vector<double> get_input();
 
 };
 
@@ -215,14 +218,23 @@ public:
     };
     vector<Coin> coins;
     Player player = Player(500, 500);
+    vector<Player> population;
     int w_enemy = 20;
     pair<int, int> last_touch_on_green_area = make_pair(500, 500);
     vector<Linear_enemy> linear_enemys;
     vector<pair<int, int>> stable_enemys;
     vector<Spiral_dot> spiral_dots;
-    vector<double> input;
 
-    Level() {};
+    Level()
+    {
+        player.level = this;
+        for(int i = 0; i < 10; i++)
+        {
+            player.x = 100 + rand() % 500;
+            player.y = 100 + rand() % 500;
+            population.push_back(player);
+        }
+    };
     vector<pair<int, int>> get_enemys()
     {
         vector<pair<int, int>> v;
@@ -243,6 +255,7 @@ public:
     };
     void random_map()
     {
+        int T[3] = {-1, 1, 0};
         int lvl = 10, w = 20, h = 12;
         int **rmap = generateLevel(time(NULL), w, h);
 
@@ -250,28 +263,35 @@ public:
         {
             for(int j = 0; j < w; j++)
             {
-                map[i][j]=rmap[i][j];
+                map[i][j] = T[rmap[i][j]];
             }
         }
 
     }
-    vector<double> get_input()
+
+    void next_auto_move()
     {
-        input.clear();
-
-        input.push_back(100 - player.x);
-        input.push_back(100 - player.y);
-
-        input.push_back(12 * 40 - player.x);
-        input.push_back(20 * 40 - player.y);
-
-        for(auto e : get_enemys())
-        {
-            input.push_back(e.first - player.x);
-            input.push_back(e.second - player.x);
-        }
-        return input;
+        player.x += rand() % 10;
+        player.y += rand() % 10;
     }
-
 };
 
+
+
+vector<double> Player::get_input()
+{
+    input.clear();
+
+    input.push_back(100 - x);
+    input.push_back(100 - y);
+
+    input.push_back(12 * 40 - x);
+    input.push_back(20 * 40 - y);
+
+    for(auto e : level->get_enemys())
+    {
+        input.push_back(e.first - x);
+        input.push_back(e.second - x);
+    }
+    return input;
+}
