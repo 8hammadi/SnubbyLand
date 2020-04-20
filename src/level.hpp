@@ -13,14 +13,12 @@ private:
     }
 public:
     int x = 500, y = 500, w = 30, h = 30, p;
-    Model modul1 = Model({2, 4, 4});
-    Model modul2 = Model({2 + 4 * 4 * 2, 20, 4});
+    Model brain = Model({2, 4, 4});
+
     Player(int a, int b)
     {
         x = a;
         y = b;
-        modul1.W = {{{-0.2767942264507328, 6.397569764399211}, {-6.205135899484164, -1.1632928271471725}, {-0.060290587338257706, 0.029242188070814093}, {2.931469091663114, -1.9599264662647378}}, {{-4.48925451119474, 0.9875516202290665, -0.23075988915545265, 1.6337038811997384}, {4.586166232729524, -0.8734063273189748, 0.35953384663272864, -1.3807384132011944}, {0.047104202448398046, 4.400899499824716, 0.18527900604849584, -2.2548456801674552}, {-0.060970536208957614, -4.419437160813999, 0.10990179452634348, 2.225288653198917}}};
-        modul1.b = {{{1.286747995779057}, {1.5472895562023274}, {-0.1924552421136109}, {2.620984854592648}}, {{0.039352427859709604}, {-0.9831595862602918}, {-0.7893033458507539}, {0.9710540018057716}}};
 
     }
     bool touche_enemy(pair<int, int> enemy, int r)
@@ -40,17 +38,14 @@ public:
         dx = dx / sqrt(pow(dx, 2) + pow(dy, 2));
         dy = dy / sqrt(pow(dx, 2) + pow(dy, 2));
 
-        auto r = modul1.predict({dx, -dy});
+        auto r = brain.predict({dx, -dy});
         if(max(r[0], max(r[1], max(r[2], r[3]))) < 0.5)exit(0);
         if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))y -= 10; //up
         else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )y += 10; //down
         else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))x += 10; //R
         else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))))x -= 10; //L
     }
-    void test_module2()
-    {
 
-    }
 };
 
 
@@ -74,7 +69,7 @@ public:
     pair<int, int> C;
     int n;
     int R;
-    Spiral_dot(){};
+    Spiral_dot() {};
     Spiral_dot(pair<int, int> C, int n, int R)
     {
         this->C = C;
@@ -135,7 +130,7 @@ public:
     pair<int, int> A, B;
     double t = 0;
     int sens = 1;
-    Linear_enemy(){};
+    Linear_enemy() {};
     Linear_enemy(pair<int, int> a, pair<int, int> b)
     {
         A = a;
@@ -181,7 +176,7 @@ public:
     bool is_taked = 0;
     int x, y;
     int w = 10, h = 10;
-    Coin(){};
+    Coin() {};
     Coin(int x, int y)
     {
         this->x = x;
@@ -225,6 +220,7 @@ public:
     vector<Linear_enemy> linear_enemys;
     vector<pair<int, int>> stable_enemys;
     vector<Spiral_dot> spiral_dots;
+    vector<double> input;
 
     Level() {};
     vector<pair<int, int>> get_enemys()
@@ -245,6 +241,24 @@ public:
 
         return v;
     };
+
+    vector<double> get_input()
+    {
+        input.clear();
+        
+        input.push_back(100-player.x);
+        input.push_back(100-player.y);
+
+        input.push_back(12*40-player.x);
+        input.push_back(20*40-player.y);
+
+        for(auto e : get_enemys())
+        {
+            input.push_back(e.first - player.x);
+            input.push_back(e.second - player.x);
+        }
+        return input;
+    }
 
 };
 

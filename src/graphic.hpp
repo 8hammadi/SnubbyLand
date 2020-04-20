@@ -81,8 +81,8 @@ void Graphic::init()
 
 void Graphic::index()
 {
-
-    SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
+    rect={0,0,1024,200};
+    SDL_RenderCopy(render, textureSlides[0], NULL, &rect);
     SDL_RenderPresent(render);
     continuer = 1;
     while(continuer)
@@ -555,7 +555,7 @@ void Graphic::check_state()
     }
     for(auto e : level->get_enemys())
     {
-        if(level->player.touche_enemy(e, level->w_enemy))
+        if(level->player.touche_enemy(e, level->w_enemy/2))
         {
             level->player.x = level->last_touch_on_green_area.first;
             level->player.y = level->last_touch_on_green_area.second;
