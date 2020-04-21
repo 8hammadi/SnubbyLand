@@ -1,5 +1,5 @@
 
-
+class Graphic;
 class Level;
 class Player
 {
@@ -40,7 +40,7 @@ public:
     };
 
 
-    void think(Level *level);
+    void think(Level *level,Graphic*g);
 
 };
 
@@ -279,40 +279,5 @@ public:
 
 
 
-
 };
 
-
-
-void Player::think(Level* level){
-
-        input.clear();
-        input.push_back((double)(100 - x) / 800);
-        input.push_back((double)(100 - y) / 480);
-
-        input.push_back((double)(100 - x) / 800);
-        input.push_back((double)(100 - y) / 480);
-
-        input.push_back((double)(12 * 40 - x) / 800);
-        input.push_back((double)(20 * 40 - y) / 480);
-
-        for(auto e : level->enemys)
-        {
-
-            input.push_back((double)(e.first - x) / 800);
-            input.push_back((double)(e.second - y) / 480);
-
-        }
-
-
-        cout << input.size()<< endl;
-        // vector<double> r = {(double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX};
-
-        vector<double> r = brain.predict( input);
-
-        if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))y -= 10; //up
-        else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )y += 10; //down
-        else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))x += 10; //R
-        else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))))x -= 10;; //L
-
-    }

@@ -531,6 +531,9 @@ bool Graphic::is_player_inside_after(int x, int y)
 
     return 1;
 }
+
+
+
 void Graphic::control()
 {
     continuer = 1;
@@ -583,7 +586,8 @@ void Graphic::control()
 
                 break;
             case SDLK_s:
-            break;
+                for(auto &sn : level->Snubbys)sn.is_a_life = 1;
+                break;
             }
 
         }
@@ -599,7 +603,7 @@ void Graphic::update()
     for(auto &p : level->Snubbys)
     {
         if(p.is_a_life)
-            p.think(level);
+            p.think(level, this);
     }
 
 }
@@ -988,4 +992,52 @@ void Graphic::load_level(int k)
     boost::archive::text_iarchive ar(ifs);
 
     ar &level;
+}
+
+
+
+
+
+void Player::think(Level *level, Graphic *g)
+{
+
+
+    cout << g->is_player_inside_after(1, 1) << endl;
+    input.clear();
+    input.push_back((double)(100 - x) / 800);
+    input.push_back((double)(100 - y) / 480);
+
+    input.push_back((double)(100 - x) / 800);
+    input.push_back((double)(100 - y) / 480);
+
+    input.push_back((double)(12 * 40 - x) / 800);
+    input.push_back((double)(20 * 40 - y) / 480);
+
+    for(auto e : level->enemys)
+    {
+
+        input.push_back((double)(e.first - x) / 800);
+        input.push_back((double)(e.second - y) / 480);
+
+    }
+
+
+    cout << input.size() << endl;
+    // vector<double> r = {(double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX};
+
+    vector<double> r = brain.predict( input);
+
+    if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x, y-10) &&
+            g->is_player_inside_after(x, y-20)
+      )y -= 10; //up
+    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x, y+10) &&
+            g->is_player_inside_after(x, y+20)
+           )y += 10; //down
+    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x+10, y) &&
+            g->is_player_inside_after(x+20, y)
+           )x += 10; //R
+    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x-10, y) &&
+            g->is_player_inside_after(x-20, y)
+           )x -= 10;; //L
+
 }
