@@ -19,7 +19,7 @@ public:
     int score = 0;
     double fitness;
     Model brain = Model({44, 40, 20, 4});
-    Level *level;
+    // Level *level;
     bool is_a_life = 1;
     Player(int a, int b)
     {
@@ -40,21 +40,7 @@ public:
     };
 
 
-    vector<double> update_input();
-
-    void think()
-    {
-        cout << input.size() << endl;
-        // vector<double> r = {(double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX};
-        
-        vector<double> r = brain.predict({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43});
-
-        if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))y -= 10; //up
-        else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )y += 10; //down
-        else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))x += 10; //R
-        else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))))x -= 10;; //L
-
-    }
+    void think(Level *level);
 
 };
 
@@ -231,11 +217,11 @@ public:
     vector<Linear_enemy> linear_enemys;
     vector<pair<int, int>> stable_enemys;
     vector<Spiral_dot> spiral_dots;
-
+    vector<pair<int, int>> enemys;
     int n, last_direction = 1;
     Level()
     {
-        player.level = this;
+        // player.level = this;
         for(int i = 0; i < 10; i++)
         {
             player.x = 100 + rand() % 500;
@@ -255,17 +241,20 @@ public:
     }
     vector<pair<int, int>> get_enemys()
     {
+        enemys.clear();
         vector<pair<int, int>> v;
         for (auto sp : spiral_dots)
         {
             for(auto e : sp.enemys)
             {
+                enemys.push_back(e);
                 v.push_back(e);
             }
 
         }
         for( auto e : linear_enemys)
         {
+            enemys.push_back(e.enemy());
             v.push_back(e.enemy());
         }
 
@@ -295,25 +284,35 @@ public:
 
 
 
-vector<double> Player::update_input()
-{
-    cout<<2<<endl;
-    input.clear();
-    input.push_back((double)(100 - x) / 800);
-    input.push_back((double)(100 - y) / 480);
+void Player::think(Level* level){
 
-    input.push_back((double)(100 - x) / 800);
-    input.push_back((double)(100 - y) / 480);
+        input.clear();
+        input.push_back((double)(100 - x) / 800);
+        input.push_back((double)(100 - y) / 480);
 
-    input.push_back((double)(12 * 40 - x) / 800);
-    input.push_back((double)(20 * 40 - y) / 480);
+        input.push_back((double)(100 - x) / 800);
+        input.push_back((double)(100 - y) / 480);
 
-    for(auto e : level->get_enemys())
-    {
-        input.push_back((double)(e.first - x) / 800);
-        input.push_back((double)(e.second - y) / 480);
+        input.push_back((double)(12 * 40 - x) / 800);
+        input.push_back((double)(20 * 40 - y) / 480);
+
+        for(auto e : level->enemys)
+        {
+
+            input.push_back((double)(e.first - x) / 800);
+            input.push_back((double)(e.second - y) / 480);
+
+        }
+
+
+        cout << input.size()<< endl;
+        // vector<double> r = {(double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX};
+
+        vector<double> r = brain.predict( input);
+
+        if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))y -= 10; //up
+        else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )y += 10; //down
+        else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))x += 10; //R
+        else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))))x -= 10;; //L
+
     }
-
-    cout<<-2<<endl;
-    return input;
-}

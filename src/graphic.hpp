@@ -13,7 +13,7 @@ public:
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = 0,is_thinking=0;
+    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = 0, is_thinking = 0;
     int pipe;
     Graphic(Level *l)
     {
@@ -583,14 +583,12 @@ void Graphic::control()
 
                 break;
             case SDLK_s:
-            for(auto p:level->Snubbys)
-                p.update_input();
-                break;
+            break;
             }
 
         }
         if(level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
-        SDL_Delay(5);
+        SDL_Delay(10);
     }
 }
 
@@ -600,8 +598,8 @@ void Graphic::update()
     for(auto &e : level->linear_enemys)e.next_move();
     for(auto &p : level->Snubbys)
     {
-        
-        p.think();
+        if(p.is_a_life)
+            p.think(level);
     }
 
 }
@@ -626,7 +624,6 @@ void Graphic::check_state()
         {
             if(sn.touche_enemy(e, level->w_enemy / 2))
             {
-                // cout<<sn.x<<endl;
                 sn.is_a_life = 0;
             };
         }
@@ -647,6 +644,9 @@ void Graphic::play()
             SDL_Delay(40);
             continue;
         }
+
+
+
 
         update();
         check_state();
@@ -835,7 +835,6 @@ void Graphic::get_level()
 
                 if( x > rect.x and x < rect.x + rect.w and b - y > rect.y and b - y < rect.y + rect.h )
                 {
-                    // cout << k << endl;
                     load_level(k);
                     play();
                     break;
