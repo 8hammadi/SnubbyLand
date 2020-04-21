@@ -2,6 +2,9 @@
 #define PI 3.14
 #define N_OF_NEW_LEVEL 7 // Change this if you want creat new level
 #define N_OF_LEVELS 6
+#define N_POPULATION 100
+#define RANDOM (double)rand()/RAND_MAX
+
 #include <bits/stdc++.h>
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -23,6 +26,7 @@ using namespace std;
 #include "cnn.hpp"
 #include "level.hpp"
 #include "graphic.hpp"
+
 Level level;
 Graphic graphic(&level);
 
@@ -32,12 +36,13 @@ int  test(void *a){
 };
 
 
+
+
 int main(int argc, char const *argv[])
 {
 
     graphic.init();
     
-    // SDL_CreateThread( quit,"EventFonction",(void *)NULL);
     SDL_CreateThread( test,"EventFonction",(void *)NULL);
 
     graphic.index();

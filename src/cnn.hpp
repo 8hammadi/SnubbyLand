@@ -1,3 +1,8 @@
+
+static default_random_engine generator;
+static normal_distribution<double> distribution(0,1);
+
+
 double relu(double x){
  return x>0?x:0;
 }
@@ -35,6 +40,7 @@ public:
     Model(vector<int> layers)
     {
         this->layers = layers;
+        init_params();
     }
     vector<double> predict(vector<double> input)
     {
@@ -50,7 +56,8 @@ public:
         for(int k=0;k<layers.size()-1;k++){
             for(int i=0;i<layers[k];i++){
                 for(int j=0;j<layers[k+1];j++){
-                    W[k][j][i]=(double)rand()/RAND_MAX;
+                    W[k][j][i]=distribution(generator);
+                    b[k][j][0]=(double)rand()/RAND_MAX;
                 }
             }
         }

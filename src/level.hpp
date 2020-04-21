@@ -1,3 +1,5 @@
+
+
 class Level;
 class Player
 {
@@ -14,9 +16,11 @@ private:
 public:
     int x = 500, y = 500, w = 30, h = 30, p;
     vector<double> input;
-
+    int score = 0;
+    double fitness;
     Model brain = Model({44, 40, 20, 4});
     Level *level;
+    bool is_a_life = 1;
     Player(int a, int b)
     {
         x = a;
@@ -36,20 +40,19 @@ public:
     };
 
 
-    vector<double> get_input();
+    vector<double> update_input();
 
-    void think(SDL_Event &event)
+    void think()
     {
+        cout << input.size() << endl;
+        // vector<double> r = {(double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX};
+        
+        vector<double> r = brain.predict({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43});
 
-        auto r = brain.predict(get_input());
-        event.type = SDL_KEYDOWN;
-        SDL_PushEvent(&event);
-
-        cout<<r[0]<<" "<<r[1]<<" "<<r[2]<<" "<<r[3]<<endl;
-        if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))event.key.keysym.sym = SDLK_DOWN; //up
-        else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )event.key.keysym.sym = SDLK_RIGHT; //down
-        else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))event.key.keysym.sym = SDLK_UP; //R
-        else if(r[3] == max(r[0], max(r[1], max(r[2], r[3])))) event.key.keysym.sym = SDLK_LEFT;; //L
+        if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))))y -= 10; //up
+        else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) )y += 10; //down
+        else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))))x += 10; //R
+        else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))))x -= 10;; //L
 
     }
 
@@ -222,7 +225,7 @@ public:
     };
     vector<Coin> coins;
     Player player = Player(500, 500);
-    vector<Player> population;
+    vector<Player> Snubbys;
     int w_enemy = 20;
     pair<int, int> last_touch_on_green_area = make_pair(500, 500);
     vector<Linear_enemy> linear_enemys;
@@ -237,9 +240,19 @@ public:
         {
             player.x = 100 + rand() % 500;
             player.y = 100 + rand() % 500;
-            population.push_back(player);
+            Snubbys.push_back(player);
         }
     };
+    void make_population()
+    {
+        Snubbys.empty();
+        for(int i = 0; i < N_POPULATION; i++)
+        {
+            Snubbys.push_back(Player(500, 500));
+            Snubbys[i].x = 500;
+            Snubbys[i].y = 500;
+        }
+    }
     vector<pair<int, int>> get_enemys()
     {
         vector<pair<int, int>> v;
@@ -274,11 +287,7 @@ public:
 
     }
 
-    void next_auto_move(SDL_Event &event)
-    {
-        player.think(event);
 
-    }
 
 
 
@@ -286,20 +295,25 @@ public:
 
 
 
-vector<double> Player::get_input()
+vector<double> Player::update_input()
 {
+    cout<<2<<endl;
     input.clear();
+    input.push_back((double)(100 - x) / 800);
+    input.push_back((double)(100 - y) / 480);
 
-    input.push_back(100 - x);
-    input.push_back(100 - y);
+    input.push_back((double)(100 - x) / 800);
+    input.push_back((double)(100 - y) / 480);
 
-    input.push_back(12 * 40 - x);
-    input.push_back(20 * 40 - y);
+    input.push_back((double)(12 * 40 - x) / 800);
+    input.push_back((double)(20 * 40 - y) / 480);
 
     for(auto e : level->get_enemys())
     {
-        input.push_back(e.first - x);
-        input.push_back(e.second - x);
+        input.push_back((double)(e.first - x) / 800);
+        input.push_back((double)(e.second - y) / 480);
     }
+
+    cout<<-2<<endl;
     return input;
 }

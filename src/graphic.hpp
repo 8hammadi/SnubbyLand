@@ -13,7 +13,7 @@ public:
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = 0;
+    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = 0,is_thinking=0;
     int pipe;
     Graphic(Level *l)
     {
@@ -159,9 +159,21 @@ void Graphic::draw_game()
     SDL_RenderFillRect(render, &rect );
 
     rect = {-level->player.w / 2  + level->player.x + 5, -level->player.h / 2 + level->player.y + 5, level->player.w - 10, level->player.h - 10};
-
     SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
     SDL_RenderFillRect(render, &rect );
+
+    for(auto sn : level->Snubbys)
+    {
+        if(!sn.is_a_life)   continue;
+        rect = {-level->player.w / 2  + sn.x, -level->player.h / 2 + sn.y, level->player.w, level->player.h};
+        SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+        SDL_RenderFillRect(render, &rect );
+
+
+        rect = {-level->player.w / 2  + sn.x + 5, -level->player.h / 2 + sn.y + 5, level->player.w - 10, level->player.h - 10};
+        SDL_SetRenderDrawColor(render, 200, 0, 0, 255);
+        SDL_RenderFillRect(render, &rect );
+    }
 
     SDL_SetRenderDrawColor(render, 0, 0, 250, 255);
     for(auto e : level->coins)
@@ -529,8 +541,10 @@ void Graphic::control()
             SDL_Delay(10);
             continue;
         }
-        event.type = SDL_QUIT;
         SDL_WaitEvent(&event);
+
+
+
         switch (event.type)
         {
         case SDL_QUIT:
@@ -563,15 +577,14 @@ void Graphic::control()
                 continuer = 0;
                 is_index = 1;
                 break;
-            // case SDLK_s:
-            //     save_level();
-            //     break;
+
             case SDLK_i:
-                for(auto i : level->player.get_input())cout << i << " ";
-                cout << endl;
+                level->player.brain.init_params();
+
                 break;
             case SDLK_s:
-                automatique = 1 - automatique;
+            for(auto p:level->Snubbys)
+                p.update_input();
                 break;
             }
 
@@ -585,8 +598,16 @@ void Graphic::update()
 {
     for(auto &sp : level->spiral_dots)sp.next_move();
     for(auto &e : level->linear_enemys)e.next_move();
+    for(auto &p : level->Snubbys)
+    {
+        
+        p.think();
+    }
 
 }
+
+
+
 void Graphic::check_state()
 {
     for(auto &c : level->coins)
@@ -599,7 +620,16 @@ void Graphic::check_state()
         {
             level->player.x = level->last_touch_on_green_area.first;
             level->player.y = level->last_touch_on_green_area.second;
+
         };
+        for(auto &sn : level->Snubbys)
+        {
+            if(sn.touche_enemy(e, level->w_enemy / 2))
+            {
+                // cout<<sn.x<<endl;
+                sn.is_a_life = 0;
+            };
+        }
     }
 }
 
@@ -607,6 +637,9 @@ void Graphic::play()
 {
     is_playing = 1;
     continuer = 1;
+
+    level->make_population();
+
     while(continuer and is_playing)
     {
         if(is_pause)
@@ -614,7 +647,7 @@ void Graphic::play()
             SDL_Delay(40);
             continue;
         }
-        if(automatique+1)level->next_auto_move(event);
+
         update();
         check_state();
         draw_game();
@@ -622,6 +655,8 @@ void Graphic::play()
         rect = {0, 100 + 40 * 12, 1024, 100} ;
         SDL_RenderCopy(render, textureSlides[6], NULL, &rect);
         show();
+
+        SDL_Delay(20);
     }
     if(is_index)
     {
@@ -800,7 +835,7 @@ void Graphic::get_level()
 
                 if( x > rect.x and x < rect.x + rect.w and b - y > rect.y and b - y < rect.y + rect.h )
                 {
-                    cout << k << endl;
+                    // cout << k << endl;
                     load_level(k);
                     play();
                     break;
@@ -815,23 +850,6 @@ void Graphic::get_level()
             else y += 10;
             draw_levels();
             break;
-        // case SDL_KEYDOWN:
-        //     switch (event.key.keysym.sym)
-        //     {
-        //     case SDLK_u:
-        //         y -= 20   ;
-        //         draw_levels();
-        //         break;
-        //     case SDLK_d:
-        //         y += 20;
-        //         draw_levels();
-        //         break;
-        //     case SDLK_KP_0:
-        //         load_level();
-        //         is_playing = 1;
-        //         play();
-        //         break;
-        //     }
 
         case SDL_QUIT:
             free_memory();
