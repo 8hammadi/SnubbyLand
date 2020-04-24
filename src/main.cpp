@@ -1,4 +1,5 @@
-//g++ -o game main.cpp -lSDL2  -lSDL2_image  -lm -lboost_serialization -lSDL2_ttf -fpermissive
+//g++ -o game main.cpp -lSDL2  -lSDL2_image  -lm -lboost_serialization -lSDL2_ttf -fpermissive -lSDL2_mixer
+
 //22 serialization::archive 16 0
 
 
