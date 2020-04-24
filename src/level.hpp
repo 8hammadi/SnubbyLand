@@ -1,4 +1,5 @@
 
+
 class Graphic;
 class Level;
 class Player
@@ -11,23 +12,26 @@ private:
     {
         ar &x;
         ar &y;
+        ar &brain;
+        ar &fitness;
 
     }
 public:
-    int x = 500, y = 500, w = 30, h = 30, p;
+    int x = 100, y = 100, w = 30, h = 30, p;
     vector<double> input;
     int score = 0;
-    double fitness;
-    Model brain = Model({44, 40, 20, 4});
-    // Level *level;
+    double fitness = 0;
+    Model brain = Model({0, 0, 0});
     bool is_a_life = 1;
+    Player() {};
     Player(int a, int b)
     {
         x = a;
         y = b;
-        brain.init_params();
+        // brain.init_params();
 
     }
+
     bool touche_enemy(pair<int, int> enemy, int r)
     {
         if(     ((enemy.first - r >= x - r) && (enemy.first - r <= x + r ) && (enemy.second - r >= y - r) && ( enemy.second - r <= y + r)) ||
@@ -39,8 +43,28 @@ public:
         return 0;
     };
 
+    void think(Level *level, Graphic *g);
+    vector<Player> breed(Player player)
+    {
+        /*
+            Make two children as parts of their parents.
+            Args:
+            mother (dict): Network parameters
+            father (dict): Network parameters
+        */
+        vector<Player> children(1, Player(player));
+        for(auto &ch : children)
+        {
+            //children.push_back(Player(player));
+            ch.brain = brain.breed(player.brain);
+        }
 
-    void think(Level *level,Graphic*g);
+        return children;
+    }
+
+
+    void update_input(Level *level);
+
 
 };
 
@@ -181,9 +205,7 @@ public:
     void take(Player p)
     {
         if( x - w / 2 >= p.x - p.w / 2 && x - w / 2 <= p.x + p.w / 2 && y - (h / 2) >= p.y - p.h / 2 &&  y - h / 2 <= p.y + p.h / 2
-                // (x + r >= p.x - p.w/2) && (x + r <= p.x + pr && (y + (h / 2) >= p.y - p.h / 2) && ( y + h / 2 <= p.y + p.h / 2)) ||
-                // (x - r >= p.x - p.w/2) && (x - r <= p.x + pr && (y + (h / 2) >= p.y - p.h / 2) && ( y + h / 2 <= p.y + p.h / 2))  ||
-                // (x + r >= p.x - p.w/2) && (x + r <= p.x + pr && (y - (h / 2) >= p.y - p.h / 2) && ( y - h / 2 <= p.y + p.h / 2))
+
           )
         {
             is_taked = 1;
@@ -204,6 +226,8 @@ private:
         ar &linear_enemys;
         ar &stable_enemys;
         ar &spiral_dots;
+        ar &A;
+        ar &B;
 
     }
 public:
@@ -218,26 +242,29 @@ public:
     vector<pair<int, int>> stable_enemys;
     vector<Spiral_dot> spiral_dots;
     vector<pair<int, int>> enemys;
-    int n, last_direction = 1;
+    int n, last_direction = 1, N_Snubbys_a_life = 0;
+    pair<double, double> A = {500, 500}, B = {100, 100} ;
+    int generation=0;
+
     Level()
     {
-        // player.level = this;
-        for(int i = 0; i < 10; i++)
-        {
-            player.x = 100 + rand() % 500;
-            player.y = 100 + rand() % 500;
-            Snubbys.push_back(player);
-        }
-    };
-    void make_population()
-    {
-        Snubbys.empty();
         for(int i = 0; i < N_POPULATION; i++)
         {
-            Snubbys.push_back(Player(500, 500));
-            Snubbys[i].x = 500;
-            Snubbys[i].y = 500;
+            Snubbys.push_back(Player(player));
         }
+    };
+    void update_population()
+    {
+        for(auto &sn : Snubbys)
+        {
+            sn.brain.init_params({ (int)player.input.size(), 10, 10, 4}
+                                );
+            sn.x = A.first;
+            sn.y =  A.second;
+            sn.is_a_life = 1;
+        };
+
+        N_Snubbys_a_life = N_POPULATION;
     }
     vector<pair<int, int>> get_enemys()
     {
@@ -277,7 +304,104 @@ public:
     }
 
 
+    void save_population()
+    {
+
+        std::ofstream ofs("population");
+        boost::archive::text_oarchive ar(ofs);
+        ar &Snubbys;
+    }
+    void load_population()
+    {
+
+        std::ifstream ifs("population");
+        boost::archive::text_iarchive ar(ifs);
+
+        ar &Snubbys;
+    }
+
+    static bool key_of_sort(Player A, Player B)
+    {
+        return A.fitness < B.fitness;
+    }
 
 
+
+    void next_generation()
+    {
+        cout << "Next Generation : " <<generation<< endl;
+        for(auto &sn : Snubbys)
+        {
+            sn.x=A.first;
+            sn.y=A.second;
+            sn.is_a_life = 1;
+            sn.fitness = sqrt(pow(sn.x - B.first, 2) + pow(sn.y -  B.second, 2));
+        }
+
+        sort(Snubbys.begin(), Snubbys.end(), key_of_sort);
+        Snubbys.erase(Snubbys.begin() + Snubbys.size() / 3, Snubbys.end());
+
+        N_Snubbys_a_life = Snubbys.size();
+
+        for(int i=0;i<N_Snubbys_a_life;i++){
+            Snubbys.push_back(Snubbys[i]);
+            Snubbys[i].brain.mutate();
+        }
+
+        for(int i=0;i<N_Snubbys_a_life;i++){
+            Snubbys.push_back(Snubbys[i]);
+            Snubbys[i].brain.mutate();
+        }
+
+        //breeding
+
+        // for(int i = 0; i < Snubbys.size() - 1; i++)
+        // {
+
+
+        //     if(Snubbys[i].is_a_life && Snubbys[i + 1].is_a_life)
+        //     {
+
+        //         for(auto &c : Snubbys[i].breed(Snubbys[i + 1])) Snubbys.push_back( c);
+        //     }
+
+        // }
+
+        N_Snubbys_a_life = Snubbys.size();
+    }
+
+
+    void test(){
+           for(auto &sn : Snubbys)
+        {
+            sn.x=A.first;
+            sn.y=A.second;
+            sn.is_a_life = 1;
+            sn.fitness = sqrt(pow(sn.x - B.first, 2) + pow(sn.y -  B.second, 2));
+        }
+
+        sort(Snubbys.begin(), Snubbys.end(), key_of_sort);
+        Snubbys.erase(Snubbys.begin() + 1 ,Snubbys.end());
+
+    }
 };
 
+
+
+void Player::update_input(Level *level)
+{
+    input.clear();
+
+    input.push_back((double)(level->B.first - x) / 800);
+    input.push_back((double)(level->B.second - y) / 480);
+
+
+    for(auto e : level->enemys)
+    {
+
+        input.push_back((double)(e.first - x) / 800);
+        input.push_back((double)(e.second - y) / 480);
+
+    }
+
+}

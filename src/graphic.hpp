@@ -8,13 +8,15 @@ public:
     SDL_Renderer *render;
     SDL_Rect rect;
     SDL_Surface *s, *ss[10];
-    SDL_Texture *texture, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];
+    SDL_Texture *texture, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];
     Level  *level;
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = 0, is_thinking = 0;
-    int pipe;
+    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = AUTO, is_thinking = 0;
+    TTF_Font *font;
+    bool runNext = 0;
+    int N_LEVELS = 0;
     Graphic(Level *l)
     {
         level = l;
@@ -47,19 +49,50 @@ public:
     void save_level();
     void screen_level();
     bool is_player_inside_after(int x, int y);
+    void save_n()
+    {
+
+        std::ofstream ofs("../levels/N_L");
+        boost::archive::text_oarchive ar(ofs);
+        ar &N_LEVELS;
+    }
+    void load_n()
+    {
+
+        std::ifstream ifs("../levels/N_L");
+        boost::archive::text_iarchive ar(ifs);
+
+        ar &N_LEVELS;
+    }
+
+    void text(char *t, int x, int y, int w, int h)
+    {
+        rect = {  x, y, w, h};
+
+        s = TTF_RenderText_Solid(font, t, {0, 0, 0, 0});
+        texture = SDL_CreateTextureFromSurface(render, s);
+        SDL_RenderCopy(render, texture, NULL, &rect);
+    }
 
 };
 void Graphic::init()
 {
     SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
     window = SDL_CreateWindow("Snubby Land", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 668, SDL_WINDOW_OPENGL);
     render = SDL_CreateRenderer(window, -1, 0);
+
+    if (!TTF_Init())
+    {
+        font = TTF_OpenFont("../images/FreeSans.ttf", 24);
+    }
 
 
     textureEnemy = SDL_CreateTextureFromSurface(render, IMG_Load("../images/enemy.png"));
     textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/level.png"));
     string zzz;
-    for(int i = 0; i < N_OF_LEVELS + 1; i++)
+    load_n();
+    for(int i = 0; i < N_LEVELS+ 1; i++)
     {
         zzz = "../levels/" + to_string(i + 1) + ".png";
         textures[i + 1] = SDL_CreateTextureFromSurface(render, IMG_Load(zzz.c_str()));
@@ -75,6 +108,11 @@ void Graphic::init()
     textureSlides[5] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/spiral.png"));
     textureSlides[6] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/playing_slide.png"));
     textureSlides[7] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause_slide.png"));
+
+
+    texturePlayer = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player.png"));
+
+
 }
 
 void Graphic::index()
@@ -110,7 +148,7 @@ void Graphic::index()
 }
 void Graphic::draw_wall()
 {
-    SDL_SetRenderDrawColor(render, 181.04999999999998, 181.04999999999998, 253.98, 255);
+    SDL_SetRenderDrawColor(render, 181, 181, 253.98, 255);
     SDL_RenderFillRect(render, NULL );
 
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
@@ -153,29 +191,32 @@ void Graphic::draw_game()
 {
 
     draw_wall();
-
-    rect = {-level->player.w / 2  + level->player.x, -level->player.h / 2 + level->player.y, level->player.w, level->player.h};
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-    SDL_RenderFillRect(render, &rect );
-
-    rect = {-level->player.w / 2  + level->player.x + 5, -level->player.h / 2 + level->player.y + 5, level->player.w - 10, level->player.h - 10};
-    SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
-    SDL_RenderFillRect(render, &rect );
-
-    for(auto sn : level->Snubbys)
+    if(!automatique)
     {
-        if(!sn.is_a_life)   continue;
-        rect = {-level->player.w / 2  + sn.x, -level->player.h / 2 + sn.y, level->player.w, level->player.h};
-        SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
-        SDL_RenderFillRect(render, &rect );
 
 
-        rect = {-level->player.w / 2  + sn.x + 5, -level->player.h / 2 + sn.y + 5, level->player.w - 10, level->player.h - 10};
-        SDL_SetRenderDrawColor(render, 200, 0, 0, 255);
-        SDL_RenderFillRect(render, &rect );
+        rect = {-level->player.w / 2  + level->player.x, -level->player.h / 2 + level->player.y, level->player.w, level->player.h};
+
+        SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+
+    }
+    else
+    {
+        for(auto sn : level->Snubbys)
+        {
+            if(!sn.is_a_life)   continue;
+
+            rect = {-level->player.w / 2  + sn.x, -level->player.h / 2 + sn.y, level->player.w, level->player.h};
+
+            SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+
+
+        }
+
+        text("B", level->B.first,  level->B.second, 40, 40);
+        text("A", level->A.first, level->A.second, 40, 40);
     }
 
-    SDL_SetRenderDrawColor(render, 0, 0, 250, 255);
     for(auto e : level->coins)
     {
         if(e.is_taked)continue;
@@ -183,7 +224,6 @@ void Graphic::draw_game()
         SDL_RenderCopy(render, textureCoin, NULL, &rect);
     }
     draw_enemys();
-
 
 }
 void Graphic::get_wall()
@@ -237,13 +277,9 @@ void Graphic::get_wall()
                 break;
             case SDLK_g:
                 level->random_map();
-
                 draw_wall();
-
-
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
-
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;
@@ -283,7 +319,6 @@ void Graphic::get_goal_area()
 
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
-
             SDL_RenderPresent(render);
             SDL_Delay(5);
         }
@@ -309,6 +344,9 @@ void Graphic::get_goal_area()
             case SDLK_n:
                 continuer = 0;
                 break;
+            case SDLK_b:
+
+            break;
             }
         }
     }
@@ -337,12 +375,12 @@ void Graphic::get_position_player()
             y = event.motion.y;
             level->player.x = cx + 40 * (int)(( x - cx) / 40 ) + level->player.w / 2;
             level->player.y = cy + 40 * (int)(((y - cy) / 40)) + level->player.h / 2;
+
             draw_game();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
             SDL_RenderPresent(render);
             SDL_Delay(40);
-            // continuer = 0;
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
@@ -415,6 +453,62 @@ void Graphic::add_coin()
 }
 
 
+
+// void Graphic::add_stable_enemys()
+// {
+//     cout<<"stable enemys"<<endl;
+//     draw_game();
+
+
+//     rect = {0, 100 + 40 * 12, 1024, 100} ;
+//     SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
+//     SDL_RenderPresent(render);
+//     SDL_Delay(10);
+
+//     continuer = 1;
+//     while(continuer)
+//     {
+//         SDL_WaitEvent(&event);
+//         switch (event.type)
+//         {
+//         case SDL_QUIT:
+//             free_memory();
+//             break;
+//         case SDL_MOUSEBUTTONDOWN:
+//             x = event.motion.x;
+//             y = event.motion.y;
+//             level->stable_enemys.push_back(Coin(10 * (int)(x / 10), 10 * (int)(y / 10)));
+//             draw_game();
+//             rect = {0, 100 + 40 * 12, 1024, 100} ;
+//             SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
+//             SDL_RenderPresent(render);
+//             SDL_Delay(40);
+//             break;
+
+//         case SDL_KEYDOWN:
+//             switch (event.key.keysym.sym)
+//             {
+//             case SDLK_LEFT:
+//                 level->coins.pop_back();
+
+//                 draw_game();
+//                 rect = {0, 100 + 40 * 12, 1024, 100} ;
+//                 SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
+//                 SDL_RenderPresent(render);
+//                 SDL_Delay(40);
+
+
+//                 break;
+//             case SDLK_n:
+//                 continuer = 0;
+//                 break;
+//             }
+
+//         }
+
+
+//     }
+// }
 void Graphic::add_spiral_dot()
 {
     draw_game();
@@ -546,14 +640,18 @@ void Graphic::control()
         }
         SDL_WaitEvent(&event);
 
-
-
         switch (event.type)
         {
+
         case SDL_QUIT:
             free_memory();
             break;
 
+        case SDL_MOUSEBUTTONDOWN:
+            x = event.motion.x;
+            y = event.motion.y;
+
+            break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
@@ -581,14 +679,51 @@ void Graphic::control()
                 is_index = 1;
                 break;
 
-            case SDLK_i:
-                level->player.brain.init_params();
+            case SDLK_n:
+                runNext = 1;
+                break;
+            case SDLK_a:
+                level->A = make_pair(x, y);
+                break;
+            case SDLK_b:
+                level->B = make_pair(x, y);
+                break;
+            case SDLK_f:
+                for(auto sn : level->Snubbys)cout << sn.fitness << " ";
+                cout << endl;
+                break;
+            case SDLK_d:
+                break;
+            case SDLK_m:
+                for(auto &sn : level->Snubbys)
+                {
+                    if(!sn.is_a_life)
+                    {
+                        sn.brain.mutate();
+                    }
+                    sn.is_a_life = 1;
+                };
+                break;
+            case SDLK_g:
+                automatique = 1 - automatique;
+
+                if(automatique)
+
+                    for(auto &sn : level->Snubbys)
+                    {
+                        sn.brain.init_params(NN);
+                        sn.x = level->A.first;
+                        sn.y =  level->A.second;
+                        sn.is_a_life = 1;
+                        level->generation++;
+                    };
 
                 break;
-            case SDLK_s:
-                for(auto &sn : level->Snubbys)sn.is_a_life = 1;
-                break;
+           //  case SDLK_e:
+           // level->test();
+           //  break;
             }
+
 
         }
         if(level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
@@ -598,12 +733,20 @@ void Graphic::control()
 
 void Graphic::update()
 {
+    if(runNext)
+    {
+        level->next_generation();
+        runNext = 0;
+    }
     for(auto &sp : level->spiral_dots)sp.next_move();
     for(auto &e : level->linear_enemys)e.next_move();
-    for(auto &p : level->Snubbys)
+    if(automatique)
     {
-        if(p.is_a_life)
-            p.think(level, this);
+        for(auto &p : level->Snubbys)
+        {
+            if(p.is_a_life)
+                p.think(level, this);
+        }
     }
 
 }
@@ -624,23 +767,41 @@ void Graphic::check_state()
             level->player.y = level->last_touch_on_green_area.second;
 
         };
+        if(automatique)
+        {
+            for(auto &sn : level->Snubbys)
+            {
+                if(!sn.is_a_life)continue;
+                if(sn.touche_enemy(e, level->w_enemy / 2))
+                {
+                    sn.is_a_life = 0;
+                    level->N_Snubbys_a_life--;
+                };
+            }
+        }
+    }
+
+    if(level->N_Snubbys_a_life <= 0)
+    {
+        level->next_generation();
+        level->generation++;
+
         for(auto &sn : level->Snubbys)
         {
-            if(sn.touche_enemy(e, level->w_enemy / 2))
-            {
-                sn.is_a_life = 0;
-            };
+            sn.x = level->A.first;
+            sn.y = level->A.second;
         }
     }
 }
 
 void Graphic::play()
 {
+    level->get_enemys();
+    level->player.update_input(level);
+    level->update_population();
+
     is_playing = 1;
     continuer = 1;
-
-    level->make_population();
-
     while(continuer and is_playing)
     {
         if(is_pause)
@@ -648,8 +809,6 @@ void Graphic::play()
             SDL_Delay(40);
             continue;
         }
-
-
 
 
         update();
@@ -677,27 +836,28 @@ void Graphic::show()
 }
 void Graphic::create_level()
 {
-    // load_level(N_OF_NEW_LEVEL);
+
+    N_LEVELS++;
 
     draw_wall();
     SDL_RenderPresent(render);
     SDL_Delay(5);
 
-    get_wall();
+    WALL:get_wall();
 
-    get_goal_area();
+    GREEN:get_goal_area();
 
-    get_position_player();
+    COIN:add_coin();
 
-    add_coin();
+    SPIRAL:add_spiral_dot();
 
-    add_spiral_dot();
+    LINEAR:add_linear_enemy();
 
-    add_linear_enemy();
+    POSITION:get_position_player();
 
     screen_level();
     save_level();
-
+    save_n();
     play();
 }
 
@@ -714,24 +874,26 @@ void Graphic::pause()
     while(is_pause)
     {
 
-        SDL_WaitEvent(&event_quit);
-        switch (event_quit.type)
+        SDL_WaitEvent(&event);
+        switch (event.type)
         {
         case SDL_QUIT:
             free_memory();
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
-            case SDLK_i:
-                automatique = 1;
-                is_pause = 0;
-                break;
+
             case SDLK_p:
                 is_pause = 0;
                 break;
             case SDLK_s:
-                automatique = 0;
-                is_pause = 0;
+                level->save_population();
+                cout << "save_population" << endl;
+
+                break;
+            case SDLK_l:
+                level->load_population();
+                cout << "load_population" << endl;
                 break;
             }
         }
@@ -746,7 +908,7 @@ void Graphic::draw_levels()
     SDL_RenderCopy(render, textures[0], NULL, &rect);
 
 
-    for(int i, j, k = 1; k < N_OF_LEVELS + 1; k++)
+    for(int i, j, k = 1; k < N_LEVELS + 1; k++)
     {
         j = (k - 1) / 3;
         i = (k - 1) - j * 3;
@@ -830,7 +992,7 @@ void Graphic::get_level()
             x = event.motion.x;
             b = event.motion.y;
 
-            for(int i, j, k = 1; k < N_OF_LEVELS + 1; k++)
+            for(int i, j, k = 1; k < N_LEVELS + 1; k++)
             {
                 j = (k - 1) / 3;
                 i = (k - 1) - j * 3;
@@ -879,7 +1041,7 @@ void Graphic::screen_level()
     int width = 1024, height = 768;
     s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
     SDL_RenderReadPixels(render, NULL, s->format->format, s->pixels, s->pitch);
-    string z = "../levels/" + to_string(N_OF_NEW_LEVEL) + ".png";
+    string z = "../levels/" + to_string(N_LEVELS) + ".png";
     IMG_SavePNG(s, z.c_str());
 
 }
@@ -981,7 +1143,7 @@ void Graphic::add_linear_enemy()
 void Graphic::save_level()
 {
 
-    std::ofstream ofs( "../levels/" + to_string(N_OF_NEW_LEVEL));
+    std::ofstream ofs( "../levels/" + to_string(N_LEVELS));
     boost::archive::text_oarchive ar(ofs);
     ar &level;
 }
@@ -1001,43 +1163,21 @@ void Graphic::load_level(int k)
 void Player::think(Level *level, Graphic *g)
 {
 
-
-    cout << g->is_player_inside_after(1, 1) << endl;
-    input.clear();
-    input.push_back((double)(100 - x) / 800);
-    input.push_back((double)(100 - y) / 480);
-
-    input.push_back((double)(100 - x) / 800);
-    input.push_back((double)(100 - y) / 480);
-
-    input.push_back((double)(12 * 40 - x) / 800);
-    input.push_back((double)(20 * 40 - y) / 480);
-
-    for(auto e : level->enemys)
-    {
-
-        input.push_back((double)(e.first - x) / 800);
-        input.push_back((double)(e.second - y) / 480);
-
-    }
-
-
-    cout << input.size() << endl;
-    // vector<double> r = {(double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX};
+    update_input(level);
 
     vector<double> r = brain.predict( input);
 
-    if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x, y-10) &&
-            g->is_player_inside_after(x, y-20)
+    if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x, y - 10) &&
+            g->is_player_inside_after(x, y - 20)
       )y -= 10; //up
-    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x, y+10) &&
-            g->is_player_inside_after(x, y+20)
+    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x, y + 10) &&
+            g->is_player_inside_after(x, y + 20)
            )y += 10; //down
-    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x+10, y) &&
-            g->is_player_inside_after(x+20, y)
+    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x + 10, y) &&
+            g->is_player_inside_after(x + 20, y)
            )x += 10; //R
-    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x-10, y) &&
-            g->is_player_inside_after(x-20, y)
+    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x - 10, y) &&
+            g->is_player_inside_after(x - 20, y)
            )x -= 10;; //L
 
 }
