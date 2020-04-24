@@ -17,6 +17,15 @@ public:
     TTF_Font *font;
     bool runNext = 0;
     int N_LEVELS = 0;
+
+
+
+    SDL_AudioSpec wav_spec;
+    Uint32 wav_length;
+    Uint8 *wav_buffer;
+    SDL_AudioDeviceID device_coin, device_enemy, device_background;
+
+
     Graphic(Level *l)
     {
         level = l;
@@ -73,6 +82,17 @@ public:
         texture = SDL_CreateTextureFromSurface(render, s);
         SDL_RenderCopy(render, texture, NULL, &rect);
     }
+    void coin_sound()
+    {
+        SDL_QueueAudio(device_coin, wav_buffer, wav_length);
+        SDL_PauseAudioDevice(device_coin, 0);
+    }
+
+    void hit_sound()
+    {
+        SDL_QueueAudio(device_enemy, wav_buffer, wav_length);
+        SDL_PauseAudioDevice(device_enemy, 0);
+    }
 
 };
 void Graphic::init()
@@ -87,12 +107,22 @@ void Graphic::init()
         font = TTF_OpenFont("../images/FreeSans.ttf", 24);
     }
 
+    /////////////Sound
+    SDL_LoadWAV("../sound/coin.wav", &wav_spec, &wav_buffer, &wav_length);
+    device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec, NULL, 0);
+
+    SDL_LoadWAV("../sound/hit.wav", &wav_spec, &wav_buffer, &wav_length);
+    device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec, NULL, 0);
+
+
+
+
 
     textureEnemy = SDL_CreateTextureFromSurface(render, IMG_Load("../images/enemy.png"));
     textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/level.png"));
     string zzz;
     load_n();
-    for(int i = 0; i < N_LEVELS+ 1; i++)
+    for(int i = 0; i < N_LEVELS + 1; i++)
     {
         zzz = "../levels/" + to_string(i + 1) + ".png";
         textures[i + 1] = SDL_CreateTextureFromSurface(render, IMG_Load(zzz.c_str()));
@@ -346,7 +376,7 @@ void Graphic::get_goal_area()
                 break;
             case SDLK_b:
 
-            break;
+                break;
             }
         }
     }
@@ -709,19 +739,21 @@ void Graphic::control()
 
                 if(automatique)
 
+                {
                     for(auto &sn : level->Snubbys)
                     {
                         sn.brain.init_params(NN);
                         sn.x = level->A.first;
                         sn.y =  level->A.second;
                         sn.is_a_life = 1;
-                        level->generation++;
                     };
+                    level->generation++;
+                }
 
                 break;
-           //  case SDLK_e:
-           // level->test();
-           //  break;
+                //  case SDLK_e:
+                // level->test();
+                //  break;
             }
 
 
@@ -757,12 +789,13 @@ void Graphic::check_state()
 {
     for(auto &c : level->coins)
     {
-        if(!c.is_taked)c.take(level->player);
+        if(!c.is_taked &&c.take(level->player))coin_sound();
     }
     for(auto e : level->get_enemys())
     {
         if(level->player.touche_enemy(e, level->w_enemy / 2))
         {
+            hit_sound();
             level->player.x = level->last_touch_on_green_area.first;
             level->player.y = level->last_touch_on_green_area.second;
 
@@ -843,17 +876,23 @@ void Graphic::create_level()
     SDL_RenderPresent(render);
     SDL_Delay(5);
 
-    WALL:get_wall();
+WALL:
+    get_wall();
 
-    GREEN:get_goal_area();
+GREEN:
+    get_goal_area();
 
-    COIN:add_coin();
+COIN:
+    add_coin();
 
-    SPIRAL:add_spiral_dot();
+SPIRAL:
+    add_spiral_dot();
 
-    LINEAR:add_linear_enemy();
+LINEAR:
+    add_linear_enemy();
 
-    POSITION:get_position_player();
+POSITION:
+    get_position_player();
 
     screen_level();
     save_level();
@@ -991,6 +1030,8 @@ void Graphic::get_level()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             b = event.motion.y;
+
+            coin_sound();
 
             for(int i, j, k = 1; k < N_LEVELS + 1; k++)
             {

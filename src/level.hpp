@@ -39,7 +39,7 @@ public:
                 ((enemy.first - r >= x - r) && (enemy.first - r <= x + r) && (enemy.second + r >= y - r) && ( enemy.second + r <= y + r))  ||
                 ((enemy.first + r >= x - r) && (enemy.first + r <= x + r) && (enemy.second - r >= y - r) && ( enemy.second - r <= y + r))
           )
-            return 1;
+            {is_a_life=0;return 1;}
         return 0;
     };
 
@@ -47,12 +47,10 @@ public:
     vector<Player> breed(Player player)
     {
         /*
-            Make two children as parts of their parents.
-            Args:
-            mother (dict): Network parameters
-            father (dict): Network parameters
+            Make 3 children as parts of their parents.
+
         */
-        vector<Player> children(1, Player(player));
+        vector<Player> children(3, Player(player));
         for(auto &ch : children)
         {
             //children.push_back(Player(player));
@@ -202,14 +200,15 @@ public:
         this->x = x;
         this->y = y;
     }
-    void take(Player p)
+    bool take(Player p)
     {
         if( x - w / 2 >= p.x - p.w / 2 && x - w / 2 <= p.x + p.w / 2 && y - (h / 2) >= p.y - p.h / 2 &&  y - h / 2 <= p.y + p.h / 2
 
           )
         {
             is_taked = 1;
-        }
+            return 1;
+        }return 0;
     }
 };
 class Level
@@ -244,7 +243,7 @@ public:
     vector<pair<int, int>> enemys;
     int n, last_direction = 1, N_Snubbys_a_life = 0;
     pair<double, double> A = {500, 500}, B = {100, 100} ;
-    int generation=0;
+    int generation = 0;
 
     Level()
     {
@@ -329,59 +328,59 @@ public:
 
     void next_generation()
     {
-        cout << "Next Generation : " <<generation<< endl;
+        cout << "Next Generation : " << generation << endl;
         for(auto &sn : Snubbys)
         {
-            sn.x=A.first;
-            sn.y=A.second;
+            sn.x = A.first;
+            sn.y = A.second;
             sn.is_a_life = 1;
             sn.fitness = sqrt(pow(sn.x - B.first, 2) + pow(sn.y -  B.second, 2));
         }
 
         sort(Snubbys.begin(), Snubbys.end(), key_of_sort);
-        Snubbys.erase(Snubbys.begin() + Snubbys.size() / 3, Snubbys.end());
+        Snubbys.erase(Snubbys.begin() + Snubbys.size() / 8, Snubbys.end());
 
         N_Snubbys_a_life = Snubbys.size();
 
-        for(int i=0;i<N_Snubbys_a_life;i++){
-            Snubbys.push_back(Snubbys[i]);
-            Snubbys[i].brain.mutate();
+
+        // breeding
+
+        for(int i = 0; i < N_Snubbys_a_life; i++)
+        {
+
+            for(auto &c : Snubbys[i].breed(Snubbys[i + 1])) Snubbys.push_back( c);
+        
+
         }
 
-        for(int i=0;i<N_Snubbys_a_life;i++){
-            Snubbys.push_back(Snubbys[i]);
-            Snubbys[i].brain.mutate();
+
+        for(int j = 0; j < 4; j++)
+        {
+            for(int i = 0; i < N_Snubbys_a_life; i++)
+            {
+                Snubbys.push_back(Snubbys[i]);
+                Snubbys[i].brain.mutate();
+            }
         }
 
-        //breeding
 
-        // for(int i = 0; i < Snubbys.size() - 1; i++)
-        // {
-
-
-        //     if(Snubbys[i].is_a_life && Snubbys[i + 1].is_a_life)
-        //     {
-
-        //         for(auto &c : Snubbys[i].breed(Snubbys[i + 1])) Snubbys.push_back( c);
-        //     }
-
-        // }
 
         N_Snubbys_a_life = Snubbys.size();
     }
 
 
-    void test(){
-           for(auto &sn : Snubbys)
+    void test()
+    {
+        for(auto &sn : Snubbys)
         {
-            sn.x=A.first;
-            sn.y=A.second;
+            sn.x = A.first;
+            sn.y = A.second;
             sn.is_a_life = 1;
             sn.fitness = sqrt(pow(sn.x - B.first, 2) + pow(sn.y -  B.second, 2));
         }
 
         sort(Snubbys.begin(), Snubbys.end(), key_of_sort);
-        Snubbys.erase(Snubbys.begin() + 1 ,Snubbys.end());
+        Snubbys.erase(Snubbys.begin() + 1, Snubbys.end());
 
     }
 };

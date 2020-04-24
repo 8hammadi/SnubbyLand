@@ -3,9 +3,9 @@
 
 
 #define PI 3.14
-#define N_POPULATION 200
+#define N_POPULATION 100
 #define AUTO 0
-#define NN { (int)level->player.input.size(),10,10, 4}
+#define NN { (int)level->player.input.size(),40,40,40, 4}
 #define RANDOM (double)rand()/RAND_MAX
 
 #include <bits/stdc++.h>
