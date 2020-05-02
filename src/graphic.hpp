@@ -35,6 +35,8 @@ public:
     {
         level = l;
     }
+    void get_online_player();
+    void online();
     void help(char *path);
     void get_level();
     void create_level();
@@ -788,6 +790,7 @@ void Graphic::control()
 
 void Graphic::update()
 {
+
     if(runNext)
     {
         level->next_generation();
@@ -993,7 +996,7 @@ void Graphic::free_memory()
 {
 
     SDL_Quit();
-     Mix_FreeMusic(music);
+    Mix_FreeMusic(music);
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(textureEnemy);
     for (int i = 0; i < 10; i++) SDL_DestroyTexture(textures[i]);
@@ -1054,7 +1057,7 @@ void Graphic::get_level()
             x = event.motion.x;
             b = event.motion.y;
 
-            coin_sound();
+            // coin_sound();
 
             for(int i, j, k = 1; k < N_LEVELS + 1; k++)
             {
@@ -1243,5 +1246,36 @@ void Player::think(Level *level, Graphic *g)
     else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_not_black_area(x - 10, y) &&
             g->is_player_inside_after(x - 20, y)
            )x -= 10;; //L
+
+}
+
+
+void Graphic::get_online_player()
+{
+    http::Request request("http://horusnews.herokuapp.com/snubbyland_ensias_projet");
+    std::map<std::string, std::string> parameters = {{"foo", "1"}, {"bar", "baz"}};
+    const http::Response response = request.send("POST", parameters,
+    {
+        "Content-Type: application/x-www-form-urlencoded"
+    });
+    std::cout << std::string(response.body.begin(), response.body.end()) << '\n';
+
+}
+
+
+void Graphic::online()
+{
+    continuer = 1;
+    while(1)
+    {
+        try
+        {
+            get_online_player();
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << "Request failed, error: " << e.what() << '\n';
+        }
+    }
 
 }

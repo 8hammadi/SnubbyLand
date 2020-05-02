@@ -19,6 +19,7 @@
 #include <SDL2/SDL_image.h>
 #include "SDL2/SDL_mixer.h"
 #include <SDL2/SDL_ttf.h>
+#include "HTTPRequest.hpp"
 
 #include <cmath>
 #include <string.h>
@@ -36,13 +37,18 @@ using namespace std;
 Level level;
 Graphic graphic(&level);
 
-int  test(void *a)
+int  control(void *a)
 {
     graphic.control();
     return 1;
 };
 
 
+int  online(void *a)
+{
+    graphic.online();
+    return 1;
+};
 
 
 int main(int argc, char const *argv[])
@@ -54,7 +60,8 @@ int main(int argc, char const *argv[])
 
     graphic.init();
 
-    SDL_CreateThread( test, "EventFonction", (void *)NULL);
+    SDL_CreateThread( control, "EventFonction", (void *)NULL);
+    SDL_CreateThread( online, "EventFonction", (void *)NULL);
 
     graphic.index();
 
