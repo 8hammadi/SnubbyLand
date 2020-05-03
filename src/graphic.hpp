@@ -18,9 +18,6 @@ public:
     bool runNext = 0;
     int N_LEVELS = 0;
 
-
-
-
     SDL_AudioSpec wav_spec;
     Uint32 wav_length;
     Uint8 *wav_buffer;
@@ -28,9 +25,10 @@ public:
     int result = 0;
     int flags = MIX_INIT_MP3;
     Mix_Music *music;
+    int len_online_players;
+    vector<pair<int, int>> online_players;
 
-
-
+    string id_online;
     Graphic(Level *l)
     {
         level = l;
@@ -254,6 +252,13 @@ void Graphic::draw_game()
 
         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
 
+        for(auto e : online_players)
+        {
+            rect = {-level->player.w / 2  + e.first, -level->player.h / 2 + e.second, level->player.w, level->player.h};
+
+            SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+
+        }
     }
     else
     {
@@ -268,8 +273,8 @@ void Graphic::draw_game()
 
         }
 
-        text("B", level->B.first,  level->B.second, 40, 40);
-        text("A", level->A.first, level->A.second, 40, 40);
+        // text("B", level->B.first,  level->B.second, 40, 40);
+        // text("A", level->A.first, level->A.second, 40, 40);
     }
 
     for(auto e : level->coins)
@@ -1253,13 +1258,29 @@ void Player::think(Level *level, Graphic *g)
 void Graphic::get_online_player()
 {
     http::Request request("http://horusnews.herokuapp.com/snubbyland_ensias_projet");
-    std::map<std::string, std::string> parameters = {{"foo", "1"}, {"bar", "baz"}};
+    // http::Request request("http://localhost:8000/snubbyland_ensias_projet");
+
+
+    map<string, string> parameters = {{"level", to_string(1)}, {"id", id_online}, {"x", to_string(level->player.x)}, {"y", to_string(level->player.y)}};
     const http::Response response = request.send("POST", parameters,
     {
         "Content-Type: application/x-www-form-urlencoded"
     });
-    std::cout << std::string(response.body.begin(), response.body.end()) << '\n';
-
+    string res = string(response.body.begin(), response.body.end()) ;
+    stringstream r = stringstream(res) ;
+    int n, a, b;
+    r >> len_online_players;
+    online_players.clear();
+    int xx, yy;
+    string id;
+    while(len_online_players--)
+    {
+        r >> id >> xx >> yy;
+        if(id==id_online)continue;
+        cout<<xx<<" "<<yy<<endl;
+        online_players.push_back(make_pair(xx, yy));
+    }
+    SDL_Delay(20);
 }
 
 
@@ -1271,10 +1292,11 @@ void Graphic::online()
         try
         {
             get_online_player();
+            cout << "online" << endl;
         }
         catch (const std::exception &e)
         {
-            std::cerr << "Request failed, error: " << e.what() << '\n';
+            cout << "offline" << endl;
         }
     }
 

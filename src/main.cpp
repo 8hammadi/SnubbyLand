@@ -2,12 +2,14 @@
 
 //22 serialization::archive 16 0
 
+//n_player id x y id x y 
 
 #define PI 3.14
 #define N_POPULATION 100
 #define AUTO 0
 #define NN { (int)level->player.input.size(),40,40,40, 4}
 #define RANDOM (double)rand()/RAND_MAX
+
 
 #include <bits/stdc++.h>
 #include <boost/serialization/vector.hpp>
@@ -20,6 +22,7 @@
 #include "SDL2/SDL_mixer.h"
 #include <SDL2/SDL_ttf.h>
 #include "HTTPRequest.hpp"
+
 
 #include <cmath>
 #include <string.h>
@@ -57,8 +60,8 @@ int main(int argc, char const *argv[])
   
 
 
-
     graphic.init();
+	graphic.id_online=argv[1];
 
     SDL_CreateThread( control, "EventFonction", (void *)NULL);
     SDL_CreateThread( online, "EventFonction", (void *)NULL);
