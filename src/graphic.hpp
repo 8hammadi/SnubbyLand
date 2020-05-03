@@ -4,27 +4,34 @@ class Graphic
 {
 
 public:
+
+    //SDL
     SDL_Window *window;
     SDL_Renderer *render;
     SDL_Rect rect;
     SDL_Surface *s, *ss[10];
     SDL_Texture *texture, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];
+    
+    //Level
     Level  *level;
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = AUTO, is_thinking = 0;
+    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = AUTO, is_thinking = 0,status_online=0;
     TTF_Font *font;
     bool runNext = 0;
     int N_LEVELS = 0;
 
-    SDL_AudioSpec wav_spec;
-    Uint32 wav_length;
-    Uint8 *wav_buffer;
+    //Sound
+    SDL_AudioSpec wav_spec[2];
+    Uint32 wav_length[2];
+    Uint8 *wav_buffer[2];
     SDL_AudioDeviceID device_coin, device_enemy;
     int result = 0;
     int flags = MIX_INIT_MP3;
     Mix_Music *music;
+    bool music_status=1,reaction_sound_status=1;
+    //online
     int len_online_players;
     vector<pair<int, int>> online_players;
 
@@ -89,13 +96,13 @@ public:
     }
     void coin_sound()
     {
-        SDL_QueueAudio(device_coin, wav_buffer, wav_length);
+        SDL_QueueAudio(device_coin, wav_buffer[1], wav_length[1]);
         SDL_PauseAudioDevice(device_coin, 0);
     }
 
     void hit_sound()
     {
-        SDL_QueueAudio(device_enemy, wav_buffer, wav_length);
+        SDL_QueueAudio(device_enemy, wav_buffer[0], wav_length[0]);
         SDL_PauseAudioDevice(device_enemy, 0);
     }
 
@@ -112,7 +119,7 @@ void Graphic::init()
 
     if (!TTF_Init())
     {
-        font = TTF_OpenFont("../images/FreeSans.ttf", 24);
+        font = TTF_OpenFont("../images/AMA.ttf", 50);
     }
 
     /////////////Sound
@@ -134,11 +141,11 @@ void Graphic::init()
     music = Mix_LoadMUS("../sound/background.mp3");
     Mix_PlayMusic(music, 1);
 
-    SDL_LoadWAV("../sound/coin.wav", &wav_spec, &wav_buffer, &wav_length);
-    device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec, NULL, 0);
+    SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
+    device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
 
-    SDL_LoadWAV("../sound/hit.wav", &wav_spec, &wav_buffer, &wav_length);
-    device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec, NULL, 0);
+    SDL_LoadWAV("../sound/coin.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
+    device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec[1], NULL, 0);
 
 
 
@@ -173,6 +180,9 @@ void Graphic::init()
 void Graphic::index()
 {
     SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
+    //status online/offline
+    // text("ID : @abdellatif      Status : ONLINE        OnliePlayers : 40        Music : ON      ReactionSound : ON",0,0,1024,50);
+
     SDL_RenderPresent(render);
     continuer = 1;
     while(continuer)
@@ -186,19 +196,20 @@ void Graphic::index()
             x = event.motion.x;
             y = event.motion.y;
             //ONE PLAYER OFFLIN
-            if(x>=0 and x<=0 and y>=0 and y<=0){
+            if(x>=156 and x<=156+700 and y>=210 and y<=210+100){
                 get_level();
             }
             //TWO PLAYER ONLINE
-            if(x>=0 and x<=0 and y>=0 and y<=0){
+            if(x>=156 and x<=156+700 and y>=320 and y<=420){
                 get_level();
             }
             //GENETIC ALGORITHM
-            if(x>=0 and x<=0 and y>=0 and y<=0){
+            if(x>=156 and x<=156+700 and y>=430 and y<=430+100){
                 get_level();
             }
             //CREATE NEW LEVEL
-            if(x>=0 and x<=0 and y>=0 and y<=0){
+            if(x>=156 and x<=156+700 and y>=540 and y<=540+100){
+                cout<<5454545<<endl;
                 create_level();
             }
             //MUSIC on/off
@@ -1320,11 +1331,11 @@ void Graphic::online()
         try
         {
             get_online_player();
-            cout << "online" << endl;
+            status_online=1;
         }
         catch (const std::exception &e)
         {
-            cout << "offline" << endl;
+            status_online=0;
         }
     }
 

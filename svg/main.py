@@ -3,7 +3,7 @@ from random import random
 
 svg_document = svgwrite.Drawing(filename = "online.svg",
 	  
-									size = ("1024px", "768px"))
+									size = ("1024px", "668px"))
 
 svg_document.add(svg_document.rect(insert=(0, 0), size=('100%', '100%'), rx=None, ry=None, fill='#dfe6e9'))
 
@@ -27,10 +27,10 @@ def button(x,y,w,h,text="",police=50,color1="#636e72",color2="#b2bec3",textcolor
 								style = "font-size:%dpx; font-family:Arial"%(police)))
 
 
-button(156,220,700,100,text="ONE PLAYER OFFLINE")
-button(156,340,700,100,	text="TWO PLAYER ONLINE")
-button(156,460,700,100,text="GENETIC ALGORITHM")
-button(156,580,700,100,text="CREATE NEW LEVEL")
+button(156,210,700,100,text="ONE PLAYER OFFLINE")
+button(156,320,700,100,	text="TWO PLAYER ONLINE")
+button(156,430,700,100,text="GENETIC ALGORITHM")
+button(156,540,700,100,text="CREATE NEW LEVEL")
 
 svg_document.add(svg_document.text("ID :",
 							insert = (0,40),
