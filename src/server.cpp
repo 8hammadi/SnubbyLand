@@ -6,8 +6,8 @@ string POST(map<string, string> parameters)
 {
     try
     {
-        // http::Request request("http://horusnews.herokuapp.com/snubbyland_ensias_projet");
-        http::Request request("http://localhost:8000/snubbyland_ensias_projet");
+        http::Request request("http://horusnews.herokuapp.com/snubbyland_ensias_projet");
+        // http::Request request("http://localhost:8000/snubbyland_ensias_projet");
         const http::Response response = request.send("POST", parameters,
         {
             "Content-Type: application/x-www-form-urlencoded"
