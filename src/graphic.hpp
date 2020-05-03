@@ -106,6 +106,9 @@ void Graphic::init()
 
     window = SDL_CreateWindow("Snubby Land", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 668, SDL_WINDOW_OPENGL);
     render = SDL_CreateRenderer(window, -1, 0);
+    textureSlides[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/index.png"));
+    SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
+    SDL_RenderPresent(render);
 
     if (!TTF_Init())
     {
@@ -153,7 +156,6 @@ void Graphic::init()
 
     textureCoin = SDL_CreateTextureFromSurface(render, IMG_Load("../images/coin.png"));
 
-    textureSlides[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/index.png"));
     textureSlides[1] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/black_area.png"));
     textureSlides[2] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/coin_slide.png"));
     textureSlides[3] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player_slide.png"));
@@ -170,8 +172,7 @@ void Graphic::init()
 
 void Graphic::index()
 {
-    rect = {0, 0, 1024, 200};
-    SDL_RenderCopy(render, textureSlides[0], NULL, &rect);
+    SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
     SDL_RenderPresent(render);
     continuer = 1;
     while(continuer)
@@ -181,7 +182,34 @@ void Graphic::index()
 
         switch (event.type)
         {
-
+        case SDL_MOUSEBUTTONDOWN:
+            x = event.motion.x;
+            y = event.motion.y;
+            //ONE PLAYER OFFLIN
+            if(x>=0 and x<=0 and y>=0 and y<=0){
+                get_level();
+            }
+            //TWO PLAYER ONLINE
+            if(x>=0 and x<=0 and y>=0 and y<=0){
+                get_level();
+            }
+            //GENETIC ALGORITHM
+            if(x>=0 and x<=0 and y>=0 and y<=0){
+                get_level();
+            }
+            //CREATE NEW LEVEL
+            if(x>=0 and x<=0 and y>=0 and y<=0){
+                create_level();
+            }
+            //MUSIC on/off
+            if(x>=0 and x<=0 and y>=0 and y<=0){
+                
+            }
+            //REACTION SOUND on/off
+            if(x>=0 and x<=0 and y>=0 and y<=0){
+                
+            }
+            break ;
         case SDL_QUIT:
             free_memory();
             break;
@@ -1276,8 +1304,8 @@ void Graphic::get_online_player()
     while(len_online_players--)
     {
         r >> id >> xx >> yy;
-        if(id==id_online)continue;
-        cout<<xx<<" "<<yy<<endl;
+        if(id == id_online)continue;
+        cout << xx << " " << yy << endl;
         online_players.push_back(make_pair(xx, yy));
     }
     SDL_Delay(20);
