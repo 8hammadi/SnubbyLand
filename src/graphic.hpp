@@ -23,14 +23,14 @@ public:
     int N_LEVELS = 0;
 
     //Sound
-    SDL_AudioSpec wav_spec[2];
-    Uint32 wav_length[2];
-    Uint8 *wav_buffer[2];
-    SDL_AudioDeviceID device_coin, device_enemy;
-    int result = 0;
-    int flags = MIX_INIT_MP3;
-    Mix_Music *music;
-    bool music_status = 1, reaction_sound_status = 1;
+    //sound//SDL_AudioSpec wav_spec[2];
+    //sound//Uint32 wav_length[2];
+    //sound//Uint8 *wav_buffer[2];
+    //sound//SDL_AudioDeviceID device_coin, device_enemy;
+    //sound//int result = 0;
+    //sound//int flags = MIX_INIT_MP3;
+    //sound//Mix_Music *music;
+    //sound//bool music_status = 1, reaction_sound_status = 1;
     //online
     // int len_online_players;
     pair<int, int> player2;
@@ -96,14 +96,14 @@ public:
     }
     void coin_sound()
     {
-        SDL_QueueAudio(device_coin, wav_buffer[1], wav_length[1]);
-        SDL_PauseAudioDevice(device_coin, 0);
+        //sound//SDL_QueueAudio(device_coin, wav_buffer[1], wav_length[1]);
+        //sound//SDL_PauseAudioDevice(device_coin, 0);
     }
 
     void hit_sound()
     {
-        SDL_QueueAudio(device_enemy, wav_buffer[0], wav_length[0]);
-        SDL_PauseAudioDevice(device_enemy, 0);
+        //sound//SDL_QueueAudio(device_enemy, wav_buffer[0], wav_length[0]);
+        //sound//SDL_PauseAudioDevice(device_enemy, 0);
     }
 
 };
@@ -124,28 +124,28 @@ void Graphic::init()
 
     /////////////Sound
 
-    if (SDL_Init(SDL_INIT_AUDIO) < 0)
-    {
-        printf("Failed to init SDL\n");
-        exit(1);
-    }
+   //sound// if (SDL_Init(SDL_INIT_AUDIO) < 0)
+  //sound//  {
+   //sound//     printf("Failed to init SDL\n");
+  //sound//      exit(1);
+  //sound//  }
 
-    if (flags != (result = Mix_Init(flags)))
-    {
-        printf("Could not initialize mixer (result: %d).\n", result);
-        printf("Mix_Init: %s\n", Mix_GetError());
-        exit(1);
-    }
+   //sound// if (flags != (result = Mix_Init(flags)))
+  //sound//  {
+   //sound//     printf("Could not initialize mixer (result: %d).\n", result);
+   //sound//     printf("Mix_Init: %s\n", Mix_GetError());
+   //sound//     exit(1);
+  //sound//  }
 
-    Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-    music = Mix_LoadMUS("../sound/background.mp3");
+   //sound// Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
+   //sound// music = Mix_LoadMUS("../sound/background.mp3");
     // Mix_PlayMusic(music, 1);
 
-    SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
-    device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
+    //sound//SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
+    //sound//device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
 
-    SDL_LoadWAV("../sound/coin.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
-    device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec[1], NULL, 0);
+    //sound//SDL_LoadWAV("../sound/coin.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
+    //sound//device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec[1], NULL, 0);
 
 
 
@@ -1093,7 +1093,7 @@ void Graphic::free_memory()
 
     logout(id, token);
     SDL_Quit();
-    Mix_FreeMusic(music);
+    //sound//Mix_FreeMusic(music);
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(textureEnemy);
     for (int i = 0; i < 10; i++) SDL_DestroyTexture(textures[i]);
@@ -1299,7 +1299,7 @@ void Graphic::add_linear_enemy()
                 break;
             case SDLK_r:
                 level->linear_enemys.pop_back();
-                
+
                 draw_game();
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
