@@ -11,13 +11,13 @@ public:
     SDL_Rect rect;
     SDL_Surface *s, *ss[10];
     SDL_Texture *texture, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];
-    
+
     //Level
     Level  *level;
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = AUTO, is_thinking = 0,status_online=0;
+    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = AUTO, is_thinking = 0, status_online = 0;
     TTF_Font *font;
     bool runNext = 0;
     int N_LEVELS = 0;
@@ -30,12 +30,13 @@ public:
     int result = 0;
     int flags = MIX_INIT_MP3;
     Mix_Music *music;
-    bool music_status=1,reaction_sound_status=1;
+    bool music_status = 1, reaction_sound_status = 1;
     //online
     int len_online_players;
     vector<pair<int, int>> online_players;
+    string id2,token;
 
-    string id_online;
+    string id;
     Graphic(Level *l)
     {
         level = l;
@@ -196,29 +197,50 @@ void Graphic::index()
             x = event.motion.x;
             y = event.motion.y;
             //ONE PLAYER OFFLIN
-            if(x>=156 and x<=156+700 and y>=210 and y<=210+100){
+            if(x >= 156 and x <= 156 + 700 and y >= 210 and y <= 210 + 100)
+            {
                 get_level();
+                play();
             }
             //TWO PLAYER ONLINE
-            if(x>=156 and x<=156+700 and y>=320 and y<=420){
+            if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
+            {
+                token = login(id);
+
+                cout<<"token : "<<token<<endl;
                 get_level();
+
+                if(token.size() != 5)
+                {
+                    break;
+                }
+                cout << "demand of playing online ..." << endl;
+                id2= find_player(id, 1);
+                cout<<id2<<endl;
+                
+                play();
+                //draw searching todo
             }
             //GENETIC ALGORITHM
-            if(x>=156 and x<=156+700 and y>=430 and y<=430+100){
+            if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
+            {
                 get_level();
             }
             //CREATE NEW LEVEL
-            if(x>=156 and x<=156+700 and y>=540 and y<=540+100){
-                cout<<5454545<<endl;
+            if(x >= 156 and x <= 156 + 700 and y >= 540 and y <= 540 + 100)
+            {
+                cout << 5454545 << endl;
                 create_level();
             }
             //MUSIC on/off
-            if(x>=0 and x<=0 and y>=0 and y<=0){
-                
+            if(x >= 0 and x <= 0 and y >= 0 and y <= 0)
+            {
+
             }
             //REACTION SOUND on/off
-            if(x>=0 and x<=0 and y>=0 and y<=0){
-                
+            if(x >= 0 and x <= 0 and y >= 0 and y <= 0)
+            {
+
             }
             break ;
         case SDL_QUIT:
@@ -1039,6 +1061,7 @@ void Graphic::draw_levels()
 void Graphic::free_memory()
 {
 
+    logout(id,token);
     SDL_Quit();
     Mix_FreeMusic(music);
     SDL_DestroyTexture(texture);
@@ -1113,7 +1136,7 @@ void Graphic::get_level()
                 if( x > rect.x and x < rect.x + rect.w and b - y > rect.y and b - y < rect.y + rect.h )
                 {
                     load_level(k);
-                    play();
+                    
                     break;
                 }
 
@@ -1300,7 +1323,7 @@ void Graphic::get_online_player()
     // http::Request request("http://localhost:8000/snubbyland_ensias_projet");
 
 
-    map<string, string> parameters = {{"level", to_string(1)}, {"id", id_online}, {"x", to_string(level->player.x)}, {"y", to_string(level->player.y)}};
+    map<string, string> parameters = {{"level", to_string(1)}, {"id", id}, {"x", to_string(level->player.x)}, {"y", to_string(level->player.y)}};
     const http::Response response = request.send("POST", parameters,
     {
         "Content-Type: application/x-www-form-urlencoded"
@@ -1315,7 +1338,7 @@ void Graphic::get_online_player()
     while(len_online_players--)
     {
         r >> id >> xx >> yy;
-        if(id == id_online)continue;
+        if(id == id)continue;
         cout << xx << " " << yy << endl;
         online_players.push_back(make_pair(xx, yy));
     }
@@ -1331,11 +1354,11 @@ void Graphic::online()
         try
         {
             get_online_player();
-            status_online=1;
+            status_online = 1;
         }
         catch (const std::exception &e)
         {
-            status_online=0;
+            status_online = 0;
         }
     }
 

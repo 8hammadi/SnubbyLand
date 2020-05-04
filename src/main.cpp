@@ -4,6 +4,9 @@
 
 //n_player id x y id x y 
 
+#include <bits/stdc++.h>
+using namespace std;
+
 #define PI 3.14
 #define N_POPULATION 100
 #define AUTO 0
@@ -11,7 +14,6 @@
 #define RANDOM (double)rand()/RAND_MAX
 
 
-#include <bits/stdc++.h>
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
@@ -22,6 +24,7 @@
 #include "SDL2/SDL_mixer.h"
 #include <SDL2/SDL_ttf.h>
 #include "HTTPRequest.hpp"
+#include "server.hpp"
 
 
 #include <cmath>
@@ -30,7 +33,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-using namespace std;
 
 #include "map_generateur.hpp"
 #include "cnn.hpp"
@@ -61,7 +63,7 @@ int main(int argc, char const *argv[])
 
 
     graphic.init();
-	graphic.id_online=argv[1];
+	graphic.id=argv[1];
 
     SDL_CreateThread( control, "EventFonction", (void *)NULL);
     SDL_CreateThread( online, "EventFonction", (void *)NULL);
