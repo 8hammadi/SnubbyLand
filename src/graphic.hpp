@@ -226,9 +226,10 @@ void Graphic::index()
 
                 do
                 {
+                    cout << "demand of playing online ..." << endl;
                     id2 = find_player(id, l);
                     cout << id2 << endl;
-                    SDL_Delay(100);
+                    SDL_Delay(300);
                 }
                 while(id2.size() >= 50);
 
@@ -1369,15 +1370,17 @@ void Graphic::online()
     continuer = 1;
     while(1)
     {
-        while(token.size() != TOKEN_SIZE)SDL_Delay(100);
+        while(token.size() != TOKEN_SIZE  and !is_playing)SDL_Delay(100);
         try
         {
             streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
             streams >> player2.first >> player2.second;
             status_online = 1;
+
         }
         catch (const std::exception &e)
         {
+            cout<<"todo-error"<<endl;
             status_online = 0;
         }
     }
