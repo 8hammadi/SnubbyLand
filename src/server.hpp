@@ -19,8 +19,6 @@ string POST(map<string, string> parameters)
     }
 
 }
-// map<string, string> parameters = {{"level", to_string(level)}, {"id", id_online}, {"x", to_string(level->player.x)}, {"y", to_string(level->player.y)}};
-// stringstream r = stringstream(res) ;
 
 string login(string id)
 {
@@ -40,9 +38,9 @@ string find_player(string id, int level)
 }
 
 //when the players playing
-//it return "win" or "lose" or "x y"
+
 string send_and_get_status(string token, string id, int x, int y)
 {
-    return POST({{"what", "status_of_playing"}, {"what", "i want to play online ."}, {"id", id}, {"x", to_string(x)}, {"y", to_string(y)}, {"token", token}});
+    return POST({{"what", "status_of_playing"}, {"id", id}, {"x", to_string(x)}, {"y", to_string(y)}, {"token", token}});
 }
 

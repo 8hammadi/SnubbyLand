@@ -2,7 +2,6 @@
 
 //22 serialization::archive 16 0
 
-//n_player id x y id x y 
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -12,7 +11,7 @@ using namespace std;
 #define AUTO 0
 #define NN { (int)level->player.input.size(),40,40,40, 4}
 #define RANDOM (double)rand()/RAND_MAX
-
+#define TOKEN_SIZE 5
 
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>

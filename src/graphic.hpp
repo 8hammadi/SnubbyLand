@@ -215,7 +215,7 @@ void Graphic::index()
 
                 cout << "level : " << l << endl;
 
-                if(token.size() != 5)
+                if(token.size() != TOKEN_SIZE)
                 {
                     break;
                 }
@@ -323,8 +323,6 @@ void Graphic::draw_game()
     if(!automatique)
     {
 
-        cout<<"1 "<<level->player.x<<" "<<level->player.y<<endl;
-        cout<<"2 "<<player2.first<<" "<<player2.second<<endl;
         rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
 
         SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
@@ -1345,6 +1343,7 @@ void Graphic::online()
     continuer = 1;
     while(1)
     {
+        while(token.size()!=TOKEN_SIZE)SDL_Delay(100);
         try
         {
             streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
