@@ -980,7 +980,7 @@ void Graphic::create_level()
 {
 
     N_LEVELS++;
-    // load_level(1);
+    // load_level(N_LEVELS);
     draw_wall();
     SDL_RenderPresent(render);
     SDL_Delay(5);
@@ -1211,7 +1211,6 @@ void Graphic::screen_level()
     IMG_SavePNG(s, z.c_str());
 
 }
-
 void Graphic::add_linear_enemy()
 {
     draw_game();
@@ -1298,10 +1297,23 @@ void Graphic::add_linear_enemy()
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;
+            case SDLK_r:
+                level->linear_enemys.pop_back();
+                
+                draw_game();
+                texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
+                rect = {100, 0, 400, 100} ;
+                SDL_RenderCopy(render, texture, NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+                // case SDLK_b:
+                // return 1;
             }
 
         }
         SDL_Delay(5);
+        // return 0;
     }
 
 }
