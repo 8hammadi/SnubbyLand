@@ -58,11 +58,19 @@ int  online(void *a)
 int main(int argc, char const *argv[])
 {
 
-  
 
 
-    graphic.init();
-	graphic.id=argv[1];
+    if(argc > 1)
+    {
+        graphic.init();
+        graphic.id = argv[1];
+    }
+    else
+    {
+        cout << "add some id like '$./game @ensias '" << endl;
+        exit(0);
+    }
+
 
     SDL_CreateThread( control, "EventFonction", (void *)NULL);
     SDL_CreateThread( online, "EventFonction", (void *)NULL);

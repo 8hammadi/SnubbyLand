@@ -240,10 +240,10 @@ void Graphic::index()
             //GENETIC ALGORITHM
             if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
             {
-                automatique=1;
+                automatique = 1;
                 get_level();
-                level->A=make_pair(level->player.x,level->player.y);
-                level->B=make_pair(level->coins[0].x,level->coins[0].y);
+                level->A = make_pair(level->player.x, level->player.y);
+                level->B = make_pair(level->coins[0].x, level->coins[0].y);
                 play();
             }
             //CREATE NEW LEVEL
@@ -985,27 +985,37 @@ void Graphic::create_level()
     SDL_RenderPresent(render);
     SDL_Delay(5);
 
+    cout << "wall ..." << endl;
 WALL:
     get_wall();
-
+    cout << "grean zone ..." << endl;
 GREEN:
     get_goal_area();
-
+    cout << "coins ..." << endl;
 COIN:
     add_coin();
-
+    cout << "apirals ..." << endl;
 SPIRAL:
     add_spiral_dot();
-
+    cout << "linear enemy ..." << endl;
 LINEAR:
     add_linear_enemy();
-
+    cout << "initial position ..." << endl;
 POSITION:
-    get_position_player();
-
+    try
+    {
+        get_position_player();
+    }
+    catch(...)
+    {
+        cout << "error on_position_player";
+    }
+    cout << "screen ..." << endl;
     screen_level();
+    cout << "save level ..." << endl;
     save_level();
     save_n();
+
     play();
 }
 
@@ -1347,7 +1357,7 @@ void Graphic::online()
     continuer = 1;
     while(1)
     {
-        while(token.size()!=TOKEN_SIZE)SDL_Delay(100);
+        while(token.size() != TOKEN_SIZE)SDL_Delay(100);
         try
         {
             streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
