@@ -41,6 +41,6 @@ string find_player(string id, int level)
 
 string send_and_get_status(string token, string id, int x, int y)
 {
-    return POST({{"what", "status_of_playing"}, {"id", id}, {"x", to_string(x)}, {"y", to_string(y)}, {"token", token}});
+    return POST({{"what", "status_of_playing"}, {"id", id}, {"x", to_string(x)}, {"y", to_string(y)}, {"token", token},{"i win","0"}});
 }
 

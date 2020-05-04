@@ -139,7 +139,7 @@ void Graphic::init()
 
     Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
     music = Mix_LoadMUS("../sound/background.mp3");
-    Mix_PlayMusic(music, 1);
+    // Mix_PlayMusic(music, 1);
 
     SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
     device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
@@ -240,7 +240,11 @@ void Graphic::index()
             //GENETIC ALGORITHM
             if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
             {
+                automatique=1;
                 get_level();
+                level->A=make_pair(level->player.x,level->player.y);
+                level->B=make_pair(level->coins[0].x,level->coins[0].y);
+                play();
             }
             //CREATE NEW LEVEL
             if(x >= 156 and x <= 156 + 700 and y >= 540 and y <= 540 + 100)
@@ -976,7 +980,7 @@ void Graphic::create_level()
 {
 
     N_LEVELS++;
-
+    // load_level(1);
     draw_wall();
     SDL_RenderPresent(render);
     SDL_Delay(5);
