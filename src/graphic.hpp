@@ -10,7 +10,7 @@ public:
     SDL_Renderer *render;
     SDL_Rect rect;
     SDL_Surface *s, *ss[10];
-    SDL_Texture *texture, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];
+    SDL_Texture *texture, *texturePlayer2, *texture_wait, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];
 
     //Level
     Level  *level;
@@ -32,19 +32,18 @@ public:
     Mix_Music *music;
     bool music_status = 1, reaction_sound_status = 1;
     //online
-    int len_online_players;
-    vector<pair<int, int>> online_players;
-    string id2,token;
-
+    // int len_online_players;
+    pair<int, int> player2;
+    string id2, token;
+    stringstream streams;
     string id;
     Graphic(Level *l)
     {
         level = l;
     }
-    void get_online_player();
     void online();
     void help(char *path);
-    void get_level();
+    int get_level();
     void create_level();
     void init();
     void draw_wall();
@@ -171,9 +170,10 @@ void Graphic::init()
     textureSlides[5] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/spiral.png"));
     textureSlides[6] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/playing_slide.png"));
     textureSlides[7] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause_slide.png"));
-
+    texture_wait = SDL_CreateTextureFromSurface(render, IMG_Load("../images/wait.gif"));
 
     texturePlayer = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player.png"));
+    texturePlayer2 = SDL_CreateTextureFromSurface(render, IMG_Load("../images/play2.png"));
 
 
 }
@@ -205,19 +205,35 @@ void Graphic::index()
             //TWO PLAYER ONLINE
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
+                SDL_RenderCopy(render, texture_wait, NULL, NULL);
+                SDL_RenderPresent(render);
+
                 token = login(id);
 
-                cout<<"token : "<<token<<endl;
-                get_level();
+                cout << "token : " << token << endl;
+                int l = get_level();
+
+                cout << "level : " << l << endl;
 
                 if(token.size() != 5)
                 {
                     break;
                 }
                 cout << "demand of playing online ..." << endl;
-                id2= find_player(id, 1);
-                cout<<id2<<endl;
-                
+
+                SDL_RenderCopy(render, texture_wait, NULL, NULL);
+                SDL_RenderPresent(render);
+
+                do
+                {
+                    id2 = find_player(id, l);
+                    cout << id2 << endl;
+                    SDL_Delay(100);
+                }
+                while(id2.size() >= 50);
+
+                cout << id2 << endl;
+
                 play();
                 //draw searching todo
             }
@@ -229,7 +245,6 @@ void Graphic::index()
             //CREATE NEW LEVEL
             if(x >= 156 and x <= 156 + 700 and y >= 540 and y <= 540 + 100)
             {
-                cout << 5454545 << endl;
                 create_level();
             }
             //MUSIC on/off
@@ -308,18 +323,18 @@ void Graphic::draw_game()
     if(!automatique)
     {
 
+        cout<<"1 "<<level->player.x<<" "<<level->player.y<<endl;
+        cout<<"2 "<<player2.first<<" "<<player2.second<<endl;
+        rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
 
+        SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
         rect = {-level->player.w / 2  + level->player.x, -level->player.h / 2 + level->player.y, level->player.w, level->player.h};
 
         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
 
-        for(auto e : online_players)
-        {
-            rect = {-level->player.w / 2  + e.first, -level->player.h / 2 + e.second, level->player.w, level->player.h};
 
-            SDL_RenderCopy(render, texturePlayer, NULL, &rect);
 
-        }
+
     }
     else
     {
@@ -1034,7 +1049,7 @@ void Graphic::pause()
 
 void Graphic::draw_levels()
 {
-
+    y = 0;
     rect = {0, y, 1024, 3000} ;
     SDL_RenderCopy(render, textures[0], NULL, &rect);
 
@@ -1060,8 +1075,11 @@ void Graphic::draw_levels()
 
 void Graphic::free_memory()
 {
+    SDL_RenderCopy(render, texture_wait, NULL, NULL);
+    SDL_RenderPresent(render);
+    SDL_Delay(4);
 
-    logout(id,token);
+    logout(id, token);
     SDL_Quit();
     Mix_FreeMusic(music);
     SDL_DestroyTexture(texture);
@@ -1071,6 +1089,8 @@ void Graphic::free_memory()
     SDL_DestroyTexture(textureCoin);
     SDL_FreeSurface(s);
     for (int i = 0; i < 10; i++)SDL_FreeSurface(ss[i]);
+
+    SDL_DestroyTexture(texture_wait);
     SDL_DestroyRenderer(render);
     SDL_DestroyWindow(window);
     exit(0);
@@ -1107,7 +1127,7 @@ void Graphic::help(char *path)
         SDL_Delay(50);
     }
 }
-void Graphic::get_level()
+int Graphic::get_level()
 {
 
 
@@ -1136,7 +1156,7 @@ void Graphic::get_level()
                 if( x > rect.x and x < rect.x + rect.w and b - y > rect.y and b - y < rect.y + rect.h )
                 {
                     load_level(k);
-                    
+                    return k;
                     break;
                 }
 
@@ -1317,33 +1337,7 @@ void Player::think(Level *level, Graphic *g)
 }
 
 
-void Graphic::get_online_player()
-{
-    http::Request request("http://horusnews.herokuapp.com/snubbyland_ensias_projet");
-    // http::Request request("http://localhost:8000/snubbyland_ensias_projet");
 
-
-    map<string, string> parameters = {{"level", to_string(1)}, {"id", id}, {"x", to_string(level->player.x)}, {"y", to_string(level->player.y)}};
-    const http::Response response = request.send("POST", parameters,
-    {
-        "Content-Type: application/x-www-form-urlencoded"
-    });
-    string res = string(response.body.begin(), response.body.end()) ;
-    stringstream r = stringstream(res) ;
-    int n, a, b;
-    r >> len_online_players;
-    online_players.clear();
-    int xx, yy;
-    string id;
-    while(len_online_players--)
-    {
-        r >> id >> xx >> yy;
-        if(id == id)continue;
-        cout << xx << " " << yy << endl;
-        online_players.push_back(make_pair(xx, yy));
-    }
-    SDL_Delay(20);
-}
 
 
 void Graphic::online()
@@ -1353,7 +1347,8 @@ void Graphic::online()
     {
         try
         {
-            get_online_player();
+            streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
+            streams >> player2.first >> player2.second;
             status_online = 1;
         }
         catch (const std::exception &e)
