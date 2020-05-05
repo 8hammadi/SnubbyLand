@@ -20,7 +20,6 @@ using namespace std;
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
-//sound//#include "SDL2/SDL_mixer.h"
 #include <SDL2/SDL_ttf.h>
 #include "HTTPRequest.hpp"
 #include "server.hpp"
@@ -54,7 +53,11 @@ int  online(void *a)
     return 1;
 };
 
-
+int newthread(void *a)
+{
+    graphic.newthread();
+    return 1;
+}
 int main(int argc, char const *argv[])
 {
 
@@ -74,6 +77,7 @@ int main(int argc, char const *argv[])
 
     SDL_CreateThread( control, "EventFonction", (void *)NULL);
     SDL_CreateThread( online, "EventFonction", (void *)NULL);
+    SDL_CreateThread( newthread, "EventFonction", (void *)NULL);
 
     graphic.index();
 

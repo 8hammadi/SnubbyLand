@@ -22,11 +22,12 @@ public:
     bool runNext = 0;
     int N_LEVELS = 0;
 
+    bool  T[4] = {0, 0, 0, 0};
     //Sound
     SDL_AudioSpec wav_spec[2];
     Uint32 wav_length[2];
-   Uint8 *wav_buffer[2];
-   SDL_AudioDeviceID device_coin, device_enemy;
+    Uint8 *wav_buffer[2];
+    SDL_AudioDeviceID device_coin, device_enemy;
     //sound//int result = 0;
     //sound//int flags = MIX_INIT_MP3;
     //sound//Mix_Music *music;
@@ -41,6 +42,7 @@ public:
     {
         level = l;
     }
+    void newthread();
     void online();
     void help(char *path);
     int get_level();
@@ -126,19 +128,19 @@ void Graphic::init()
 
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
     {
-       printf("Failed to init SDL\n");
+        printf("Failed to init SDL\n");
         exit(1);
     }
 
-   //sound// if (flags != (result = Mix_Init(flags)))
-  //sound//  {
-   //sound//     printf("Could not initialize mixer (result: %d).\n", result);
-   //sound//     printf("Mix_Init: %s\n", Mix_GetError());
-   //sound//     exit(1);
-  //sound//  }
+    //sound// if (flags != (result = Mix_Init(flags)))
+    //sound//  {
+    //sound//     printf("Could not initialize mixer (result: %d).\n", result);
+    //sound//     printf("Mix_Init: %s\n", Mix_GetError());
+    //sound//     exit(1);
+    //sound//  }
 
-   //sound// Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-   //sound// music = Mix_LoadMUS("../sound/background.mp3");
+    //sound// Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
+    //sound// music = Mix_LoadMUS("../sound/background.mp3");
     // Mix_PlayMusic(music, 1);
 
     SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
@@ -323,6 +325,8 @@ void Graphic::draw_enemys()
 }
 void Graphic::draw_game()
 {
+
+
 
     draw_wall();
     if(!automatique)
@@ -769,6 +773,7 @@ bool Graphic::is_player_inside_after(int x, int y)
 
 void Graphic::control()
 {
+
     continuer = 1;
     while(1)
     {
@@ -779,94 +784,36 @@ void Graphic::control()
         }
         SDL_WaitEvent(&event);
 
+        if(event.type == SDL_KEYDOWN)
+        {
+            if( event.key.keysym.sym == SDLK_LEFT)
+                T[0] = 1;
+            else if( event.key.keysym.sym == SDLK_UP)
+                T[1] = 1;
+            else if( event.key.keysym.sym == SDLK_RIGHT)
+                T[2] = 1;
+            else if( event.key.keysym.sym == SDLK_DOWN)
+                T[3] = 1;
+        }
         switch (event.type)
         {
 
         case SDL_QUIT:
             free_memory();
             break;
-
-        case SDL_MOUSEBUTTONDOWN:
-            x = event.motion.x;
-            y = event.motion.y;
-
-            break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
-            case SDLK_LEFT:
-                if(check_it_not_black_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
-                    level->player.x -= 10;
-                break;
-            case SDLK_UP:
-                if(check_it_not_black_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
-                    level->player.y -= 10;
-                break;
-            case SDLK_RIGHT:
-                if(check_it_not_black_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
-                    level->player.x += 10;
-                break;
-            case SDLK_DOWN:
-                if(check_it_not_black_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
-                    level->player.y += 10;
-                break;
+
             case SDLK_p:
                 pause();
                 break;
-            case SDLK_h:
-                continuer = 0;
-                is_index = 1;
-                break;
 
-            case SDLK_n:
-                runNext = 1;
-                break;
-            case SDLK_a:
-                level->A = make_pair(x, y);
-                break;
-            case SDLK_b:
-                level->B = make_pair(x, y);
-                break;
-            case SDLK_f:
-                for(auto sn : level->Snubbys)cout << sn.fitness << " ";
-                cout << endl;
-                break;
-            case SDLK_d:
-                break;
-            case SDLK_m:
-                for(auto &sn : level->Snubbys)
-                {
-                    if(!sn.is_a_life)
-                    {
-                        sn.brain.mutate();
-                    }
-                    sn.is_a_life = 1;
-                };
-                break;
-            case SDLK_g:
-                automatique = 1 - automatique;
-
-                if(automatique)
-
-                {
-                    for(auto &sn : level->Snubbys)
-                    {
-                        sn.brain.init_params(NN);
-                        sn.x = level->A.first;
-                        sn.y =  level->A.second;
-                        sn.is_a_life = 1;
-                    };
-                    level->generation++;
-                }
-
-                break;
-                //  case SDLK_e:
-                // level->test();
-                //  break;
             }
 
 
         }
+
         if(level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
         SDL_Delay(10);
     }
@@ -1380,9 +1327,75 @@ void Graphic::online()
         }
         catch (const std::exception &e)
         {
-            cout<<"todo-error"<<endl;
+            cout << "todo-error" << endl;
             status_online = 0;
         }
     }
 
 }
+
+
+void Graphic::newthread()
+{
+    while(1)
+
+    {
+        if(!is_playing)
+        {
+            SDL_Delay(10);
+            continue;
+        }
+        if(T[0])
+        {
+            if(check_it_not_black_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
+                level->player.x -= 10;
+            T[0] = 0;
+        }
+        if(T[1])
+        {
+            if(check_it_not_black_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
+                level->player.y -= 10;
+            T[1] = 0;
+        }
+        if(T[2])
+        {
+            if(check_it_not_black_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
+                level->player.x += 10;
+            T[2] = 0;
+        }
+        if(T[3])
+        {
+            if(check_it_not_black_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
+                level->player.y += 10;
+            T[3] = 0;
+        }
+    }
+}
+                // case SDLK_f:
+                //     for(auto sn : level->Snubbys)cout << sn.fitness << " ";
+                //     cout << endl;
+                //     break;
+                // case SDLK_m:
+                //     for(auto &sn : level->Snubbys)
+                //     {
+                //         if(!sn.is_a_life)
+                //         {
+                //             sn.brain.mutate();
+                //         }
+                //         sn.is_a_life = 1;
+                //     };
+                //     break;
+                // case SDLK_g:
+                //     automatique = 1 - automatique;
+                //     if(automatique)
+
+                //     {
+                //         for(auto &sn : level->Snubbys)
+                //         {
+                //             sn.brain.init_params(NN);
+                //             sn.x = level->A.first;
+                //             sn.y =  level->A.second;
+                //             sn.is_a_life = 1;
+                //         };
+                //         level->generation++;
+                //     }
