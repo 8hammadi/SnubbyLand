@@ -23,14 +23,14 @@ public:
     int N_LEVELS = 0;
 
     //Sound
-    //sound//SDL_AudioSpec wav_spec[2];
-    //sound//Uint32 wav_length[2];
-    //sound//Uint8 *wav_buffer[2];
-    //sound//SDL_AudioDeviceID device_coin, device_enemy;
+    SDL_AudioSpec wav_spec[2];
+    Uint32 wav_length[2];
+   Uint8 *wav_buffer[2];
+   SDL_AudioDeviceID device_coin, device_enemy;
     //sound//int result = 0;
     //sound//int flags = MIX_INIT_MP3;
     //sound//Mix_Music *music;
-    //sound//bool music_status = 1, reaction_sound_status = 1;
+    bool music_status = 1, reaction_sound_status = 1;
     //online
     // int len_online_players;
     pair<int, int> player2;
@@ -96,14 +96,14 @@ public:
     }
     void coin_sound()
     {
-        //sound//SDL_QueueAudio(device_coin, wav_buffer[1], wav_length[1]);
-        //sound//SDL_PauseAudioDevice(device_coin, 0);
+        SDL_QueueAudio(device_coin, wav_buffer[1], wav_length[1]);
+        SDL_PauseAudioDevice(device_coin, 0);
     }
 
     void hit_sound()
     {
-        //sound//SDL_QueueAudio(device_enemy, wav_buffer[0], wav_length[0]);
-        //sound//SDL_PauseAudioDevice(device_enemy, 0);
+        SDL_QueueAudio(device_enemy, wav_buffer[0], wav_length[0]);
+        SDL_PauseAudioDevice(device_enemy, 0);
     }
 
 };
@@ -124,11 +124,11 @@ void Graphic::init()
 
     /////////////Sound
 
-   //sound// if (SDL_Init(SDL_INIT_AUDIO) < 0)
-  //sound//  {
-   //sound//     printf("Failed to init SDL\n");
-  //sound//      exit(1);
-  //sound//  }
+    if (SDL_Init(SDL_INIT_AUDIO) < 0)
+    {
+       printf("Failed to init SDL\n");
+        exit(1);
+    }
 
    //sound// if (flags != (result = Mix_Init(flags)))
   //sound//  {
@@ -141,11 +141,11 @@ void Graphic::init()
    //sound// music = Mix_LoadMUS("../sound/background.mp3");
     // Mix_PlayMusic(music, 1);
 
-    //sound//SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
-    //sound//device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
+    SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
+    device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
 
-    //sound//SDL_LoadWAV("../sound/coin.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
-    //sound//device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec[1], NULL, 0);
+    SDL_LoadWAV("../sound/coin.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
+    device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec[1], NULL, 0);
 
 
 
