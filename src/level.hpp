@@ -12,9 +12,6 @@ private:
     {
         ar &x;
         ar &y;
-        ar &brain;
-        ar &fitness;
-
     }
 public:
     int x = 100, y = 100, w = 30, h = 30, p;

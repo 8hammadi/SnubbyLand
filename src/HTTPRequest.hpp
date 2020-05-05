@@ -29,12 +29,12 @@
 #  endif
 #  include <winsock2.h>
 #  if _WIN32_WINNT < _WIN32_WINNT_WINXP
-char* strdup(const char* src)
+char *strdup(const char *src)
 {
     std::size_t length = 0;
     while (src[length]) ++length;
-    char* result = static_cast<char*>(malloc(length + 1));
-    char* p = result;
+    char *result = static_cast<char *>(malloc(length + 1));
+    char *p = result;
     while (*src) *p++ = *src++;
     *p = '\0';
     return result;
@@ -57,18 +57,18 @@ namespace http
     class RequestError: public std::logic_error
     {
     public:
-        explicit RequestError(const char* str): std::logic_error(str) {}
-        explicit RequestError(const std::string& str): std::logic_error(str) {}
+        explicit RequestError(const char *str): std::logic_error(str) {}
+        explicit RequestError(const std::string &str): std::logic_error(str) {}
     };
 
     class ResponseError: public std::runtime_error
     {
     public:
-        explicit ResponseError(const char* str): std::runtime_error(str) {}
-        explicit ResponseError(const std::string& str): std::runtime_error(str) {}
+        explicit ResponseError(const char *str): std::runtime_error(str) {}
+        explicit ResponseError(const std::string &str): std::runtime_error(str) {}
     };
 
-    enum class InternetProtocol: std::uint8_t
+    enum class InternetProtocol : std::uint8_t
     {
         V4,
         V6
@@ -101,16 +101,16 @@ namespace http
                 if (started) WSACleanup();
             }
 
-            WinSock(const WinSock&) = delete;
-            WinSock& operator=(const WinSock&) = delete;
+            WinSock(const WinSock &) = delete;
+            WinSock &operator=(const WinSock &) = delete;
 
-            WinSock(WinSock&& other) noexcept:
+            WinSock(WinSock &&other) noexcept:
                 started(other.started)
             {
                 other.started = false;
             }
 
-            WinSock& operator=(WinSock&& other) noexcept
+            WinSock &operator=(WinSock &&other) noexcept
             {
                 if (&other == this) return *this;
                 if (started) WSACleanup();
@@ -136,8 +136,8 @@ namespace http
         constexpr int getAddressFamily(InternetProtocol internetProtocol)
         {
             return (internetProtocol == InternetProtocol::V4) ? AF_INET :
-                (internetProtocol == InternetProtocol::V6) ? AF_INET6 :
-                throw RequestError("Unsupported protocol");
+                   (internetProtocol == InternetProtocol::V6) ? AF_INET6 :
+                   throw RequestError("Unsupported protocol");
         }
 
 #ifdef _WIN32
@@ -186,16 +186,16 @@ namespace http
                 if (endpoint != invalid) closeSocket(endpoint);
             }
 
-            Socket(const Socket&) = delete;
-            Socket& operator=(const Socket&) = delete;
+            Socket(const Socket &) = delete;
+            Socket &operator=(const Socket &) = delete;
 
-            Socket(Socket&& other) noexcept:
+            Socket(Socket &&other) noexcept:
                 endpoint(other.endpoint)
             {
                 other.endpoint = invalid;
             }
 
-            Socket& operator=(Socket&& other) noexcept
+            Socket &operator=(Socket &&other) noexcept
             {
                 if (&other == this) return *this;
                 if (endpoint != invalid) closeSocket(endpoint);
@@ -204,33 +204,36 @@ namespace http
                 return *this;
             }
 
-            int connect(const struct sockaddr* address, socklen_t addressSize) noexcept
+            int connect(const struct sockaddr *address, socklen_t addressSize) noexcept
             {
                 return ::connect(endpoint, address, addressSize);
             }
 
-            int send(const void* buffer, size_t length, int flags) noexcept
+            int send(const void *buffer, size_t length, int flags) noexcept
             {
                 return static_cast<int>(::send(endpoint,
-                                               reinterpret_cast<const char*>(buffer),
+                                               reinterpret_cast<const char *>(buffer),
                                                length, flags));
             }
 
-            int recv(void* buffer, size_t length, int flags) noexcept
+            int recv(void *buffer, size_t length, int flags) noexcept
             {
                 return static_cast<int>(::recv(endpoint,
-                                               reinterpret_cast<char*>(buffer),
+                                               reinterpret_cast<char *>(buffer),
                                                length, flags));
             }
 
-            operator Type() const noexcept { return endpoint; }
+            operator Type() const noexcept
+            {
+                return endpoint;
+            }
 
         private:
             Type endpoint = invalid;
         };
     }
 
-    inline std::string urlEncode(const std::string& str)
+    inline std::string urlEncode(const std::string &str)
     {
         constexpr char hexChars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
@@ -241,9 +244,9 @@ namespace http
             const std::uint8_t cp = *i & 0xFF;
 
             if ((cp >= 0x30 && cp <= 0x39) || // 0-9
-                (cp >= 0x41 && cp <= 0x5A) || // A-Z
-                (cp >= 0x61 && cp <= 0x7A) || // a-z
-                cp == 0x2D || cp == 0x2E || cp == 0x5F) // - . _
+                    (cp >= 0x41 && cp <= 0x5A) || // A-Z
+                    (cp >= 0x61 && cp <= 0x7A) || // a-z
+                    cp == 0x2D || cp == 0x2E || cp == 0x5F) // - . _
                 result += static_cast<char>(cp);
             else if (cp <= 0x7F) // length = 1
                 result += std::string("%") + hexChars[(*i & 0xF0) >> 4] + hexChars[*i & 0x0F];
@@ -356,7 +359,7 @@ namespace http
     class Request final
     {
     public:
-        explicit Request(const std::string& url,
+        explicit Request(const std::string &url,
                          InternetProtocol protocol = InternetProtocol::V4):
             internetProtocol(protocol)
         {
@@ -403,14 +406,14 @@ namespace http
                 port = "80";
         }
 
-        Response send(const std::string& method,
-                      const std::map<std::string, std::string>& parameters,
-                      const std::vector<std::string>& headers = {})
+        Response send(const std::string &method,
+                      const std::map<std::string, std::string> &parameters,
+                      const std::vector<std::string> &headers = {})
         {
             std::string body;
             bool first = true;
 
-            for (const auto& parameter : parameters)
+            for (const auto &parameter : parameters)
             {
                 if (!first) body += "&";
                 first = false;
@@ -421,18 +424,18 @@ namespace http
             return send(method, body, headers);
         }
 
-        Response send(const std::string& method = "GET",
-                      const std::string& body = "",
-                      const std::vector<std::string>& headers = {})
+        Response send(const std::string &method = "GET",
+                      const std::string &body = "",
+                      const std::vector<std::string> &headers = {})
         {
             return send(method,
                         std::vector<uint8_t>(body.begin(), body.end()),
                         headers);
         }
 
-        Response send(const std::string& method,
-                      const std::vector<uint8_t>& body,
-                      const std::vector<std::string>& headers)
+        Response send(const std::string &method,
+                      const std::vector<uint8_t> &body,
+                      const std::vector<std::string> &headers)
         {
             Response response;
 
@@ -443,7 +446,7 @@ namespace http
             hints.ai_family = getAddressFamily(internetProtocol);
             hints.ai_socktype = SOCK_STREAM;
 
-            addrinfo* info;
+            addrinfo *info;
             if (getaddrinfo(domain.c_str(), port.c_str(), &hints, &info) != 0)
                 throw std::system_error(getLastError(), std::system_category(), "Failed to get address info of " + domain);
 
@@ -451,7 +454,7 @@ namespace http
 
             std::string headerData = method + " " + path + " HTTP/1.1\r\n";
 
-            for (const std::string& header : headers)
+            for (const std::string &header : headers)
                 headerData += header + "\r\n";
 
             headerData += "Host: " + domain + "\r\n";
@@ -562,12 +565,18 @@ namespace http
                                 // ltrim
                                 headerValue.erase(headerValue.begin(),
                                                   std::find_if(headerValue.begin(), headerValue.end(),
-                                                               [](int c) {return !std::isspace(c);}));
+                                                               [](int c)
+                                {
+                                    return !std::isspace(c);
+                                }));
 
                                 // rtrim
                                 headerValue.erase(std::find_if(headerValue.rbegin(), headerValue.rend(),
-                                                               [](int c) {return !std::isspace(c);}).base(),
-                                                  headerValue.end());
+                                                               [](int c)
+                                {
+                                    return !std::isspace(c);
+                                }).base(),
+                                headerValue.end());
 
                                 if (headerName == "Content-Length")
                                 {
@@ -650,6 +659,248 @@ namespace http
             }
 
             return response;
+        }
+
+
+
+
+        /////////////////////
+
+        void stream( Response &response , const std::string &method = "GET",
+                     const std::string &body = "",
+                     const std::vector<std::string> &headers = {})
+        {
+            stream(response, method,
+                   std::vector<uint8_t>(body.begin(), body.end()),
+                   headers);
+        }
+
+        void stream(Response & response, const std::string &method,
+                    const std::vector<uint8_t> &body,
+                    const std::vector<std::string> &headers)
+        {
+
+
+            if (scheme != "http")
+                throw RequestError("Only HTTP scheme is supported");
+
+            addrinfo hints = {};
+            hints.ai_family = getAddressFamily(internetProtocol);
+            hints.ai_socktype = SOCK_STREAM;
+
+            addrinfo *info;
+            if (getaddrinfo(domain.c_str(), port.c_str(), &hints, &info) != 0)
+                throw std::system_error(getLastError(), std::system_category(), "Failed to get address info of " + domain);
+
+            std::unique_ptr<addrinfo, decltype(&freeaddrinfo)> addressInfo(info, freeaddrinfo);
+
+            std::string headerData = method + " " + path + " HTTP/1.1\r\n";
+
+            for (const std::string &header : headers)
+                headerData += header + "\r\n";
+
+            headerData += "Host: " + domain + "\r\n";
+            headerData += "Content-Length: " + std::to_string(body.size()) + "\r\n";
+
+            headerData += "\r\n";
+
+            std::vector<uint8_t> requestData(headerData.begin(), headerData.end());
+            requestData.insert(requestData.end(), body.begin(), body.end());
+
+            Socket socket(internetProtocol);
+
+            // take the first address from the list
+            if (socket.connect(addressInfo->ai_addr, static_cast<socklen_t>(addressInfo->ai_addrlen)) == -1)
+                throw std::system_error(getLastError(), std::system_category(), "Failed to connect to " + domain + ":" + port);
+
+            auto remaining = requestData.size();
+            auto sendData = requestData.data();
+
+            // send the request
+            while (remaining > 0)
+            {
+                const auto size = socket.send(sendData, remaining, noSignal);
+
+                if (size == -1)
+                    throw std::system_error(getLastError(), std::system_category(), "Failed to send data to " + domain + ":" + port);
+
+                remaining -= static_cast<size_t>(size);
+                sendData += size;
+            }
+
+            std::uint8_t tempBuffer[4096];
+            constexpr std::uint8_t crlf[] = {'\r', '\n'};
+            std::vector<std::uint8_t> responseData;
+            bool firstLine = true;
+            bool parsedHeaders = false;
+            bool contentLengthReceived = false;
+            unsigned long contentLength = 0;
+            bool chunkedResponse = false;
+            std::size_t expectedChunkSize = 0;
+            bool removeCrlfAfterChunk = false;
+
+            // read the response
+            for (;;)
+            {
+                const auto size = socket.recv(tempBuffer, sizeof(tempBuffer), noSignal);
+
+                if (size == -1)
+                    throw std::system_error(getLastError(), std::system_category(), "Failed to read data from " + domain + ":" + port);
+                else if (size == 0)
+                    break; // disconnected
+
+                responseData.insert(responseData.end(), tempBuffer, tempBuffer + size);
+
+                if (!parsedHeaders)
+                {
+                    for (;;)
+                    {
+                        const auto i = std::search(responseData.begin(), responseData.end(), std::begin(crlf), std::end(crlf));
+
+                        // didn't find a newline
+                        if (i == responseData.end()) break;
+
+                        const std::string line(responseData.begin(), i);
+                        responseData.erase(responseData.begin(), i + 2);
+
+                        // empty line indicates the end of the header section
+                        if (line.empty())
+                        {
+                            parsedHeaders = true;
+                            break;
+                        }
+                        else if (firstLine) // first line
+                        {
+                            firstLine = false;
+
+                            std::string::size_type lastPos = 0;
+                            const auto length = line.length();
+                            std::vector<std::string> parts;
+
+                            // tokenize first line
+                            while (lastPos < length + 1)
+                            {
+                                auto pos = line.find(' ', lastPos);
+                                if (pos == std::string::npos) pos = length;
+
+                                if (pos != lastPos)
+                                    parts.emplace_back(line.data() + lastPos,
+                                                       static_cast<std::vector<std::string>::size_type>(pos) - lastPos);
+
+                                lastPos = pos + 1;
+                            }
+
+                            if (parts.size() >= 2)
+                                response.status = std::stoi(parts[1]);
+                        }
+                        else // headers
+                        {
+                            response.headers.push_back(line);
+
+                            const auto pos = line.find(':');
+
+                            if (pos != std::string::npos)
+                            {
+                                std::string headerName = line.substr(0, pos);
+                                std::string headerValue = line.substr(pos + 1);
+
+                                // ltrim
+                                headerValue.erase(headerValue.begin(),
+                                                  std::find_if(headerValue.begin(), headerValue.end(),
+                                                               [](int c)
+                                {
+                                    return !std::isspace(c);
+                                }));
+
+                                // rtrim
+                                headerValue.erase(std::find_if(headerValue.rbegin(), headerValue.rend(),
+                                                               [](int c)
+                                {
+                                    return !std::isspace(c);
+                                }).base(),
+                                headerValue.end());
+
+                                if (headerName == "Content-Length")
+                                {
+                                    contentLength = std::stoul(headerValue);
+                                    contentLengthReceived = true;
+                                    response.body.reserve(contentLength);
+                                }
+                                else if (headerName == "Transfer-Encoding")
+                                {
+                                    if (headerValue == "chunked")
+                                        chunkedResponse = true;
+                                    else
+                                        throw ResponseError("Unsupported transfer encoding: " + headerValue);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (parsedHeaders)
+                {
+                    // Content-Length must be ignored if Transfer-Encoding is received
+                    if (chunkedResponse)
+                    {
+                        bool dataReceived = false;
+                        for (;;)
+                        {
+                            if (expectedChunkSize > 0)
+                            {
+                                const auto toWrite = std::min(expectedChunkSize, responseData.size());
+                                response.body.insert(response.body.end(), responseData.begin(), responseData.begin() + static_cast<ptrdiff_t>(toWrite));
+                                responseData.erase(responseData.begin(), responseData.begin() + static_cast<ptrdiff_t>(toWrite));
+                                expectedChunkSize -= toWrite;
+
+                                if (expectedChunkSize == 0) removeCrlfAfterChunk = true;
+                                if (responseData.empty()) break;
+                            }
+                            else
+                            {
+                                if (removeCrlfAfterChunk)
+                                {
+                                    if (responseData.size() >= 2)
+                                    {
+                                        removeCrlfAfterChunk = false;
+                                        responseData.erase(responseData.begin(), responseData.begin() + 2);
+                                    }
+                                    else break;
+                                }
+
+                                const auto i = std::search(responseData.begin(), responseData.end(), std::begin(crlf), std::end(crlf));
+
+                                if (i == responseData.end()) break;
+
+                                const std::string line(responseData.begin(), i);
+                                responseData.erase(responseData.begin(), i + 2);
+
+                                expectedChunkSize = std::stoul(line, nullptr, 16);
+
+                                if (expectedChunkSize == 0)
+                                {
+                                    dataReceived = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (dataReceived)
+                            break;
+                    }
+                    else
+                    {
+                        response.body.insert(response.body.end(), responseData.begin(), responseData.end());
+                        responseData.clear();
+
+                        // got the whole content
+                        if (contentLengthReceived && response.body.size() >= contentLength)
+                            break;
+                    }
+                }
+            }
+
+            // return response;
         }
 
     private:
