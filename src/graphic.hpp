@@ -888,7 +888,7 @@ void Graphic::play()
 {
     level->get_enemys();
     level->player.update_input(level);
-    level->update_population();
+    // level->update_population();
 
     is_playing = 1;
     continuer = 1;
