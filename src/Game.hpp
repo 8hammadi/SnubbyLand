@@ -13,7 +13,7 @@ public:
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0, automatique, is_thinking = 0, status_thread_playing_online = 0;
+    bool go_back = 0, is_playing = 0, is_pause = 0, is_index = 0, automatique, is_thinking = 0, status_thread_playing_online = 0;
     TTF_Font *font;
     bool run_next_generation = 0;
     int N_LEVELS = 0;
@@ -28,7 +28,7 @@ public:
     //Mix_Music *music;
 
     //les variable de jeux online
-    bool game_online=0;
+    bool game_online = 0;
     pair<int, int> player2;
     string id2, token;
     stringstream streams;
@@ -177,7 +177,7 @@ void Game::index()
             //TWO PLAYER thread_playing_online
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
-                game_online=1;
+                game_online = 1;
                 SDL_RenderCopy(render, texture_wait, NULL, NULL);
                 SDL_RenderPresent(render);
                 token = login(id);
@@ -285,8 +285,10 @@ void Game::draw_game()
     if(!automatique)
     {
         if(game_online)
-        {rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
-                SDL_RenderCopy(render, texturePlayer2, NULL, &rect);}
+        {
+            rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
+            SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
+        }
         rect = {-level->player.w / 2  + level->player.x, -level->player.h / 2 + level->player.y, level->player.w, level->player.h};
         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
     }
@@ -307,7 +309,7 @@ void Game::draw_game()
     }
     draw_enemys();
     rect = {0, 0, 400, 100};
-    if(!is_pause)
+    if(!is_pause and is_playing)
         SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
 }
 //pour creer le tableau de map
@@ -352,6 +354,10 @@ void Game::get_wall()
                 on = 1;
             case SDLK_n:
                 continuer = 0;
+                break;
+            case SDLK_p:
+                go_back = 1;
+                return;
                 break;
             case SDLK_g:
                 level->random_map();
@@ -399,6 +405,10 @@ void Game::get_green_area()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
+            case SDLK_p:
+                go_back = 1;
+                return;
+                break;
             case SDLK_s:
                 on = 0;
                 break;
@@ -447,6 +457,10 @@ void Game::get_position_player()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
+            case SDLK_p:
+                go_back = 1;
+                return;
+                break;
             case SDLK_n:
                 continuer = 0;
                 break;
@@ -484,6 +498,10 @@ void Game::add_coins()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
+            case SDLK_p:
+                go_back = 1;
+                return;
+                break;
             case SDLK_LEFT:
                 level->coins.pop_back();
                 draw_game();
@@ -529,6 +547,11 @@ void Game::add_spiral_dot()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
+            case SDLK_p:
+                go_back = 1;
+                return;
+
+                break;
             case SDLK_LEFT:
                 level->spiral_dots[level->spiral_dots.size() - 1].R -= 5;
                 level->spiral_dots[level->spiral_dots.size() - 1].update();
@@ -616,6 +639,10 @@ void Game::add_linear_enemy()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
+            case SDLK_p:
+                go_back = 1;
+                return;
+                break;
             case SDLK_n:
                 continuer = 0;
                 break;
@@ -699,6 +726,10 @@ void Game::add_squar_enemy()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
+            case SDLK_p:
+                go_back = 1;
+                return;
+                break;
             case SDLK_KP_1:
                 cout << "A est ajauter " << endl;
                 A = make_pair(x, y);
@@ -841,6 +872,10 @@ void Game::add_big_spiral_dot()
             case SDLK_n:
                 continuer = 0;
                 break;
+            case SDLK_p:
+                go_back = 1;
+                return;
+                break;
             case SDLK_r:
                 level->big_spiral_dots.pop_back();
                 draw_game();
@@ -856,42 +891,55 @@ void Game::add_big_spiral_dot()
 }
 void Game::create_level()
 {
-    load_level(0);
-
     N_LEVELS++;
+LEVEL0:
+go_back = 0;
+    load_level(0);
     draw_wall();
     SDL_RenderPresent(render);
     SDL_Delay(5);
 WALL:
+    go_back = 0;
     cout << "wall ..." << endl;
     get_wall();
+    if(go_back)goto LEVEL0;
 
 GREEN:
+    go_back = 0;
     cout << "grean zone ..." << endl;
     get_green_area();
-
+    if(go_back)goto WALL;
 COIN:
+    go_back = 0;
     cout << "coins ..." << endl;
     add_coins();
-
+    if(go_back)goto GREEN;
 SPIRAL:
+    go_back = 0;
     cout << "apirals ..." << endl;
     add_spiral_dot();
+    if(go_back)goto COIN;
 BIG_SPIRAL:
+    go_back = 0;
     cout << "adding big spiral ..." << endl;
     add_big_spiral_dot();
-
+    if(go_back)goto SPIRAL;
 LINEAR:
+    go_back = 0;
     cout << "linear enemy ..." << endl;
     add_linear_enemy();
+    if(go_back)goto BIG_SPIRAL;
 SQUAR:
+    go_back = 0;
     cout << "squar enemy ..." << endl;
     add_squar_enemy();
-
-    cout << "initial position ..." << endl;
-
+    if(go_back)goto LINEAR;
 POSITION:
+    go_back = 0;
+    cout << "initial position ..." << endl;
     get_position_player();
+    if(go_back)goto SQUAR;
+    go_back = 0;
     cout << "screen ..." << endl;
     screen_level();
     cout << "save level ..." << endl;
