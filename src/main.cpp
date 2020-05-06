@@ -9,9 +9,10 @@ using namespace std;
 #define PI 3.14
 #define N_POPULATION 100
 #define AUTO 0
-#define NN { (int)level->player.input.size(),40,40,40, 4}
+#define NEURAL_NETWORK { (int)level->player.input.size(),40,40,40, 4}
 #define RANDOM (double)rand()/RAND_MAX
 #define TOKEN_SIZE 5
+#define SERVER_URL "http://snubbyland.herokuapp.com/snubbyland_ensias_projet"
 
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
@@ -35,27 +36,27 @@ using namespace std;
 #include "map_generateur.hpp"
 #include "cnn.hpp"
 #include "level.hpp"
-#include "graphic.hpp"
+#include "Game.hpp"
 
 Level level;
-Graphic graphic(&level);
+Game Game(&level);
 
-int  control(void *a)
+int  control_event(void *a)
 {
-    graphic.control();
+    Game.control_event();
     return 1;
 };
 
 
-int  online(void *a)
+int  thread_playing_online(void *a)
 {
-    graphic.online();
+    Game.thread_playing_online();
     return 1;
 };
 
-int newthread(void *a)
+int thread_update_position(void *a)
 {
-    graphic.newthread();
+    Game.thread_update_position();
     return 1;
 }
 int main(int argc, char const *argv[])
@@ -65,8 +66,8 @@ int main(int argc, char const *argv[])
 
     if(argc > 1)
     {
-        graphic.init();
-        graphic.id = argv[1];
+        Game.init();
+        Game.id = argv[1];
     }
     else
     {
@@ -75,11 +76,11 @@ int main(int argc, char const *argv[])
     }
 
 
-    SDL_CreateThread( control, "EventFonction", (void *)NULL);
-    SDL_CreateThread( online, "EventFonction", (void *)NULL);
-    SDL_CreateThread( newthread, "EventFonction", (void *)NULL);
+    SDL_CreateThread( control_event, "", (void *)NULL);
+    SDL_CreateThread( thread_playing_online, "", (void *)NULL);
+    SDL_CreateThread( thread_update_position, "", (void *)NULL);
 
-    graphic.index();
+    Game.index();
 
 
     return 0;

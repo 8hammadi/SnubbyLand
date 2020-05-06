@@ -1,6 +1,6 @@
 
 
-class Graphic;
+class Game;
 class Level;
 class Player
 {
@@ -25,8 +25,6 @@ public:
     {
         x = a;
         y = b;
-        // brain.init_params();
-
     }
 
     bool touche_enemy(pair<int, int> enemy, int r)
@@ -40,7 +38,7 @@ public:
         return 0;
     };
 
-    void think(Level *level, Graphic *g);
+    void think(Level *level, Game *g);
     vector<Player> breed(Player player)
     {
         /*

@@ -2,7 +2,7 @@ string POST(map<string, string> parameters)
 {
     try
     {
-        http::Request request("http://horusnews.herokuapp.com/snubbyland_ensias_projet");
+        http::Request request(SERVER_URL);
         // http::Request request("http://ensias.pythonanywhere.com/snubbyland");
         // http::Request request("http://localhost:8000/snubbyland_ensias_projet");
 
