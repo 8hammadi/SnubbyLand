@@ -1,4 +1,6 @@
-
+bool equal(float a,float b){
+    return abs(a-b)<0.1;
+}
 
 class Game;
 class Level;
@@ -244,6 +246,7 @@ public:
     pair<int, int> C;
     int n;
     int R;
+    int pause=0;
     Big_spiral_dot() {};
     Big_spiral_dot(pair<int, int> C, int n, int R)
     {
@@ -263,6 +266,8 @@ public:
 
     void next_move()
     {
+        if(equal(ongle,PI) or equal(ongle,PI) or equal(ongle,PI) or equal(ongle,PI))
+        {}
         ongle += PI / 100;
         enemys.clear();
         for(int i = 0; i < 4; i++)

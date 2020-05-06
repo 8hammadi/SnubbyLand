@@ -13,7 +13,7 @@ public:
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
-    bool is_playing = 0, is_pause = 0, is_index = 0, automatique = AUTO, is_thinking = 0, status_thread_playing_online = 0;
+    bool is_playing = 0, is_pause = 0, is_index = 0, automatique, is_thinking = 0, status_thread_playing_online = 0;
     TTF_Font *font;
     bool run_next_generation = 0;
     int N_LEVELS = 0;
@@ -153,6 +153,7 @@ void Game::init()
 }
 void Game::index()
 {
+
     SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
     SDL_RenderPresent(render);
     continuer = 1;
@@ -291,7 +292,8 @@ void Game::draw_game()
     }
     draw_enemys();
     rect = {0, 0, 400, 100};
-    SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
+    if(!is_pause)
+        SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
 }
 //pour creer le tableau de map
 void Game::get_wall()
@@ -858,7 +860,9 @@ void Game::show()
 
 void Game::pause()
 {
+    cout << "POUSE" << endl;
     is_pause = 1;
+    draw_game();
     rect = {312, 100, 400, 540} ;
     if(automatique)
         SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
@@ -870,6 +874,46 @@ void Game::pause()
         SDL_WaitEvent(&event);
         switch (event.type)
         {
+        case SDL_MOUSEBUTTONDOWN:
+            x = event.motion.x;
+            y = event.motion.y;
+            coin_sound();
+            if(x > 312 and x<712 and y>100 and y < 200)
+            {
+
+                is_pause = 0;
+            }
+            if(x > 312 and x<712 and y>210 and y < 310)
+            {
+                if(!automatique)
+                {
+                    l++;
+                    if(l == N_LEVELS + 1)l = 1;
+                    cout << "Level " << l<<endl;
+                    load_level(l);
+                }
+            }
+            if(x > 312 and x<712 and y>320 and y < 420)
+            {
+                if(!automatique)
+                {
+                    l--;
+                    if(l == 0)l = N_LEVELS;
+                    cout << "Level " << l<<endl;
+                    load_level(l);
+                }
+            }
+            if(x > 312 and x<712 and y>430 and y < 530)
+            {
+                is_pause=0;
+                is_playing=0;
+                index();
+            }
+            if(x > 312 and x<712 and y>540 and y < 640)
+            {
+                free_memory();
+            }
+            break;
         case SDL_QUIT:
             free_memory();
         case SDL_KEYDOWN:
@@ -908,11 +952,13 @@ void Game::draw_levels()
 }
 void Game::free_memory()
 {
+    is_playing = 0;
     cout << "libérer la mémoire ..." << endl;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
     SDL_Delay(4);
-    logout(id, token);
+    if(token.size() == TOKEN_SIZE)
+        logout(id, token);
     SDL_Quit();
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(textureEnemy);
@@ -1007,7 +1053,7 @@ void Game::thread_playing_online()
     continuer = 1;
     while(1)
     {
-        while(token.size() != TOKEN_SIZE  and !is_playing)SDL_Delay(100);
+        while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
         try
         {
             streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));

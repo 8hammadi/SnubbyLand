@@ -8,7 +8,6 @@ using namespace std;
 
 #define PI 3.14
 #define N_POPULATION 100
-#define AUTO 0
 #define NEURAL_NETWORK { (int)level->player.input.size(),40,40,40, 4}
 #define RANDOM (double)rand()/RAND_MAX
 #define TOKEN_SIZE 5
@@ -79,7 +78,6 @@ int main(int argc, char const *argv[])
     SDL_CreateThread( control_event, "", (void *)NULL);
     SDL_CreateThread( thread_playing_online, "", (void *)NULL);
     SDL_CreateThread( thread_update_position, "", (void *)NULL);
-
     Game.index();
 
 
