@@ -174,8 +174,7 @@ void Game::index()
                 token = login(id);
                 cout << "Your token  (clef secrète): " << token << endl;
                 if(token.size()!=TOKEN_SIZE){
-                    cout<<"la demande de jouer  en ligne n'est pas valide, réessayez
-avec un autre id ."<<endl;
+                    cout<<"la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ."<<endl;
                     break;
                 }
                 l = get_level();
@@ -786,16 +785,16 @@ void Game::check_status_of_playing()
             }
         }
     }
-    if(level->N_Snubbys_a_life <= 0)
-    {
-        level->next_generation();
-        level->generation++;
-        for(auto &sn : level->Snubbys)
-        {
-            sn.x = level->A.first;
-            sn.y = level->A.second;
-        }
-    }
+    // if(level->N_Snubbys_a_life <= 0)
+    // {
+    //     level->next_generation();
+    //     level->generation++;
+    //     for(auto &sn : level->Snubbys)
+    //     {
+    //         sn.x = level->A.first;
+    //         sn.y = level->A.second;
+    //     }
+    // }
 }
 void Game::play()
 {
@@ -879,6 +878,7 @@ void Game::draw_levels()
 }
 void Game::free_memory()
 {
+    cout<<"libérer la mémoire ..."<<endl;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
     SDL_Delay(4);
