@@ -28,6 +28,7 @@ public:
     //Mix_Music *music;
 
     //les variable de jeux online
+    bool game_online=0;
     pair<int, int> player2;
     string id2, token;
     stringstream streams;
@@ -154,8 +155,8 @@ void Game::init()
 void Game::index()
 {
 
-    // SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
-    // SDL_RenderPresent(render);
+    SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
+    SDL_RenderPresent(render);
     continuer = 1;
     while(continuer)
     {
@@ -176,6 +177,7 @@ void Game::index()
             //TWO PLAYER thread_playing_online
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
+                game_online=1;
                 SDL_RenderCopy(render, texture_wait, NULL, NULL);
                 SDL_RenderPresent(render);
                 token = login(id);
@@ -207,15 +209,23 @@ void Game::index()
             //GENETIC ALGORITHM (n'est pas encore terminé)
             if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
             {
-                level->update_population();
-                level->next_generation();
-                automatique = 1;
                 y = 0;
                 get_level();
+
+                level->update_population();
+                automatique = 1;
                 //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
                 level->A = make_pair(level->player.x, level->player.y);
                 level->B = make_pair(level->coins[0].x, level->coins[0].y);
 
+                for(auto &sn : level->Snubbys)
+                {
+                    sn.brain.init_params(NEURAL_NETWORK);
+                    sn.x = level->A.first;
+                    sn.y =  level->A.second;
+                    sn.is_a_life = 1;
+                };
+                level->next_generation();
                 play();
             }
             //CREATE NEW LEVEL
@@ -274,8 +284,9 @@ void Game::draw_game()
     draw_wall();
     if(!automatique)
     {
-        rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
-        SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
+        if(game_online)
+        {rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
+                SDL_RenderCopy(render, texturePlayer2, NULL, &rect);}
         rect = {-level->player.w / 2  + level->player.x, -level->player.h / 2 + level->player.y, level->player.w, level->player.h};
         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
     }
@@ -948,9 +959,22 @@ void Game::control_event()
             case SDLK_p:
                 pause();
                 break;
+            case SDLK_n:
+                // next generation
+                if(!automatique)break;
+                is_pause = 1;
+                for(auto &sn : level->Snubbys)
+                {
+                    sn.brain.init_params(NEURAL_NETWORK);
+                    sn.x = level->A.first;
+                    sn.y =  level->A.second;
+                    sn.is_a_life = 1;
+                };
+                level->generation++;
+                is_pause = 0;
             }
         }
-        if(level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
+        if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
         SDL_Delay(10);
     }
 }
@@ -1306,12 +1330,3 @@ void Game::thread_update_position()
 //         sn.is_a_life = 1;
 //     };
 
-// next generation
-//         for(auto &sn : level->Snubbys)
-//         {
-//             sn.brain.init_params(NEURAL_NETWORK);
-//             sn.x = level->A.first;
-//             sn.y =  level->A.second;
-//             sn.is_a_life = 1;
-//         };
-//         level->generation++;
