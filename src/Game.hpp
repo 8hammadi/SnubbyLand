@@ -9,7 +9,7 @@ public:
     SDL_Texture *texture, *texturePlayer2, *texture_wait, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];    //les variable de jeux
 
     Level  *level;
-    int l;//level 
+    int l;//level
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
@@ -49,7 +49,7 @@ public:
     void add_spiral_dot();//pour ajauter les spiral dot
     void add_linear_enemy();//ajauter des obstacle lineare
     void create_level();//le cœur du creation de nouveau niveau
-    //Pour le jeux 
+    //Pour le jeux
     bool check_it_free_area(int x, int y);//vérifier si une position est possible ( check_it_free_area & is_player_inside_after)
     bool is_player_inside_after(int x, int y);
     void control_event();//lorsque le jeux est commencé il change la position de jeux si l utilisateur click sur un botton (up/left/down/Right)
@@ -60,8 +60,8 @@ public:
     void pause();//claire
     void draw_levels();//pour le choix de niveau
     void free_memory();//libérer la mémoire
-    int get_level();//obtenir le id(1,2,3 ...) du niveau 
-    void screen_level();//enregistrer un image du niveau 
+    int get_level();//obtenir le id(1,2,3 ...) du niveau
+    void screen_level();//enregistrer un image du niveau
     void save_level();//claire
     void load_level(int k);//claire
 
@@ -94,7 +94,7 @@ public:
     {
         SDL_QueueAudio(device_coin, wav_buffer[1], wav_length[1]);
         SDL_PauseAudioDevice(device_coin, 0);
-    }   
+    }
     void hit_sound()//claire
     {
         SDL_QueueAudio(device_enemy, wav_buffer[0], wav_length[0]);
@@ -141,7 +141,10 @@ void Game::init()
     textureSlides[4] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/green_area.png"));
     textureSlides[5] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/spiral.png"));
     textureSlides[6] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/playing_slide.png"));
-    textureSlides[7] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause_slide.png"));
+    textureSlides[7] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause.png"));
+    textureSlides[8] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/continue.png"));
+    textureSlides[9] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/ga_continue.png"));
+
     texture_wait = SDL_CreateTextureFromSurface(render, IMG_Load("../images/wait.gif"));
     texturePlayer = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player.png"));
     texturePlayer2 = SDL_CreateTextureFromSurface(render, IMG_Load("../images/play2.png"));
@@ -173,8 +176,9 @@ void Game::index()
                 SDL_RenderPresent(render);
                 token = login(id);
                 cout << "Your token  (clef secrète): " << token << endl;
-                if(token.size()!=TOKEN_SIZE){
-                    cout<<"la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ."<<endl;
+                if(token.size() != TOKEN_SIZE)
+                {
+                    cout << "la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ." << endl;
                     break;
                 }
                 l = get_level();
@@ -192,7 +196,7 @@ void Game::index()
                     SDL_Delay(300);
                 }
                 while(id2.size() >= 50);
-                cout << "id de la 2eme joeurs est "<<id2 << endl;
+                cout << "id de la 2eme joeurs est " << id2 << endl;
                 play();
             }
             //GENETIC ALGORITHM (n'est pas encore terminé)
@@ -211,7 +215,7 @@ void Game::index()
             if(x >= 156 and x <= 156 + 700 and y >= 540 and y <= 540 + 100)
             {
                 create_level();
-                cout << "le niveau créé avec succès"<<endl;
+                cout << "le niveau créé avec succès" << endl;
                 play();
             }
             break ;
@@ -284,6 +288,8 @@ void Game::draw_game()
         SDL_RenderCopy(render, textureCoin, NULL, &rect);
     }
     draw_enemys();
+    rect = {0, 0, 400, 100};
+    SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
 }
 //pour creer le tableau de map
 void Game::get_wall()
@@ -676,7 +682,7 @@ POSITION:
     cout << "save level ..." << endl;
     save_level();
     save_n();
-  
+
 }
 bool Game::check_it_free_area(int x, int y)
 {
@@ -727,6 +733,11 @@ void Game::control_event()
         {
         case SDL_QUIT:
             free_memory();
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            x = event.motion.x;
+            y = event.motion.y;
+            if(x > 0 and x <= 400 and y > 0 and y <= 100)pause();
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
@@ -832,8 +843,11 @@ void Game::show()
 void Game::pause()
 {
     is_pause = 1;
-    rect = {0, 0, 1024, 200} ;
-    SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
+    rect = {312, 100, 400, 540} ;
+    if(automatique)
+        SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
+    else
+        SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
     show();
     while(is_pause)
     {
@@ -878,7 +892,7 @@ void Game::draw_levels()
 }
 void Game::free_memory()
 {
-    cout<<"libérer la mémoire ..."<<endl;
+    cout << "libérer la mémoire ..." << endl;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
     SDL_Delay(4);
