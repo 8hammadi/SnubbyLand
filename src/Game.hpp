@@ -845,6 +845,8 @@ void Game::add_big_spiral_dot()
 }
 void Game::create_level()
 {
+    load_level(0);
+
     N_LEVELS++;
     draw_wall();
     SDL_RenderPresent(render);
@@ -1031,11 +1033,7 @@ void Game::play()
         show();
         SDL_Delay(20);
     }
-    if(is_index)
-    {
-        is_index = 0;
-        return index();
-    }
+
 }
 void Game::show()
 {
@@ -1092,7 +1090,7 @@ void Game::pause()
             {
                 is_pause = 0;
                 is_playing = 0;
-                index();
+                return index();
             }
             if(x > 312 and x<712 and y>540 and y < 640)
             {
