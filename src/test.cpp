@@ -5,7 +5,7 @@
 
 using namespace std;
 
-http::Request request("http://localhost:8000");
+http::Request request("http://snubbyland.herokuapp.com/");
 http::Response response;
 int A(void *_)
 {

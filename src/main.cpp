@@ -12,7 +12,7 @@ using namespace std;
 #define NEURAL_NETWORK { (int)level->player.input.size(),40,40,40, 4}
 #define RANDOM (double)rand()/RAND_MAX
 #define TOKEN_SIZE 5
-#define SERVER_URL "http://snubbyland.herokuapp.com/snubbyland_ensias_projet"
+#define SERVER_URL "http://snubbyland.herokuapp.com/api"
 
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
