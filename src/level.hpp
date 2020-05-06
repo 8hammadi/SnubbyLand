@@ -1,5 +1,6 @@
-bool equal(float a,float b){
-    return abs(a-b)<0.1;
+bool equal(float a, float b)
+{
+    return abs(a - b) < 0.1;
 }
 
 class Game;
@@ -36,7 +37,10 @@ public:
                 ((enemy.first - r >= x - r) && (enemy.first - r <= x + r) && (enemy.second + r >= y - r) && ( enemy.second + r <= y + r))  ||
                 ((enemy.first + r >= x - r) && (enemy.first + r <= x + r) && (enemy.second - r >= y - r) && ( enemy.second - r <= y + r))
           )
-            {is_a_life=0;return 1;}
+        {
+            is_a_life = 0;
+            return 1;
+        }
         return 0;
     };
 
@@ -185,7 +189,7 @@ private:
     }
 public:
     pair<int, int> A, B, C, D;
-    double t = 0;
+    double t = 1;
     int r = 1;// 0 A-B 1 B-C 2 C-D 3 D-A
     Squar_enemy() {};
     Squar_enemy(pair<int, int> a, pair<int, int> b, pair<int, int> c, pair<int, int> d)
@@ -198,14 +202,15 @@ public:
 
     void next_move()
     {
-        t += 0.03;
+        cout<<r<<endl;
+        t -= 0.03;
 
 
-        if(t > 1 )
+        if(t <0 )
         {
             r++;
             r %= 4;
-            t = 0;
+            t = 1;
         }
     }
 
@@ -221,6 +226,8 @@ public:
             return make_pair(t * C.first + (1 - t) * D.first, t * C.second + (1 - t) * D.second);
         case 3:
             return make_pair(t * D.first + (1 - t) * A.first, t * D.second + (1 - t) * A.second);
+        default:
+            return make_pair(0, 0);
         }
 
 
@@ -242,11 +249,13 @@ private:
     }
 public:
     vector<pair<int, int>> enemys;
-    float ongle = 0;
+    float ongle = 2 * PI;
     pair<int, int> C;
     int n;
     int R;
-    int pause=0;
+    int next_stop = 1; // 1->0 2->PI/2 3->PI 4->3PI/2
+    int pause = 0;
+    int sleep = 0;
     Big_spiral_dot() {};
     Big_spiral_dot(pair<int, int> C, int n, int R)
     {
@@ -264,21 +273,6 @@ public:
 
     }
 
-    void next_move()
-    {
-        if(equal(ongle,PI) or equal(ongle,PI) or equal(ongle,PI) or equal(ongle,PI))
-        {}
-        ongle += PI / 100;
-        enemys.clear();
-        for(int i = 0; i < 4; i++)
-        {
-            for(int j = 1; j <= n; j++)
-            {
-                enemys.push_back(make_pair(C.first + R * cos((i * PI / 2) + ongle)*j / n, C.second + R * sin((i * PI / 2) + ongle)*j / n));
-
-            }
-        }
-    }
     void update()
     {
         enemys.clear();
@@ -288,6 +282,44 @@ public:
             {
                 enemys.push_back(make_pair(C.first + R * cos(i * PI / 2)*j / n, C.second + R * sin(i * PI / 2)*j / n));
 
+            }
+        }
+    }
+    void next_move()
+    {
+        cout << next_stop << endl;
+        if(sleep)
+        {
+            sleep--;
+            return;
+        }
+        ongle += PI / 50;
+
+        if( (ongle > PI / 2 and next_stop == 2) or (ongle > PI and next_stop == 3) or (ongle > 3 * PI / 2 and next_stop == 4))
+        {
+            next_stop++;
+            sleep = 20;
+        }
+        if(ongle > 2 * PI)
+        {
+            sleep = 20;
+            ongle = 0;
+            next_stop = 2;
+        }
+
+        enemys.clear();
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 1; j <= n; j++)
+            {
+                if(i == 0)
+                {
+                    enemys.push_back(make_pair(C.first + (R * cos(ongle )*j / n) + 20 * cos(PI / 2 - ongle ), C.second + (R * sin(ongle )*j / n) + 20 * sin(PI / 2 - ongle )));
+                    enemys.push_back(make_pair(C.first + (R * cos(ongle )*j / n) - 20 * cos(PI / 2 - ongle ), C.second + (R * sin(ongle )*j / n) - 20 * sin(PI / 2 - ongle )));
+
+                }
+                else
+                    enemys.push_back(make_pair(C.first + R * cos(ongle + i * PI / 2)*j / n, C.second + R * sin(ongle + i * PI / 2)*j / n));
             }
         }
     }
@@ -324,7 +356,8 @@ public:
         {
             is_taked = 1;
             return 1;
-        }return 0;
+        }
+        return 0;
     }
 };
 class Level
@@ -398,11 +431,28 @@ public:
             }
 
         }
+
+        for (auto sp : big_spiral_dots)
+        {
+            for(auto e : sp.enemys)
+            {
+                enemys.push_back(e);
+                v.push_back(e);
+            }
+
+        }
         for( auto e : linear_enemys)
         {
             enemys.push_back(e.enemy());
             v.push_back(e.enemy());
         }
+
+        for( auto e : squar_enemys)
+        {
+            enemys.push_back(e.enemy());
+            v.push_back(e.enemy());
+        }
+
 
         return v;
     };
@@ -469,7 +519,7 @@ public:
         {
 
             for(auto &c : Snubbys[i].breed(Snubbys[i + 1])) Snubbys.push_back( c);
-        
+
 
         }
 

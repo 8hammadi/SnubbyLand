@@ -34,7 +34,7 @@ public:
     string id;
 
     //les variable de l algorithm génétique
-    pair<int, int> A, B;
+    pair<int, int> A, B, C, D;
     Game(Level *l)
     {
         level = l;
@@ -154,8 +154,8 @@ void Game::init()
 void Game::index()
 {
 
-    SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
-    SDL_RenderPresent(render);
+    // SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
+    // SDL_RenderPresent(render);
     continuer = 1;
     while(continuer)
     {
@@ -169,6 +169,7 @@ void Game::index()
             //ONE PLAYER OFFLIN
             if(x >= 156 and x <= 156 + 700 and y >= 210 and y <= 210 + 100)
             {
+                y = 0;
                 get_level();
                 play();
             }
@@ -184,6 +185,7 @@ void Game::index()
                     cout << "la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ." << endl;
                     break;
                 }
+                y = 0;
                 l = get_level();
                 cout << "level : " << l << endl;
                 if(token.size() != TOKEN_SIZE)
@@ -208,10 +210,12 @@ void Game::index()
                 level->update_population();
                 level->next_generation();
                 automatique = 1;
+                y = 0;
                 get_level();
                 //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
                 level->A = make_pair(level->player.x, level->player.y);
                 level->B = make_pair(level->coins[0].x, level->coins[0].y);
+
                 play();
             }
             //CREATE NEW LEVEL
@@ -652,43 +656,223 @@ void Game::add_linear_enemy()
 
 void Game::add_squar_enemy()
 {
+    draw_game();
+    // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
+    // rect = {0, 100 + 40 * 12, 1024, 100} ;
+    // SDL_RenderCopy(render, texture, NULL, &rect);
 
+    SDL_RenderPresent(render);
+    SDL_Delay(5);
+    continuer = 1;
+    while(continuer)
+    {
+        SDL_WaitEvent(&event);
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            free_memory();
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            x = event.motion.x;
+            y = event.motion.y;
+            draw_game();
+            // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
+            // rect = {0, 100 + 40 * 12, 1024, 100} ;
+            // SDL_RenderCopy(render, texture, NULL, &rect);
+            rect = {-level->player.w / 2  + x, -level->player.h / 2 + y, level->player.w, level->player.h};
+            SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
+            SDL_RenderFillRect(render, &rect );
+            SDL_RenderPresent(render);
+            SDL_Delay(5);
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_KP_1:
+                cout << "A est ajauter " << endl;
+                A = make_pair(x, y);
+                draw_game();
+                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
+                // rect = {100, 0, 400, 100} ;
+                // SDL_RenderCopy(render, texture, NULL, &rect);
+                rect = {-level->player.w / 2  + A.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                SDL_RenderCopy(render, textureEnemy, NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_KP_2:
+                cout << "B est ajauter " << endl;
+                B = make_pair(x, y);
+                draw_game();
+                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
+                // rect = {100, 0, 400, 100} ;
+                // SDL_RenderCopy(render, texture, NULL, &rect);
+                rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                SDL_RenderCopy(render, textureEnemy, NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_KP_3:
+                cout << "C est ajauter " << endl;
+                C = make_pair(x, y);
+                draw_game();
+                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
+                // rect = {100, 0, 400, 100} ;
+                // SDL_RenderCopy(render, texture, NULL, &rect);
+                rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                SDL_RenderCopy(render, textureEnemy, NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_KP_4:
+                cout << "D est ajauter " << endl;
+                D = make_pair(x, y);
+                draw_game();
+                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
+                // rect = {100, 0, 400, 100} ;
+                // SDL_RenderCopy(render, texture, NULL, &rect);
+                rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                SDL_RenderCopy(render, textureEnemy, NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_KP_0:
+                cout << "la forme est ajauter" << endl;
+                level->squar_enemys.push_back(Squar_enemy(A, B, C, D));
+                draw_game();
+                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
+                // rect = {100, 0, 400, 100} ;
+                // SDL_RenderCopy(render, texture, NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_r:
+                level->linear_enemys.pop_back();
+                draw_game();
+                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
+                // rect = {100, 0, 400, 100} ;
+                // SDL_RenderCopy(render, texture, NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_n:
+                return;
+            }
+        }
+        SDL_Delay(5);
+    }
 }
 void Game::add_big_spiral_dot()
 {
-
+    draw_game();
+    rect = {0, 100 + 40 * 12, 1024, 100} ;
+    SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+    SDL_RenderPresent(render);
+    SDL_Delay(500);
+    continuer = 1;
+    while(continuer)
+    {
+        SDL_WaitEvent(&event);
+        switch (event.type)
+        {
+        case SDL_QUIT:
+            free_memory();
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            x = event.motion.x;
+            y = event.motion.y;
+            level->big_spiral_dots.push_back(Big_spiral_dot(make_pair(x, y), 5, 100));
+            draw_game();
+            rect = {0, 100 + 40 * 12, 1024, 100} ;
+            SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+            SDL_RenderPresent(render);
+            SDL_Delay(5);
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_LEFT:
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].R -= 5;
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                draw_game();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_RIGHT:
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].R += 5;
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                draw_game();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_UP:
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].n++;
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                draw_game();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_DOWN:
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].n--;
+                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                draw_game();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            case SDLK_n:
+                continuer = 0;
+                break;
+            case SDLK_r:
+                level->big_spiral_dots.pop_back();
+                draw_game();
+                rect = {0, 100 + 40 * 12, 1024, 100} ;
+                SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
+                SDL_RenderPresent(render);
+                SDL_Delay(5);
+                break;
+            }
+        }
+        SDL_Delay(5);
+    }
 }
 void Game::create_level()
 {
     N_LEVELS++;
-    // load_level(N_LEVELS);
     draw_wall();
     SDL_RenderPresent(render);
     SDL_Delay(5);
-    cout << "wall ..." << endl;
 WALL:
+    cout << "wall ..." << endl;
     get_wall();
 
-    cout << "grean zone ..." << endl;
 GREEN:
+    cout << "grean zone ..." << endl;
     get_green_area();
 
-    cout << "coins ..." << endl;
 COIN:
+    cout << "coins ..." << endl;
     add_coins();
 
-    cout << "apirals ..." << endl;
 SPIRAL:
+    cout << "apirals ..." << endl;
     add_spiral_dot();
-    cout << "";
 BIG_SPIRAL:
+    cout << "adding big spiral ..." << endl;
     add_big_spiral_dot();
 
-    cout << "linear enemy ..." << endl;
 LINEAR:
+    cout << "linear enemy ..." << endl;
     add_linear_enemy();
-    cout << 5;
 SQUAR:
+    cout << "squar enemy ..." << endl;
     add_squar_enemy();
 
     cout << "initial position ..." << endl;
@@ -727,7 +911,6 @@ bool Game::is_player_inside_after(int x, int y)
 }
 void Game::control_event()
 {
-    continuer = 1;
     while(1)
     {
         if(!is_playing)
@@ -777,7 +960,9 @@ void Game::update()
         run_next_generation = 0;
     }
     for(auto &sp : level->spiral_dots)sp.next_move();
+    for(auto &sp : level->big_spiral_dots)sp.next_move();
     for(auto &e : level->linear_enemys)e.next_move();
+    for(auto &e : level->squar_enemys)e.next_move();
     if(automatique)
     {
         for(auto &p : level->Snubbys)
@@ -889,7 +1074,7 @@ void Game::pause()
                 {
                     l++;
                     if(l == N_LEVELS + 1)l = 1;
-                    cout << "Level " << l<<endl;
+                    cout << "Level " << l << endl;
                     load_level(l);
                 }
             }
@@ -899,21 +1084,29 @@ void Game::pause()
                 {
                     l--;
                     if(l == 0)l = N_LEVELS;
-                    cout << "Level " << l<<endl;
+                    cout << "Level " << l << endl;
                     load_level(l);
                 }
             }
             if(x > 312 and x<712 and y>430 and y < 530)
             {
-                is_pause=0;
-                is_playing=0;
+                is_pause = 0;
+                is_playing = 0;
                 index();
             }
             if(x > 312 and x<712 and y>540 and y < 640)
             {
                 free_memory();
             }
+            //drawing
+            draw_game();
+            rect = {312, 100, 400, 540} ;
+            if(automatique)
+                SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
+            else
+                SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
             break;
+            show();
         case SDL_QUIT:
             free_memory();
         case SDL_KEYDOWN:
@@ -937,7 +1130,6 @@ void Game::pause()
 }
 void Game::draw_levels()
 {
-    y = 0;
     rect = {0, y, 1024, 3000} ;
     SDL_RenderCopy(render, textures[0], NULL, &rect);
     for(int i, j, k = 1; k < N_LEVELS + 1; k++)
@@ -953,12 +1145,15 @@ void Game::draw_levels()
 void Game::free_memory()
 {
     is_playing = 0;
-    cout << "libérer la mémoire ..." << endl;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
     SDL_Delay(4);
     if(token.size() == TOKEN_SIZE)
+    {
+        cout << "deconexion .." << endl;
         logout(id, token);
+    }
+    cout << "libérer la mémoire ..." << endl;
     SDL_Quit();
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(textureEnemy);
@@ -970,7 +1165,7 @@ void Game::free_memory()
     SDL_DestroyTexture(texture_wait);
     SDL_DestroyRenderer(render);
     SDL_DestroyWindow(window);
-    exit(0);
+    exit(1);
 }
 int Game::get_level()
 {
@@ -999,6 +1194,7 @@ int Game::get_level()
             }
             break;
         case SDL_MOUSEWHEEL:
+            cout << "scrolling .." << endl;
             if(event.wheel.y >= 0)
                 y -= 10;
             else y += 10;
