@@ -48,6 +48,8 @@ public:
     void add_coins();//pour ajouter les coins
     void add_spiral_dot();//pour ajauter les spiral dot
     void add_linear_enemy();//ajauter des obstacle lineare
+    void add_squar_enemy();
+    void add_big_spiral_dot();
     void create_level();//le cœur du creation de nouveau niveau
     //Pour le jeux
     bool check_it_free_area(int x, int y);//vérifier si une position est possible ( check_it_free_area & is_player_inside_after)
@@ -645,6 +647,15 @@ void Game::add_linear_enemy()
         SDL_Delay(5);
     }
 }
+
+void Game::add_squar_enemy()
+{
+
+}
+void Game::add_big_spiral_dot()
+{
+
+}
 void Game::create_level()
 {
     N_LEVELS++;
@@ -655,28 +666,33 @@ void Game::create_level()
     cout << "wall ..." << endl;
 WALL:
     get_wall();
+
     cout << "grean zone ..." << endl;
 GREEN:
     get_green_area();
+
     cout << "coins ..." << endl;
 COIN:
     add_coins();
+
     cout << "apirals ..." << endl;
 SPIRAL:
     add_spiral_dot();
+    cout << "";
+BIG_SPIRAL:
+    add_big_spiral_dot();
+
     cout << "linear enemy ..." << endl;
 LINEAR:
     add_linear_enemy();
+    cout << 5;
+SQUAR:
+    add_squar_enemy();
+
     cout << "initial position ..." << endl;
+
 POSITION:
-    try
-    {
-        get_position_player();
-    }
-    catch(...)
-    {
-        cout << "error on_position_player";
-    }
+    get_position_player();
     cout << "screen ..." << endl;
     screen_level();
     cout << "save level ..." << endl;
