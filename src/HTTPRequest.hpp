@@ -666,21 +666,22 @@ namespace http
 
         /////////////////////
 
-        void stream( Response &response , const std::string &method = "GET",
+        void stream( int &x, int &y, const std::string &method = "GET",
                      const std::string &body = "",
                      const std::vector<std::string> &headers = {})
         {
-            stream(response, method,
+            stream(x, y,  method,
                    std::vector<uint8_t>(body.begin(), body.end()),
                    headers);
         }
 
-        void stream(Response & response, const std::string &method,
+        void stream(int &x, int &y, const std::string &method,
                     const std::vector<uint8_t> &body,
                     const std::vector<std::string> &headers)
         {
+            stringstream st;
 
-
+            Response response;
             if (scheme != "http")
                 throw RequestError("Only HTTP scheme is supported");
 
@@ -795,6 +796,7 @@ namespace http
                         }
                         else // headers
                         {
+                            // cout<<line<<endl;
                             response.headers.push_back(line);
 
                             const auto pos = line.find(':');
@@ -891,6 +893,8 @@ namespace http
                     else
                     {
                         response.body.insert(response.body.end(), responseData.begin(), responseData.end());
+                        st=stringstream(string(responseData.begin(),responseData.end()));
+                        st>>x>>y;
                         responseData.clear();
 
                         // got the whole content

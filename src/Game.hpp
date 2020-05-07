@@ -893,7 +893,7 @@ void Game::create_level()
 {
     N_LEVELS++;
 LEVEL0:
-go_back = 0;
+    go_back = 0;
     load_level(0);
     draw_wall();
     SDL_RenderPresent(render);
@@ -974,12 +974,13 @@ void Game::control_event()
 {
     while(1)
     {
+        SDL_WaitEvent(&event);
+        if(event.type==SDL_QUIT)free_memory();
         if(!is_playing)
         {
             SDL_Delay(10);
             continue;
         }
-        SDL_WaitEvent(&event);
         if(event.type == SDL_KEYDOWN)
         {
             if( event.key.keysym.sym == SDLK_LEFT)
@@ -993,9 +994,6 @@ void Game::control_event()
         }
         switch (event.type)
         {
-        case SDL_QUIT:
-            free_memory();
-            break;
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
@@ -1317,6 +1315,11 @@ void Player::think(Level *level, Game *g)
 void Game::thread_playing_online()
 {
     continuer = 1;
+    cout<<"connecting the game ..."<<endl;
+    // ///test
+    // streaming_play(player2.first,player2.second, token, id, level->player.x, level->player.y);
+    // ///test
+  
     while(1)
     {
         while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
