@@ -396,12 +396,11 @@ public:
             Snubbys.push_back(Player(player));
         }
     };
-    void update_population()
+    void init_population(vector<int>nn)
     {
         for(auto &sn : Snubbys)
         {
-            sn.brain.init_params({ (int)player.input.size(), 10, 10, 4}
-                                );
+            sn.brain.init_params(nn);
             sn.x = A.first;
             sn.y =  A.second;
             sn.is_a_life = 1;

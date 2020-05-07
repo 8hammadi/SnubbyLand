@@ -282,21 +282,14 @@ void Game::index()
             {
                 y = 0;
                 l = get_level();
-
-                level->update_population();
+                update();
                 automatique = 1;
                 //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
                 level->A = make_pair(level->player.x, level->player.y);
                 level->B = make_pair(level->coins[0].x, level->coins[0].y);
 
-                for(auto &sn : level->Snubbys)
-                {
-                    sn.brain.init_params(NEURAL_NETWORK);
-                    sn.x = level->A.first;
-                    sn.y =  level->A.second;
-                    sn.is_a_life = 1;
-                };
-                level->next_generation();
+                level->init_population(NEURAL_NETWORK);
+           
                 play();
             }
             //CREATE NEW LEVEL
@@ -1082,7 +1075,17 @@ void Game::control_event()
                 // next generation
                 if(!automatique)break;
                 is_pause = 1;
+
+
+                for(auto &sn : level->Snubbys)
+                {
+                    sn.brain.init_params(NEURAL_NETWORK);
+                    sn.x = level->A.first;
+                    sn.y =  level->A.second;
+                    sn.is_a_life = 1;
+                };
                 level->next_generation();
+
                 level->generation++;
                 is_pause = 0;
             case SDLK_s:
@@ -1359,7 +1362,7 @@ void Game::screen_level()
     int width = 1024, height = 668;
     s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
     SDL_RenderReadPixels(render, NULL, s->format->format, s->pixels, s->pitch);
-    string z = "../levels/" + to_string(l) + ".png";
+    string z = "../levels/ga.png";// + to_string(l) + ".png";
     IMG_SavePNG(s, z.c_str());
 }
 

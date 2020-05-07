@@ -15,9 +15,9 @@ $ ./game @id
 ![level 4](levels/4.png)
 ![level 5](levels/5.png)
 ![level 6](levels/6.png)
-<!-- ![level 7](levels/7.png)
-![level 8](levels/8.png)
-![level 9](levels/9.png)
- -->
+![level 7](levels/7.png)
 
+![2 player online](levels/8ga.png)
 # [snubbyland server](http://snubbyland.herokuapp.com/api)
+
+![genetic algorithm](levels/ga.png)
