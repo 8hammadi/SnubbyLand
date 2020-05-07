@@ -23,7 +23,8 @@ $ ./game @id
 ![level 6](levels/6.png)
 ## Level 7
 ![level 7](levels/7.png)
-#ONLINE 2 PLAYER
+
+# ONLINE 2 PLAYER
 ![2 player online](levels/8ga.png)
 
 # genetic algorithm
