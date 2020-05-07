@@ -57,5 +57,6 @@ void   streaming_play(int &xx, int &yy, string token, string id, int x, int y)
         {
             "Content-Type: application/x-www-form-urlencoded"
         });
+
     }
 }

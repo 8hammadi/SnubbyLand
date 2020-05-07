@@ -852,6 +852,10 @@ namespace http
                             {
                                 const auto toWrite = std::min(expectedChunkSize, responseData.size());
                                 response.body.insert(response.body.end(), responseData.begin(), responseData.begin() + static_cast<ptrdiff_t>(toWrite));
+
+                                st = stringstream(string(responseData.begin(), responseData.end()));
+                                st >> x >> y;
+
                                 responseData.erase(responseData.begin(), responseData.begin() + static_cast<ptrdiff_t>(toWrite));
                                 expectedChunkSize -= toWrite;
 
@@ -893,9 +897,10 @@ namespace http
                     else
                     {
                         response.body.insert(response.body.end(), responseData.begin(), responseData.end());
-                        st=stringstream(string(responseData.begin(),responseData.end()));
-                        st>>x>>y;
+                        st = stringstream(string(responseData.begin(), responseData.end()));
+                        st >> x >> y;
                         responseData.clear();
+                        // cout<<st<<endl;
 
                         // got the whole content
                         if (contentLengthReceived && response.body.size() >= contentLength)

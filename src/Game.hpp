@@ -154,7 +154,7 @@ void Game::init()
 }
 void Game::index()
 {
-    cout<<"l'index ..."<<endl;
+    cout << "l'index ..." << endl;
     SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
     SDL_RenderPresent(render);
     continuer = 1;
@@ -177,6 +177,7 @@ void Game::index()
             //TWO PLAYER thread_playing_online
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
+
                 game_online = 1;
                 SDL_RenderCopy(render, texture_wait, NULL, NULL);
                 SDL_RenderPresent(render);
@@ -975,7 +976,7 @@ void Game::control_event()
     while(1)
     {
         SDL_WaitEvent(&event);
-        if(event.type==SDL_QUIT)free_memory();
+        if(event.type == SDL_QUIT)free_memory();
         if(!is_playing)
         {
             SDL_Delay(10);
@@ -1315,11 +1316,8 @@ void Player::think(Level *level, Game *g)
 void Game::thread_playing_online()
 {
     continuer = 1;
-    // ///test
-    // cout<<"connecting the game ..."<<endl;
-    // streaming_play(player2.first,player2.second, token, id, level->player.x, level->player.y);
-    // ///test
-  
+    // streaming_play(player2.first, player2.second, token, id, level->player.x, level->player.y);
+
     while(1)
     {
         while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
