@@ -125,6 +125,7 @@ public:
 
                     load_level(l);
                     is_pause = 0;
+                    level->n_coins = level->coins.size();
                 }
                 if(x > 312 and x<712 and y>210 and y < 310)
                 {
@@ -240,7 +241,7 @@ void Game::index()
             if(x >= 156 and x <= 156 + 700 and y >= 210 and y <= 210 + 100)
             {
                 y = 0;
-                l=get_level();
+                l = get_level();
                 play();
             }
             //TWO PLAYER thread_playing_online
@@ -280,7 +281,7 @@ void Game::index()
             if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
             {
                 y = 0;
-                l=get_level();
+                l = get_level();
 
                 level->update_population();
                 automatique = 1;
@@ -366,6 +367,7 @@ void Game::draw_game()
     {
         for(auto sn : level->Snubbys)
         {
+
             if(!sn.is_a_life)   continue;
             rect = {-level->player.w / 2  + sn.x, -level->player.h / 2 + sn.y, level->player.w, level->player.h};
             SDL_RenderCopy(render, texturePlayer, NULL, &rect);
@@ -962,6 +964,7 @@ void Game::add_big_spiral_dot()
 void Game::create_level()
 {
     N_LEVELS++;
+    l = N_LEVELS;
 LEVEL0:
     go_back = 0;
     load_level(0);
@@ -1079,15 +1082,12 @@ void Game::control_event()
                 // next generation
                 if(!automatique)break;
                 is_pause = 1;
-                for(auto &sn : level->Snubbys)
-                {
-                    sn.brain.init_params(NEURAL_NETWORK);
-                    sn.x = level->A.first;
-                    sn.y =  level->A.second;
-                    sn.is_a_life = 1;
-                };
+                level->next_generation();
                 level->generation++;
                 is_pause = 0;
+            case SDLK_s:
+                screen_level();
+                break;
             }
         }
         if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
@@ -1356,10 +1356,10 @@ int Game::get_level()
 }
 void Game::screen_level()
 {
-    int width = 1024, height = 768;
+    int width = 1024, height = 668;
     s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
     SDL_RenderReadPixels(render, NULL, s->format->format, s->pixels, s->pitch);
-    string z = "../levels/" + to_string(N_LEVELS) + ".png";
+    string z = "../levels/" + to_string(l) + ".png";
     IMG_SavePNG(s, z.c_str());
 }
 
@@ -1447,14 +1447,3 @@ void Game::thread_update_position()
         }
     }
 }
-//todo
-//mutation
-//     for(auto &sn : level->Snubbys)
-//     {
-//         if(!sn.is_a_life)
-//         {
-//             sn.brain.mutate();
-//         }
-//         sn.is_a_life = 1;
-//     };
-

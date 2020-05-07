@@ -108,9 +108,9 @@ public:
             {
                 for(int j = 0; j < layers[k + 1]; j++)
                 {
-                    if(RANDOM < 0.1)
+                    if(RANDOM < 0.01)
                         W[k][j][i] += distribution(generator)*0.1;
-                    if(RANDOM < 0.1)
+                    if(RANDOM < 0.01)
                         b[k][j][0] += distribution(generator)*0.1;
                 }
             }

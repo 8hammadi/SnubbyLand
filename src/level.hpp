@@ -391,10 +391,10 @@ public:
     int n_coins;
     Level()
     {
-        // for(int i = 0; i < N_POPULATION; i++)
-        // {
-        //     Snubbys.push_back(Player(player));
-        // }
+        for(int i = 0; i < N_POPULATION; i++)
+        {
+            Snubbys.push_back(Player(player));
+        }
     };
     void update_population()
     {
@@ -489,7 +489,7 @@ public:
 
     void next_generation()
     {
-        cout << "Next Generation : " << generation << endl;
+        cout << "Generation : " << generation << endl;
         for(auto &sn : Snubbys)
         {
             sn.x = A.first;
@@ -499,13 +499,12 @@ public:
         }
 
         sort(Snubbys.begin(), Snubbys.end(), key_of_sort);
-        Snubbys.erase(Snubbys.begin() + Snubbys.size() / 8, Snubbys.end());
-
+        //stay 20 one from 100
+        Snubbys.erase(Snubbys.begin() + Snubbys.size() / 5, Snubbys.end());
         N_Snubbys_a_life = Snubbys.size();
 
-
         // breeding
-
+        //+20*3=60
         for(int i = 0; i < N_Snubbys_a_life; i++)
         {
 
@@ -514,8 +513,9 @@ public:
 
         }
 
-
-        for(int j = 0; j < 4; j++)
+        //mutation
+        //+40  
+        for(int j = 0; j < 2; j++)
         {
             for(int i = 0; i < N_Snubbys_a_life; i++)
             {
@@ -527,22 +527,6 @@ public:
 
 
         N_Snubbys_a_life = Snubbys.size();
-    }
-
-
-    void test()
-    {
-        for(auto &sn : Snubbys)
-        {
-            sn.x = A.first;
-            sn.y = A.second;
-            sn.is_a_life = 1;
-            sn.fitness = sqrt(pow(sn.x - B.first, 2) + pow(sn.y -  B.second, 2));
-        }
-
-        sort(Snubbys.begin(), Snubbys.end(), key_of_sort);
-        Snubbys.erase(Snubbys.begin() + 1, Snubbys.end());
-
     }
 };
 

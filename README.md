@@ -9,7 +9,15 @@ $ ./game @id
 ```
 
 ![index](images/index.png)
+![level 1](levels/1.png)
+![level 2](levels/2.png)
+![level 3](levels/3.png)
+![level 4](levels/4.png)
+![level 5](levels/5.png)
+![level 6](levels/6.png)
+<!-- ![level 7](levels/7.png)
+![level 8](levels/8.png)
+![level 9](levels/9.png)
+ -->
 
-
-# [Server](http://horusnews.herokuapp.com/snubbyland_ensias_projet)
-Heroku is a free cloud web hosting services to run,and operate applications entirely in the cloud.
+# [snubbyland server](http://snubbyland.herokuapp.com/api)

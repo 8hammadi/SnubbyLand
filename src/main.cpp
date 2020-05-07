@@ -1,14 +1,10 @@
 //g++ -o game main.cpp -lSDL2  -lSDL2_image  -lm -lboost_serialization -lSDL2_ttf -fpermissive -lSDL2_mixer
-
-//22 serialization::archive 16 0
-
-
 #include <bits/stdc++.h>
 using namespace std;
 
 #define PI 3.141592653589793
 #define N_POPULATION 100
-#define NEURAL_NETWORK { (int)level->player.input.size(),40,40,40, 4}
+#define NEURAL_NETWORK { (int)level->player.input.size(),40,10, 4}
 #define RANDOM (double)rand()/RAND_MAX
 #define TOKEN_SIZE 10
 #define SERVER_URL "http://snubbyland.herokuapp.com/api"
@@ -23,7 +19,6 @@ using namespace std;
 #include <SDL2/SDL_ttf.h>
 #include "HTTPRequest.hpp"
 #include "server.hpp"
-
 
 #include <cmath>
 #include <string.h>
