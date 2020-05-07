@@ -103,6 +103,74 @@ public:
         SDL_QueueAudio(device_enemy, wav_buffer[0], wav_length[0]);
         SDL_PauseAudioDevice(device_enemy, 0);
     }
+    void local_win()
+    {
+        cout << "You win .." << endl;
+        is_pause = 1;
+        draw_game();
+        rect = {312, 100, 400, 540} ;
+        SDL_RenderCopy(render, textureSlides[10], NULL, &rect);
+        show();
+        while(is_pause)
+        {
+            SDL_WaitEvent(&event);
+            switch (event.type)
+            {
+            case SDL_MOUSEBUTTONDOWN:
+                x = event.motion.x;
+                y = event.motion.y;
+                coin_sound();
+                if(x > 312 and x<712 and y>100 and y < 200)
+                {
+
+                    load_level(l);
+                    is_pause = 0;
+                }
+                if(x > 312 and x<712 and y>210 and y < 310)
+                {
+                    if(!automatique)
+                    {
+                        l++;
+                        if(l == N_LEVELS + 1)l = 1;
+                        cout << "Level " << l << endl;
+                        load_level(l);
+                    }
+                }
+                if(x > 312 and x<712 and y>320 and y < 420)
+                {
+                    if(!automatique)
+                    {
+                        l--;
+                        if(l == 0)l = N_LEVELS;
+                        cout << "Level " << l << endl;
+                        load_level(l);
+                    }
+                }
+                if(x > 312 and x<712 and y>430 and y < 530)
+                {
+                    is_pause = 0;
+                    is_playing = 0;
+                    return index();
+                }
+                if(x > 312 and x<712 and y>540 and y < 640)
+                {
+                    free_memory();
+                }
+                draw_game();
+                rect = {312, 100, 400, 540} ;
+                if(automatique)
+                    SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
+                else
+                    SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
+                break;
+                show();
+            case SDL_QUIT:
+                free_memory();
+
+            }
+            SDL_Delay(10);
+        }
+    }
 };
 void Game::init()
 {
@@ -147,6 +215,7 @@ void Game::init()
     textureSlides[7] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause.png"));
     textureSlides[8] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/continue.png"));
     textureSlides[9] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/ga_continue.png"));
+    textureSlides[10] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/again.png"));
 
     texture_wait = SDL_CreateTextureFromSurface(render, IMG_Load("../images/wait.gif"));
     texturePlayer = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player.png"));
@@ -171,7 +240,7 @@ void Game::index()
             if(x >= 156 and x <= 156 + 700 and y >= 210 and y <= 210 + 100)
             {
                 y = 0;
-                get_level();
+                l=get_level();
                 play();
             }
             //TWO PLAYER thread_playing_online
@@ -211,7 +280,7 @@ void Game::index()
             if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
             {
                 y = 0;
-                get_level();
+                l=get_level();
 
                 level->update_population();
                 automatique = 1;
@@ -1049,7 +1118,15 @@ void Game::check_status_of_playing()
 {
     for(auto &c : level->coins)
     {
-        if(!c.is_taked && c.take(level->player))coin_sound();
+        if(!c.is_taked && c.take(level->player))
+        {
+            coin_sound();
+            level->n_coins--;
+            if( level->n_coins == 0)
+            {
+                return local_win();
+            }
+        }
     }
     for(auto e : level->get_enemys())
     {
@@ -1085,6 +1162,8 @@ void Game::check_status_of_playing()
 }
 void Game::play()
 {
+    level->n_coins = level->coins.size();
+
     level->get_enemys();
     level->player.update_input(level);
     is_playing = 1;

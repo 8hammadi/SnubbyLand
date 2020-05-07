@@ -197,7 +197,6 @@ public:
 
     void next_move()
     {
-        cout << r << endl;
         t -= 0.03;
 
 
@@ -389,13 +388,13 @@ public:
     int n, last_direction = 1, N_Snubbys_a_life = 0;
     pair<double, double> A = {500, 500}, B = {100, 100} ;
     int generation = 0;
-
+    int n_coins;
     Level()
     {
-        for(int i = 0; i < N_POPULATION; i++)
-        {
-            Snubbys.push_back(Player(player));
-        }
+        // for(int i = 0; i < N_POPULATION; i++)
+        // {
+        //     Snubbys.push_back(Player(player));
+        // }
     };
     void update_population()
     {
@@ -552,11 +551,8 @@ public:
 void Player::update_input(Level *level)
 {
     input.clear();
-
     input.push_back((double)(level->B.first - x) / 800);
     input.push_back((double)(level->B.second - y) / 480);
-
-
     for(auto e : level->enemys)
     {
 
