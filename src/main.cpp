@@ -6,7 +6,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define PI 3.14
+#define PI 3.141592653589793
 #define N_POPULATION 100
 #define NEURAL_NETWORK { (int)level->player.input.size(),40,40,40, 4}
 #define RANDOM (double)rand()/RAND_MAX

@@ -1,8 +1,3 @@
-bool equal(float a, float b)
-{
-    return abs(a - b) < 0.1;
-}
-
 class Game;
 class Level;
 class Player
@@ -202,11 +197,11 @@ public:
 
     void next_move()
     {
-        cout<<r<<endl;
+        cout << r << endl;
         t -= 0.03;
 
 
-        if(t <0 )
+        if(t < 0 )
         {
             r++;
             r %= 4;
@@ -312,14 +307,11 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                if(i == 0)
-                {
-                    enemys.push_back(make_pair(C.first + (R * cos(ongle )*j / n) + 20 * cos(PI / 2 - ongle ), C.second + (R * sin(ongle )*j / n) + 20 * sin(PI / 2 - ongle )));
-                    enemys.push_back(make_pair(C.first + (R * cos(ongle )*j / n) - 20 * cos(PI / 2 - ongle ), C.second + (R * sin(ongle )*j / n) - 20 * sin(PI / 2 - ongle )));
 
-                }
-                else
-                    enemys.push_back(make_pair(C.first + R * cos(ongle + i * PI / 2)*j / n, C.second + R * sin(ongle + i * PI / 2)*j / n));
+                enemys.push_back(make_pair(C.first + (R * cos(ongle + i * PI / 2)*j / n) + 20 * cos(PI / 2 - ongle - i * PI / 2 ), C.second + (R * sin(ongle + i * PI / 2 )*j / n) + 20 * sin(PI / 2 - ongle - i * PI / 2)));
+                enemys.push_back(make_pair(C.first + (R * cos(ongle + i * PI / 2)*j / n) - 20 * cos(PI / 2 - ongle - i * PI / 2 ), C.second + (R * sin(ongle + i * PI / 2)*j / n) - 20 * sin(PI / 2 - ongle - i * PI / 2)));
+
+
             }
         }
     }

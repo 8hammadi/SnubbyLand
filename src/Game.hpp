@@ -154,7 +154,7 @@ void Game::init()
 }
 void Game::index()
 {
-
+    cout<<"l'index ..."<<endl;
     SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
     SDL_RenderPresent(render);
     continuer = 1;
@@ -1315,8 +1315,8 @@ void Player::think(Level *level, Game *g)
 void Game::thread_playing_online()
 {
     continuer = 1;
-    cout<<"connecting the game ..."<<endl;
     // ///test
+    // cout<<"connecting the game ..."<<endl;
     // streaming_play(player2.first,player2.second, token, id, level->player.x, level->player.y);
     // ///test
   
