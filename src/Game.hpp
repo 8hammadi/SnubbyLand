@@ -1004,7 +1004,16 @@ POSITION:
     save_n();
 
 }
-
+bool Game::check_it_free_area(int x, int y)
+{
+    if(        (double)(y - cy - level->player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar >= 12 ||
+               (double)(x - cx - level->player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar >= 20
+      )
+    {
+        return 0;
+    }
+    return 1;
+}
 bool Game::is_player_inside_after(int x, int y)
 {
     if(
@@ -1016,88 +1025,116 @@ bool Game::is_player_inside_after(int x, int y)
     {
         return 0;
     }
-
-    if(        (double)(y - cy - level->player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar >= 12 ||
-               (double)(x - cx - level->player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar >= 20
-      )
-    {
-        return 0;
-    }
     return 1;
 }
 void Game::control_event()
 {
+    // SDL_bool run = SDL_TRUE;
+
+    // while (run)
+    // {
+    //     if(!is_playing)
+    //     {
+    //         SDL_Delay(10);
+    //         continue;
+    //     }
+    //     while (SDL_PollEvent(&event))
+    //     {
+    //         switch(event.type)
+    //         {
+    //         case SDL_WINDOWEVENT:
+    //             if (event.window.event == SDL_WINDOWEVENT_CLOSE)
+    //                 run = SDL_FALSE;
+    //             break;
+    //         case SDL_KEYDOWN: // Un événement de type touche enfoncée est effectué
+    //             cout << "+" << endl;
+    //             break;
+    //         case SDL_KEYUP: // Un événement de type touche relâchée est effectué
+    //             cout << "-" << endl;
+    //             break;
+    //         }
+    //     }
+
+    // }
+
     while(1)
     {
-        SDL_WaitEvent(&event);
-        cout << "ok" << endl;
-        if(event.type == SDL_QUIT)free_memory();
         if(!is_playing)
         {
-            SDL_Delay(10);
+            SDL_Delay(50);
             continue;
         }
-        if(event.type == SDL_KEYDOWN)
+        while(SDL_PollEvent(&event))
         {
-            if( event.key.keysym.sym == SDLK_LEFT and !T[0])
+            if(event.type == SDL_QUIT)free_memory();
+            if(event.type == SDL_KEYDOWN)
             {
-                T[0] = 1;
-                cout << 1 << endl;
-                continue;
-            }
-            if( event.key.keysym.sym == SDLK_UP and !T[1] )
-            {
-                T[1] = 1;
-                cout << 2 << endl;
-                continue;
-            }
-            if( event.key.keysym.sym == SDLK_RIGHT and !T[2])
-            {
-                T[2] = 1;
-                cout << 2 << endl;
-                continue;
-            }
-            if( event.key.keysym.sym == SDLK_DOWN and !T[3])
-            {
-                T[3] = 1;
-                cout << 3 << endl;
-                continue;
-            }
-        }
-        switch (event.type)
-        {
-        case SDL_MOUSEBUTTONDOWN:
-            x = event.motion.x;
-            y = event.motion.y;
-            if(x > 0 and x <= 400 and y > 0 and y <= 100)pause();
-            break;
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_p:
-                pause();
-                break;
-            case SDLK_n:
-                // next generation
-                if(!automatique)break;
-                is_pause = 1;
-
-
-                for(auto &sn : level->Snubbys)
+                if( event.key.keysym.sym == SDLK_LEFT and !T[0])
                 {
-                    sn.brain.init_params(NEURAL_NETWORK);
-                    sn.x = level->A.first;
-                    sn.y =  level->A.second;
-                    sn.is_a_life = 1;
-                };
-                level->next_generation();
-
-                level->generation++;
-                is_pause = 0;
+                    T[0] = 1;
+                }
+                if( event.key.keysym.sym == SDLK_UP and !T[1] )
+                {
+                    T[1] = 1;
+                }
+                if( event.key.keysym.sym == SDLK_RIGHT and !T[2])
+                {
+                    T[2] = 1;
+                }
+                if( event.key.keysym.sym == SDLK_DOWN and !T[3])
+                {
+                    T[3] = 1;
+                }
             }
+
+            if(event.type == SDL_KEYUP)
+            {
+                if( event.key.keysym.sym == SDLK_LEFT and T[0])
+                {
+                    T[0] = 0;
+                }
+                if( event.key.keysym.sym == SDLK_UP and T[1] )
+                {
+                    T[1] = 0;
+                }
+                if( event.key.keysym.sym == SDLK_RIGHT and T[2])
+                {
+                    T[2] = 0;
+                }
+                if( event.key.keysym.sym == SDLK_DOWN and T[3])
+                {
+                    T[3] = 0;
+                }
+            }
+            switch (event.type)
+            {
+            case SDL_MOUSEBUTTONDOWN:
+                x = event.motion.x;
+                y = event.motion.y;
+                if(x > 0 and x <= 400 and y > 0 and y <= 100)pause();
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_n:
+                    // next generation
+                    if(!automatique)break;
+                    is_pause = 1;
+                    for(auto &sn : level->Snubbys)
+                    {
+                        sn.brain.init_params(NEURAL_NETWORK);
+                        sn.x = level->A.first;
+                        sn.y =  level->A.second;
+                        sn.is_a_life = 1;
+                    };
+                    level->next_generation();
+
+                    level->generation++;
+                    is_pause = 0;
+                }
+            }
+            if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
         }
-        if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
-        SDL_Delay(20);
     }
 }
 void Game::update()
@@ -1385,16 +1422,16 @@ void Player::think(Level *level, Game *g)
 {
     update_input(level);
     vector<double> r = brain.predict( input);
-    if(r[0] == max(r[0], max(r[1], max(r[2], r[3])))  &&
+    if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x, y - 10) &&
             g->is_player_inside_after(x, y - 20)
       )y -= 10; //up
-    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) &&
+    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x, y + 10) &&
             g->is_player_inside_after(x, y + 20)
            )y += 10; //down
-    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3])))  &&
+    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x + 10, y) &&
             g->is_player_inside_after(x + 20, y)
            )x += 10; //R
-    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3])))  &&
+    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x - 10, y) &&
             g->is_player_inside_after(x - 20, y)
            )x -= 10;; //L
 }
@@ -1428,27 +1465,24 @@ void Game::thread_update_position()
         }
         if(T[0])
         {
-            if(is_player_inside_after(level->player.x - 20, level->player.y))
+            if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
                 level->player.x -= 10;
-            T[0] = 0;
+
         }
         if(T[1])
         {
-            if(is_player_inside_after(level->player.x, level->player.y - 20))
+            if(check_it_free_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
                 level->player.y -= 10;
-            T[1] = 0;
         }
         if(T[2])
         {
-            if( is_player_inside_after(level->player.x + 20, level->player.y))
+            if(check_it_free_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
                 level->player.x += 10;
-            T[2] = 0;
         }
         if(T[3])
         {
-            if(is_player_inside_after(level->player.x, level->player.y + 20))
+            if(check_it_free_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
                 level->player.y += 10;
-            T[3] = 0;
         }
         SDL_Delay(40);
     }
