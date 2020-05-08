@@ -15,7 +15,6 @@ public:
     int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
     bool go_back = 0, is_playing = 0, is_pause = 0, is_index = 0, automatique, is_thinking = 0, status_thread_playing_online = 0;
     TTF_Font *font;
-    bool run_next_generation = 0;
     int N_LEVELS = 0;
     bool  T[4] = {0, 0, 0, 0};
     //les variable de son
@@ -207,6 +206,7 @@ void Game::init()
     textureSlides[8] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/continue.png"));
     textureSlides[9] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/ga_continue.png"));
     textureSlides[10] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/again.png"));
+    textureSlides[11] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/ng.png"));
 
     texture_wait = SDL_CreateTextureFromSurface(render, IMG_Load("../images/wait.gif"));
     texturePlayer = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player.png"));
@@ -366,9 +366,17 @@ void Game::draw_game()
         SDL_RenderCopy(render, textureCoin, NULL, &rect);
     }
     draw_enemys();
-    rect = {0, 0, 400, 100};
     if(!is_pause and is_playing)
+    {
+        rect = {0, 0, 400, 100};
         SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
+    }
+    if(automatique)
+    {
+        rect = {1024 - 400, 0, 400, 100};
+        SDL_RenderCopy(render, textureSlides[11], NULL, &rect);
+
+    }
 }
 //pour creer le tableau de map
 void Game::get_wall()
@@ -1090,25 +1098,18 @@ void Game::control_event()
                 x = event.motion.x;
                 y = event.motion.y;
                 if(x > 0 and x <= 400 and y > 0 and y <= 100)pause();
+                if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
+                {
+                    is_pause = 1;
+                    level->next_generation();
+                    is_pause = 0;
+                }
                 break;
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_n:
-                    // next generation
-                    if(!automatique)break;
-                    is_pause = 1;
-                    for(auto &sn : level->Snubbys)
-                    {
-                        sn.brain.init_params(NEURAL_NETWORK);
-                        sn.x = level->A.first;
-                        sn.y =  level->A.second;
-                        sn.is_a_life = 1;
-                    };
-                    level->next_generation();
-
-                    level->generation++;
-                    is_pause = 0;
+                   break;
                 }
             }
             if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
@@ -1117,11 +1118,6 @@ void Game::control_event()
 }
 void Game::update()
 {
-    if(run_next_generation)
-    {
-        level->next_generation();
-        run_next_generation = 0;
-    }
     for(auto &sp : level->spiral_dots)sp.next_move();
     for(auto &sp : level->big_spiral_dots)sp.next_move();
     for(auto &e : level->linear_enemys)e.next_move();

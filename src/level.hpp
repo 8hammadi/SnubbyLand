@@ -487,6 +487,7 @@ public:
 
     void next_generation()
     {
+        generation++;
         cout << "Generation : " << generation << endl;
         for(auto &sn : Snubbys)
         {
