@@ -110,7 +110,7 @@ public:
         show();
         while(is_pause)
         {
-            SDL_WaitEvent(&event);
+            SDL_PollEvent(&event);
             switch (event.type)
             {
             case SDL_MOUSEBUTTONDOWN:
@@ -166,7 +166,6 @@ public:
                 free_memory();
 
             }
-            SDL_Delay(10);
         }
     }
 };
@@ -182,7 +181,7 @@ void Game::init()
     {
         font = TTF_OpenFont("../images/AMA.ttf", 50);
     }
-    SDL_LoadWAV("../sound/hit.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
+    SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
     device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
 
     SDL_LoadWAV("../sound/coin.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
@@ -215,7 +214,8 @@ void Game::init()
 }
 void Game::index()
 {
-    cout << "l'index ..." << endl;
+    cout << "Hello " << id << endl;
+    coin_sound();
     SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
     SDL_RenderPresent(render);
     continuer = 1;
@@ -273,6 +273,8 @@ void Game::index()
             {
                 y = 0;
                 l = get_level();
+                level->get_enemys();
+                level->player.update_input(level);
                 update();
                 automatique = 1;
                 //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
@@ -1008,6 +1010,7 @@ bool Game::check_it_free_area(int x, int y)
 {
     if(        (double)(y - cy - level->player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar >= 12 ||
                (double)(x - cx - level->player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar >= 20
+
       )
     {
         return 0;
@@ -1017,10 +1020,11 @@ bool Game::check_it_free_area(int x, int y)
 bool Game::is_player_inside_after(int x, int y)
 {
     if(
-        level->map[(int)((y - cy   ) / size_squar)][(int)((x - cx ) / size_squar)] == -1 ||
-        level->map[(int)((y - cy  ) / size_squar)][(int)((x - cx ) / size_squar)] == -1 ||
-        level->map[(int)((y - cy  ) / size_squar)][(int)((x - cx ) / size_squar)] == -1 ||
         level->map[(int)((y - cy ) / size_squar)][(int)((x - cx ) / size_squar)] == -1
+        // level->map[(int)((y - cy + level->player.w / 2) / size_squar)][(int)((x - cx + level->player.w / 2 ) / size_squar)] == -1
+        // level->map[(int)(((y - cy - 10) / size_squar))][(int)(((x - cx + 10 ) / size_squar))] == -1
+        // level->map[(int)((y - cy + level->player.w / 2) / size_squar)][(int)((x - cx - level->player.w / 2 ) / size_squar)] == -1
+
     )
     {
         return 0;
@@ -1029,33 +1033,7 @@ bool Game::is_player_inside_after(int x, int y)
 }
 void Game::control_event()
 {
-    // SDL_bool run = SDL_TRUE;
 
-    // while (run)
-    // {
-    //     if(!is_playing)
-    //     {
-    //         SDL_Delay(10);
-    //         continue;
-    //     }
-    //     while (SDL_PollEvent(&event))
-    //     {
-    //         switch(event.type)
-    //         {
-    //         case SDL_WINDOWEVENT:
-    //             if (event.window.event == SDL_WINDOWEVENT_CLOSE)
-    //                 run = SDL_FALSE;
-    //             break;
-    //         case SDL_KEYDOWN: // Un événement de type touche enfoncée est effectué
-    //             cout << "+" << endl;
-    //             break;
-    //         case SDL_KEYUP: // Un événement de type touche relâchée est effectué
-    //             cout << "-" << endl;
-    //             break;
-    //         }
-    //     }
-
-    // }
 
     while(1)
     {
@@ -1205,10 +1183,8 @@ void Game::check_status_of_playing()
 }
 void Game::play()
 {
+    cout << "the game begain" << endl;
     level->n_coins = level->coins.size();
-
-    level->get_enemys();
-    level->player.update_input(level);
     is_playing = 1;
     continuer = 1;
     while(continuer and is_playing)
