@@ -281,7 +281,6 @@ public:
     }
     void next_move()
     {
-        cout << next_stop << endl;
         if(sleep)
         {
             sleep--;

@@ -23,9 +23,6 @@ public:
     Uint32 wav_length[2];
     Uint8 *wav_buffer[2];
     SDL_AudioDeviceID device_coin, device_enemy;
-    //int result = 0;
-    //int flags = MIX_INIT_MP3;
-    //Mix_Music *music;
 
     //les variable de jeux online
     bool game_online = 0;
@@ -185,18 +182,12 @@ void Game::init()
     {
         font = TTF_OpenFont("../images/AMA.ttf", 50);
     }
-
-    // if (flags != (result = Mix_Init(flags)))
-    //  {
-    //     printf("Could not initialize mixer (result: %d).\n", result);
-    //     printf("Mix_Init: %s\n", Mix_GetError());
-    //     exit(1);
-    //  }    // Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-    // music = Mix_LoadMUS("../sound/background.mp3");
-    // Mix_PlayMusic(music, 1);    SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
+    SDL_LoadWAV("../sound/hit.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
     device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
+
     SDL_LoadWAV("../sound/coin.wav", &wav_spec[1], &wav_buffer[1], &wav_length[1]);
     device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec[1], NULL, 0);
+
     textureEnemy = SDL_CreateTextureFromSurface(render, IMG_Load("../images/enemy.png"));
     textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/level.png"));
     string zzz;
@@ -289,7 +280,7 @@ void Game::index()
                 level->B = make_pair(level->coins[0].x, level->coins[0].y);
 
                 level->init_population(NEURAL_NETWORK);
-           
+
                 play();
             }
             //CREATE NEW LEVEL
@@ -1013,16 +1004,7 @@ POSITION:
     save_n();
 
 }
-bool Game::check_it_free_area(int x, int y)
-{
-    if(        (double)(y - cy - level->player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar >= 12 ||
-               (double)(x - cx - level->player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar >= 20
-      )
-    {
-        return 0;
-    }
-    return 1;
-}
+
 bool Game::is_player_inside_after(int x, int y)
 {
     if(
@@ -1034,6 +1016,13 @@ bool Game::is_player_inside_after(int x, int y)
     {
         return 0;
     }
+
+    if(        (double)(y - cy - level->player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar >= 12 ||
+               (double)(x - cx - level->player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar >= 20
+      )
+    {
+        return 0;
+    }
     return 1;
 }
 void Game::control_event()
@@ -1041,6 +1030,7 @@ void Game::control_event()
     while(1)
     {
         SDL_WaitEvent(&event);
+        cout << "ok" << endl;
         if(event.type == SDL_QUIT)free_memory();
         if(!is_playing)
         {
@@ -1049,14 +1039,30 @@ void Game::control_event()
         }
         if(event.type == SDL_KEYDOWN)
         {
-            if( event.key.keysym.sym == SDLK_LEFT)
+            if( event.key.keysym.sym == SDLK_LEFT and !T[0])
+            {
                 T[0] = 1;
-            else if( event.key.keysym.sym == SDLK_UP)
+                cout << 1 << endl;
+                continue;
+            }
+            if( event.key.keysym.sym == SDLK_UP and !T[1] )
+            {
                 T[1] = 1;
-            else if( event.key.keysym.sym == SDLK_RIGHT)
+                cout << 2 << endl;
+                continue;
+            }
+            if( event.key.keysym.sym == SDLK_RIGHT and !T[2])
+            {
                 T[2] = 1;
-            else if( event.key.keysym.sym == SDLK_DOWN)
+                cout << 2 << endl;
+                continue;
+            }
+            if( event.key.keysym.sym == SDLK_DOWN and !T[3])
+            {
                 T[3] = 1;
+                cout << 3 << endl;
+                continue;
+            }
         }
         switch (event.type)
         {
@@ -1088,13 +1094,10 @@ void Game::control_event()
 
                 level->generation++;
                 is_pause = 0;
-            case SDLK_s:
-                screen_level();
-                break;
             }
         }
         if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
-        SDL_Delay(10);
+        SDL_Delay(20);
     }
 }
 void Game::update()
@@ -1362,7 +1365,7 @@ void Game::screen_level()
     int width = 1024, height = 668;
     s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
     SDL_RenderReadPixels(render, NULL, s->format->format, s->pixels, s->pitch);
-    string z = "../levels/ga.png";// + to_string(l) + ".png";
+    string z = "../levels/" + to_string(l) + ".png";
     IMG_SavePNG(s, z.c_str());
 }
 
@@ -1382,16 +1385,16 @@ void Player::think(Level *level, Game *g)
 {
     update_input(level);
     vector<double> r = brain.predict( input);
-    if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x, y - 10) &&
+    if(r[0] == max(r[0], max(r[1], max(r[2], r[3])))  &&
             g->is_player_inside_after(x, y - 20)
       )y -= 10; //up
-    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x, y + 10) &&
+    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) &&
             g->is_player_inside_after(x, y + 20)
            )y += 10; //down
-    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x + 10, y) &&
+    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3])))  &&
             g->is_player_inside_after(x + 20, y)
            )x += 10; //R
-    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x - 10, y) &&
+    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3])))  &&
             g->is_player_inside_after(x - 20, y)
            )x -= 10;; //L
 }
@@ -1399,7 +1402,6 @@ void Game::thread_playing_online()
 {
     continuer = 1;
     // streaming_play(player2.first, player2.second, token, id, level->player.x, level->player.y);
-
     while(1)
     {
         while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
@@ -1426,27 +1428,29 @@ void Game::thread_update_position()
         }
         if(T[0])
         {
-            if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
+            if(is_player_inside_after(level->player.x - 20, level->player.y))
                 level->player.x -= 10;
             T[0] = 0;
         }
         if(T[1])
         {
-            if(check_it_free_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
+            if(is_player_inside_after(level->player.x, level->player.y - 20))
                 level->player.y -= 10;
             T[1] = 0;
         }
         if(T[2])
         {
-            if(check_it_free_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
+            if( is_player_inside_after(level->player.x + 20, level->player.y))
                 level->player.x += 10;
             T[2] = 0;
         }
         if(T[3])
         {
-            if(check_it_free_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
+            if(is_player_inside_after(level->player.x, level->player.y + 20))
                 level->player.y += 10;
             T[3] = 0;
         }
+        SDL_Delay(40);
     }
 }
+
