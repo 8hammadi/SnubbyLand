@@ -9,6 +9,21 @@ using namespace std;
 #define TOKEN_SIZE 10
 #define SERVER_URL "http://snubbyland.herokuapp.com/api"
 
+#define SERVER_STREAM "ssnuby.herokuapp.com"
+#include <boost/beast/core.hpp>
+#include <boost/beast/websocket.hpp>
+#include <boost/asio/connect.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <cstdlib>
+#include <iostream>
+#include <string>
+
+namespace beast = boost::beast;        
+namespace websocket = boost::beast::websocket; 
+namespace net = boost::asio;          
+using tcp = boost::asio::ip::tcp; 
+
+
 #include <boost/serialization/vector.hpp>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>

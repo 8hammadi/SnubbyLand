@@ -69,6 +69,7 @@ public:
     void draw_wall();//claire
     void draw_enemys();//claire
     void draw_game();//claire
+    void streaming_game();
     //Mémorisez le numéro de niveau
     void save_n()
     {
@@ -1459,3 +1460,61 @@ void Game::thread_update_position()
     }
 }
 
+
+void Game::streaming_game()
+{
+    try
+    {
+
+        auto const host = SERVER_STREAM;
+        auto const port = "80";
+        auto const text = "hello server";
+
+        // The io_context is required for all I/O
+        net::io_context ioc;
+
+        // These objects perform our I/O
+        tcp::resolver resolver{ioc};
+        websocket::stream<tcp::socket> ws{ioc};
+
+        // Look up the domain name
+        auto const results = resolver.resolve(host, port);
+
+        // Make the connection on the IP address we get from a lookup
+        net::connect(ws.next_layer(), results.begin(), results.end());
+
+        // Set a decorator to change the User-Agent of the handshake
+        ws.set_option(websocket::stream_base::decorator(
+                          [](websocket::request_type & req)
+        {
+            req.set(boost::beast::http::field::user_agent,
+                    std::string(BOOST_BEAST_VERSION_STRING) +
+                    " websocket-client-coro");
+        }));
+
+        // Perform the websocket handshake
+        ws.handshake(host, "/game/stream");
+        beast::flat_buffer buffer;
+        while(1)
+        {
+            // Send the message
+            ws.write(net::buffer(std::string(text)));
+
+            // This buffer will hold the incoming message
+
+            // Read a message into our buffer
+            ws.read(buffer);
+            std::cout << beast::make_printable(buffer.data()) << std::endl;
+        }
+        // Close the WebSocket connection
+        ws.close(websocket::close_code::normal);
+
+        // If we get here then the connection is closed gracefully
+
+        // The make_printable() function helps print a ConstBufferSequence
+    }
+    catch(std::exception const &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
