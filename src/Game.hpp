@@ -1438,25 +1438,24 @@ void Game::thread_update_position()
         if(T[0])
         {
             if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
-                level->player.x -= 10;
+                level->player.x -= 5;
 
         }
         if(T[1])
         {
             if(check_it_free_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
-                level->player.y -= 10;
+                level->player.y -= 5;
         }
         if(T[2])
         {
             if(check_it_free_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
-                level->player.x += 10;
+                level->player.x += 5;
         }
         if(T[3])
         {
             if(check_it_free_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
-                level->player.y += 10;
+                level->player.y += 5;
         }
-        SDL_Delay(40);
     }
 }
 
