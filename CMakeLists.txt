@@ -7,7 +7,7 @@ include_directories(includes)
 
 
 file(GLOB SOURCES CONFIGURE_DEPENDS
-src/Main.cpp
+src/main.cpp
 )
 
 add_executable(${PROJECT_NAME}

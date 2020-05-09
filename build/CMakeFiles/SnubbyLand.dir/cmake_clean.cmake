@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/SnubbyLand.dir/src/Main.cpp.o"
+  "CMakeFiles/SnubbyLand.dir/src/main.cpp.o"
   "SnubbyLand"
   "SnubbyLand.pdb"
 )
