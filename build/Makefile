@@ -144,32 +144,32 @@ SnubbyLand/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SnubbyLand.dir/build.make CMakeFiles/SnubbyLand.dir/build
 .PHONY : SnubbyLand/fast
 
-src/main.o: src/main.cpp.o
+src/Main.o: src/Main.cpp.o
 
-.PHONY : src/main.o
+.PHONY : src/Main.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SnubbyLand.dir/build.make CMakeFiles/SnubbyLand.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/Main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SnubbyLand.dir/build.make CMakeFiles/SnubbyLand.dir/src/Main.cpp.o
+.PHONY : src/Main.cpp.o
 
-src/main.i: src/main.cpp.i
+src/Main.i: src/Main.cpp.i
 
-.PHONY : src/main.i
+.PHONY : src/Main.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SnubbyLand.dir/build.make CMakeFiles/SnubbyLand.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/Main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SnubbyLand.dir/build.make CMakeFiles/SnubbyLand.dir/src/Main.cpp.i
+.PHONY : src/Main.cpp.i
 
-src/main.s: src/main.cpp.s
+src/Main.s: src/Main.cpp.s
 
-.PHONY : src/main.s
+.PHONY : src/Main.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/SnubbyLand.dir/build.make CMakeFiles/SnubbyLand.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/Main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SnubbyLand.dir/build.make CMakeFiles/SnubbyLand.dir/src/Main.cpp.s
+.PHONY : src/Main.cpp.s
 
 # Help Target
 help:
@@ -180,9 +180,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... SnubbyLand"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... src/Main.o"
+	@echo "... src/Main.i"
+	@echo "... src/Main.s"
 .PHONY : help
 
 

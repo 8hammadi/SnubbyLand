@@ -3,9 +3,9 @@
 cmake_policy(SET CMP0009 NEW)
 
 # SOURCES at CMakeLists.txt:9 (file)
-file(GLOB NEW_GLOB LIST_DIRECTORIES true "/home/run/Desktop/SnubbyLand/src/main.cpp")
+file(GLOB NEW_GLOB LIST_DIRECTORIES true "/home/run/Desktop/SnubbyLand/src/Main.cpp")
 set(OLD_GLOB
-  "/home/run/Desktop/SnubbyLand/src/main.cpp"
+  "/home/run/Desktop/SnubbyLand/src/Main.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

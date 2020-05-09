@@ -6,3 +6,9 @@
 
 #IncludeRegexTransform: 
 
+/home/run/Desktop/SnubbyLand/src/Main.cpp
+bits/stdc++.h
+-
+SDL2/SDL.h
+-
+

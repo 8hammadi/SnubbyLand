@@ -77,27 +77,27 @@ include CMakeFiles/SnubbyLand.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/SnubbyLand.dir/flags.make
 
-CMakeFiles/SnubbyLand.dir/src/main.cpp.o: CMakeFiles/SnubbyLand.dir/flags.make
-CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/run/Desktop/SnubbyLand/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SnubbyLand.dir/src/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SnubbyLand.dir/src/main.cpp.o -c /home/run/Desktop/SnubbyLand/src/main.cpp
+CMakeFiles/SnubbyLand.dir/src/Main.cpp.o: CMakeFiles/SnubbyLand.dir/flags.make
+CMakeFiles/SnubbyLand.dir/src/Main.cpp.o: ../src/Main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/run/Desktop/SnubbyLand/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SnubbyLand.dir/src/Main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/SnubbyLand.dir/src/Main.cpp.o -c /home/run/Desktop/SnubbyLand/src/Main.cpp
 
-CMakeFiles/SnubbyLand.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SnubbyLand.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/run/Desktop/SnubbyLand/src/main.cpp > CMakeFiles/SnubbyLand.dir/src/main.cpp.i
+CMakeFiles/SnubbyLand.dir/src/Main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/SnubbyLand.dir/src/Main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/run/Desktop/SnubbyLand/src/Main.cpp > CMakeFiles/SnubbyLand.dir/src/Main.cpp.i
 
-CMakeFiles/SnubbyLand.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SnubbyLand.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/run/Desktop/SnubbyLand/src/main.cpp -o CMakeFiles/SnubbyLand.dir/src/main.cpp.s
+CMakeFiles/SnubbyLand.dir/src/Main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/SnubbyLand.dir/src/Main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/run/Desktop/SnubbyLand/src/Main.cpp -o CMakeFiles/SnubbyLand.dir/src/Main.cpp.s
 
 # Object files for target SnubbyLand
 SnubbyLand_OBJECTS = \
-"CMakeFiles/SnubbyLand.dir/src/main.cpp.o"
+"CMakeFiles/SnubbyLand.dir/src/Main.cpp.o"
 
 # External object files for target SnubbyLand
 SnubbyLand_EXTERNAL_OBJECTS =
 
-SnubbyLand: CMakeFiles/SnubbyLand.dir/src/main.cpp.o
+SnubbyLand: CMakeFiles/SnubbyLand.dir/src/Main.cpp.o
 SnubbyLand: CMakeFiles/SnubbyLand.dir/build.make
 SnubbyLand: CMakeFiles/SnubbyLand.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/run/Desktop/SnubbyLand/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable SnubbyLand"
