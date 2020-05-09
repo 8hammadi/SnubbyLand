@@ -46,17 +46,3 @@ string send_and_get_status(string token, string id, int x, int y)
 
 
 
-void   streaming_play(int &xx, int &yy, string token, string id, int x, int y)
-{
-    // http::Request request("http://localhost:8000/");
-    http::Request request("http://snubbyland.herokuapp.com");
-    while(1)
-    {
-        SDL_Delay(200);
-        request.stream(xx, yy, "POST", "545454",
-        {
-            "Content-Type: application/x-www-form-urlencoded"
-        });
-
-    }
-}

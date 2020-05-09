@@ -110,7 +110,7 @@ public:
         show();
         while(is_pause)
         {
-            SDL_PollEvent(&event);
+            SDL_WaitEvent(&event);
             switch (event.type)
             {
             case SDL_MOUSEBUTTONDOWN:
@@ -1051,7 +1051,7 @@ void Game::control_event()
             SDL_Delay(50);
             continue;
         }
-        while(SDL_PollEvent(&event))
+        while(SDL_WaitEvent(&event))
         {
             if(event.type == SDL_QUIT)free_memory();
             if(event.type == SDL_KEYDOWN)
@@ -1110,7 +1110,7 @@ void Game::control_event()
                 switch (event.key.keysym.sym)
                 {
                 case SDLK_n:
-                   break;
+                    break;
                 }
             }
             if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
@@ -1408,25 +1408,6 @@ void Player::think(Level *level, Game *g)
             g->is_player_inside_after(x - 20, y)
            )x -= 10;; //L
 }
-void Game::thread_playing_online()
-{
-    continuer = 1;
-    // streaming_play(player2.first, player2.second, token, id, level->player.x, level->player.y);
-    while(1)
-    {
-        while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
-        try
-        {
-            streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
-            streams >> player2.first >> player2.second;
-            status_thread_playing_online = 1;
-        }
-        catch (const std::exception &e)
-        {
-            status_thread_playing_online = 0;
-        }
-    }
-}
 void Game::thread_update_position()
 {
     while(1)
@@ -1436,85 +1417,113 @@ void Game::thread_update_position()
             SDL_Delay(10);
             continue;
         }
+        SDL_Delay(1/FREQUENCE);
         if(T[0])
         {
             if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
-                level->player.x -= 5;
+            {
+                level->player.x -= SPEED;cout<<1<<endl;
+            }
 
         }
         if(T[1])
         {
             if(check_it_free_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
-                level->player.y -= 5;
+            {
+                level->player.y -= SPEED;
+            }
         }
         if(T[2])
         {
             if(check_it_free_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
-                level->player.x += 5;
+            {
+                level->player.x += SPEED;
+            }
         }
         if(T[3])
         {
             if(check_it_free_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
-                level->player.y += 5;
+            {
+                level->player.y += SPEED;
+            }
         }
     }
 }
 
+void Game::thread_playing_online()
+{
+    // streaming_game();
+    //last methof of playing
+    // continuer = 1;
+    // while(1)
+    // {
+    //     while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
+    //     try
+    //     {
+    //         streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
+    //         streams >> player2.first >> player2.second;
+    //         status_thread_playing_online = 1;
+    //     }
+    //     catch (const std::exception &e)
+    //     {
+    //         status_thread_playing_online = 0;
+    //     }
+    // }
+}
 
 void Game::streaming_game()
 {
-    try
-    {
+    // try
+    // {
+    //     cout<<"STREAMING ..."<<endl;
+    //     auto const host = SERVER_STREAM;
+    //     auto const port = "80";
+    //     string text = "hello server";
 
-        auto const host = SERVER_STREAM;
-        auto const port = "80";
-        auto const text = "hello server";
+    //     // The io_context is required for all I/O
+    //     net::io_context ioc;
 
-        // The io_context is required for all I/O
-        net::io_context ioc;
+    //     // These objects perform our I/O
+    //     tcp::resolver resolver{ioc};
+    //     websocket::stream<tcp::socket> ws{ioc};
 
-        // These objects perform our I/O
-        tcp::resolver resolver{ioc};
-        websocket::stream<tcp::socket> ws{ioc};
+    //     // Look up the domain name
+    //     auto const results = resolver.resolve(host, port);
 
-        // Look up the domain name
-        auto const results = resolver.resolve(host, port);
+    //     // Make the connection on the IP address we get from a lookup
+    //     net::connect(ws.next_layer(), results.begin(), results.end());
 
-        // Make the connection on the IP address we get from a lookup
-        net::connect(ws.next_layer(), results.begin(), results.end());
+    //     // Set a decorator to change the User-Agent of the handshake
+    //     ws.set_option(websocket::stream_base::decorator(
+    //                       [](websocket::request_type & req)
+    //     {
+    //         req.set(boost::beast::http::field::user_agent,
+    //                 std::string(BOOST_BEAST_VERSION_STRING) +
+    //                 " websocket-client-coro");
+    //     }));
 
-        // Set a decorator to change the User-Agent of the handshake
-        ws.set_option(websocket::stream_base::decorator(
-                          [](websocket::request_type & req)
-        {
-            req.set(boost::beast::http::field::user_agent,
-                    std::string(BOOST_BEAST_VERSION_STRING) +
-                    " websocket-client-coro");
-        }));
+    //     // Perform the websocket handshake
+    //     ws.handshake(host, "/game/stream");
+    //     beast::flat_buffer buffer;
+    //     while(1)
+    //     {
+    //         // text=to_string(level->player.x)+" "+to_string(level->player.y);
+    //         // Send the message
+    //         ws.write(net::buffer(text));
+    //         // This buffer will hold the incoming message
+    //         // Read a message into our buffer
+    //         ws.read(buffer);
+    //         std::cout << beast::make_printable(buffer.data()) << std::endl;
+    //     }
+    //     // Close the WebSocket connection
+    //     ws.close(websocket::close_code::normal);
 
-        // Perform the websocket handshake
-        ws.handshake(host, "/game/stream");
-        beast::flat_buffer buffer;
-        while(1)
-        {
-            // Send the message
-            ws.write(net::buffer(std::string(text)));
+    //     // If we get here then the connection is closed gracefully
 
-            // This buffer will hold the incoming message
-
-            // Read a message into our buffer
-            ws.read(buffer);
-            std::cout << beast::make_printable(buffer.data()) << std::endl;
-        }
-        // Close the WebSocket connection
-        ws.close(websocket::close_code::normal);
-
-        // If we get here then the connection is closed gracefully
-
-        // The make_printable() function helps print a ConstBufferSequence
-    }
-    catch(std::exception const &e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
+    //     // The make_printable() function helps print a ConstBufferSequence
+    // }
+    // catch(std::exception const &e)
+    // {
+    //     std::cerr << "Error: " << e.what() << std::endl;
+    // }
 }

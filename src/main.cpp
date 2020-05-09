@@ -8,15 +8,14 @@ using namespace std;
 #define RANDOM (double)rand()/RAND_MAX
 #define TOKEN_SIZE 10
 #define SERVER_URL "http://snubbyland.herokuapp.com/api"
-
 #define SERVER_STREAM "ssnuby.herokuapp.com"
+#define SPEED 1
+#define FREQUENCE 0.2
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #include <cstdlib>
-#include <iostream>
-#include <string>
 
 namespace beast = boost::beast;        
 namespace websocket = boost::beast::websocket; 
@@ -80,7 +79,7 @@ int main(int argc, char const *argv[])
     }
     else
     {
-        cout << "add some id like '$./game @ensias '" << endl;
+        cout << "add some id like '$./game hello_server'" << endl;
         exit(0);
     }
 
