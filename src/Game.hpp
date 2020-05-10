@@ -261,9 +261,9 @@ void Game::index()
                 SDL_RenderPresent(render);
                 do
                 {
+
                     cout << "demande de jouer en ligne ..." << endl;
                     id2 = find_player(id, l);
-                    SDL_Delay(300);
                 }
                 while(id2.size() >= 50);
                 cout << "id de la 2eme joeurs est " << id2 << endl;
@@ -1453,12 +1453,12 @@ void Game::thread_update_position()
 
 void Game::thread_playing_online()
 {
+    // while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
     streaming_game();
     //last methof of playing
     // continuer = 1;
     // while(1)
     // {
-    //     while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
     //     try
     //     {
     //         streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
@@ -1508,17 +1508,19 @@ void Game::streaming_game()
         beast::flat_buffer buffer;
         while(1)
         {
-            text = to_string(level->player.x) + " " + to_string(level->player.y);
+            text = to_string(level->player.x) + " " + to_string(level->player.y) +" "+id+" "+id2;
             // Send the message
+            cout<<"sending "<<text<<endl;
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message
             // Read a message into our buffer
             ws.read(buffer);
             cout << beast::make_printable(buffer.data());
             text = beast::buffers_to_string(buffer.data()) ;
-            cout << text;
+            cout <<"recieving  "<<text<<endl;
             streams = stringstream(text);
             streams >> player2.first >> player2.second;
+            // cout<<player2.first<<" "<<player2.second<<endl;
         }
         // Close the WebSocket connection
         ws.close(websocket::close_code::normal);
