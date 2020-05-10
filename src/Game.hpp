@@ -26,7 +26,7 @@ public:
     //les variable de jeux online
     bool game_online = 0;
     pair<int, int> player2;
-    string id2, token;
+    string id2="0", token;
     stringstream streams;
     string id;
 
@@ -1423,7 +1423,6 @@ void Game::thread_update_position()
             if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
             {
                 level->player.x -= SPEED;
-                cout << 1 << endl;
             }
 
         }
@@ -1453,7 +1452,7 @@ void Game::thread_update_position()
 
 void Game::thread_playing_online()
 {
-    // while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
+    while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
     streaming_game();
     //last methof of playing
     // continuer = 1;
@@ -1508,26 +1507,24 @@ void Game::streaming_game()
         beast::flat_buffer buffer;
         while(1)
         {
+            buffer.clear();
+            text.clear();
             text = to_string(level->player.x) + " " + to_string(level->player.y) +" "+id+" "+id2;
+            // cout<<"sending  "<<text<<endl;
             // Send the message
-            cout<<"sending "<<text<<endl;
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message
             // Read a message into our buffer
             ws.read(buffer);
-            cout << beast::make_printable(buffer.data());
             text = beast::buffers_to_string(buffer.data()) ;
-            cout <<"recieving  "<<text<<endl;
             streams = stringstream(text);
             streams >> player2.first >> player2.second;
-            // cout<<player2.first<<" "<<player2.second<<endl;
+            // cout<<"recieving "<<player2.first<<" "<<player2.second<<endl;
         }
         // Close the WebSocket connection
         ws.close(websocket::close_code::normal);
-
         // If we get here then the connection is closed gracefully
 
-        // The make_printable() function helps print a ConstBufferSequence
     }
     catch(exception const &e)
     {

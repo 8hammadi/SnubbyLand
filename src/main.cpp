@@ -79,6 +79,7 @@ int main(int argc, char const *argv[])
     {
         Game.init();
         Game.id = argv[1];
+        // Game.id2 = argv[2];
     }
     else
     {
