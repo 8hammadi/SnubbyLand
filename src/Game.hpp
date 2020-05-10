@@ -73,14 +73,14 @@ public:
     //Mémorisez le numéro de niveau
     void save_n()
     {
-        std::ofstream ofs("../levels/n");
+        ofstream ofs("../levels/n");
         boost::archive::text_oarchive ar(ofs);
         ar &N_LEVELS;
     }
     //Connaître le numéro du niveau
     void load_n()
     {
-        std::ifstream ifs("../levels/n");
+        ifstream ifs("../levels/n");
         boost::archive::text_iarchive ar(ifs);
         ar &N_LEVELS;
     }    void text(char *t, int x, int y, int w, int h)
@@ -1381,13 +1381,13 @@ void Game::screen_level()
 
 void Game::save_level()
 {
-    std::ofstream ofs( "../levels/" + to_string(N_LEVELS));
+    ofstream ofs( "../levels/" + to_string(N_LEVELS));
     boost::archive::text_oarchive ar(ofs);
     ar &level;
 }
 void Game::load_level(int k)
 {
-    std::ifstream ifs("../levels/" + to_string(k));
+    ifstream ifs("../levels/" + to_string(k));
     boost::archive::text_iarchive ar(ifs);
     ar &level;
 }
@@ -1417,12 +1417,13 @@ void Game::thread_update_position()
             SDL_Delay(10);
             continue;
         }
-        SDL_Delay(1/FREQUENCE);
+        SDL_Delay(1 / FREQUENCE);
         if(T[0])
         {
             if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
             {
-                level->player.x -= SPEED;cout<<1<<endl;
+                level->player.x -= SPEED;
+                cout << 1 << endl;
             }
 
         }
@@ -1452,7 +1453,7 @@ void Game::thread_update_position()
 
 void Game::thread_playing_online()
 {
-    // streaming_game();
+    streaming_game();
     //last methof of playing
     // continuer = 1;
     // while(1)
@@ -1464,7 +1465,7 @@ void Game::thread_playing_online()
     //         streams >> player2.first >> player2.second;
     //         status_thread_playing_online = 1;
     //     }
-    //     catch (const std::exception &e)
+    //     catch (const exception &e)
     //     {
     //         status_thread_playing_online = 0;
     //     }
@@ -1473,57 +1474,62 @@ void Game::thread_playing_online()
 
 void Game::streaming_game()
 {
-    // try
-    // {
-    //     cout<<"STREAMING ..."<<endl;
-    //     auto const host = SERVER_STREAM;
-    //     auto const port = "80";
-    //     string text = "hello server";
+    cout << "STREAMING Game..." << endl;
+    string text;
+    try
+    {
+        auto const host = SERVER_STREAM;
+        auto const port = "80";
 
-    //     // The io_context is required for all I/O
-    //     net::io_context ioc;
+        // The io_context is required for all I/O
+        net::io_context ioc;
 
-    //     // These objects perform our I/O
-    //     tcp::resolver resolver{ioc};
-    //     websocket::stream<tcp::socket> ws{ioc};
+        // These objects perform our I/O
+        tcp::resolver resolver{ioc};
+        websocket::stream<tcp::socket> ws{ioc};
 
-    //     // Look up the domain name
-    //     auto const results = resolver.resolve(host, port);
+        // Look up the domain name
+        auto const results = resolver.resolve(host, port);
 
-    //     // Make the connection on the IP address we get from a lookup
-    //     net::connect(ws.next_layer(), results.begin(), results.end());
+        // Make the connection on the IP address we get from a lookup
+        net::connect(ws.next_layer(), results.begin(), results.end());
 
-    //     // Set a decorator to change the User-Agent of the handshake
-    //     ws.set_option(websocket::stream_base::decorator(
-    //                       [](websocket::request_type & req)
-    //     {
-    //         req.set(boost::beast::http::field::user_agent,
-    //                 std::string(BOOST_BEAST_VERSION_STRING) +
-    //                 " websocket-client-coro");
-    //     }));
+        // Set a decorator to change the User-Agent of the handshake
+        ws.set_option(websocket::stream_base::decorator(
+                          [](websocket::request_type & req)
+        {
+            req.set(boost::beast::http::field::user_agent,
+                    string(BOOST_BEAST_VERSION_STRING) +
+                    " websocket-client-coro");
+        }));
 
-    //     // Perform the websocket handshake
-    //     ws.handshake(host, "/game/stream");
-    //     beast::flat_buffer buffer;
-    //     while(1)
-    //     {
-    //         // text=to_string(level->player.x)+" "+to_string(level->player.y);
-    //         // Send the message
-    //         ws.write(net::buffer(text));
-    //         // This buffer will hold the incoming message
-    //         // Read a message into our buffer
-    //         ws.read(buffer);
-    //         std::cout << beast::make_printable(buffer.data()) << std::endl;
-    //     }
-    //     // Close the WebSocket connection
-    //     ws.close(websocket::close_code::normal);
+        // Perform the websocket handshake
+        ws.handshake(host, "/game/stream");
+        beast::flat_buffer buffer;
+        while(1)
+        {
+            text = to_string(level->player.x) + " " + to_string(level->player.y);
+            // Send the message
+            ws.write(net::buffer(text));
+            // This buffer will hold the incoming message
+            // Read a message into our buffer
+            ws.read(buffer);
+            cout << beast::make_printable(buffer.data());
+            text = beast::buffers_to_string(buffer.data()) ;
+            cout << text;
+            streams = stringstream(text);
+            streams >> player2.first >> player2.second;
+        }
+        // Close the WebSocket connection
+        ws.close(websocket::close_code::normal);
 
-    //     // If we get here then the connection is closed gracefully
+        // If we get here then the connection is closed gracefully
 
-    //     // The make_printable() function helps print a ConstBufferSequence
-    // }
-    // catch(std::exception const &e)
-    // {
-    //     std::cerr << "Error: " << e.what() << std::endl;
-    // }
+        // The make_printable() function helps print a ConstBufferSequence
+    }
+    catch(exception const &e)
+    {
+
+        cerr << "Error: " << e.what() << endl;
+    }
 }

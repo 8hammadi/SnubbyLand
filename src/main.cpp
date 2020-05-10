@@ -17,10 +17,10 @@ using namespace std;
 #include <boost/asio/ip/tcp.hpp>
 #include <cstdlib>
 
-namespace beast = boost::beast;        
-namespace websocket = boost::beast::websocket; 
-namespace net = boost::asio;          
-using tcp = boost::asio::ip::tcp; 
+namespace beast = boost::beast;
+namespace websocket = boost::beast::websocket;
+namespace net = boost::asio;
+using tcp = boost::asio::ip::tcp;
 
 
 #include <boost/serialization/vector.hpp>
@@ -46,6 +46,7 @@ using tcp = boost::asio::ip::tcp;
 #include "level.hpp"
 #include "Game.hpp"
 
+
 Level level;
 Game Game(&level);
 
@@ -70,6 +71,8 @@ int thread_update_position(void *a)
 int main(int argc, char const *argv[])
 {
 
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
 
     if(argc > 1)
