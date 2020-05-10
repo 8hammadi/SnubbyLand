@@ -24,9 +24,9 @@ public:
     SDL_AudioDeviceID device_coin, device_enemy;
 
     //les variable de jeux online
-    bool game_online = 0;
+    bool is_online_game = 0;
     pair<int, int> player2;
-    string id2="0", token;
+    string id2 = "0", token;
     stringstream streams;
     string id;
 
@@ -69,7 +69,7 @@ public:
     void draw_wall();//claire
     void draw_enemys();//claire
     void draw_game();//claire
-    void streaming_game();
+    void online_game();
     //Mémorisez le numéro de niveau
     void save_n()
     {
@@ -240,7 +240,6 @@ void Game::index()
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
 
-                game_online = 1;
                 SDL_RenderCopy(render, texture_wait, NULL, NULL);
                 SDL_RenderPresent(render);
                 token = login(id);
@@ -248,26 +247,10 @@ void Game::index()
                 if(token.size() != TOKEN_SIZE)
                 {
                     cout << "la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ." << endl;
+                    SDL_DestroyTexture(texture_wait);
                     break;
                 }
-                y = 0;
-                l = get_level();
-                cout << "level : " << l << endl;
-                if(token.size() != TOKEN_SIZE)
-                {
-                    break;
-                }
-                SDL_RenderCopy(render, texture_wait, NULL, NULL);
-                SDL_RenderPresent(render);
-                do
-                {
-
-                    cout << "demande de jouer en ligne ..." << endl;
-                    id2 = find_player(id, l);
-                }
-                while(id2.size() >= 50);
-                cout << "id de la 2eme joeurs est " << id2 << endl;
-                play();
+                online_game();
             }
             //GENETIC ALGORITHM (n'est pas encore terminé)
             if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
@@ -342,7 +325,7 @@ void Game::draw_game()
     draw_wall();
     if(!automatique)
     {
-        if(game_online)
+        if(is_online_game)
         {
             rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
             SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
@@ -1312,7 +1295,7 @@ void Game::free_memory()
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
     SDL_Delay(4);
-    if(token.size() == TOKEN_SIZE)
+    if(is_online_game)
     {
         cout << "deconexion .." << endl;
         logout(id, token);
@@ -1450,29 +1433,31 @@ void Game::thread_update_position()
     }
 }
 
-void Game::thread_playing_online()
+void Game::online_game()
 {
-    while(token.size() != TOKEN_SIZE  or !is_playing)SDL_Delay(100);
-    streaming_game();
-    //last methof of playing
-    // continuer = 1;
-    // while(1)
-    // {
-    //     try
-    //     {
-    //         streams = stringstream(send_and_get_status(token, id, level->player.x, level->player.y));
-    //         streams >> player2.first >> player2.second;
-    //         status_thread_playing_online = 1;
-    //     }
-    //     catch (const exception &e)
-    //     {
-    //         status_thread_playing_online = 0;
-    //     }
-    // }
+
+    y = 0;
+    l = get_level();
+    cout << "level : " << l << endl;
+    SDL_RenderCopy(render, texture_wait, NULL, NULL);
+    SDL_RenderPresent(render);
+    is_online_game = 1;
+    while(id2 == "0")
+    {
+        SDL_Delay(50);   //finding a player
+        cout << ".";
+    }
+    cout << endl;
+    // cout << "demande de jouer en ligne ..." << endl;
+    // id2 = find_player(id, l);
+    // cout << "id de la 2eme joeurs est " << id2 << endl;
+    play();
+
 }
 
-void Game::streaming_game()
+void Game::thread_playing_online()
 {
+    while(1)if(is_online_game)break;
     cout << "STREAMING Game..." << endl;
     string text;
     try
@@ -1505,12 +1490,16 @@ void Game::streaming_game()
         // Perform the websocket handshake
         ws.handshake(host, "/game/stream");
         beast::flat_buffer buffer;
+        text=id+" "+to_string(l);
+        ws.write(net::buffer(text));
+        cout << "searching ...." << endl;
+        ws.read(buffer);
+        id2 = beast::buffers_to_string(buffer.data()) ;
+        cout << "You VS " << id2;
         while(1)
         {
             buffer.clear();
-            text.clear();
-            text = to_string(level->player.x) + " " + to_string(level->player.y) +" "+id+" "+id2;
-            // cout<<"sending  "<<text<<endl;
+            text = to_string(level->player.x) + " " + to_string(level->player.y) + " " + id + " " + id2;
             // Send the message
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message
@@ -1519,7 +1508,6 @@ void Game::streaming_game()
             text = beast::buffers_to_string(buffer.data()) ;
             streams = stringstream(text);
             streams >> player2.first >> player2.second;
-            // cout<<"recieving "<<player2.first<<" "<<player2.second<<endl;
         }
         // Close the WebSocket connection
         ws.close(websocket::close_code::normal);
@@ -1529,6 +1517,7 @@ void Game::streaming_game()
     catch(exception const &e)
     {
 
-        cerr << "Error: " << e.what() << endl;
+        cout<< "Error: " << e.what() << endl;
+        free_memory();
     }
 }
