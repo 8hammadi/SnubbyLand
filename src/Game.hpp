@@ -1489,6 +1489,8 @@ void Game::thread_playing_online()
         ws.read(buffer);
         id = beast::buffers_to_string(buffer.data()) ;
         cout << "Your id is " << id << endl;
+        buffer.clear();
+
         //demmand id of player 2
         text = id + " " + to_string(l);
         ws.write(net::buffer(text));
@@ -1510,7 +1512,6 @@ void Game::thread_playing_online()
             text = beast::buffers_to_string(buffer.data()) ;
             streams = stringstream(text);
             streams >> player2.first >> player2.second;
-            cout << text << endl;
         }
         // Close the WebSocket connection
         ws.close(websocket::close_code::normal);
