@@ -240,16 +240,16 @@ void Game::index()
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
 
-                SDL_RenderCopy(render, texture_wait, NULL, NULL);
-                SDL_RenderPresent(render);
-                token = login(id);
-                cout << "Your token  (clef secrète): " << token << endl;
-                if(token.size() != TOKEN_SIZE)
-                {
-                    cout << "la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ." << endl;
-                    SDL_DestroyTexture(texture_wait);
-                    break;
-                }
+                // SDL_RenderCopy(render, texture_wait, NULL, NULL);
+                // SDL_RenderPresent(render);
+                // token = login(id);
+                // cout << "Your token  (clef secrète): " << token << endl;
+                // if(token.size() != TOKEN_SIZE)
+                // {
+                //     cout << "la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ." << endl;
+                //     SDL_DestroyTexture(texture_wait);
+                //     break;
+                // }
                 online_game();
             }
             //GENETIC ALGORITHM (n'est pas encore terminé)
@@ -1295,11 +1295,6 @@ void Game::free_memory()
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
     SDL_Delay(4);
-    if(is_online_game)
-    {
-        cout << "deconexion .." << endl;
-        logout(id, token);
-    }
     cout << "libérer la mémoire ..." << endl;
     SDL_Quit();
     SDL_DestroyTexture(texture);
@@ -1445,12 +1440,9 @@ void Game::online_game()
     while(id2 == "0")
     {
         SDL_Delay(50);   //finding a player
-        cout << ".";
     }
     cout << endl;
-    // cout << "demande de jouer en ligne ..." << endl;
-    // id2 = find_player(id, l);
-    // cout << "id de la 2eme joeurs est " << id2 << endl;
+
     play();
 
 }
@@ -1467,7 +1459,6 @@ void Game::thread_playing_online()
 
         // The io_context is required for all I/O
         net::io_context ioc;
-
         // These objects perform our I/O
         tcp::resolver resolver{ioc};
         websocket::stream<tcp::socket> ws{ioc};
@@ -1490,11 +1481,22 @@ void Game::thread_playing_online()
         // Perform the websocket handshake
         ws.handshake(host, "/game/stream");
         beast::flat_buffer buffer;
-        text=id+" "+to_string(l);
+
+        cout << "connecting ..." << endl;
+        //demmand id
+        text = "+";
+        ws.write(net::buffer(text));
+        ws.read(buffer);
+        id = beast::buffers_to_string(buffer.data()) ;
+        cout << "Your id is " << id << endl;
+        //demmand id of player 2
+        text = id + " " + to_string(l);
         ws.write(net::buffer(text));
         cout << "searching ...." << endl;
         ws.read(buffer);
         id2 = beast::buffers_to_string(buffer.data()) ;
+
+        //the game begain
         cout << "You VS " << id2;
         while(1)
         {
@@ -1508,6 +1510,7 @@ void Game::thread_playing_online()
             text = beast::buffers_to_string(buffer.data()) ;
             streams = stringstream(text);
             streams >> player2.first >> player2.second;
+            cout << text << endl;
         }
         // Close the WebSocket connection
         ws.close(websocket::close_code::normal);
@@ -1517,7 +1520,7 @@ void Game::thread_playing_online()
     catch(exception const &e)
     {
 
-        cout<< "Error: " << e.what() << endl;
+        cout << "Error: " << e.what() << endl;
         free_memory();
     }
 }

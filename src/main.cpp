@@ -31,8 +31,6 @@ using tcp = boost::asio::ip::tcp;
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "HTTPRequest.hpp"
-#include "server.hpp"
 
 #include <cmath>
 #include <string.h>
@@ -75,16 +73,8 @@ int main(int argc, char const *argv[])
     cin.tie(NULL);
 
 
-    if(argc > 1)
-    {
-        Game.init();
-        Game.id = argv[1];
-    }
-    else
-    {
-        cout << "add some id like '$./game hello_server'" << endl;
-        exit(0);
-    }
+
+    Game.init();
 
 
     SDL_CreateThread( control_event, "", (void *)NULL);
