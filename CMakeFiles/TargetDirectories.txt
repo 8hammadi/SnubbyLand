@@ -1,0 +1,3 @@
+/home/run/Desktop/SnubbyLand/CMakeFiles/rebuild_cache.dir
+/home/run/Desktop/SnubbyLand/CMakeFiles/SnubbyLand.dir
+/home/run/Desktop/SnubbyLand/CMakeFiles/edit_cache.dir

@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/run/Desktop/SnubbyLand/includes 
+CXX_INCLUDES = -I/usr/include/SDL2/include 
 

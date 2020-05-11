@@ -4,7 +4,7 @@
 #define NEURAL_NETWORK { (int)level.player.input.size(),40,10, 4}
 #define RANDOM (double)rand()/RAND_MAX
 #define TOKEN_SIZE 10
-#define SERVER_STREAM "ssnuby.herokuapp.com"
+#define SERVER_STREAM "snubbyland.herokuapp.com"
 #define SPEED 1
 
 #include <bits/stdc++.h>

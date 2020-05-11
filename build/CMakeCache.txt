@@ -14,6 +14,9 @@
 # EXTERNAL cache entries
 ########################
 
+//Variable supplied by CMakeTools. Value is forced.
+BUILD_SHARED_LIBS:BOOL=FALSE
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 

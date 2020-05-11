@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.7)
 
 project(SnubbyLand)
 
-include_directories(includes)
-
-
+include_directories(/usr/include/SDL2)
 
 file(GLOB SOURCES CONFIGURE_DEPENDS
 src/main.cpp
@@ -13,6 +11,7 @@ src/main.cpp
 add_executable(${PROJECT_NAME}
 ${SOURCES}
 )
+
 
 target_link_libraries(${PROJECT_NAME}
 -lSDL2
