@@ -16,6 +16,9 @@ public:
     bool go_back = 0, is_playing = 0, is_pause = 0, is_index = 0, automatique, is_thinking = 0, status_thread_playing_online = 0;
     TTF_Font *font;
     int N_LEVELS = 0;
+    double sensitivity = 0.2;
+    string text;
+
     bool  T[4] = {0, 0, 0, 0};
     //les variable de son
     SDL_AudioSpec wav_spec[2];
@@ -32,9 +35,19 @@ public:
 
     //les variable de l algorithm génétique
     pair<int, int> A, B, C, D;
-    Game(Level *l)
+
+    string host = SERVER_STREAM;
+    string port = "80";
+    // The io_context is required for all I/O
+    net::io_context ioc;
+    // These objects perform our I/O
+    tcp::resolver resolver{ioc};
+    websocket::stream<tcp::socket> ws{ioc};
+    // Look up the domain name
+    boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> results = resolver.resolve(host, port);
+
+    Game()
     {
-        level = l;
     }
     void init();// Initialise tous les variables de jeux
     void index();//c'est l'index de jeux : la page initial de choix
@@ -83,7 +96,7 @@ public:
         ifstream ifs("../levels/n");
         boost::archive::text_iarchive ar(ifs);
         ar &N_LEVELS;
-    }    void text(char *t, int x, int y, int w, int h)
+    }    void draw_text(char *t, int x, int y, int w, int h)
     {
         rect = {  x, y, w, h};
         s = TTF_RenderText_Solid(font, t, {0, 0, 0, 0});
@@ -189,12 +202,11 @@ void Game::init()
 
     textureEnemy = SDL_CreateTextureFromSurface(render, IMG_Load("../images/enemy.png"));
     textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/level.png"));
-    string zzz;
     load_n();
     for(int i = 0; i < N_LEVELS + 1; i++)
     {
-        zzz = "../levels/" + to_string(i + 1) + ".png";
-        textures[i + 1] = SDL_CreateTextureFromSurface(render, IMG_Load(zzz.c_str()));
+        text = "../levels/" + to_string(i + 1) + ".png";
+        textures[i + 1] = SDL_CreateTextureFromSurface(render, IMG_Load(text.c_str()));
     }
     textureCoin = SDL_CreateTextureFromSurface(render, IMG_Load("../images/coin.png"));
     textureSlides[1] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/black_area.png"));
@@ -239,17 +251,6 @@ void Game::index()
             //TWO PLAYER thread_playing_online
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
-
-                // SDL_RenderCopy(render, texture_wait, NULL, NULL);
-                // SDL_RenderPresent(render);
-                // token = login(id);
-                // cout << "Your token  (clef secrète): " << token << endl;
-                // if(token.size() != TOKEN_SIZE)
-                // {
-                //     cout << "la demande de jouer  en ligne n'est pas valide, réessayez avec un autre id ." << endl;
-                //     SDL_DestroyTexture(texture_wait);
-                //     break;
-                // }
                 online_game();
             }
             //GENETIC ALGORITHM (n'est pas encore terminé)
@@ -745,10 +746,6 @@ void Game::add_linear_enemy()
 void Game::add_squar_enemy()
 {
     draw_game();
-    // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
-    // rect = {0, 100 + 40 * 12, 1024, 100} ;
-    // SDL_RenderCopy(render, texture, NULL, &rect);
-
     SDL_RenderPresent(render);
     SDL_Delay(5);
     continuer = 1;
@@ -764,9 +761,8 @@ void Game::add_squar_enemy()
             x = event.motion.x;
             y = event.motion.y;
             draw_game();
-            // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
-            // rect = {0, 100 + 40 * 12, 1024, 100} ;
-            // SDL_RenderCopy(render, texture, NULL, &rect);
+
+
             rect = {-level->player.w / 2  + x, -level->player.h / 2 + y, level->player.w, level->player.h};
             SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
             SDL_RenderFillRect(render, &rect );
@@ -784,9 +780,7 @@ void Game::add_squar_enemy()
                 cout << "A est ajauter " << endl;
                 A = make_pair(x, y);
                 draw_game();
-                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
-                // rect = {100, 0, 400, 100} ;
-                // SDL_RenderCopy(render, texture, NULL, &rect);
+
                 rect = {-level->player.w / 2  + A.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
@@ -796,9 +790,6 @@ void Game::add_squar_enemy()
                 cout << "B est ajauter " << endl;
                 B = make_pair(x, y);
                 draw_game();
-                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
-                // rect = {100, 0, 400, 100} ;
-                // SDL_RenderCopy(render, texture, NULL, &rect);
                 rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
@@ -808,9 +799,6 @@ void Game::add_squar_enemy()
                 cout << "C est ajauter " << endl;
                 C = make_pair(x, y);
                 draw_game();
-                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
-                // rect = {100, 0, 400, 100} ;
-                // SDL_RenderCopy(render, texture, NULL, &rect);
                 rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
@@ -820,9 +808,6 @@ void Game::add_squar_enemy()
                 cout << "D est ajauter " << endl;
                 D = make_pair(x, y);
                 draw_game();
-                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
-                // rect = {100, 0, 400, 100} ;
-                // SDL_RenderCopy(render, texture, NULL, &rect);
                 rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
@@ -832,18 +817,12 @@ void Game::add_squar_enemy()
                 cout << "la forme est ajauter" << endl;
                 level->squar_enemys.push_back(Squar_enemy(A, B, C, D));
                 draw_game();
-                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
-                // rect = {100, 0, 400, 100} ;
-                // SDL_RenderCopy(render, texture, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;
             case SDLK_r:
                 level->linear_enemys.pop_back();
                 draw_game();
-                // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
-                // rect = {100, 0, 400, 100} ;
-                // SDL_RenderCopy(render, texture, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;
@@ -1029,14 +1008,14 @@ void Game::control_event()
 
     while(1)
     {
-        if(!is_playing)
-        {
-            SDL_Delay(50);
-            continue;
-        }
         while(SDL_WaitEvent(&event))
         {
             if(event.type == SDL_QUIT)free_memory();
+            if(!is_playing)
+            {
+                SDL_Delay(50);
+                continue;
+            }
             if(event.type == SDL_KEYDOWN)
             {
                 if( event.key.keysym.sym == SDLK_LEFT and !T[0])
@@ -1094,6 +1073,14 @@ void Game::control_event()
                 {
                 case SDLK_n:
                     break;
+                case SDLK_KP_PLUS:
+                    sensitivity += 0.03;
+                    cout << sensitivity << endl;
+                    break;
+                case SDLK_KP_MINUS:
+                    sensitivity -= 0.03;
+                    cout << sensitivity << endl;
+                    break;
                 }
             }
             if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
@@ -1150,16 +1137,6 @@ void Game::check_status_of_playing()
             }
         }
     }
-    // if(level->N_Snubbys_a_life <= 0)
-    // {
-    //     level->next_generation();
-    //     level->generation++;
-    //     for(auto &sn : level->Snubbys)
-    //     {
-    //         sn.x = level->A.first;
-    //         sn.y = level->A.second;
-    //     }
-    // }
 }
 void Game::play()
 {
@@ -1395,7 +1372,7 @@ void Game::thread_update_position()
             SDL_Delay(10);
             continue;
         }
-        SDL_Delay(1 / FREQUENCE);
+        SDL_Delay(1 / sensitivity);
         if(T[0])
         {
             if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
@@ -1451,24 +1428,11 @@ void Game::thread_playing_online()
 {
     while(1)if(is_online_game)break;
     cout << "STREAMING Game..." << endl;
-    string text;
     try
     {
-        auto const host = SERVER_STREAM;
-        auto const port = "80";
-
-        // The io_context is required for all I/O
-        net::io_context ioc;
-        // These objects perform our I/O
-        tcp::resolver resolver{ioc};
-        websocket::stream<tcp::socket> ws{ioc};
-
-        // Look up the domain name
-        auto const results = resolver.resolve(host, port);
 
         // Make the connection on the IP address we get from a lookup
         net::connect(ws.next_layer(), results.begin(), results.end());
-
         // Set a decorator to change the User-Agent of the handshake
         ws.set_option(websocket::stream_base::decorator(
                           [](websocket::request_type & req)
@@ -1522,6 +1486,6 @@ void Game::thread_playing_online()
     {
 
         cout << "Error: " << e.what() << endl;
-        free_memory();
     }
+    return index();
 }
