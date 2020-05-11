@@ -8,7 +8,9 @@ public:
     SDL_Surface *s, *ss[10];
     SDL_Texture *texture, *texturePlayer2, *texture_wait, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];    //les variable de jeux
 
-    Level  *level;
+    Level  level;
+    Level *ll ;
+
     int l;//level
     int continuer = 1, on = 0, p;
     SDL_Event event, event_quit;
@@ -135,7 +137,7 @@ public:
 
                     load_level(l);
                     is_pause = 0;
-                    level->n_coins = level->coins.size();
+                    level.n_coins = level.coins.size();
                 }
                 if(x > 312 and x<712 and y>210 and y < 310)
                 {
@@ -258,15 +260,15 @@ void Game::index()
             {
                 y = 0;
                 l = get_level();
-                level->get_enemys();
-                level->player.update_input(level);
+                level.get_enemys();
+                level.player.update_input(level);
                 update();
                 automatique = 1;
                 //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
-                level->A = make_pair(level->player.x, level->player.y);
-                level->B = make_pair(level->coins[0].x, level->coins[0].y);
+                level.A = make_pair(level.player.x, level.player.y);
+                level.B = make_pair(level.coins[0].x, level.coins[0].y);
 
-                level->init_population(NEURAL_NETWORK);
+                level.init_population(NEURAL_NETWORK);
 
                 play();
             }
@@ -293,7 +295,7 @@ void Game::draw_wall()
     {
         for(int j = 0; j < 20; j++)
         {
-            if(level->map[i][j] == -1)continue;
+            if(level.map[i][j] == -1)continue;
             rect = {cx + j *size_squar - 5, cy + i *size_squar - 5, size_squar + 10, size_squar + 10};
             SDL_RenderFillRect(render, &rect );
         }
@@ -302,9 +304,9 @@ void Game::draw_wall()
     {
         for(int j = 0; j < 20; j++)
         {
-            if(level->map[i][j] == 1)       SDL_SetRenderDrawColor(render, 248.11499999999998, 247.095, 253.98, 255);
-            else if(level->map[i][j] == 2)  SDL_SetRenderDrawColor(render, 230.01000000000002, 230.01000000000002, 255, 255);
-            else if(level->map[i][j] == 0 or level->map[i][j] == 5)  SDL_SetRenderDrawColor(render, 182.07, 255, 181.04999999999998, 255);
+            if(level.map[i][j] == 1)       SDL_SetRenderDrawColor(render, 248.11499999999998, 247.095, 253.98, 255);
+            else if(level.map[i][j] == 2)  SDL_SetRenderDrawColor(render, 230.01000000000002, 230.01000000000002, 255, 255);
+            else if(level.map[i][j] == 0 or level.map[i][j] == 5)  SDL_SetRenderDrawColor(render, 182.07, 255, 181.04999999999998, 255);
             else continue;
             rect = {cx + j * size_squar, cy + i * size_squar, size_squar, size_squar};
             SDL_RenderFillRect(render, &rect );
@@ -314,9 +316,9 @@ void Game::draw_wall()
 //affiche les obstacles
 void Game::draw_enemys()
 {
-    for(auto e : level->get_enemys())
+    for(auto e : level.get_enemys())
     {
-        rect = {e.first - level->w_enemy / 2, e.second - level->w_enemy / 2, level->w_enemy, level->w_enemy};
+        rect = {e.first - level.w_enemy / 2, e.second - level.w_enemy / 2, level.w_enemy, level.w_enemy};
         SDL_RenderCopy(render, textureEnemy, NULL, &rect);
     }
 }
@@ -328,23 +330,23 @@ void Game::draw_game()
     {
         if(is_online_game)
         {
-            rect = {-level->player.w / 2  + player2.first, -level->player.h / 2 + player2.second, level->player.w, level->player.h};
+            rect = {-level.player.w / 2  + player2.first, -level.player.h / 2 + player2.second, level.player.w, level.player.h};
             SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
         }
-        rect = {-level->player.w / 2  + level->player.x, -level->player.h / 2 + level->player.y, level->player.w, level->player.h};
+        rect = {-level.player.w / 2  + level.player.x, -level.player.h / 2 + level.player.y, level.player.w, level.player.h};
         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
     }
     else
     {
-        for(auto sn : level->Snubbys)
+        for(auto sn : level.Snubbys)
         {
 
             if(!sn.is_a_life)   continue;
-            rect = {-level->player.w / 2  + sn.x, -level->player.h / 2 + sn.y, level->player.w, level->player.h};
+            rect = {-level.player.w / 2  + sn.x, -level.player.h / 2 + sn.y, level.player.w, level.player.h};
             SDL_RenderCopy(render, texturePlayer, NULL, &rect);
         }
     }
-    for(auto e : level->coins)
+    for(auto e : level.coins)
     {
         if(e.is_taked)continue;
         rect = {e.x - e.w / 2, e.y - e.h / 2, e.w, e.h};
@@ -380,7 +382,7 @@ void Game::get_wall()
         y = event.motion.y;
         if(x != xx and y != yy and x >= cx and y >= cy and x < cx + 20 * size_squar and y < cy + 20 * size_squar and on)
         {
-            level->map[(int)((y - cx) / size_squar)][(int)((x - cy) / size_squar)] = -1;
+            level.map[(int)((y - cx) / size_squar)][(int)((x - cy) / size_squar)] = -1;
             draw_wall();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
@@ -411,7 +413,7 @@ void Game::get_wall()
                 return;
                 break;
             case SDLK_g:
-                level->random_map();
+                level.random_map();
                 draw_wall();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
@@ -441,7 +443,7 @@ void Game::get_green_area()
         y = event.motion.y;
         if(x != xx and y != yy and x >= cx and y >= cy and x < cx + 20 * size_squar and y < cy + 20 * size_squar and on)
         {
-            level->map[(int)((y - cx) / size_squar)][(int)((x - cx) / size_squar)] = g;
+            level.map[(int)((y - cx) / size_squar)][(int)((x - cx) / size_squar)] = g;
             draw_wall();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
@@ -497,8 +499,8 @@ void Game::get_position_player()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-            level->player.x = cx + 40 * (int)(( x - cx) / 40 ) + level->player.w / 2;
-            level->player.y = cy + 40 * (int)(((y - cy) / 40)) + level->player.h / 2;
+            level.player.x = cx + 40 * (int)(( x - cx) / 40 ) + level.player.w / 2;
+            level.player.y = cy + 40 * (int)(((y - cy) / 40)) + level.player.h / 2;
             draw_game();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
@@ -539,7 +541,7 @@ void Game::add_coins()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-            level->coins.push_back(Coin(10 * (int)(x / 10), 10 * (int)(y / 10)));
+            level.coins.push_back(Coin(10 * (int)(x / 10), 10 * (int)(y / 10)));
             draw_game();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
@@ -554,7 +556,7 @@ void Game::add_coins()
                 return;
                 break;
             case SDLK_LEFT:
-                level->coins.pop_back();
+                level.coins.pop_back();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
@@ -588,7 +590,7 @@ void Game::add_spiral_dot()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-            level->spiral_dots.push_back(Spiral_dot(make_pair(x, y), 5, 100));
+            level.spiral_dots.push_back(Spiral_dot(make_pair(x, y), 5, 100));
             draw_game();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -604,8 +606,8 @@ void Game::add_spiral_dot()
 
                 break;
             case SDLK_LEFT:
-                level->spiral_dots[level->spiral_dots.size() - 1].R -= 5;
-                level->spiral_dots[level->spiral_dots.size() - 1].update();
+                level.spiral_dots[level.spiral_dots.size() - 1].R -= 5;
+                level.spiral_dots[level.spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -613,8 +615,8 @@ void Game::add_spiral_dot()
                 SDL_Delay(5);
                 break;
             case SDLK_RIGHT:
-                level->spiral_dots[level->spiral_dots.size() - 1].R += 5;
-                level->spiral_dots[level->spiral_dots.size() - 1].update();
+                level.spiral_dots[level.spiral_dots.size() - 1].R += 5;
+                level.spiral_dots[level.spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -622,8 +624,8 @@ void Game::add_spiral_dot()
                 SDL_Delay(5);
                 break;
             case SDLK_UP:
-                level->spiral_dots[level->spiral_dots.size() - 1].n++;
-                level->spiral_dots[level->spiral_dots.size() - 1].update();
+                level.spiral_dots[level.spiral_dots.size() - 1].n++;
+                level.spiral_dots[level.spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -631,8 +633,8 @@ void Game::add_spiral_dot()
                 SDL_Delay(5);
                 break;
             case SDLK_DOWN:
-                level->spiral_dots[level->spiral_dots.size() - 1].n--;
-                level->spiral_dots[level->spiral_dots.size() - 1].update();
+                level.spiral_dots[level.spiral_dots.size() - 1].n--;
+                level.spiral_dots[level.spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -643,7 +645,7 @@ void Game::add_spiral_dot()
                 continuer = 0;
                 break;
             case SDLK_r:
-                level->spiral_dots.pop_back();
+                level.spiral_dots.pop_back();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -681,7 +683,7 @@ void Game::add_linear_enemy()
             texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, texture, NULL, &rect);
-            rect = {-level->player.w / 2  + x, -level->player.h / 2 + y, level->player.w, level->player.h};
+            rect = {-level.player.w / 2  + x, -level.player.h / 2 + y, level.player.w, level.player.h};
             SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
             SDL_RenderFillRect(render, &rect );
             SDL_RenderPresent(render);
@@ -703,7 +705,7 @@ void Game::add_linear_enemy()
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
                 SDL_RenderCopy(render, texture, NULL, &rect);
-                rect = {-level->player.w / 2  + A.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                rect = {-level.player.w / 2  + A.first, -level.player.h / 2 + B.second, level.player.w, level.player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
@@ -714,13 +716,13 @@ void Game::add_linear_enemy()
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
                 SDL_RenderCopy(render, texture, NULL, &rect);
-                rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                rect = {-level.player.w / 2  + B.first, -level.player.h / 2 + B.second, level.player.w, level.player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;
             case SDLK_KP_3:
-                level->linear_enemys.push_back(Linear_enemy(A, B));
+                level.linear_enemys.push_back(Linear_enemy(A, B));
                 draw_game();
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
@@ -729,7 +731,7 @@ void Game::add_linear_enemy()
                 SDL_Delay(5);
                 break;
             case SDLK_r:
-                level->linear_enemys.pop_back();
+                level.linear_enemys.pop_back();
                 draw_game();
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
@@ -763,7 +765,7 @@ void Game::add_squar_enemy()
             draw_game();
 
 
-            rect = {-level->player.w / 2  + x, -level->player.h / 2 + y, level->player.w, level->player.h};
+            rect = {-level.player.w / 2  + x, -level.player.h / 2 + y, level.player.w, level.player.h};
             SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
             SDL_RenderFillRect(render, &rect );
             SDL_RenderPresent(render);
@@ -781,7 +783,7 @@ void Game::add_squar_enemy()
                 A = make_pair(x, y);
                 draw_game();
 
-                rect = {-level->player.w / 2  + A.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                rect = {-level.player.w / 2  + A.first, -level.player.h / 2 + B.second, level.player.w, level.player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
@@ -790,7 +792,7 @@ void Game::add_squar_enemy()
                 cout << "B est ajauter " << endl;
                 B = make_pair(x, y);
                 draw_game();
-                rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                rect = {-level.player.w / 2  + B.first, -level.player.h / 2 + B.second, level.player.w, level.player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
@@ -799,7 +801,7 @@ void Game::add_squar_enemy()
                 cout << "C est ajauter " << endl;
                 C = make_pair(x, y);
                 draw_game();
-                rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                rect = {-level.player.w / 2  + B.first, -level.player.h / 2 + B.second, level.player.w, level.player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
@@ -808,20 +810,20 @@ void Game::add_squar_enemy()
                 cout << "D est ajauter " << endl;
                 D = make_pair(x, y);
                 draw_game();
-                rect = {-level->player.w / 2  + B.first, -level->player.h / 2 + B.second, level->player.w, level->player.h};
+                rect = {-level.player.w / 2  + B.first, -level.player.h / 2 + B.second, level.player.w, level.player.h};
                 SDL_RenderCopy(render, textureEnemy, NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;
             case SDLK_KP_0:
                 cout << "la forme est ajauter" << endl;
-                level->squar_enemys.push_back(Squar_enemy(A, B, C, D));
+                level.squar_enemys.push_back(Squar_enemy(A, B, C, D));
                 draw_game();
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;
             case SDLK_r:
-                level->linear_enemys.pop_back();
+                level.linear_enemys.pop_back();
                 draw_game();
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
@@ -852,7 +854,7 @@ void Game::add_big_spiral_dot()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-            level->big_spiral_dots.push_back(Big_spiral_dot(make_pair(x, y), 5, 100));
+            level.big_spiral_dots.push_back(Big_spiral_dot(make_pair(x, y), 5, 100));
             draw_game();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -863,8 +865,8 @@ void Game::add_big_spiral_dot()
             switch (event.key.keysym.sym)
             {
             case SDLK_LEFT:
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].R -= 5;
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].R -= 5;
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -872,8 +874,8 @@ void Game::add_big_spiral_dot()
                 SDL_Delay(5);
                 break;
             case SDLK_RIGHT:
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].R += 5;
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].R += 5;
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -881,8 +883,8 @@ void Game::add_big_spiral_dot()
                 SDL_Delay(5);
                 break;
             case SDLK_UP:
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].n++;
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].n++;
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -890,8 +892,8 @@ void Game::add_big_spiral_dot()
                 SDL_Delay(5);
                 break;
             case SDLK_DOWN:
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].n--;
-                level->big_spiral_dots[level->big_spiral_dots.size() - 1].update();
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].n--;
+                level.big_spiral_dots[level.big_spiral_dots.size() - 1].update();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -906,7 +908,7 @@ void Game::add_big_spiral_dot()
                 return;
                 break;
             case SDLK_r:
-                level->big_spiral_dots.pop_back();
+                level.big_spiral_dots.pop_back();
                 draw_game();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
@@ -979,8 +981,8 @@ POSITION:
 }
 bool Game::check_it_free_area(int x, int y)
 {
-    if(        (double)(y - cy - level->player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level->player.w / 4 + level->player.w / 2) / size_squar >= 12 ||
-               (double)(x - cx - level->player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level->player.w / 4 + level->player.w / 2) / size_squar >= 20
+    if(        (double)(y - cy - level.player.w / 2 ) / size_squar < 0 || (double)(y - cy -  level.player.w / 4 + level.player.w / 2) / size_squar >= 12 ||
+               (double)(x - cx - level.player.w / 2 ) / size_squar < 0 || (double)(x - cx -  level.player.w / 4 + level.player.w / 2) / size_squar >= 20
 
       )
     {
@@ -991,10 +993,10 @@ bool Game::check_it_free_area(int x, int y)
 bool Game::is_player_inside_after(int x, int y)
 {
     if(
-        level->map[(int)((y - cy ) / size_squar)][(int)((x - cx ) / size_squar)] == -1
-        // level->map[(int)((y - cy + level->player.w / 2) / size_squar)][(int)((x - cx + level->player.w / 2 ) / size_squar)] == -1
-        // level->map[(int)(((y - cy - 10) / size_squar))][(int)(((x - cx + 10 ) / size_squar))] == -1
-        // level->map[(int)((y - cy + level->player.w / 2) / size_squar)][(int)((x - cx - level->player.w / 2 ) / size_squar)] == -1
+        level.map[(int)((y - cy ) / size_squar)][(int)((x - cx ) / size_squar)] == -1
+        // level.map[(int)((y - cy + level.player.w / 2) / size_squar)][(int)((x - cx + level.player.w / 2 ) / size_squar)] == -1
+        // level.map[(int)(((y - cy - 10) / size_squar))][(int)(((x - cx + 10 ) / size_squar))] == -1
+        // level.map[(int)((y - cy + level.player.w / 2) / size_squar)][(int)((x - cx - level.player.w / 2 ) / size_squar)] == -1
 
     )
     {
@@ -1064,7 +1066,7 @@ void Game::control_event()
                 if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
                 {
                     is_pause = 1;
-                    level->next_generation();
+                    level.next_generation();
                     is_pause = 0;
                 }
                 break;
@@ -1083,56 +1085,61 @@ void Game::control_event()
                     break;
                 }
             }
-            if(!automatique and level->map[(int)((level->player.y - cx) / size_squar)][(int)((level->player.x - cy) / size_squar)] == 0)level->last_touch_on_green_area = make_pair(level->player.x, level->player.y);
+            if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
         }
     }
 }
 void Game::update()
 {
-    for(auto &sp : level->spiral_dots)sp.next_move();
-    for(auto &sp : level->big_spiral_dots)sp.next_move();
-    for(auto &e : level->linear_enemys)e.next_move();
-    for(auto &e : level->squar_enemys)e.next_move();
+    for(auto &sp : level.spiral_dots)sp.next_move();
+    for(auto &sp : level.big_spiral_dots)sp.next_move();
+    for(auto &e : level.linear_enemys)e.next_move();
+    for(auto &e : level.squar_enemys)e.next_move();
     if(automatique)
     {
-        for(auto &p : level->Snubbys)
+        for(auto &p : level.Snubbys)
         {
             if(p.is_a_life)
-                p.think(level, this);
+                p.think(level, *this);
         }
     }
 }
 void Game::check_status_of_playing()
 {
-    for(auto &c : level->coins)
+    for(auto &c : level.coins)
     {
-        if(!c.is_taked && c.take(level->player))
+        if(!c.is_taked && c.take(level.player))
         {
             coin_sound();
-            level->n_coins--;
-            if( level->n_coins == 0)
+            level.n_coins--;
+            if( level.n_coins == 0)
             {
-                return local_win();
+                if(!is_online_game)
+                    return local_win();
+                else
+                {
+                    //TODO
+                }
             }
         }
     }
-    for(auto e : level->get_enemys())
+    for(auto e : level.get_enemys())
     {
-        if(level->player.touche_enemy(e, level->w_enemy / 2))
+        if(level.player.touche_enemy(e, level.w_enemy / 2))
         {
             hit_sound();
-            level->player.x = level->last_touch_on_green_area.first;
-            level->player.y = level->last_touch_on_green_area.second;
+            level.player.x = level.last_touch_on_green_area.first;
+            level.player.y = level.last_touch_on_green_area.second;
         };
         if(automatique)
         {
-            for(auto &sn : level->Snubbys)
+            for(auto &sn : level.Snubbys)
             {
                 if(!sn.is_a_life)continue;
-                if(sn.touche_enemy(e, level->w_enemy / 2))
+                if(sn.touche_enemy(e, level.w_enemy / 2))
                 {
                     sn.is_a_life = 0;
-                    level->N_Snubbys_a_life--;
+                    level.N_Snubbys_a_life--;
                 };
             }
         }
@@ -1141,7 +1148,7 @@ void Game::check_status_of_playing()
 void Game::play()
 {
     cout << "the game begain" << endl;
-    level->n_coins = level->coins.size();
+    level.n_coins = level.coins.size();
     is_playing = 1;
     continuer = 1;
     while(continuer and is_playing)
@@ -1240,11 +1247,11 @@ void Game::pause()
                 is_pause = 0;
                 break;
             case SDLK_s:
-                level->save_population();
+                level.save_population();
                 cout << "save_population" << endl;
                 break;
             case SDLK_l:
-                level->load_population();
+                level.load_population();
                 cout << "load_population" << endl;
                 break;
             }
@@ -1338,29 +1345,32 @@ void Game::save_level()
 {
     ofstream ofs( "../levels/" + to_string(N_LEVELS));
     boost::archive::text_oarchive ar(ofs);
-    ar &level;
+    ll=&level;
+    ar &ll;
+
 }
 void Game::load_level(int k)
 {
     ifstream ifs("../levels/" + to_string(k));
     boost::archive::text_iarchive ar(ifs);
-    ar &level;
+    ar &ll;
+    level=*ll;
 }
-void Player::think(Level *level, Game *g)
+void Player::think(Level &level, Game &game)
 {
     update_input(level);
     vector<double> r = brain.predict( input);
-    if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x, y - 10) &&
-            g->is_player_inside_after(x, y - 20)
+    if(r[0] == max(r[0], max(r[1], max(r[2], r[3]))) && game.check_it_free_area(x, y - 10) &&
+            game.is_player_inside_after(x, y - 20)
       )y -= 10; //up
-    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x, y + 10) &&
-            g->is_player_inside_after(x, y + 20)
+    else if(r[1] == max(r[0], max(r[1], max(r[2], r[3]))) && game.check_it_free_area(x, y + 10) &&
+            game.is_player_inside_after(x, y + 20)
            )y += 10; //down
-    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x + 10, y) &&
-            g->is_player_inside_after(x + 20, y)
+    else if(r[2] == max(r[0], max(r[1], max(r[2], r[3]))) && game.check_it_free_area(x + 10, y) &&
+            game.is_player_inside_after(x + 20, y)
            )x += 10; //R
-    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && g->check_it_free_area(x - 10, y) &&
-            g->is_player_inside_after(x - 20, y)
+    else if(r[3] == max(r[0], max(r[1], max(r[2], r[3]))) && game.check_it_free_area(x - 10, y) &&
+            game.is_player_inside_after(x - 20, y)
            )x -= 10;; //L
 }
 void Game::thread_update_position()
@@ -1375,31 +1385,31 @@ void Game::thread_update_position()
         SDL_Delay(1 / sensitivity);
         if(T[0])
         {
-            if(check_it_free_area(level->player.x - 10, level->player.y) && is_player_inside_after(level->player.x - 20, level->player.y))
+            if(check_it_free_area(level.player.x - 10, level.player.y) && is_player_inside_after(level.player.x - 20, level.player.y))
             {
-                level->player.x -= SPEED;
+                level.player.x -= SPEED;
             }
 
         }
         if(T[1])
         {
-            if(check_it_free_area(level->player.x, level->player.y - 10 ) && is_player_inside_after(level->player.x, level->player.y - 20))
+            if(check_it_free_area(level.player.x, level.player.y - 10 ) && is_player_inside_after(level.player.x, level.player.y - 20))
             {
-                level->player.y -= SPEED;
+                level.player.y -= SPEED;
             }
         }
         if(T[2])
         {
-            if(check_it_free_area(level->player.x + 10, level->player.y) && is_player_inside_after(level->player.x + 20, level->player.y))
+            if(check_it_free_area(level.player.x + 10, level.player.y) && is_player_inside_after(level.player.x + 20, level.player.y))
             {
-                level->player.x += SPEED;
+                level.player.x += SPEED;
             }
         }
         if(T[3])
         {
-            if(check_it_free_area(level->player.x, level->player.y + 10) && is_player_inside_after(level->player.x, level->player.y + 20))
+            if(check_it_free_area(level.player.x, level.player.y + 10) && is_player_inside_after(level.player.x, level.player.y + 20))
             {
-                level->player.y += SPEED;
+                level.player.y += SPEED;
             }
         }
     }
@@ -1467,7 +1477,7 @@ void Game::thread_playing_online()
         while(1)
         {
             buffer.clear();
-            text = to_string(level->player.x) + " " + to_string(level->player.y) + " " + id + " " + id2;
+            text = to_string(level.player.x) + " " + to_string(level.player.y) + " " + id + " " + id2;
             // Send the message
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message

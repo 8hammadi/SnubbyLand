@@ -1,7 +1,7 @@
 
 #define PI 3.141592653589793
 #define N_POPULATION 100
-#define NEURAL_NETWORK { (int)level->player.input.size(),40,10, 4}
+#define NEURAL_NETWORK { (int)level.player.input.size(),40,10, 4}
 #define RANDOM (double)rand()/RAND_MAX
 #define TOKEN_SIZE 10
 #define SERVER_STREAM "ssnuby.herokuapp.com"
@@ -41,17 +41,17 @@ using namespace std;
 
 Game Game;
 
-int  control_event(void *a)
+int  control_event(void *_)
 {
     Game.control_event();
     return 1;
 };
-int  thread_playing_online(void *a)
+int  thread_playing_online(void *_)
 {
     Game.thread_playing_online();
     return 1;
 };
-int thread_update_position(void *a)
+int thread_update_position(void *_)
 {
     Game.thread_update_position();
     return 1;

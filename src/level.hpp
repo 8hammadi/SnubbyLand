@@ -39,7 +39,7 @@ public:
         return 0;
     };
 
-    void think(Level *level, Game *g);
+    void think(Level &level, Game &game);
     vector<Player> breed(Player player)
     {
         /*
@@ -57,7 +57,7 @@ public:
     }
 
 
-    void update_input(Level *level);
+    void update_input(Level &level);
 
 
 };
@@ -531,12 +531,12 @@ public:
 
 
 
-void Player::update_input(Level *level)
+void Player::update_input(Level &level)
 {
     input.clear();
-    input.push_back((double)(level->B.first - x) / 800);
-    input.push_back((double)(level->B.second - y) / 480);
-    for(auto e : level->enemys)
+    input.push_back((double)(level.B.first - x) / 800);
+    input.push_back((double)(level.B.second - y) / 480);
+    for(auto e : level.enemys)
     {
 
         input.push_back((double)(e.first - x) / 800);
