@@ -16,8 +16,8 @@ ${SOURCES}
 
 
 target_link_libraries(${PROJECT_NAME}
--lSDL2
--lSDL2_image 
+SDL2
+SDL2_image 
 -lSDL2_ttf 
 -pthread
 -lboost_serialization
