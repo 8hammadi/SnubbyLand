@@ -1,1 +1,1 @@
-/usr/bin/c++     CMakeFiles/SnubbyLand.dir/src/main.cpp.o  -o SnubbyLand  -SDL2_image -lSDL2_ttf -pthread -lboost_serialization 
+/usr/bin/c++     CMakeFiles/SnubbyLand.dir/src/main.cpp.o  -o SnubbyLand  -lSDL2 -lSDL2_image -lSDL2_ttf -pthread -lboost_serialization 
