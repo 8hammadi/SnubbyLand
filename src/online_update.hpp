@@ -1,3 +1,22 @@
+void online_game()
+{
+
+    y = 0;
+    l = get_level();
+    cout << "level : " << l << endl;
+    SDL_RenderCopy(render, texture_wait, NULL, NULL);
+    SDL_RenderPresent(render);
+    is_online_game = 1;
+    while(id2 == "0")
+    {
+        SDL_Delay(50);   //finding a player
+    }
+    cout << endl;
+
+    play();
+}
+
+
 int thread_playing_online(void *_)
 {
     while(1)if(is_online_game)break;
