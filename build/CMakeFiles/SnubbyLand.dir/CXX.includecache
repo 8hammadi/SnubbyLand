@@ -95,6 +95,8 @@ class/Coin.hpp
 /home/run/Desktop/SnubbyLand/src/class/Coin.hpp
 class/level.hpp
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
+sound.hpp
+/home/run/Desktop/SnubbyLand/src/sound.hpp
 view.hpp
 /home/run/Desktop/SnubbyLand/src/view.hpp
 controller.hpp
@@ -113,6 +115,8 @@ bits/stdc++.h
 /home/run/Desktop/SnubbyLand/src/online_update.hpp
 
 /home/run/Desktop/SnubbyLand/src/prototype.hpp
+
+/home/run/Desktop/SnubbyLand/src/sound.hpp
 
 /home/run/Desktop/SnubbyLand/src/util.hpp
 

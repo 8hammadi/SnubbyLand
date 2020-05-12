@@ -35,3 +35,4 @@ void draw_game();//claire
 void online_game();
 void save_n();
 void load_n();
+void local_win();
