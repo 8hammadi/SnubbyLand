@@ -11,7 +11,6 @@ void online_game()
     {
         SDL_Delay(50);   //finding a player
     }
-    cout << endl;
 
     play();
 }
@@ -49,26 +48,26 @@ int thread_playing_online(void *_)
 
         cout << "connecting ..." << endl;
         //demmand id
-        text = "+";
-        ws.write(net::buffer(text));
-        ws.read(buffer);
-        id = beast::buffers_to_string(buffer.data()) ;
-        cout << "Your id is " << id << endl;
-        buffer.clear();
+        // text = "+";
+        // ws.write(net::buffer(text));
+        // ws.read(buffer);
+        // id = beast::buffers_to_string(buffer.data()) ;
+        // cout << "Your id is " << id << endl;
+        // buffer.clear();
 
         //demmand id of player 2
-        text = id + " " + to_string(l);
+        text = "@ " + to_string(l);
         ws.write(net::buffer(text));
-        cout << "searching ...." << endl;
         ws.read(buffer);
         id2 = beast::buffers_to_string(buffer.data()) ;
+        cout << "searching ...." << endl;
 
         //the game begain
         cout << "You VS " << id2;
         while(1)
         {
             buffer.clear();
-            text = to_string(level.player.x) + " " + to_string(level.player.y) + " " + id + " " + id2;
+            text = to_string(level.player.x) + " " + to_string(level.player.y);
             // Send the message
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message
