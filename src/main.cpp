@@ -36,38 +36,36 @@ using tcp = boost::asio::ip::tcp;
 using namespace std;
 
 #include "map_generateur.hpp"
-#include "cnn.hpp"
-#include "level.hpp"
-#include "Game.hpp"
+#include "global_variable.hpp"
+#include "util.hpp"
+#include "prototype.hpp"
+#include "class/brain.hpp"
+#include "class/Player.hpp"
+#include "class/Spiral_dot.hpp"
+#include "class/Linear_enemy.hpp"
+#include "class/Squar_enemy.hpp"
+#include "class/Big_spiral_dot.hpp"
+#include "class/Coin.hpp"
+#include "class/level.hpp"
+Level  level;
+Level *ll ;
+#include "view.hpp"
+#include "controller.hpp"
+#include "online_update.hpp"
+#include "creator.hpp"
+#include "game.hpp"
 
-Game Game;
-
-int  control_event(void *_)
-{
-    Game.control_event();
-    return 1;
-};
-int  thread_playing_online(void *_)
-{
-    Game.thread_playing_online();
-    return 1;
-};
-int thread_update_position(void *_)
-{
-    Game.thread_update_position();
-    return 1;
-}
 
 int main(int argc, char const *argv[])
 {
 
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    Game.init();
+    init();
     SDL_CreateThread( control_event, "", (void *)NULL);
     SDL_CreateThread( thread_playing_online, "", (void *)NULL);
     SDL_CreateThread( thread_update_position, "", (void *)NULL);
-    Game.index();
+    index();
 
 
     return 0;

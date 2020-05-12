@@ -6,11 +6,29 @@
 
 #IncludeRegexTransform: 
 
-/home/run/Desktop/SnubbyLand/src/Game.hpp
+/home/run/Desktop/SnubbyLand/src/class/Big_spiral_dot.hpp
 
-/home/run/Desktop/SnubbyLand/src/cnn.hpp
+/home/run/Desktop/SnubbyLand/src/class/Coin.hpp
 
-/home/run/Desktop/SnubbyLand/src/level.hpp
+/home/run/Desktop/SnubbyLand/src/class/Linear_enemy.hpp
+
+/home/run/Desktop/SnubbyLand/src/class/Player.hpp
+
+/home/run/Desktop/SnubbyLand/src/class/Spiral_dot.hpp
+
+/home/run/Desktop/SnubbyLand/src/class/Squar_enemy.hpp
+
+/home/run/Desktop/SnubbyLand/src/class/brain.hpp
+
+/home/run/Desktop/SnubbyLand/src/class/level.hpp
+
+/home/run/Desktop/SnubbyLand/src/controller.hpp
+
+/home/run/Desktop/SnubbyLand/src/creator.hpp
+
+/home/run/Desktop/SnubbyLand/src/game.hpp
+
+/home/run/Desktop/SnubbyLand/src/global_variable.hpp
 
 /home/run/Desktop/SnubbyLand/src/main.cpp
 bits/stdc++.h
@@ -55,14 +73,48 @@ unistd.h
 -
 map_generateur.hpp
 /home/run/Desktop/SnubbyLand/src/map_generateur.hpp
-cnn.hpp
-/home/run/Desktop/SnubbyLand/src/cnn.hpp
-level.hpp
-/home/run/Desktop/SnubbyLand/src/level.hpp
-Game.hpp
-/home/run/Desktop/SnubbyLand/src/Game.hpp
+global_variable.hpp
+/home/run/Desktop/SnubbyLand/src/global_variable.hpp
+util.hpp
+/home/run/Desktop/SnubbyLand/src/util.hpp
+prototype.hpp
+/home/run/Desktop/SnubbyLand/src/prototype.hpp
+class/brain.hpp
+/home/run/Desktop/SnubbyLand/src/class/brain.hpp
+class/Player.hpp
+/home/run/Desktop/SnubbyLand/src/class/Player.hpp
+class/Spiral_dot.hpp
+/home/run/Desktop/SnubbyLand/src/class/Spiral_dot.hpp
+class/Linear_enemy.hpp
+/home/run/Desktop/SnubbyLand/src/class/Linear_enemy.hpp
+class/Squar_enemy.hpp
+/home/run/Desktop/SnubbyLand/src/class/Squar_enemy.hpp
+class/Big_spiral_dot.hpp
+/home/run/Desktop/SnubbyLand/src/class/Big_spiral_dot.hpp
+class/Coin.hpp
+/home/run/Desktop/SnubbyLand/src/class/Coin.hpp
+class/level.hpp
+/home/run/Desktop/SnubbyLand/src/class/level.hpp
+view.hpp
+/home/run/Desktop/SnubbyLand/src/view.hpp
+controller.hpp
+/home/run/Desktop/SnubbyLand/src/controller.hpp
+online_update.hpp
+/home/run/Desktop/SnubbyLand/src/online_update.hpp
+creator.hpp
+/home/run/Desktop/SnubbyLand/src/creator.hpp
+game.hpp
+/home/run/Desktop/SnubbyLand/src/game.hpp
 
 /home/run/Desktop/SnubbyLand/src/map_generateur.hpp
 bits/stdc++.h
 -
+
+/home/run/Desktop/SnubbyLand/src/online_update.hpp
+
+/home/run/Desktop/SnubbyLand/src/prototype.hpp
+
+/home/run/Desktop/SnubbyLand/src/util.hpp
+
+/home/run/Desktop/SnubbyLand/src/view.hpp
 
