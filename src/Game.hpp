@@ -1441,6 +1441,7 @@ void Game::thread_playing_online()
         // Look up the domain name
         boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> results = resolver.resolve(host, port);
 
+
         // Make the connection on the IP address we get from a lookup
         net::connect(ws.next_layer(), results.begin(), results.end());
         // Set a decorator to change the User-Agent of the handshake
@@ -1477,7 +1478,7 @@ void Game::thread_playing_online()
         while(1)
         {
             buffer.clear();
-            text = to_string(level.player.x) + " " + to_string(level.player.y);
+            text = to_string(level.player.x) + " " + to_string(level.player.y) + " " + id + " " + id2;
             // Send the message
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message
