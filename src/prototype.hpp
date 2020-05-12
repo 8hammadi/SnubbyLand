@@ -1,3 +1,4 @@
+
 void init();// Initialise tous les variables de jeux
 void index();//c'est l'index de jeux : la page initial de choix
 //Pour la création de nouveau niveau
