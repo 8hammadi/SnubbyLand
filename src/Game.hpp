@@ -40,13 +40,6 @@ public:
 
     string host = SERVER_STREAM;
     string port = "80";
-    // The io_context is required for all I/O
-    net::io_context ioc;
-    // These objects perform our I/O
-    tcp::resolver resolver{ioc};
-    websocket::stream<tcp::socket> ws{ioc};
-    // Look up the domain name
-    boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> results = resolver.resolve(host, port);
 
     Game()
     {
@@ -1345,7 +1338,7 @@ void Game::save_level()
 {
     ofstream ofs( "../levels/" + to_string(N_LEVELS));
     boost::archive::text_oarchive ar(ofs);
-    ll=&level;
+    ll = &level;
     ar &ll;
 
 }
@@ -1354,7 +1347,7 @@ void Game::load_level(int k)
     ifstream ifs("../levels/" + to_string(k));
     boost::archive::text_iarchive ar(ifs);
     ar &ll;
-    level=*ll;
+    level = *ll;
 }
 void Player::think(Level &level, Game &game)
 {
@@ -1440,6 +1433,13 @@ void Game::thread_playing_online()
     cout << "STREAMING Game..." << endl;
     try
     {
+        // The io_context is required for all I/O
+        net::io_context ioc;
+        // These objects perform our I/O
+        tcp::resolver resolver{ioc};
+        websocket::stream<tcp::socket> ws{ioc};
+        // Look up the domain name
+        boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> results = resolver.resolve(host, port);
 
         // Make the connection on the IP address we get from a lookup
         net::connect(ws.next_layer(), results.begin(), results.end());
@@ -1477,7 +1477,7 @@ void Game::thread_playing_online()
         while(1)
         {
             buffer.clear();
-            text = to_string(level.player.x) + " " + to_string(level.player.y) + " " + id + " " + id2;
+            text = to_string(level.player.x) + " " + to_string(level.player.y);
             // Send the message
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message

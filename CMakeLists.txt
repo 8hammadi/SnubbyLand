@@ -9,7 +9,6 @@ src/main.cpp
 
 add_executable(${PROJECT_NAME}
 ${SOURCES}
-${SDL2_LIBRARY}  
 )
 
 
@@ -19,4 +18,5 @@ target_link_libraries(${PROJECT_NAME}
 -lSDL2_ttf 
 -pthread
 -lboost_serialization
+-g
 )
