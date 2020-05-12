@@ -59,11 +59,9 @@ int thread_playing_online(void *_)
         text = "@ " + to_string(l);
         ws.write(net::buffer(text));
         ws.read(buffer);
-        id2 = beast::buffers_to_string(buffer.data()) ;
-        cout << "searching ...." << endl;
-
+        text = beast::buffers_to_string(buffer.data()) ;
         //the game begain
-        cout << "You VS " << id2;
+        cout << text<<endl;
         while(1)
         {
             buffer.clear();
