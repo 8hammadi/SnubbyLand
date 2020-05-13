@@ -95,6 +95,8 @@ class/Coin.hpp
 /home/run/Desktop/SnubbyLand/src/class/Coin.hpp
 class/level.hpp
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
+model.hpp
+/home/run/Desktop/SnubbyLand/src/model.hpp
 sound.hpp
 /home/run/Desktop/SnubbyLand/src/sound.hpp
 view.hpp
@@ -111,6 +113,8 @@ game.hpp
 /home/run/Desktop/SnubbyLand/src/map_generateur.hpp
 bits/stdc++.h
 -
+
+/home/run/Desktop/SnubbyLand/src/model.hpp
 
 /home/run/Desktop/SnubbyLand/src/online_update.hpp
 

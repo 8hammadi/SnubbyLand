@@ -49,6 +49,7 @@ using namespace std;
 #include "class/level.hpp"
 Level  level;
 Level *ll ;
+#include "model.hpp"
 #include "sound.hpp"
 #include "view.hpp"
 #include "controller.hpp"
