@@ -28,7 +28,13 @@
 
 /home/run/Desktop/SnubbyLand/src/game.hpp
 
+/home/run/Desktop/SnubbyLand/src/get_level.hpp
+
 /home/run/Desktop/SnubbyLand/src/global_variable.hpp
+
+/home/run/Desktop/SnubbyLand/src/index.hpp
+
+/home/run/Desktop/SnubbyLand/src/init.hpp
 
 /home/run/Desktop/SnubbyLand/src/main.cpp
 bits/stdc++.h
@@ -95,18 +101,28 @@ class/Coin.hpp
 /home/run/Desktop/SnubbyLand/src/class/Coin.hpp
 class/level.hpp
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
+init.hpp
+/home/run/Desktop/SnubbyLand/src/init.hpp
+index.hpp
+/home/run/Desktop/SnubbyLand/src/index.hpp
+get_level.hpp
+/home/run/Desktop/SnubbyLand/src/get_level.hpp
 model.hpp
 /home/run/Desktop/SnubbyLand/src/model.hpp
 sound.hpp
 /home/run/Desktop/SnubbyLand/src/sound.hpp
 view.hpp
 /home/run/Desktop/SnubbyLand/src/view.hpp
+update.hpp
+/home/run/Desktop/SnubbyLand/src/update.hpp
 controller.hpp
 /home/run/Desktop/SnubbyLand/src/controller.hpp
-online_update.hpp
-/home/run/Desktop/SnubbyLand/src/online_update.hpp
+online.hpp
+/home/run/Desktop/SnubbyLand/src/online.hpp
 creator.hpp
 /home/run/Desktop/SnubbyLand/src/creator.hpp
+pause.hpp
+/home/run/Desktop/SnubbyLand/src/pause.hpp
 game.hpp
 /home/run/Desktop/SnubbyLand/src/game.hpp
 
@@ -116,11 +132,15 @@ bits/stdc++.h
 
 /home/run/Desktop/SnubbyLand/src/model.hpp
 
-/home/run/Desktop/SnubbyLand/src/online_update.hpp
+/home/run/Desktop/SnubbyLand/src/online.hpp
+
+/home/run/Desktop/SnubbyLand/src/pause.hpp
 
 /home/run/Desktop/SnubbyLand/src/prototype.hpp
 
 /home/run/Desktop/SnubbyLand/src/sound.hpp
+
+/home/run/Desktop/SnubbyLand/src/update.hpp
 
 /home/run/Desktop/SnubbyLand/src/util.hpp
 

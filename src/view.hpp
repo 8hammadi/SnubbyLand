@@ -87,3 +87,25 @@ void draw_game()
     }
 }
 
+
+void show()
+{
+    SDL_RenderPresent(render);
+    SDL_Delay(40);
+}
+
+
+void draw_levels()
+{
+    rect = {0, y, 1024, 3000} ;
+    SDL_RenderCopy(render, textures[0], NULL, &rect);
+    for(int i, j, k = 1; k < N_LEVELS + 1; k++)
+    {
+        j = (k - 1) / 3;
+        i = (k - 1) - j * 3;
+        rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
+        SDL_RenderCopy(render, textures[k], NULL, &rect);
+    }
+    SDL_RenderPresent(render);
+    SDL_Delay(4);
+}

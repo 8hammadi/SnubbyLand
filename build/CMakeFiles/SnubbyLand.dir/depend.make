@@ -12,13 +12,18 @@ CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/level.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/controller.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/creator.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/game.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/get_level.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/global_variable.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/index.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/init.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/map_generateur.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/model.hpp
-CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/online_update.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/online.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/pause.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/prototype.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/sound.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/update.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/util.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/view.hpp
 

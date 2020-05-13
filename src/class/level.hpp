@@ -212,3 +212,5 @@ void Player::think(Level &level)
             is_player_inside_after(x - 20, y)
            )x -= 10;; //L
 }
+
+

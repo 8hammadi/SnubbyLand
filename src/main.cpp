@@ -47,14 +47,18 @@ using namespace std;
 #include "class/Big_spiral_dot.hpp"
 #include "class/Coin.hpp"
 #include "class/level.hpp"
-Level  level;
-Level *ll ;
+Level  level,*ll ;
+#include "init.hpp"
+#include "index.hpp"
+#include "get_level.hpp"
 #include "model.hpp"
 #include "sound.hpp"
 #include "view.hpp"
+#include "update.hpp"
 #include "controller.hpp"
-#include "online_update.hpp"
+#include "online.hpp"
 #include "creator.hpp"
+#include "pause.hpp"
 #include "game.hpp"
 
 

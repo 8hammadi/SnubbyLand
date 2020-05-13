@@ -36,3 +36,5 @@ void online_game();
 void save_n();
 void load_n();
 void local_win();
+void coin_sound();
+void hit_sound();

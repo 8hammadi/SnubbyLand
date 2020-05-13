@@ -3,7 +3,7 @@ SDL_Window *window;
 SDL_Renderer *render;
 SDL_Rect rect;
 SDL_Surface *s, *ss[10];
-SDL_Texture *texture, *texturePlayer2, *texture_wait, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];    //les variable de jeux
+SDL_Texture *texture,*textureblack, *texturePlayer2, *texture_wait, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];    //les variable de jeux
 
 
 int l;//level
