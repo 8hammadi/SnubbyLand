@@ -14,6 +14,21 @@ void load_n()
     ar &N_LEVELS;
 }
 
+//Mémorisez le numéro des niveaus ouvert
+void save_n_open()
+{
+    ofstream ofs("../levels/n_open");
+    boost::archive::text_oarchive ar(ofs);
+    ar &N_LEVELS;
+}
+//Connaître le numéro des niveaus overts
+void load_n_open()
+{
+    ifstream ifs("../levels/n_open");
+    boost::archive::text_iarchive ar(ifs);
+    ar &N_LEVELS;
+}
+
 
 
 void screen_level()

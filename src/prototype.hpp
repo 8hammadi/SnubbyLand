@@ -38,3 +38,5 @@ void load_n();
 void local_win();
 void coin_sound();
 void hit_sound();
+void load_n_open();//les niveau ouverts
+void save_n_open();//les niveau ouverts

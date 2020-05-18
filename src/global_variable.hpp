@@ -12,7 +12,7 @@ SDL_Event event, event_quit;
 int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
 bool go_back = 0, is_playing = 0, is_pause = 0, is_index = 0, automatique, is_thinking = 0, status_thread_playing_online = 0;
 TTF_Font *font;
-int N_LEVELS = 0;
+int N_LEVELS = 0 ,N_OPEN_LEVEL;
 double sensitivity = 0.2;
 string text;
 
