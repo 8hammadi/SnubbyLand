@@ -19,14 +19,14 @@ void save_n_open()
 {
     ofstream ofs("../levels/n_open");
     boost::archive::text_oarchive ar(ofs);
-    ar &N_LEVELS;
+    ar &N_OPEN_LEVEL;
 }
 //Connaître le numéro des niveaus overts
 void load_n_open()
 {
     ifstream ifs("../levels/n_open");
     boost::archive::text_iarchive ar(ifs);
-    ar &N_LEVELS;
+    ar &N_OPEN_LEVEL;
 }
 
 

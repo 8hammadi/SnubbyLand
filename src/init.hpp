@@ -19,6 +19,7 @@ void init()
     textureEnemy = SDL_CreateTextureFromSurface(render, IMG_Load("../images/enemy.png"));
     textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/level.png"));
     load_n();
+    load_n_open();
     for(int i = 0; i < N_LEVELS + 1; i++)
     {
         text = "../levels/" + to_string(i + 1) + ".png";
