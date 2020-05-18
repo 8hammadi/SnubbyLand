@@ -9,7 +9,16 @@ CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/Spiral_dot.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/Squar_enemy.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/brain.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/level.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/constant.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/controller.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Big_spiral_dot.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Coin.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Green_area.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Linear_enemy.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Player.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Spiral_dot.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Squar_enemy.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/create/Wall.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/creator.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/game.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/get_level.hpp

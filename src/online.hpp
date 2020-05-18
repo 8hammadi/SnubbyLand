@@ -11,10 +11,8 @@ void online_game()
     {
         SDL_Delay(50);   //finding a player
     }
-
     play();
 }
-
 
 int thread_playing_online(void *_)
 {

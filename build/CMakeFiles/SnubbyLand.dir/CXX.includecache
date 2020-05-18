@@ -22,7 +22,25 @@
 
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
 
+/home/run/Desktop/SnubbyLand/src/constant.hpp
+
 /home/run/Desktop/SnubbyLand/src/controller.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Big_spiral_dot.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Coin.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Green_area.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Linear_enemy.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Player.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Spiral_dot.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Squar_enemy.hpp
+
+/home/run/Desktop/SnubbyLand/src/create/Wall.hpp
 
 /home/run/Desktop/SnubbyLand/src/creator.hpp
 
@@ -77,6 +95,8 @@ sys/types.h
 -
 unistd.h
 -
+constant.hpp
+/home/run/Desktop/SnubbyLand/src/constant.hpp
 map_generateur.hpp
 /home/run/Desktop/SnubbyLand/src/map_generateur.hpp
 global_variable.hpp
@@ -119,6 +139,22 @@ controller.hpp
 /home/run/Desktop/SnubbyLand/src/controller.hpp
 online.hpp
 /home/run/Desktop/SnubbyLand/src/online.hpp
+create/Big_spiral_dot.hpp
+/home/run/Desktop/SnubbyLand/src/create/Big_spiral_dot.hpp
+create/Coin.hpp
+/home/run/Desktop/SnubbyLand/src/create/Coin.hpp
+create/Green_area.hpp
+/home/run/Desktop/SnubbyLand/src/create/Green_area.hpp
+create/Linear_enemy.hpp
+/home/run/Desktop/SnubbyLand/src/create/Linear_enemy.hpp
+create/Player.hpp
+/home/run/Desktop/SnubbyLand/src/create/Player.hpp
+create/Spiral_dot.hpp
+/home/run/Desktop/SnubbyLand/src/create/Spiral_dot.hpp
+create/Squar_enemy.hpp
+/home/run/Desktop/SnubbyLand/src/create/Squar_enemy.hpp
+create/Wall.hpp
+/home/run/Desktop/SnubbyLand/src/create/Wall.hpp
 creator.hpp
 /home/run/Desktop/SnubbyLand/src/creator.hpp
 pause.hpp

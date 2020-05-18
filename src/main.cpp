@@ -1,13 +1,3 @@
-
-#define PI 3.141592653589793
-#define N_POPULATION 100
-#define NEURAL_NETWORK { (int)level.player.input.size(),40,10, 4}
-#define RANDOM (double)rand()/RAND_MAX
-#define TOKEN_SIZE 10
-// #define SERVER_STREAM "127.0.0.1:8000"
-#define SERVER_STREAM "snubbyland.herokuapp.com"
-#define SPEED 1
-
 #include <bits/stdc++.h>
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
@@ -35,6 +25,7 @@ namespace net = boost::asio;
 using tcp = boost::asio::ip::tcp;
 using namespace std;
 
+#include "constant.hpp"
 #include "map_generateur.hpp"
 #include "global_variable.hpp"
 #include "util.hpp"
@@ -47,7 +38,9 @@ using namespace std;
 #include "class/Big_spiral_dot.hpp"
 #include "class/Coin.hpp"
 #include "class/level.hpp"
+
 Level  level,*ll ;
+
 #include "init.hpp"
 #include "index.hpp"
 #include "get_level.hpp"
@@ -57,6 +50,16 @@ Level  level,*ll ;
 #include "update.hpp"
 #include "controller.hpp"
 #include "online.hpp"
+
+#include "create/Big_spiral_dot.hpp"
+#include "create/Coin.hpp"
+#include "create/Green_area.hpp"
+#include "create/Linear_enemy.hpp"
+#include "create/Player.hpp"
+#include "create/Spiral_dot.hpp"
+#include "create/Squar_enemy.hpp"
+#include "create/Wall.hpp"
+
 #include "creator.hpp"
 #include "pause.hpp"
 #include "game.hpp"
