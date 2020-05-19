@@ -27,8 +27,6 @@ int thread_playing_online(void *_)
         websocket::stream<tcp::socket> ws{ioc};
         // Look up the domain name
         boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> results = resolver.resolve(host, port);
-
-
         // Make the connection on the IP address we get from a lookup
         net::connect(ws.next_layer(), results.begin(), results.end());
         // Set a decorator to change the User-Agent of the handshake
@@ -54,12 +52,19 @@ int thread_playing_online(void *_)
         // buffer.clear();
 
         //demmand id of player 2
-        text = "@ " + to_string(l);
-        ws.write(net::buffer(text));
-        ws.read(buffer);
-        text = beast::buffers_to_string(buffer.data()) ;
+
+        do
+        {
+            text = "@ " + to_string(l);
+            ws.write(net::buffer(text));
+            ws.read(buffer);
+            text = beast::buffers_to_string(buffer.data()) ;
+            buffer.clear();
+        }
+        while(text == ".");
+        id2=text;
         //the game begain
-        cout << text<<endl;
+        cout << text << endl;
         while(1)
         {
             buffer.clear();

@@ -32,7 +32,10 @@ int get_level()
             cout << "scrolling .." << endl;
             if(event.wheel.y >= 0)
                 y -= 10;
-            else y += 10;
+            else
+            {
+                y += 10;
+            };
             draw_levels();
             break;
         case SDL_QUIT:
