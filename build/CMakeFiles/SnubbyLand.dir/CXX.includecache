@@ -6,13 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/run/Desktop/SnubbyLand/src/Server_level.hpp
+/home/run/Desktop/SnubbyLand/src/INDEX.hpp
 
-/home/run/Desktop/SnubbyLand/src/Server_stream.hpp
-
-/home/run/Desktop/SnubbyLand/src/ayoub/INDEX.hpp
-
-/home/run/Desktop/SnubbyLand/src/ayoub/PAUSE.hpp
+/home/run/Desktop/SnubbyLand/src/PAUSE.hpp
 SDL2/SDL.h
 -
 SDL2/SDL_ttf.h
@@ -22,7 +18,11 @@ SDL2/SDL_image.h
 SDL2/SDL_ttf.h
 -
 
-/home/run/Desktop/SnubbyLand/src/ayoub/WIN_LOSE.hpp
+/home/run/Desktop/SnubbyLand/src/Server_level.hpp
+
+/home/run/Desktop/SnubbyLand/src/Server_stream.hpp
+
+/home/run/Desktop/SnubbyLand/src/WIN_LOSE.hpp
 SDL2/SDL.h
 -
 SDL2/SDL_ttf.h
@@ -163,12 +163,12 @@ Server_level.hpp
 /home/run/Desktop/SnubbyLand/src/Server_level.hpp
 Server_stream.hpp
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
-ayoub/INDEX.hpp
-/home/run/Desktop/SnubbyLand/src/ayoub/INDEX.hpp
-ayoub/PAUSE.hpp
-/home/run/Desktop/SnubbyLand/src/ayoub/PAUSE.hpp
-ayoub/WIN_LOSE.hpp
-/home/run/Desktop/SnubbyLand/src/ayoub/WIN_LOSE.hpp
+INDEX.hpp
+/home/run/Desktop/SnubbyLand/src/INDEX.hpp
+PAUSE.hpp
+/home/run/Desktop/SnubbyLand/src/PAUSE.hpp
+WIN_LOSE.hpp
+/home/run/Desktop/SnubbyLand/src/WIN_LOSE.hpp
 create/Big_spiral_dot.hpp
 /home/run/Desktop/SnubbyLand/src/create/Big_spiral_dot.hpp
 create/Coin.hpp

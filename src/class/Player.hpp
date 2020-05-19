@@ -56,6 +56,4 @@ public:
 
 
     void update_input(Level &level);
-
-
 };

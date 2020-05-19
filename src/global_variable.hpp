@@ -5,7 +5,6 @@ SDL_Rect rect;
 SDL_Surface *s, *ss[10];
 SDL_Texture *texture,*textureblack, *texturePlayer2, *texture_wait, *texturePlayer, *textureEnemy, *textures[10], *textureCoin, *textureSlides[20];    //les variable de jeux
 
-
 int l;//level
 int continuer = 1, on = 0, p;
 SDL_Event event, event_quit;
@@ -32,10 +31,11 @@ string id;
 bool i_win;// -1:nothing 0:lose 1:win
 //les variable de l algorithm génétique
 pair<int, int> A, B, C, D;
+default_random_engine generator;
+normal_distribution<double> distribution(0, 1);
+
 
 string host = SERVER_STREAM;
 string port = "80";
 
 
-default_random_engine generator;
-normal_distribution<double> distribution(0, 1);
