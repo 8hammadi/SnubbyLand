@@ -52,9 +52,9 @@ Level  level,*ll ;
 #include "Server_level.hpp"
 #include "Server_stream.hpp"
 
-#include "ayoub/INDEX.hpp"
-#include "ayoub/PAUSE.hpp"
-#include "ayoub/WIN_LOSE.hpp"
+#include "INDEX.hpp"
+#include "PAUSE.hpp"
+#include "WIN_LOSE.hpp"
 
 #include "create/Big_spiral_dot.hpp"
 #include "create/Coin.hpp"
