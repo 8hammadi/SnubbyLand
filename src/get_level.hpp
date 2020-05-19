@@ -13,9 +13,21 @@ int get_level()
             for(int i, j, k = 1; k <= N_LEVELS ; k++)
             {
                 j = (k - 1) / 3;
-                // i = (k - 1) - j * 3;
                 i = (k - 1) % 3;
                 rect = {40 * (i + 1) + i * 288, y + 40 * (j + 1) + j * 150, 288, 150} ;
+                
+                  if( x > rect.x and x < rect.x + 20 and b - y > rect.y and b - y < rect.y + 20 )
+                {
+                    send_level_to_server(k);
+                    // if(k > N_OPEN_LEVEL)
+                    // {
+                    //     break;
+                    // }
+                    // load_level(k);
+                    // return k;
+                    break;
+                }
+
                 if( x > rect.x and x < rect.x + rect.w and b - y > rect.y and b - y < rect.y + rect.h )
                 {
                     if(k > N_OPEN_LEVEL)

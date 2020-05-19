@@ -40,16 +40,18 @@ string POST(string data)
 }
 
 
-void send_level_to_server(){
+void send_level_to_server(int k){
 
-    cout<<"SEND LEVEL ..."<<endl;
-
-    cout<<POST("..")<<endl;
+    cout<<"SEND LEVEL "<<k<<" Level"<<endl;
+    std::ifstream t("../levels/" + to_string(k));
+    std::string str((std::istreambuf_iterator<char>(t)),
+                 std::istreambuf_iterator<char>());
+    cout<<"ID OF LEVEL :"<<POST(str)<<endl;
 }
 
 
 void get_level_from_server(){
-
     cout<<"GET LEVEL ONLINE .."<<endl;
+
 
 }
