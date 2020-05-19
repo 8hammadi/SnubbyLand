@@ -18,17 +18,20 @@ void index()
             if(x >= 156 and x <= 156 + 700 and y >= 210 and y <= 210 + 100)
             {
                 y = 0;
+                mode="1OFF";
                 l = get_level();
                 play();
             }
             //TWO PLAYER thread_playing_online
             if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
             {
+                mode="2ON";
                 online_game();
             }
             //GENETIC ALGORITHM (n'est pas encore terminé)
             if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
             {
+                mode="GA";
                 y = 0;
                 l = get_level();
                 level.get_enemys();
@@ -46,6 +49,7 @@ void index()
             //CREATE NEW LEVEL
             if(x >= 156 and x <= 156 + 700 and y >= 540 and y <= 540 + 100)
             {
+                mode="NEW";
                 create_level();
                 cout << "le niveau créé avec succès" << endl;
                 play();

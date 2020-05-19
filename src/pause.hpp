@@ -9,6 +9,8 @@ void pause_game()
         SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
     else
         SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
+
+    renderPause(render);
     show();
     while(is_pause)
     {
@@ -18,7 +20,7 @@ void pause_game()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-            coin_sound();
+
             if(x > 312 and x<712 and y>100 and y < 200)
             {
 

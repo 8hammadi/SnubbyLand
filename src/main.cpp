@@ -49,7 +49,12 @@ Level  level,*ll ;
 #include "view.hpp"
 #include "update.hpp"
 #include "controller.hpp"
-#include "online.hpp"
+#include "Server_level.hpp"
+#include "Server_stream.hpp"
+
+#include "ayoub/INDEX.hpp"
+#include "ayoub/PAUSE.hpp"
+#include "ayoub/WIN_LOSE.hpp"
 
 #include "create/Big_spiral_dot.hpp"
 #include "create/Coin.hpp"
@@ -67,7 +72,6 @@ Level  level,*ll ;
 
 int main(int argc, char const *argv[])
 {
-
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     init();

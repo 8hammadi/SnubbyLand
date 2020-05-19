@@ -6,6 +6,40 @@
 
 #IncludeRegexTransform: 
 
+/home/run/Desktop/SnubbyLand/src/Server_level.hpp
+
+/home/run/Desktop/SnubbyLand/src/Server_stream.hpp
+
+/home/run/Desktop/SnubbyLand/src/ayoub/INDEX.hpp
+SDL2/SDL.h
+-
+SDL2/SDL_ttf.h
+-
+SDL2/SDL_image.h
+-
+SDL2/SDL_ttf.h
+-
+
+/home/run/Desktop/SnubbyLand/src/ayoub/PAUSE.hpp
+SDL2/SDL.h
+-
+SDL2/SDL_ttf.h
+-
+SDL2/SDL_image.h
+-
+SDL2/SDL_ttf.h
+-
+
+/home/run/Desktop/SnubbyLand/src/ayoub/WIN_LOSE.hpp
+SDL2/SDL.h
+-
+SDL2/SDL_ttf.h
+-
+SDL2/SDL_image.h
+-
+SDL2/SDL_ttf.h
+-
+
 /home/run/Desktop/SnubbyLand/src/class/Big_spiral_dot.hpp
 
 /home/run/Desktop/SnubbyLand/src/class/Coin.hpp
@@ -137,8 +171,16 @@ update.hpp
 /home/run/Desktop/SnubbyLand/src/update.hpp
 controller.hpp
 /home/run/Desktop/SnubbyLand/src/controller.hpp
-online.hpp
-/home/run/Desktop/SnubbyLand/src/online.hpp
+Server_level.hpp
+/home/run/Desktop/SnubbyLand/src/Server_level.hpp
+Server_stream.hpp
+/home/run/Desktop/SnubbyLand/src/Server_stream.hpp
+ayoub/INDEX.hpp
+/home/run/Desktop/SnubbyLand/src/ayoub/INDEX.hpp
+ayoub/PAUSE.hpp
+/home/run/Desktop/SnubbyLand/src/ayoub/PAUSE.hpp
+ayoub/WIN_LOSE.hpp
+/home/run/Desktop/SnubbyLand/src/ayoub/WIN_LOSE.hpp
 create/Big_spiral_dot.hpp
 /home/run/Desktop/SnubbyLand/src/create/Big_spiral_dot.hpp
 create/Coin.hpp
@@ -167,8 +209,6 @@ bits/stdc++.h
 -
 
 /home/run/Desktop/SnubbyLand/src/model.hpp
-
-/home/run/Desktop/SnubbyLand/src/online.hpp
 
 /home/run/Desktop/SnubbyLand/src/pause.hpp
 

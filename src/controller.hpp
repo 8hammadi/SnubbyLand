@@ -83,7 +83,12 @@ int control_event(void *_)
             case SDL_MOUSEBUTTONDOWN:
                 x = event.motion.x;
                 y = event.motion.y;
-                if(x > 0 and x <= 400 and y > 0 and y <= 100)pause_game();
+                if(x > 0 and x <= 400 and y > 0 and y <= 100)
+                {
+
+                    pause_game();
+                    
+                }
                 if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
                 {
                     is_pause = 1;

@@ -15,7 +15,7 @@ TTF_Font *font;
 int N_LEVELS = 0 ,N_OPEN_LEVEL;
 double sensitivity = 0.2;
 string text;
-
+string mode;// "2ON" :2 players online "1OFF" : 1 player ofline
 bool  T[4] = {0, 0, 0, 0};
 //les variable de son
 SDL_AudioSpec wav_spec[2];
