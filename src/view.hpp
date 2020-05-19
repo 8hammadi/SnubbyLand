@@ -106,14 +106,28 @@ void draw_levels()
         rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
         SDL_RenderCopy(render, textures[k], NULL, &rect);
 
-        if(k>N_OPEN_LEVEL and mode=="1OFF"){
+        if(k > N_OPEN_LEVEL and mode == "1OFF")
+        {
             SDL_RenderCopy(render, textureblack, NULL, &rect);
         }
         //send to server
-        rect.w=20;
-        rect.h=20;
+        rect.w = 20;
+        rect.h = 20;
         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
     }
+    //upload new level
+    int i, j, k = N_LEVELS + 1;
+    j = (k - 1) / 3;
+    i = (k - 1) - j * 3;
+    rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
+    SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+
+    // if(k > N_OPEN_LEVEL and mode == "1OFF")
+    // {
+    //     SDL_RenderCopy(render, textureblack, NULL, &rect);
+    // }
+
+
     SDL_RenderPresent(render);
     SDL_Delay(4);
 }

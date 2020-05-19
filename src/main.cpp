@@ -51,6 +51,7 @@ Level  level,*ll ;
 #include "controller.hpp"
 #include "Server_level.hpp"
 #include "Server_stream.hpp"
+#include "input_text.hpp"
 
 #include "INDEX.hpp"
 #include "PAUSE.hpp"
@@ -74,7 +75,12 @@ int main(int argc, char const *argv[])
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+
+
     init();
+    // get_text();
+    // return 0;
+    
     SDL_CreateThread( control_event, "", (void *)NULL);
     SDL_CreateThread( thread_playing_online, "", (void *)NULL);
     SDL_CreateThread( thread_update_position, "", (void *)NULL);

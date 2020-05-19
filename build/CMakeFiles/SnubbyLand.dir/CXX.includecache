@@ -78,6 +78,8 @@ SDL2/SDL_ttf.h
 
 /home/run/Desktop/SnubbyLand/src/init.hpp
 
+/home/run/Desktop/SnubbyLand/src/input_text.hpp
+
 /home/run/Desktop/SnubbyLand/src/main.cpp
 bits/stdc++.h
 -
@@ -163,6 +165,8 @@ Server_level.hpp
 /home/run/Desktop/SnubbyLand/src/Server_level.hpp
 Server_stream.hpp
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
+input_text.hpp
+/home/run/Desktop/SnubbyLand/src/input_text.hpp
 INDEX.hpp
 /home/run/Desktop/SnubbyLand/src/INDEX.hpp
 PAUSE.hpp

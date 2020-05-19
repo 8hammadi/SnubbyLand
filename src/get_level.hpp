@@ -13,7 +13,7 @@ int get_level()
             if(x<=20 and y<=20){
                 string k;
                 cout<<"NAME OF LEVEL :"<<endl;
-                cin>>k;
+                k=get_text();
                 get_level_from_server(k);
                 is_playing=1;
                 play();

@@ -29,6 +29,7 @@ CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/game.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/get_level.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/global_variable.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/init.hpp
+CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/input_text.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/map_generateur.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/model.hpp
