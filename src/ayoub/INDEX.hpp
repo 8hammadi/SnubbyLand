@@ -119,7 +119,7 @@ inline void renderHome(SDL_Renderer *render)
     static SDL_Texture *HOME_background = SDL_CreateTextureFromSurface(render, IMG_Load("../images/index.png"));
 
 
-    SDL_RenderCopy(render, HOME_background, NULL, NULL);
+    // SDL_RenderCopy(render, HOME_background, NULL, NULL);
 
     SDL_Rect rect = {HOME_button_x, HOME_normal_y, HOME_button_width, HOME_button_height};
     SDL_RenderCopy(render, HOME_normal, NULL, &rect);

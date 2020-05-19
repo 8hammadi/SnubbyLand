@@ -1,9 +1,8 @@
 void index()
 {
     cout << "Hello " << id << endl;
-    coin_sound();
-    SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
-    SDL_RenderPresent(render);
+    // SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
+    // SDL_RenderPresent(render);
     continuer = 1;
     while(continuer)
     {

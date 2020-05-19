@@ -10,7 +10,6 @@ int get_level()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             b = event.motion.y;
-            coin_sound();
             for(int i, j, k = 1; k <= N_LEVELS ; k++)
             {
                 j = (k - 1) / 3;
@@ -38,11 +37,13 @@ int get_level()
             }
             else
             {
-                int max = (WINDOW_HEIGHT < (N_LEVELS / 3 + (N_LEVELS % 3 != 0)) * 190) ? (N_LEVELS / 3 + (N_LEVELS % 3 != 0)) * 190 : WINDOW_HEIGHT;
+                int max = 2000+(WINDOW_HEIGHT < (N_LEVELS / 3 + (N_LEVELS % 3 != 0)) * 190) ? (N_LEVELS / 3 + (N_LEVELS % 3 != 0)) * 190 : WINDOW_HEIGHT;
+                cout<<max<<endl;
                 if(y +WINDOW_HEIGHT+10 <= max)
                     y += 10;
             };
             draw_levels();
+
             break;
         case SDL_QUIT:
             free_memory();
