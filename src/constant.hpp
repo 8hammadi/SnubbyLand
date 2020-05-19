@@ -9,3 +9,12 @@
 #define COEURS 5
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 668
+
+
+
+#define LEVEL_level_row 3
+
+#define LEVEL_level_margin 20
+#define LEVEL_level_width (WINDOW_WIDTH-(1+LEVEL_level_row)*LEVEL_level_margin)/LEVEL_level_row
+#define LEVEL_level_height LEVEL_level_width/2
+

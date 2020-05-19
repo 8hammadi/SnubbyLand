@@ -77,10 +77,7 @@ int main(int argc, char const *argv[])
     cin.tie(NULL);
 
 
-    init();
-    // get_text();
-    // return 0;
-    
+    init();    
     SDL_CreateThread( control_event, "", (void *)NULL);
     SDL_CreateThread( thread_playing_online, "", (void *)NULL);
     SDL_CreateThread( thread_update_position, "", (void *)NULL);

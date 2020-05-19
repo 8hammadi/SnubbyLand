@@ -1,3 +1,8 @@
+#define GAME_pause_x 10
+#define GAME_pause_y 10
+#define GAME_pause_width 70
+#define GAME_pause_height 30
+
 void draw_text(char *t, int x, int y, int w, int h)
 {
     rect = {  x, y, w, h};
@@ -85,6 +90,12 @@ void draw_game()
         SDL_RenderCopy(render, textureSlides[11], NULL, &rect);
 
     }
+
+
+    // Pause Button:
+    rect = {GAME_pause_x, GAME_pause_y, GAME_pause_width, GAME_pause_height};
+    static SDL_Texture *GAME_pause = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause.png"));
+    SDL_RenderCopy(render, GAME_pause, NULL, &rect);
 }
 
 
@@ -98,12 +109,15 @@ void show()
 void draw_levels()
 {
     rect = {0, y, 1024, 3000} ;
-    SDL_RenderCopy(render, textures[0], NULL, &rect);
+    // SDL_RenderCopy(render, textures[0], NULL, &rect);
     for(int i, j, k = 1; k < N_LEVELS + 1; k++)
     {
         j = (k - 1) / 3;
         i = (k - 1) - j * 3;
-        rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
+        // rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
+        rect = {LEVEL_level_margin *(i + 1) + i * LEVEL_level_width,
+                LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y, LEVEL_level_width, LEVEL_level_height
+               } ;
         SDL_RenderCopy(render, textures[k], NULL, &rect);
 
         if(k > N_OPEN_LEVEL and mode == "1OFF")

@@ -1,7 +1,32 @@
+// buttons
+#define WIN_LOSE_button_width 100
+#define WIN_LOSE_button_height 50
+#define WIN_LOSE_button_x 50
+#define WIN_LOSE_button_margin 20
+
+// restart
+#define WIN_LOSE_restart_y (WINDOW_HEIGHT-4*WIN_LOSE_button_height-3*WIN_LOSE_button_margin)/2
+
+// levels
+#define WIN_LOSE_levels_y WIN_LOSE_restart_y+WIN_LOSE_button_height+WIN_LOSE_button_margin
+
+// quit
+#define WIN_LOSE_quit_y  WIN_LOSE_levels_y+WIN_LOSE_button_height+WIN_LOSE_button_margin
+
+// prev_next
+#define WIN_LOSE_prev_next_y  WIN_LOSE_quit_y+WIN_LOSE_button_height+WIN_LOSE_button_margin
+
+// previous
+#define WIN_LOSE_previous_x (WINDOW_WIDTH -2*WIN_LOSE_button_width-WIN_LOSE_button_margin)/2
+
+// next
+#define WIN_LOSE_next_x WIN_LOSE_previous_x+WIN_LOSE_button_width+WIN_LOSE_button_margin
+
+
 
 void play()
 {
-    cout << "the game begain" << endl;
+    cout << "the game began" << endl;
     level.n_coins = level.coins.size();
     is_playing = 1;
     continuer = 1;
@@ -23,15 +48,14 @@ void play()
 
 }
 
-
-
 void local_win()
 {
-    cout << "You win .." << endl;
+    cout << "You win  .." << endl;
     is_pause = 1;
     draw_game();
-    rect = {312, 100, 400, 540} ;
-    SDL_RenderCopy(render, textureSlides[10], NULL, &rect);
+    
+    renderPause_win_lose(render);
+
     show();
     while(is_pause)
     {
@@ -93,7 +117,6 @@ void local_win()
         }
     }
 }
-
 
 
 void free_memory()
