@@ -15,8 +15,8 @@ int get_level()
                 cout<<"NAME OF LEVEL :"<<endl;
                 cin>>k;
                 get_level_from_server(k);
-                // is_playing=1;
-                // play();
+                is_playing=1;
+                play();
             }
             for(int i, j, k = 1; k <= N_LEVELS ; k++)
             {
