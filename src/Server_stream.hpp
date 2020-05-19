@@ -17,6 +17,7 @@ void online_game()
 int thread_playing_online(void *_)
 {
     while(1)if(is_online_game)break;
+    i_win=0;
     cout << "STREAMING .." << endl;
     try
     {
@@ -55,19 +56,33 @@ int thread_playing_online(void *_)
             buffer.clear();
         }
         while(text == ".");
-        id2=text;
+        id2 = text;
         //the game begain
         cout << text << endl;
         while(1)
         {
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
+            if(i_win){
+                i_win=0;
+                text="WIN";
+                cout<<"you win";
+                break;
+            }
             // Send the message
             ws.write(net::buffer(text));
             // This buffer will hold the incoming message
             // Read a message into our buffer
             ws.read(buffer);
             text = beast::buffers_to_string(buffer.data()) ;
+
+            if(text == "LOSE")
+            {
+
+                cout << "you lose" << endl;
+                break;
+            }
+
             streams = stringstream(text);
             streams >> player2.first >> player2.second;
         }

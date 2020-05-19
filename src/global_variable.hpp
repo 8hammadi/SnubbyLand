@@ -29,7 +29,7 @@ pair<int, int> player2;
 string id2 = "0", token;
 stringstream streams;
 string id;
-
+bool i_win;// -1:nothing 0:lose 1:win
 //les variable de l algorithm génétique
 pair<int, int> A, B, C, D;
 
