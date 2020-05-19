@@ -41,5 +41,5 @@ void hit_sound();
 void load_n_open();//les niveau ouverts
 void save_n_open();//les niveau ouverts
 
-void send_level_to_server();
-void get_level_from_server();
+void send_level_to_server(int k);
+void get_level_from_server(string k	);

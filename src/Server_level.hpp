@@ -50,8 +50,12 @@ void send_level_to_server(int k){
 }
 
 
-void get_level_from_server(){
+void get_level_from_server(string k){// ex:k="L201"
     cout<<"GET LEVEL ONLINE .."<<endl;
+    k=POST(k);
+    cout<<k<<endl;
 
-
+    // boost::archive::text_iarchive ar(ostringstream(k));
+    // ar &ll;
+    // level = *ll;
 }

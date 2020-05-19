@@ -10,6 +10,14 @@ int get_level()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             b = event.motion.y;
+            if(x<=20 and y<=20){
+                string k;
+                cout<<"NAME OF LEVEL :"<<endl;
+                cin>>k;
+                get_level_from_server(k);
+                // is_playing=1;
+                // play();
+            }
             for(int i, j, k = 1; k <= N_LEVELS ; k++)
             {
                 j = (k - 1) / 3;
@@ -19,12 +27,6 @@ int get_level()
                   if( x > rect.x and x < rect.x + 20 and b - y > rect.y and b - y < rect.y + 20 )
                 {
                     send_level_to_server(k);
-                    // if(k > N_OPEN_LEVEL)
-                    // {
-                    //     break;
-                    // }
-                    // load_level(k);
-                    // return k;
                     break;
                 }
 
