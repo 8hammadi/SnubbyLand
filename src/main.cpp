@@ -42,7 +42,7 @@ using namespace std;
 Level  level,*ll ;
 
 #include "init.hpp"
-#include "index.hpp"
+// #include "index.hpp"
 #include "get_level.hpp"
 #include "model.hpp"
 #include "sound.hpp"

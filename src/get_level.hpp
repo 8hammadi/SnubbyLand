@@ -11,11 +11,12 @@ int get_level()
             x = event.motion.x;
             b = event.motion.y;
             coin_sound();
-            for(int i, j, k = 1; k < N_LEVELS + 1; k++)
+            for(int i, j, k = 1; k <= N_LEVELS ; k++)
             {
                 j = (k - 1) / 3;
-                i = (k - 1) - j * 3;
-                rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
+                // i = (k - 1) - j * 3;
+                i = (k - 1) % 3;
+                rect = {40 * (i + 1) + i * 288, y + 40 * (j + 1) + j * 150, 288, 150} ;
                 if( x > rect.x and x < rect.x + rect.w and b - y > rect.y and b - y < rect.y + rect.h )
                 {
                     if(k > N_OPEN_LEVEL)
@@ -31,10 +32,15 @@ int get_level()
         case SDL_MOUSEWHEEL:
             cout << "scrolling .." << endl;
             if(event.wheel.y >= 0)
-                y -= 10;
+            {
+                if(y - 10 >= 0)
+                    y -= 10;
+            }
             else
             {
-                y += 10;
+                int max = (WINDOW_HEIGHT < (N_LEVELS / 3 + (N_LEVELS % 3 != 0)) * 190) ? (N_LEVELS / 3 + (N_LEVELS % 3 != 0)) * 190 : WINDOW_HEIGHT;
+                if(y +WINDOW_HEIGHT+10 <= max)
+                    y += 10;
             };
             draw_levels();
             break;

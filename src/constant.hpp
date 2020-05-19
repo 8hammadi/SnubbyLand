@@ -7,3 +7,5 @@
 #define SERVER_STREAM "snubbyland.herokuapp.com"
 #define SPEED 1
 #define COEURS 5
+#define WINDOW_WIDTH 1024
+#define WINDOW_HEIGHT 668

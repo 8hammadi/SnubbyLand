@@ -3,9 +3,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 668
-
 // buttons
 #define PAUSE_button_width 100
 #define PAUSE_button_height 50
@@ -33,7 +30,7 @@ inline void renderPause(SDL_Renderer *render)
     static SDL_Texture *PAUSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/quit.png"));
 
 
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 120);
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
     SDL_RenderFillRect(render, NULL);
 
     SDL_Rect rect = {PAUSE_button_x, PAUSE_resume_y, PAUSE_button_width, PAUSE_button_height};
