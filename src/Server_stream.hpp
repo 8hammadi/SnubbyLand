@@ -11,8 +11,7 @@ void online_game()
     {
         SDL_Delay(50);   //finding a player
     }
-    // play();
-    is_playing=1;
+    play();
 }
 
 int thread_playing_online(void *_)
@@ -67,7 +66,6 @@ int thread_playing_online(void *_)
             if(i_win){
                 i_win=0;
                 text="WIN";
-                 ws.write(net::buffer(text));
                 cout<<"you win";
                 break;
             }
@@ -77,11 +75,11 @@ int thread_playing_online(void *_)
             // Read a message into our buffer
             ws.read(buffer);
             text = beast::buffers_to_string(buffer.data()) ;
-            cout<<text<<endl;
+
             if(text == "disconnect")
             {
 
-                cout << "disconnect player 2" << endl;
+                cout << "disconnect" << endl;
                 break;
             }
 
@@ -96,10 +94,8 @@ int thread_playing_online(void *_)
     catch(exception const &e)
     {
 
-        cout << "Error: " << e.what() << endl;
+        cout << e.what() << endl;
     }
-    is_playing=0;
-
     index();
     return 1;
 }

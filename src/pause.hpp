@@ -20,18 +20,12 @@ inline void renderPause(SDL_Renderer *render);
 
 void  pause_game()
 {
-    cout << "POUSE" << endl;
+    cout << "PAUSE" << endl;
     is_pause = 1;
     draw_game();
-    // SDL_RenderCopy(render, textureblack, NULL, NULL);
-    // rect = {312, 100, 400, 540} ;
-    // if(automatique)
-    //     SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
-    // else
-    //     SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
-
     renderPause(render);
     show();
+
     while(is_pause)
     {
         SDL_WaitEvent(&event);
@@ -40,43 +34,6 @@ void  pause_game()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-
-            // if(x > 312 and x<712 and y>100 and y < 200)
-            // {
-
-            //     is_pause = 0;
-            // }
-            // if(x > 312 and x<712 and y>210 and y < 310)
-            // {
-            //     if(!automatique)
-            //     {
-            //         l++;
-            //         if(l == N_LEVELS + 1)l = 1;
-            //         cout << "Level " << l << endl;
-            //         load_level(l);
-            //     }
-            // }
-            // if(x > 312 and x<712 and y>320 and y < 420)
-            // {
-            //     if(!automatique)
-            //     {
-            //         l--;
-            //         if(l == 0)l = N_LEVELS;
-            //         cout << "Level " << l << endl;
-            //         load_level(l);
-            //     }
-            // }
-            // if(x > 312 and x<712 and y>430 and y < 530)
-            // {
-            //     is_pause = 0;
-            //     is_playing = 0;
-            //     return index();
-            // }
-            // if(x > 312 and x<712 and y>540 and y < 640)
-            // {
-            //     free_memory();
-            //
-            // }
 
             // resume button
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
@@ -162,7 +119,7 @@ inline void renderPause(SDL_Renderer *render)
     static SDL_Texture *PAUSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/quit.png"));
 
 
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 185);
     SDL_RenderFillRect(render, NULL);
 
     SDL_Rect rect = {PAUSE_button_x, PAUSE_resume_y, PAUSE_button_width, PAUSE_button_height};

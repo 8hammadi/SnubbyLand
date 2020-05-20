@@ -1,7 +1,7 @@
 // buttons
 #define WIN_LOSE_button_width 100
 #define WIN_LOSE_button_height 50
-#define WIN_LOSE_button_x 50
+#define WIN_LOSE_button_x (WINDOW_WIDTH-WIN_LOSE_button_width)/2
 #define WIN_LOSE_button_margin 20
 
 // restart
@@ -23,11 +23,15 @@
 #define WIN_LOSE_next_x WIN_LOSE_previous_x+WIN_LOSE_button_width+WIN_LOSE_button_margin
 
 
+inline void renderPause_win_lose(SDL_Renderer *render);
 
-int play(void *_)
+
+void play()
 {
     cout << "the game began" << endl;
     level.n_coins = level.coins.size();
+    is_playing = 1;
+    continuer = 1;
     while(1)
     {
         if(is_pause or !is_playing)
@@ -43,7 +47,7 @@ int play(void *_)
         show();
         SDL_Delay(20);
     }
-    return 1;
+
 }
 
 void local_win()
@@ -51,7 +55,7 @@ void local_win()
     cout << "You win  .." << endl;
     is_pause = 1;
     draw_game();
-    
+
     renderPause_win_lose(render);
 
     show();
@@ -64,43 +68,72 @@ void local_win()
             x = event.motion.x;
             y = event.motion.y;
             coin_sound();
-            if(x > 312 and x<712 and y>100 and y < 200)
+            // restart button
+            if(WIN_LOSE_button_x <= x && x <= WIN_LOSE_button_x + WIN_LOSE_button_width &&
+                    WIN_LOSE_restart_y <= y && y <= WIN_LOSE_restart_y + WIN_LOSE_button_height)
             {
-
+                cout << "RESTART" << endl;
+                is_playing = 0;
                 load_level(l);
+                is_playing = 1;
                 is_pause = 0;
-                level.n_coins = level.coins.size();
             }
-            if(x > 312 and x<712 and y>210 and y < 310)
+
+            // levels button
+            if(WIN_LOSE_button_x <= x && x <= WIN_LOSE_button_x + WIN_LOSE_button_width &&
+                    WIN_LOSE_levels_y <= y && y <= WIN_LOSE_levels_y + WIN_LOSE_button_height)
             {
-                if(!automatique)
-                {
-                    l++;
-                    if(l == N_LEVELS + 1)l = 1;
-                    cout << "Level " << l << endl;
-                    load_level(l);
-                }
+                cout<<"LEVELS"<<endl;
+                is_pause = 0;
+                is_playing=0;
+                l = get_level();
+                load_level(l);
+                is_playing=1;
             }
-            if(x > 312 and x<712 and y>320 and y < 420)
+            // Quit button
+            if(WIN_LOSE_button_x <= x && x <= WIN_LOSE_button_x + WIN_LOSE_button_width &&
+                    WIN_LOSE_quit_y <= y && y <= WIN_LOSE_quit_y + WIN_LOSE_button_height)
             {
-                if(!automatique)
-                {
-                    l--;
-                    if(l == 0)l = N_LEVELS;
-                    cout << "Level " << l << endl;
-                    load_level(l);
-                }
-            }
-            if(x > 312 and x<712 and y>430 and y < 530)
-            {
+                cout<<"QUIT"<<endl;
                 is_pause = 0;
                 is_playing = 0;
                 return index();
             }
-            if(x > 312 and x<712 and y>540 and y < 640)
+
+            // Previous button
+            if(WIN_LOSE_previous_x <= x && x <= WIN_LOSE_previous_x + WIN_LOSE_button_width &&
+                    WIN_LOSE_prev_next_y <= y && y <= WIN_LOSE_prev_next_y + WIN_LOSE_button_height)
             {
-                free_memory();
+                if(!automatique)
+                {
+                    l--;
+                    if(l == 0)l++;
+                    cout << "Level " << l << endl;
+                    load_level(l);
+                }
+                cout << "Previous" << endl;
             }
+            // Next button
+            if(1 == 1)
+            {
+                // add condition if player wins
+                // TODO
+                if(WIN_LOSE_next_x <= x && x <= WIN_LOSE_next_x + WIN_LOSE_button_width &&
+                        WIN_LOSE_prev_next_y <= y && y <= WIN_LOSE_prev_next_y + WIN_LOSE_button_height)
+                {
+                    if(!automatique)
+                    {
+                        l++;
+                        if(l == N_LEVELS + 1)l = 1;
+                        cout << "Level " << l << endl;
+                        load_level(l);
+                    }
+                    cout << "NEXT" << endl;
+                }
+            }
+
+
+
             draw_game();
             rect = {312, 100, 400, 540} ;
             if(automatique)
@@ -138,3 +171,38 @@ void free_memory()
     exit(1);
 }
 
+inline void renderPause_win_lose(SDL_Renderer *render)
+{
+
+    static SDL_Texture *WIN_LOSE_resume =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/resume.png"));
+    static SDL_Texture *WIN_LOSE_restart =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/restart.png"));
+    static SDL_Texture *WIN_LOSE_levels =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/levels.png"));
+    static SDL_Texture *WIN_LOSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/quit.png"));
+    static SDL_Texture *WIN_LOSE_previous =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/previous.png"));
+    static SDL_Texture *WIN_LOSE_next =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/next.png"));
+
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 120);
+    SDL_RenderFillRect(render, NULL);
+
+    SDL_Rect rect = {WIN_LOSE_button_x, WIN_LOSE_restart_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
+    SDL_RenderCopy(render, WIN_LOSE_restart, NULL, &rect);
+
+    rect = {WIN_LOSE_button_x, WIN_LOSE_levels_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
+    SDL_RenderCopy(render, WIN_LOSE_levels, NULL, &rect);
+
+    rect = {WIN_LOSE_button_x, WIN_LOSE_quit_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
+    SDL_RenderCopy(render, WIN_LOSE_quit, NULL, &rect);
+
+    rect = {WIN_LOSE_previous_x, WIN_LOSE_prev_next_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
+    SDL_RenderCopy(render, WIN_LOSE_previous, NULL, &rect);
+
+    rect = {WIN_LOSE_next_x, WIN_LOSE_prev_next_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
+    SDL_RenderCopy(render, WIN_LOSE_next, NULL, &rect);
+    if(1 == 0)
+    {
+        // add condition if player loses
+        // TODO
+        SDL_SetRenderDrawColor(render, 0, 0, 0, 0.50);
+        SDL_RenderFillRect(render, &rect);
+    }
+}

@@ -53,8 +53,6 @@ Level  level,*ll ;
 #include "Server_stream.hpp"
 #include "input_text.hpp"
 
-#include "WIN_LOSE.hpp"
-
 #include "create/Big_spiral_dot.hpp"
 #include "create/Coin.hpp"
 #include "create/Green_area.hpp"
@@ -74,13 +72,11 @@ int main(int argc, char const *argv[])
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
+
     init();    
-    
-    SDL_CreateThread( play, "", (void *)NULL);
     SDL_CreateThread( control_event, "", (void *)NULL);
     SDL_CreateThread( thread_playing_online, "", (void *)NULL);
     SDL_CreateThread( thread_update_position, "", (void *)NULL);
-
     index();
 
 

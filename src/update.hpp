@@ -60,7 +60,7 @@ int thread_update_position(void *_)
 {
     while(1)
     {
-        if(!is_playing )
+        if(!is_playing)
         {
             SDL_Delay(10);
             continue;
