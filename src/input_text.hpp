@@ -31,7 +31,5 @@ string get_text()
         }
         // Redraw();
     }
-
-
     return "202";
 }

@@ -4,7 +4,6 @@
 #define CREATOR_guide_x (WINDOW_WIDTH-CREATOR_guide_width)/2
 #define CREATOR_guide_y WINDOW_HEIGHT-CREATOR_guide_height
 
-
 //plan
 #define CREATOR_plan_width 30
 #define CREATOR_plan_height WINDOW_HEIGHT-CREATOR_guide_height
