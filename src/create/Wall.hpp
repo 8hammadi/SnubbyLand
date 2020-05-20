@@ -3,6 +3,7 @@ void get_wall()
 {
     rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
+    renderLevelCreator(render, 0);
     SDL_RenderPresent(render);
     on = 0;
     continuer = 1;
@@ -16,9 +17,12 @@ void get_wall()
         if(x != xx and y != yy and x >= cx and y >= cy and x < cx + 20 * size_squar and y < cy + 20 * size_squar and on)
         {
             level.map[(int)((y - cx) / size_squar)][(int)((x - cy) / size_squar)] = -1;
-            draw_wall();
+            // draw_wall();
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
+            renderLevelCreator(render, 0);
+                cout<<"22 ------+-+-+-+-+-"<<endl;
+
             SDL_RenderPresent(render);
             SDL_Delay(5);
         }
@@ -26,6 +30,9 @@ void get_wall()
         {
         case SDL_QUIT:
             free_memory();
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            eventLevelCreator( x, y);
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
@@ -47,9 +54,12 @@ void get_wall()
                 break;
             case SDLK_g:
                 level.random_map();
-                draw_wall();
+                // draw_wall();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
+                renderLevelCreator(render, 0);
+                    cout<<"-- ss ----+-+-+-+-+-"<<endl;
+
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;

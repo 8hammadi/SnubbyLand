@@ -1,3 +1,5 @@
+void renderLevelCreator(SDL_Renderer *render, int step);
+int eventLevelCreator(int x, int y);
 
 void init();// Initialise tous les variables de jeux
 void index();//c'est l'index de jeux : la page initial de choix
