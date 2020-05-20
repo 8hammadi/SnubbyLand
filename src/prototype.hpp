@@ -17,7 +17,7 @@ bool is_player_inside_after(int x, int y);
 void control_event();//lorsque le jeux est commencé il change la position de jeux si l utilisateur click sur un botton (up/left/down/Right)
 void update();//Mise à jour du jeu
 void check_status_of_playing();//Vérifiez si le joueur a touché des ennemis ou a terminé toutes les coins
-void play();//le cœur du jeu
+int play(void *_);//le cœur du jeu
 void show();//claire
 void pause_game();//claire
 void draw_levels();//pour le choix de niveau

@@ -57,8 +57,10 @@ void index()
                     HOME_normal_y <= y && y <= HOME_normal_y + HOME_button_height)
             {
                 l = get_level();
-                play();
+                // play();
+                is_playing=1;
             }
+
             //TWO PLAYER thread_playing_online
             if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_online_y <= y && y <= HOME_online_y + HOME_button_height)
@@ -81,7 +83,8 @@ void index()
 
                 level.init_population(NEURAL_NETWORK);
 
-                play();
+                // play();
+                is_playing=1;
             }
             //2Players Offline
             if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
@@ -97,7 +100,8 @@ void index()
             {
                 create_level();
                 cout << "le niveau créé avec succès" << endl;
-                play();
+                // play();
+                is_playing=1;
             }
             break ;
         case SDL_QUIT:

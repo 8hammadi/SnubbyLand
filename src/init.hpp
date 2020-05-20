@@ -3,10 +3,6 @@ void init()
     SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     window = SDL_CreateWindow("Snubby Land", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 668, SDL_WINDOW_OPENGL);
     render = SDL_CreateRenderer(window, -1, 0);
-    
-    // textureSlides[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/index.png"));
-    // SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
-    // SDL_RenderPresent(render);
 
     if (!TTF_Init())
     {

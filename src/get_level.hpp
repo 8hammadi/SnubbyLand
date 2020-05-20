@@ -22,7 +22,7 @@ int get_level()
                 k = get_text();
                 get_level_from_server(k);
                 is_playing = 1;
-                play();
+                // play();
             }
             for(int i, j, k = 1; k <= N_LEVELS ; k++)
             {

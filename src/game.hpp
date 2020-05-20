@@ -24,12 +24,10 @@
 
 
 
-void play()
+int play(void *_)
 {
     cout << "the game began" << endl;
     level.n_coins = level.coins.size();
-    is_playing = 1;
-    continuer = 1;
     while(1)
     {
         if(is_pause or !is_playing)
@@ -45,7 +43,7 @@ void play()
         show();
         SDL_Delay(20);
     }
-
+    return 1;
 }
 
 void local_win()
