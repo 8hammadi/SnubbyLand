@@ -1,7 +1,15 @@
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+
+#define WINDOW_WIDTH 1024
+#define WINDOW_HEIGHT 668
+
 // buttons
 #define WIN_LOSE_button_width 100
 #define WIN_LOSE_button_height 50
-#define WIN_LOSE_button_x (WINDOW_WIDTH-WIN_LOSE_button_width)/2
+#define WIN_LOSE_button_x 50
 #define WIN_LOSE_button_margin 20
 
 // restart
@@ -27,12 +35,12 @@
 inline void renderPause_win_lose(SDL_Renderer *render)
 {
 
-	static SDL_Texture *WIN_LOSE_resume =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/resume.png"));
-	static SDL_Texture *WIN_LOSE_restart =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/restart.png"));
-	static SDL_Texture *WIN_LOSE_levels =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/levels.png"));
-	static SDL_Texture *WIN_LOSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/quit.png"));
-	static SDL_Texture *WIN_LOSE_previous =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/previous.png"));
-	static SDL_Texture *WIN_LOSE_next =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/next.png"));
+	static SDL_Texture *WIN_LOSE_resume =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/buttons/resume.svg"));
+	static SDL_Texture *WIN_LOSE_restart =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/buttons/restart.svg"));
+	static SDL_Texture *WIN_LOSE_levels =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/buttons/levels.svg"));
+	static SDL_Texture *WIN_LOSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/buttons/quit.svg"));
+	static SDL_Texture *WIN_LOSE_previous =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/buttons/previous.svg"));
+	static SDL_Texture *WIN_LOSE_next =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/buttons/next.svg"));
 
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 120);
 	SDL_RenderFillRect(render, NULL);

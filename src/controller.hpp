@@ -1,3 +1,7 @@
+#define GAME_pause_x 10
+#define GAME_pause_y 10
+#define GAME_pause_width 70
+#define GAME_pause_height 30
 
 bool is_player_inside_after(int x, int y)
 {
@@ -83,11 +87,12 @@ int control_event(void *_)
             case SDL_MOUSEBUTTONDOWN:
                 x = event.motion.x;
                 y = event.motion.y;
-                if(x > 0 and x <= 400 and y > 0 and y <= 100)
+                if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
+                        && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
                 {
 
                     pause_game();
-                    
+
                 }
                 if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
                 {

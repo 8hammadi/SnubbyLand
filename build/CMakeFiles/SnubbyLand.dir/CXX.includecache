@@ -6,18 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/run/Desktop/SnubbyLand/src/INDEX.hpp
-
-/home/run/Desktop/SnubbyLand/src/PAUSE.hpp
-SDL2/SDL.h
--
-SDL2/SDL_ttf.h
--
-SDL2/SDL_image.h
--
-SDL2/SDL_ttf.h
--
-
 /home/run/Desktop/SnubbyLand/src/Server_level.hpp
 
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
@@ -67,6 +55,8 @@ SDL2/SDL_ttf.h
 /home/run/Desktop/SnubbyLand/src/get_level.hpp
 
 /home/run/Desktop/SnubbyLand/src/global_variable.hpp
+
+/home/run/Desktop/SnubbyLand/src/index.hpp
 
 /home/run/Desktop/SnubbyLand/src/init.hpp
 
@@ -141,6 +131,8 @@ class/level.hpp
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
 init.hpp
 /home/run/Desktop/SnubbyLand/src/init.hpp
+index.hpp
+/home/run/Desktop/SnubbyLand/src/index.hpp
 get_level.hpp
 /home/run/Desktop/SnubbyLand/src/get_level.hpp
 model.hpp
@@ -159,10 +151,6 @@ Server_stream.hpp
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
 input_text.hpp
 /home/run/Desktop/SnubbyLand/src/input_text.hpp
-INDEX.hpp
-/home/run/Desktop/SnubbyLand/src/INDEX.hpp
-PAUSE.hpp
-/home/run/Desktop/SnubbyLand/src/PAUSE.hpp
 WIN_LOSE.hpp
 /home/run/Desktop/SnubbyLand/src/WIN_LOSE.hpp
 create/Big_spiral_dot.hpp

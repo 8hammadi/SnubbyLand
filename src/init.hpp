@@ -19,7 +19,7 @@ void init()
     device_coin = SDL_OpenAudioDevice(NULL, 0, &wav_spec[1], NULL, 0);
 
     textureEnemy = SDL_CreateTextureFromSurface(render, IMG_Load("../images/enemy.png"));
-    textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/level.png"));
+    textures[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/levelBackground.jpg"));
     load_n();
     load_n_open();
     for(int i = 0; i < N_LEVELS + 1; i++)

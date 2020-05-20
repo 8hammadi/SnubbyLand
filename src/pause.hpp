@@ -1,14 +1,34 @@
-void pause_game()
+// buttons
+#define PAUSE_button_width 100
+#define PAUSE_button_height 50
+#define PAUSE_button_x (WINDOW_WIDTH-PAUSE_button_width)/2
+#define PAUSE_button_margin 20
+
+// resume
+#define PAUSE_resume_y (WINDOW_HEIGHT-4*PAUSE_button_height-3*PAUSE_button_margin)/2
+
+// restart
+#define PAUSE_restart_y PAUSE_resume_y+PAUSE_button_height+PAUSE_button_margin
+
+// levels
+#define PAUSE_levels_y PAUSE_restart_y+PAUSE_button_height+PAUSE_button_margin
+
+// quit
+#define PAUSE_quit_y  PAUSE_levels_y+PAUSE_button_height+PAUSE_button_margin
+
+inline void renderPause(SDL_Renderer *render);
+
+void  pause_game()
 {
     cout << "POUSE" << endl;
     is_pause = 1;
     draw_game();
-    SDL_RenderCopy(render, textureblack, NULL, NULL);
-    rect = {312, 100, 400, 540} ;
-    if(automatique)
-        SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
-    else
-        SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
+    // SDL_RenderCopy(render, textureblack, NULL, NULL);
+    // rect = {312, 100, 400, 540} ;
+    // if(automatique)
+    //     SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
+    // else
+    //     SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
 
     renderPause(render);
     show();
@@ -21,41 +41,79 @@ void pause_game()
             x = event.motion.x;
             y = event.motion.y;
 
-            if(x > 312 and x<712 and y>100 and y < 200)
-            {
+            // if(x > 312 and x<712 and y>100 and y < 200)
+            // {
 
+            //     is_pause = 0;
+            // }
+            // if(x > 312 and x<712 and y>210 and y < 310)
+            // {
+            //     if(!automatique)
+            //     {
+            //         l++;
+            //         if(l == N_LEVELS + 1)l = 1;
+            //         cout << "Level " << l << endl;
+            //         load_level(l);
+            //     }
+            // }
+            // if(x > 312 and x<712 and y>320 and y < 420)
+            // {
+            //     if(!automatique)
+            //     {
+            //         l--;
+            //         if(l == 0)l = N_LEVELS;
+            //         cout << "Level " << l << endl;
+            //         load_level(l);
+            //     }
+            // }
+            // if(x > 312 and x<712 and y>430 and y < 530)
+            // {
+            //     is_pause = 0;
+            //     is_playing = 0;
+            //     return index();
+            // }
+            // if(x > 312 and x<712 and y>540 and y < 640)
+            // {
+            //     free_memory();
+            //
+            // }
+
+            // resume button
+            if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
+                    PAUSE_resume_y <= y && y <= PAUSE_resume_y + PAUSE_button_height)
+            {
+                cout<<"RESUME"<<endl;
                 is_pause = 0;
             }
-            if(x > 312 and x<712 and y>210 and y < 310)
+
+            // restart button
+            if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
+                    PAUSE_restart_y <= y && y <= PAUSE_restart_y + PAUSE_button_height)
             {
-                if(!automatique)
-                {
-                    l++;
-                    if(l == N_LEVELS + 1)l = 1;
-                    cout << "Level " << l << endl;
-                    load_level(l);
-                }
+                cout<<"RESTART"<<endl;
+                is_pause = 0;
+                play();
             }
-            if(x > 312 and x<712 and y>320 and y < 420)
+
+            // levels button
+            if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
+                    PAUSE_levels_y <= y && y <= PAUSE_levels_y + PAUSE_button_height)
             {
-                if(!automatique)
-                {
-                    l--;
-                    if(l == 0)l = N_LEVELS;
-                    cout << "Level " << l << endl;
-                    load_level(l);
-                }
+                cout<<"LEVELS"<<endl;
+                is_pause = 0;
+                l = get_level();
+                play();
             }
-            if(x > 312 and x<712 and y>430 and y < 530)
+            // Quit button
+            if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
+                    PAUSE_quit_y <= y && y <= PAUSE_quit_y + PAUSE_button_height)
             {
+                cout<<"QUIT"<<endl;
                 is_pause = 0;
                 is_playing = 0;
                 return index();
             }
-            if(x > 312 and x<712 and y>540 and y < 640)
-            {
-                free_memory();
-            }
+
             //drawing
             draw_game();
             rect = {312, 100, 400, 540} ;
@@ -85,4 +143,29 @@ void pause_game()
         }
         SDL_Delay(10);
     }
+}
+
+inline void renderPause(SDL_Renderer *render)
+{
+
+    static SDL_Texture *PAUSE_resume =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/resume.png"));
+    static SDL_Texture *PAUSE_restart =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/restart.png"));
+    static SDL_Texture *PAUSE_levels =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/levels.png"));
+    static SDL_Texture *PAUSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/quit.png"));
+
+
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
+    SDL_RenderFillRect(render, NULL);
+
+    SDL_Rect rect = {PAUSE_button_x, PAUSE_resume_y, PAUSE_button_width, PAUSE_button_height};
+    SDL_RenderCopy(render, PAUSE_resume, NULL, &rect);
+
+    rect = {PAUSE_button_x, PAUSE_restart_y, PAUSE_button_width, PAUSE_button_height};
+    SDL_RenderCopy(render, PAUSE_restart, NULL, &rect);
+
+    rect = {PAUSE_button_x, PAUSE_levels_y, PAUSE_button_width, PAUSE_button_height};
+    SDL_RenderCopy(render, PAUSE_levels, NULL, &rect);
+
+    rect = {PAUSE_button_x, PAUSE_quit_y, PAUSE_button_width, PAUSE_button_height};
+    SDL_RenderCopy(render, PAUSE_quit, NULL, &rect);
 }

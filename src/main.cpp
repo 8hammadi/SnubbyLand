@@ -42,7 +42,7 @@ using namespace std;
 Level  level,*ll ;
 
 #include "init.hpp"
-// #include "index.hpp"
+#include "index.hpp"
 #include "get_level.hpp"
 #include "model.hpp"
 #include "sound.hpp"
@@ -53,8 +53,6 @@ Level  level,*ll ;
 #include "Server_stream.hpp"
 #include "input_text.hpp"
 
-#include "INDEX.hpp"
-#include "PAUSE.hpp"
 #include "WIN_LOSE.hpp"
 
 #include "create/Big_spiral_dot.hpp"

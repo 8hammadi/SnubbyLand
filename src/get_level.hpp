@@ -1,3 +1,7 @@
+#define LEVEL_share_x 5
+#define LEVEL_share_y 5
+#define LEVEL_share_width 40
+#define LEVEL_share_height 20
 
 int get_level()
 {
@@ -15,7 +19,7 @@ int get_level()
             {
                 string k;
                 cout << "NAME OF LEVEL :" << endl;
-                k=get_text();
+                k = get_text();
                 get_level_from_server(k);
                 is_playing = 1;
                 play();
@@ -28,8 +32,16 @@ int get_level()
                         LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y, LEVEL_level_width, LEVEL_level_height
                        } ;
 
-                if( x > rect.x and x < rect.x + 20 and b - y > rect.y and b - y < rect.y + 20 )
+                /* if( x > rect.x and x < rect.x + 20 and b - y > rect.y and b - y < rect.y + 20 )
+                 {
+                     send_level_to_server(k);
+                     break;
+                 }*/
+
+                if( rect.x + LEVEL_share_x <= x && x <= rect.x + LEVEL_share_x + LEVEL_share_width &&
+                        rect.y + LEVEL_share_y <= y && y <= rect.y + LEVEL_share_y + LEVEL_share_height)
                 {
+                    // TODO : send this level Kkkk kkk k k k
                     send_level_to_server(k);
                     break;
                 }

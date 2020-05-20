@@ -3,6 +3,11 @@
 #define GAME_pause_width 70
 #define GAME_pause_height 30
 
+#define LEVEL_share_x 5
+#define LEVEL_share_y 5
+#define LEVEL_share_width 40
+#define LEVEL_share_height 20
+
 void draw_text(char *t, int x, int y, int w, int h)
 {
     rect = {  x, y, w, h};
@@ -91,7 +96,6 @@ void draw_game()
 
     }
 
-
     // Pause Button:
     rect = {GAME_pause_x, GAME_pause_y, GAME_pause_width, GAME_pause_height};
     static SDL_Texture *GAME_pause = SDL_CreateTextureFromSurface(render, IMG_Load("../images/pause.png"));
@@ -108,12 +112,14 @@ void show()
 
 void draw_levels()
 {
-    rect = {0, y, 1024, 3000} ;
-    // SDL_RenderCopy(render, textures[0], NULL, &rect);
+    // rect = {0, y, 1024, 3000} ;
+    SDL_RenderClear(render);
+    SDL_RenderCopy(render, textures[0], NULL, NULL);
+    static SDL_Texture *LEVEL_share = SDL_CreateTextureFromSurface(render, IMG_Load("../images/share.png"));
     for(int i, j, k = 1; k < N_LEVELS + 1; k++)
     {
-        j = (k - 1) / 3;
-        i = (k - 1) - j * 3;
+        j = (k - 1) / LEVEL_level_row;
+        i = (k - 1) % LEVEL_level_row;
         // rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
         rect = {LEVEL_level_margin *(i + 1) + i * LEVEL_level_width,
                 LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y, LEVEL_level_width, LEVEL_level_height
@@ -125,16 +131,21 @@ void draw_levels()
             SDL_RenderCopy(render, textureblack, NULL, &rect);
         }
         //send to server
-        rect.w = 20;
-        rect.h = 20;
-        SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+        rect.w = LEVEL_share_width;
+        rect.h = LEVEL_share_height;
+        rect.x += LEVEL_share_x;
+        rect.y += LEVEL_share_y;
+        SDL_RenderCopy(render, LEVEL_share, NULL, &rect);
     }
     //upload new level
     int i, j, k = N_LEVELS + 1;
-    j = (k - 1) / 3;
-    i = (k - 1) - j * 3;
-    rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
-    SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+    j = (k - 1) / LEVEL_level_row;
+    i = (k - 1) % LEVEL_level_row;
+    rect = {LEVEL_level_margin *(i + 1) + i * LEVEL_level_width,
+            LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y, LEVEL_level_width, LEVEL_level_height
+           } ;
+
+    SDL_RenderCopy(render, LEVEL_share, NULL, &rect);
 
     // if(k > N_OPEN_LEVEL and mode == "1OFF")
     // {
