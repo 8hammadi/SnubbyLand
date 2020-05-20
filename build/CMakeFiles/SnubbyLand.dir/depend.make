@@ -3,7 +3,6 @@
 
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/Server_level.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/Server_stream.hpp
-CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/WIN_LOSE.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/Big_spiral_dot.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/Coin.hpp
 CMakeFiles/SnubbyLand.dir/src/main.cpp.o: ../src/class/Linear_enemy.hpp

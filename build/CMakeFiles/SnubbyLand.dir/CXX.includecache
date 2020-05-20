@@ -10,8 +10,6 @@
 
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
 
-/home/run/Desktop/SnubbyLand/src/WIN_LOSE.hpp
-
 /home/run/Desktop/SnubbyLand/src/class/Big_spiral_dot.hpp
 
 /home/run/Desktop/SnubbyLand/src/class/Coin.hpp
@@ -151,8 +149,6 @@ Server_stream.hpp
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
 input_text.hpp
 /home/run/Desktop/SnubbyLand/src/input_text.hpp
-WIN_LOSE.hpp
-/home/run/Desktop/SnubbyLand/src/WIN_LOSE.hpp
 create/Big_spiral_dot.hpp
 /home/run/Desktop/SnubbyLand/src/create/Big_spiral_dot.hpp
 create/Coin.hpp
