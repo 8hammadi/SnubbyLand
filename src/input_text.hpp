@@ -18,7 +18,6 @@ string get_text()
             case SDL_KEYDOWN:
             {
                 char keyDown = event.key.keysym.scancode;
-                cout << "++" << endl;
                 if (keyDown == SDL_SCANCODE_BACKSPACE and in.size() > 0)  in.pop_back();
                 else if (keyDown ==    SDL_SCANCODE_RETURN) return in;
                 // else if (keyDown == SDL_SCANCODE_BACKSPACE)  BackSpaceKeyPressed = true;

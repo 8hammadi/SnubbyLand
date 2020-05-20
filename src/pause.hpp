@@ -84,6 +84,7 @@ void  pause_game()
             {
                 cout<<"RESUME"<<endl;
                 is_pause = 0;
+                return;
             }
 
             // restart button
@@ -91,8 +92,12 @@ void  pause_game()
                     PAUSE_restart_y <= y && y <= PAUSE_restart_y + PAUSE_button_height)
             {
                 cout<<"RESTART"<<endl;
+                // play();
+                is_playing=0;
+                load_level(l);
+                is_playing = 1;
                 is_pause = 0;
-                play();
+                return;
             }
 
             // levels button
@@ -101,8 +106,11 @@ void  pause_game()
             {
                 cout<<"LEVELS"<<endl;
                 is_pause = 0;
+                is_playing=0;
                 l = get_level();
-                play();
+                // play();
+                load_level(l);
+                is_playing=1;
             }
             // Quit button
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&

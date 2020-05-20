@@ -30,9 +30,9 @@ void play()
     level.n_coins = level.coins.size();
     is_playing = 1;
     continuer = 1;
-    while(continuer and is_playing)
+    while(1)
     {
-        if(is_pause)
+        if(is_pause or !is_playing)
         {
             SDL_Delay(40);
             continue;
