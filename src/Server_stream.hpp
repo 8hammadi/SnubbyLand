@@ -80,6 +80,7 @@ int thread_playing_online(void *_)
             {
 
                 cout << "disconnect" << endl;
+                //todo
                 break;
             }
 
