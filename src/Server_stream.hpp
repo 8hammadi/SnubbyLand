@@ -17,7 +17,8 @@ void online_game()
 int thread_playing_online(void *_)
 {
     while(1)if(is_online_game)break;
-    i_win=0;
+        else SDL_Delay(300);
+    i_win = 0;
     cout << "STREAMING .." << endl;
     try
     {
@@ -63,10 +64,11 @@ int thread_playing_online(void *_)
         {
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
-            if(i_win){
-                i_win=0;
-                text="WIN";
-                cout<<"you win";
+            if(i_win)
+            {
+                i_win = 0;
+                text = "WIN";
+                cout << "you win";
                 break;
             }
             // Send the message

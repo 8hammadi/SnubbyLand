@@ -31,12 +31,11 @@ void play()
     cout << "the game began" << endl;
     level.n_coins = level.coins.size();
     is_playing = 1;
-    continuer = 1;
     while(1)
     {
         if(is_pause or !is_playing)
         {
-            SDL_Delay(40);
+            SDL_Delay(200);
             continue;
         }
         update();

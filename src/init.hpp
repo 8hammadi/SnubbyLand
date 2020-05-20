@@ -5,10 +5,6 @@ void init()
     render = SDL_CreateRenderer(window, -1, 0);
     SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
 
-    // textureSlides[0] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/index.png"));
-    // SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
-    // SDL_RenderPresent(render);
-
     if (!TTF_Init())
     {
         font = TTF_OpenFont("../images/AMA.ttf", 50);

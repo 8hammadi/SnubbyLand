@@ -62,7 +62,7 @@ int thread_update_position(void *_)
     {
         if(!is_playing)
         {
-            SDL_Delay(10);
+            SDL_Delay(200);
             continue;
         }
         SDL_Delay(1 / sensitivity);

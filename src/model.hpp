@@ -50,9 +50,13 @@ void save_level()
 }
 void load_level(int k)
 {
-    ifstream ifs("../levels/" + to_string(k));
-    boost::archive::text_iarchive ar(ifs);
-    ar &ll;
-    level = *ll;
+    if(k)
+    {
+        ifstream ifs("../levels/" + to_string(k));
+        boost::archive::text_iarchive ar(ifs);
+        ar &ll;
+        level = *ll;
+    }
+    else {};
 }
 

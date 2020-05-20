@@ -58,7 +58,13 @@ int get_level()
                 if( x > rect.x and x < rect.x + rect.w and b > rect.y and b < rect.y + rect.h )
                 {
                     cout << "Upload" << endl;
-                    // TODO : upload level from here!
+                    string k=get_text();
+                    if (get_level_from_server(k)){
+                        return -1;
+                    }else{
+                        cout<<"Level not exist"<<endl;
+                        return 0;
+                    }
                     break;
                 }
             }

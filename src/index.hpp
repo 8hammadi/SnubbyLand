@@ -40,33 +40,33 @@ void index()
 
     renderHome(render);
     SDL_RenderPresent(render);
-    
+
     continuer = 1;
-    while(continuer)
+    while(SDL_WaitEvent(&event))
     {
-        SDL_WaitEvent(&event);
+        ;
         switch (event.type)
         {
         case SDL_MOUSEBUTTONDOWN:
-            coin_sound();
+        {
             x = event.motion.x;
             y = event.motion.y;
-
+            cout << "+" << endl;
             //ONE PLAYER OFFLIN
             if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_normal_y <= y && y <= HOME_normal_y + HOME_button_height)
             {
                 l = get_level();
-                play();
+                return play();
             }
             //TWO PLAYER thread_playing_online
-            if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
+            else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_online_y <= y && y <= HOME_online_y + HOME_button_height)
             {
-                online_game();
+                return online_game();
             }
             //GENETIC ALGORITHM (n'est pas encore terminé)
-            if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
+            else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_automatic_y <= y && y <= HOME_automatic_y + HOME_button_height)
             {
                 y = 0;
@@ -81,30 +81,32 @@ void index()
 
                 level.init_population(NEURAL_NETWORK);
 
-                play();
+                return play();
             }
             //2Players Offline
-            if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
+            else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_offline_y <= y && y <= HOME_offline_y + HOME_button_height)
             {
                 // TODO 2Players Offline
-                cout<<"2Players Offline: TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"<<endl;
+                cout << "2Players Offline: TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
             }
 
             //CREATE NEW LEVEL
-            if(HOME_createLevel_x <= x && x <= HOME_createLevel_x + HOME_createLevel_width &&
+            else if(HOME_createLevel_x <= x && x <= HOME_createLevel_x + HOME_createLevel_width &&
                     HOME_createLevel_y <= y && y <= HOME_createLevel_y + HOME_createLevel_height)
             {
                 create_level();
                 cout << "le niveau créé avec succès" << endl;
-                play();
+                return play();
             }
-            break ;
+        }
+        break ;
         case SDL_QUIT:
-            free_memory();
+            return free_memory();
             break;
         }
     }
+    return;
 }
 
 inline void renderHome(SDL_Renderer *render)
