@@ -62,13 +62,13 @@ int thread_update_position(void *_)
     {
         if(!is_playing)
         {
-            SDL_Delay(200);
+            SDL_Delay(2);
             continue;
         }
         SDL_Delay(1 / sensitivity);
         if(T[0])
         {
-            if(check_it_free_area(level.player.x - 10, level.player.y) && is_player_inside_after(level.player.x - 20, level.player.y))
+            if(check_it_free_area(level.player.x - SPEED, level.player.y) && is_player_inside_after(level.player.x - 12, level.player.y))
             {
                 level.player.x -= SPEED;
             }
@@ -76,21 +76,21 @@ int thread_update_position(void *_)
         }
         if(T[1])
         {
-            if(check_it_free_area(level.player.x, level.player.y - 10 ) && is_player_inside_after(level.player.x, level.player.y - 20))
+            if(check_it_free_area(level.player.x, level.player.y - SPEED ) && is_player_inside_after(level.player.x, level.player.y - 12))
             {
                 level.player.y -= SPEED;
             }
         }
         if(T[2])
         {
-            if(check_it_free_area(level.player.x + 10, level.player.y) && is_player_inside_after(level.player.x + 20, level.player.y))
+            if(check_it_free_area(level.player.x + SPEED, level.player.y) && is_player_inside_after(level.player.x + 12, level.player.y))
             {
                 level.player.x += SPEED;
             }
         }
         if(T[3])
         {
-            if(check_it_free_area(level.player.x, level.player.y + 10) && is_player_inside_after(level.player.x, level.player.y + 20))
+            if(check_it_free_area(level.player.x, level.player.y + SPEED) && is_player_inside_after(level.player.x, level.player.y + 12))
             {
                 level.player.y += SPEED;
             }

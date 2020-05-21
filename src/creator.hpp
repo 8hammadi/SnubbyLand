@@ -87,7 +87,6 @@ void renderLevelCreator(SDL_Renderer *render, int step)
 
     //todo draw level between CREATOR_plan_x<=x<=WINDOW_WIDTH and 0<=y<=CREATOR_guide_y
     draw_wall();
-    cout<<WINDOW_WIDTH<<" - "<< CREATOR_guide_width<<" = "<< -(WINDOW_WIDTH - CREATOR_guide_width) <<endl;
 
     static SDL_Texture *plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
     static SDL_Texture *guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));

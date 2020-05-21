@@ -36,48 +36,48 @@ int control_event(void *_)
         while(SDL_WaitEvent(&event_control))
         {
             if(event_control.type == SDL_QUIT)free_memory();
+
+            if(event_control.type == SDL_KEYDOWN)
+            {
+                if( event_control.key.keysym.sym == SDLK_LEFT )
+                {
+                    T[0] = 1;
+                }
+                if( event_control.key.keysym.sym == SDLK_UP )
+                {
+                    T[1] = 1;
+                }
+                if( event_control.key.keysym.sym == SDLK_RIGHT )
+                {
+                    T[2] = 1;
+                }
+                if( event_control.key.keysym.sym == SDLK_DOWN )
+                {
+                    T[3] = 1;
+                }
+            }
+
+            if(event_control.type == SDL_KEYUP)
+            {
+                if( event_control.key.keysym.sym == SDLK_LEFT )
+                {
+                    T[0] = 0;
+                }
+                if( event_control.key.keysym.sym == SDLK_UP )
+                {
+                    T[1] = 0;
+                }
+                if( event_control.key.keysym.sym == SDLK_RIGHT )
+                {
+                    T[2] = 0;
+                }
+                if( event_control.key.keysym.sym == SDLK_DOWN )
+                {
+                    T[3] = 0;
+                }
+            }
             if(is_playing)
             {
-
-                if(event_control.type == SDL_KEYDOWN)
-                {
-                    if( event_control.key.keysym.sym == SDLK_LEFT and !T[0])
-                    {
-                        T[0] = 1;
-                    }
-                    if( event_control.key.keysym.sym == SDLK_UP and !T[1] )
-                    {
-                        T[1] = 1;
-                    }
-                    if( event_control.key.keysym.sym == SDLK_RIGHT and !T[2])
-                    {
-                        T[2] = 1;
-                    }
-                    if( event_control.key.keysym.sym == SDLK_DOWN and !T[3])
-                    {
-                        T[3] = 1;
-                    }
-                }
-
-                if(event_control.type == SDL_KEYUP)
-                {
-                    if( event_control.key.keysym.sym == SDLK_LEFT and T[0])
-                    {
-                        T[0] = 0;
-                    }
-                    if( event_control.key.keysym.sym == SDLK_UP and T[1] )
-                    {
-                        T[1] = 0;
-                    }
-                    if( event_control.key.keysym.sym == SDLK_RIGHT and T[2])
-                    {
-                        T[2] = 0;
-                    }
-                    if( event_control.key.keysym.sym == SDLK_DOWN and T[3])
-                    {
-                        T[3] = 0;
-                    }
-                }
                 switch (event_control.type)
                 {
                 case SDL_MOUSEBUTTONDOWN:
@@ -113,7 +113,8 @@ int control_event(void *_)
                     }
                 }
                 if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
-            }else SDL_Delay(200);
+            }
+            else SDL_Delay(200);
         }
     }
 }

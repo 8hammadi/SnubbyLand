@@ -9,9 +9,16 @@ void save_n()
 //Connaître le numéro du niveau
 void load_n()
 {
-    ifstream ifs("../levels/n");
-    boost::archive::text_iarchive ar(ifs);
-    ar &N_LEVELS;
+    try
+    {
+        ifstream ifs("../levels/n");
+        boost::archive::text_iarchive ar(ifs);
+        ar &N_LEVELS;
+    }
+    catch(...)
+    {
+        free_memory();
+    };
 }
 
 //Mémorisez le numéro des niveaus ouvert
@@ -52,10 +59,18 @@ void load_level(int k)
 {
     if(k)
     {
-        ifstream ifs("../levels/" + to_string(k));
-        boost::archive::text_iarchive ar(ifs);
-        ar &ll;
-        level = *ll;
+        try
+        {
+            ifstream ifs("../levels/" + to_string(k));
+            boost::archive::text_iarchive ar(ifs);
+            ar &ll;
+            level = *ll;
+            level.n_coins = level.coins.size();
+        }
+        catch(...)
+        {
+            free_memory();
+        };
     }
     else {};
 }
