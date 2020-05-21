@@ -1,6 +1,7 @@
 void add_coins()
 {
-    draw_game();
+    // draw_game();
+    renderLevelCreator(render, 2);
     rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
     SDL_RenderPresent(render);
@@ -17,8 +18,11 @@ void add_coins()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
+            if(eventLevelCreator( x,  y) == 0)
+                return;
             level.coins.push_back(Coin(10 * (int)(x / 10), 10 * (int)(y / 10)));
-            draw_game();
+            // draw_game();
+            renderLevelCreator(render, 2);
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
             SDL_RenderPresent(render);
@@ -27,20 +31,14 @@ void add_coins()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
-            case SDLK_p:
-                go_back = 1;
-                return;
-                break;
             case SDLK_LEFT:
                 level.coins.pop_back();
-                draw_game();
+                // draw_game();
+                renderLevelCreator(render, 2);
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
                 SDL_RenderPresent(render);
                 SDL_Delay(40);
-                break;
-            case SDLK_n:
-                continuer = 0;
                 break;
             }
         }

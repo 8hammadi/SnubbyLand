@@ -86,7 +86,10 @@ void renderLevelCreator(SDL_Renderer *render, int step)
 {
 
     //todo draw level between CREATOR_plan_x<=x<=WINDOW_WIDTH and 0<=y<=CREATOR_guide_y
-    draw_wall();
+    if(step <= 1)
+        draw_wall();
+    else
+        draw_game();
 
     static SDL_Texture *plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
     static SDL_Texture *guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
@@ -95,31 +98,31 @@ void renderLevelCreator(SDL_Renderer *render, int step)
     {
     case 1:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/safezone.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/greenarea.png"));
         break;
     case 2:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/coins.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/coin.png"));
         break;
     case 3:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/spiral.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidespiral.png"));
         break;
     case 4:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/bigspiral.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidebigspiral.png"));
         break;
     case 5:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/linear.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidelinear.png"));
         break;
     case 6:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/polygon.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidepolygon.png"));
         break;
     case 7:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/snubbyposition.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidesnubbyposition.png"));
         break;
     }
     rect = {CREATOR_plan_x, CREATOR_plan_y, CREATOR_plan_width, CREATOR_plan_height};
@@ -142,6 +145,8 @@ int eventLevelCreator(int x, int y)
             CREATOR_previous_y <= y && y <= CREATOR_previous_y + CREATOR_previous_height)
     {
         // TODO: get back to previous step OR home if current step is to draw zone/wall
+        cout << "Get back" << endl;
+        go_back = 1;
 
         return 0;
     }
@@ -150,6 +155,9 @@ int eventLevelCreator(int x, int y)
     {
         // TODO: go to next step OR save level if current step is to position snubby in map
         // !!!!! P.S: check that snubby initial position is given first
+        cout << "move on" << endl;
+        continuer = 0;
+
         return 0;
     }
     return -1;

@@ -21,8 +21,6 @@ void get_wall()
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
             renderLevelCreator(render, 0);
-                cout<<"22 ------+-+-+-+-+-"<<endl;
-
             SDL_RenderPresent(render);
             SDL_Delay(5);
         }
@@ -37,29 +35,17 @@ void get_wall()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
-            case SDLK_a:
-                on = 1 - on;
-                break;
             case SDLK_s:
                 on = 0;
                 break;
             case SDLK_r:
                 on = 1;
-            case SDLK_n:
-                continuer = 0;
-                break;
-            case SDLK_p:
-                go_back = 1;
-                return;
                 break;
             case SDLK_g:
                 level.random_map();
-                // draw_wall();
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
                 renderLevelCreator(render, 0);
-                    cout<<"-- ss ----+-+-+-+-+-"<<endl;
-
                 SDL_RenderPresent(render);
                 SDL_Delay(5);
                 break;

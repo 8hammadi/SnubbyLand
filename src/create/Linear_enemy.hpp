@@ -1,6 +1,7 @@
 void add_linear_enemy()
 {
-    draw_game();
+    // draw_game();
+    renderLevelCreator(render, 5);
     texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
     rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, texture, NULL, &rect);
@@ -19,7 +20,10 @@ void add_linear_enemy()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x;
             y = event.motion.y;
-            draw_game();
+            if(eventLevelCreator( x,  y) == 0)
+                return;
+            // draw_game();
+            renderLevelCreator(render, 5);
             texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
             rect = {0, 100 + 40 * 12, 1024, 100} ;
             SDL_RenderCopy(render, texture, NULL, &rect);
@@ -32,16 +36,10 @@ void add_linear_enemy()
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
-            case SDLK_p:
-                go_back = 1;
-                return;
-                break;
-            case SDLK_n:
-                continuer = 0;
-                break;
             case SDLK_KP_1:
                 A = make_pair(x, y);
-                draw_game();
+                // draw_game();
+                renderLevelCreator(render, 5);
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
                 SDL_RenderCopy(render, texture, NULL, &rect);
@@ -52,7 +50,8 @@ void add_linear_enemy()
                 break;
             case SDLK_KP_2:
                 B = make_pair(x, y);
-                draw_game();
+                // draw_game();
+                renderLevelCreator(render, 5);
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
                 SDL_RenderCopy(render, texture, NULL, &rect);
@@ -63,7 +62,8 @@ void add_linear_enemy()
                 break;
             case SDLK_KP_3:
                 level.linear_enemys.push_back(Linear_enemy(A, B));
-                draw_game();
+                // draw_game();
+                renderLevelCreator(render, 5);
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
                 SDL_RenderCopy(render, texture, NULL, &rect);
@@ -72,7 +72,8 @@ void add_linear_enemy()
                 break;
             case SDLK_r:
                 level.linear_enemys.pop_back();
-                draw_game();
+                // draw_game();
+                renderLevelCreator(render, 5);
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));
                 rect = {100, 0, 400, 100} ;
                 SDL_RenderCopy(render, texture, NULL, &rect);
