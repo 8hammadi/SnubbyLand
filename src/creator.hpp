@@ -1,7 +1,7 @@
 //guide
 #define CREATOR_guide_width WINDOW_WIDTH-200
 #define CREATOR_guide_height 90
-#define CREATOR_guide_x (WINDOW_WIDTH-CREATOR_guide_width)/2
+#define CREATOR_guide_x -(WINDOW_WIDTH-CREATOR_guide_width)/2
 #define CREATOR_guide_y WINDOW_HEIGHT-CREATOR_guide_height
 
 //plan
@@ -14,12 +14,12 @@
 #define CREATOR_previous_width 40
 #define CREATOR_previous_height 20
 #define CREATOR_previous_x (CREATOR_guide_x-CREATOR_previous_width)/2
-#define CREATOR_previous_y (CREATOR_guide_y-CREATOR_previous_height)/2
+#define CREATOR_previous_y CREATOR_guide_y+(CREATOR_guide_height-CREATOR_previous_height)/2
 
 //previous
 #define CREATOR_next_width CREATOR_previous_width
 #define CREATOR_next_height CREATOR_previous_height
-#define CREATOR_next_x (WINDOW_WIDTH+CREATOR_guide_width+CREATOR_guide_x)/2
+#define CREATOR_next_x (WINDOW_WIDTH+CREATOR_guide_width+CREATOR_guide_x-CREATOR_next_width)/2
 #define CREATOR_next_y CREATOR_previous_y
 
 void create_level()
@@ -87,7 +87,7 @@ void renderLevelCreator(SDL_Renderer *render, int step)
 
     //todo draw level between CREATOR_plan_x<=x<=WINDOW_WIDTH and 0<=y<=CREATOR_guide_y
     draw_wall();
-    cout<<WINDOW_WIDTH<<" - "<< CREATOR_guide_width<<" = "<<(WINDOW_WIDTH-CREATOR_guide_width) <<endl;
+    cout<<WINDOW_WIDTH<<" - "<< CREATOR_guide_width<<" = "<< -(WINDOW_WIDTH - CREATOR_guide_width) <<endl;
 
     static SDL_Texture *plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
     static SDL_Texture *guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
