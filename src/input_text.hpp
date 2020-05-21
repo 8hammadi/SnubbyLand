@@ -4,7 +4,6 @@ string get_text()
     SDL_bool done = SDL_FALSE;
     while (!done)
     {
-        SDL_Event event;
         if (SDL_PollEvent(&event))
         {
             switch (event.type)

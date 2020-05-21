@@ -106,7 +106,7 @@ void draw_game()
 void show()
 {
     SDL_RenderPresent(render);
-    SDL_Delay(40);
+    SDL_Delay(5);
 }
 
 
