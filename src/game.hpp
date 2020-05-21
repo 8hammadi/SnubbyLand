@@ -29,7 +29,6 @@ inline void renderPause_win_lose(SDL_Renderer *render);
 void play()
 {
     cout << "the game began" << endl;
-    level.n_coins = level.coins.size();
     is_playing = 1;
     while(1)
     {
