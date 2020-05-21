@@ -106,13 +106,12 @@ void draw_game()
 void show()
 {
     SDL_RenderPresent(render);
-    SDL_Delay(20);
+    SDL_Delay(30);
 }
 
 
 void draw_levels()
 {
-    // rect = {0, y, 1024, 3000} ;
     SDL_RenderClear(render);
     SDL_RenderCopy(render, textures[0], NULL, NULL);
     static SDL_Texture *LEVEL_share = SDL_CreateTextureFromSurface(render, IMG_Load("../images/share.png"));
@@ -120,7 +119,6 @@ void draw_levels()
     {
         j = (k - 1) / LEVEL_level_row;
         i = (k - 1) % LEVEL_level_row;
-        // rect = {40 * (i + 1) + i * 288 + 5, y + 40 * (j + 1) + j * 150 + 5, 288 - 10, 150 - 10} ;
         rect = {LEVEL_level_margin *(i + 1) + i * LEVEL_level_width,
                 LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y, LEVEL_level_width, LEVEL_level_height
                } ;
