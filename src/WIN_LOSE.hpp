@@ -3,9 +3,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 668
-
 // buttons
 #define WIN_LOSE_button_width 100
 #define WIN_LOSE_button_height 50

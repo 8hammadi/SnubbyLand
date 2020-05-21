@@ -1,6 +1,3 @@
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 668
-
 // logo
 #define HOME_logo_width 170
 #define HOME_logo_height 70
