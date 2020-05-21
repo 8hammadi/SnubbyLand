@@ -8,7 +8,7 @@
 #define LEVEL_share_width 40
 #define LEVEL_share_height 20
 
-void draw_text(char *t, int x, int y, int w, int h)
+void draw_text(char const*t, int x, int y, int w, int h)
 {
     rect = {  x, y, w, h};
     s = TTF_RenderText_Solid(font, t, {0, 0, 0, 0});
