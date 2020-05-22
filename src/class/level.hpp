@@ -95,18 +95,15 @@ public:
     };
     void random_map()
     {
+        cout << "GENERATING " << endl;
         int T[3] = {-1, 1, 0};
         int lvl = 10, w = 20, h = 12;
-        int **rmap = generateLevel(time(NULL), w, h);
+
+        vector<vector<int>> rmap = generateLevel(time(NULL), w / 2 - 1, h - 2);
 
         for(int i = 0; i < h; i++)
-        {
             for(int j = 0; j < w; j++)
-            {
-                map[i][j] = T[rmap[i][j]];
-            }
-        }
-
+                map[i][j] = rmap[i][j];
     }
 
 
@@ -161,7 +158,7 @@ public:
         }
 
         //mutation
-        //+40  
+        //+40
         for(int j = 0; j < 2; j++)
         {
             for(int i = 0; i < N_Snubbys_a_life; i++)

@@ -33,7 +33,8 @@ void get_green_area()
             free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
-            eventLevelCreator( x, y);
+            if(eventLevelCreator( x,  y) == 0)
+                return; 
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)

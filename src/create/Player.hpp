@@ -2,10 +2,11 @@ void get_position_player()
 {
     rect = {0, 100 + 40 * 12, 1024, 100} ;
     SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
+    renderLevelCreator(render, 7);
     SDL_RenderPresent(render);
     continuer = 1;
     while(continuer)
-    {
+    { 
         SDL_WaitEvent(&event);
         switch (event.type)
         {

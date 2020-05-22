@@ -41,14 +41,14 @@ void index()
     continuer = 1;
     while(SDL_WaitEvent(&event))
     {
-        ;
         switch (event.type)
         {
         case SDL_MOUSEBUTTONDOWN:
         {
             x = event.motion.x;
             y = event.motion.y;
-            cout << "+" << endl;
+            static int i = 0;
+            cout << i++ << endl;
             //ONE PLAYER OFFLIN
             if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_normal_y <= y && y <= HOME_normal_y + HOME_button_height)

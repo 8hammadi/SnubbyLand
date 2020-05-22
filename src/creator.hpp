@@ -89,11 +89,14 @@ void renderLevelCreator(SDL_Renderer *render, int step)
     else
         draw_game();
 
-    static SDL_Texture *plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
-    static SDL_Texture *guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/wall.png"));
-
+    static SDL_Texture *plan; 
+    static SDL_Texture *guide ;
     switch(step)
     {
+    case 0:
+        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));;
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/wall.png"));
+        break;
     case 1:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/safezone.png"));
         guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/greenarea.png"));
