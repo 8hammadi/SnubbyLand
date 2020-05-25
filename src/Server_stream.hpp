@@ -64,7 +64,17 @@ int thread_playing_online(void *_)
         {
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
-            if(i_win)
+
+            if(ocoins != -1)
+            {
+                cout << "->" << ocoins << endl;
+                text = "-" + to_string(ocoins);
+                //send to server that eat coin
+                ws.write(net::buffer(text));
+                
+                ocoins = -1;
+            }
+            else if(i_win)
             {
                 i_win = 0;
                 text = "WIN";
@@ -73,15 +83,6 @@ int thread_playing_online(void *_)
                 ws.write(net::buffer(text));
                 free_memory();
             }
-            else if(ocoins != -1)
-            {
-                cout << "->"<<ocoins << endl;
-                text = "-" + to_string(ocoins);
-                //send to server that eat coin
-                ws.write(net::buffer(text));
-                ocoins = -1;
-            }
-            // Send the message
             else ws.write(net::buffer(text));
             // This buffer will hold the incoming message
             // Read a message into our buffer
@@ -102,7 +103,7 @@ int thread_playing_online(void *_)
             else if(text[0] == '-')
             {
                 sscanf(text.c_str(), "-%d", &ocoins);
-                cout << "<-:"<<ocoins << endl;
+                cout << "<-:" << ocoins << endl;
                 level.coins[ocoins].is_taked = 1;
                 ocoins = -1;
             }
