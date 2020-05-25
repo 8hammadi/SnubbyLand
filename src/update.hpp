@@ -27,7 +27,7 @@ void check_status_of_playing()
                     return local_win();
                 else
                 {
-                    //TODO
+                    i_win=1;
                 }
             }
         }
