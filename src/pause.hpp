@@ -22,10 +22,10 @@ void  pause_game()
 {
     cout << "PAUSE" << endl;
     is_pause = 1;
+    SDL_Delay(20);
     draw_game();
     renderPause(render);
     show();
-
     while(is_pause)
     {
         SDL_WaitEvent(&event);

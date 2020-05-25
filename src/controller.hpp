@@ -90,12 +90,12 @@ int control_event(void *_)
                         pause_game();
 
                     }
-                    if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
-                    {
-                        is_pause = 1;
-                        level.next_generation();
-                        is_pause = 0;
-                    }
+                    // if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
+                    // {
+                    //     is_pause = 1;
+                    //     level.next_generation();
+                    //     is_pause = 0;
+                    // }
                     break;
                 case SDL_KEYDOWN:
                     switch (event_control.key.keysym.sym)
