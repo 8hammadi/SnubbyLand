@@ -37,7 +37,6 @@ void play()
             SDL_Delay(200);
             continue;
         }
-        cout<<is_pause<<endl;
         update();
         check_status_of_playing();
         draw_game();
