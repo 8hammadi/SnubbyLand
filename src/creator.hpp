@@ -11,8 +11,8 @@
 #define CREATOR_plan_y 0
 
 //previous
-#define CREATOR_previous_width 40
-#define CREATOR_previous_height 20
+#define CREATOR_previous_width CREATOR_guide_x//40
+#define CREATOR_previous_height CREATOR_guide_height//20
 #define CREATOR_previous_x (CREATOR_guide_x-CREATOR_previous_width)/2
 #define CREATOR_previous_y CREATOR_guide_y+(CREATOR_guide_height-CREATOR_previous_height)/2
 
@@ -84,18 +84,19 @@ POSITION:
 
 void renderLevelCreator(SDL_Renderer *render, int step)
 {
-
-    //todo draw level between CREATOR_plan_x<=x<=WINDOW_WIDTH and 0<=y<=CREATOR_guide_y
     if(step <= 1)
         draw_wall();
     else
         draw_game();
 
-    static SDL_Texture *plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
-    static SDL_Texture *guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));
-
+    static SDL_Texture *plan; 
+    static SDL_Texture *guide ;
     switch(step)
     {
+    case 0:
+        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));;
+        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/wall.png"));
+        break;
     case 1:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/safezone.png"));
         guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/greenarea.png"));
@@ -144,20 +145,15 @@ int eventLevelCreator(int x, int y)
     if(CREATOR_previous_x <= x && x <= CREATOR_previous_x + CREATOR_previous_width &&
             CREATOR_previous_y <= y && y <= CREATOR_previous_y + CREATOR_previous_height)
     {
-        // TODO: get back to previous step OR home if current step is to draw zone/wall
         cout << "Get back" << endl;
         go_back = 1;
-
         return 0;
     }
     else if(CREATOR_next_x <= x && x <= CREATOR_next_x + CREATOR_next_width &&
             CREATOR_next_y <= y && y <= CREATOR_next_y + CREATOR_next_height)
     {
-        // TODO: go to next step OR save level if current step is to position snubby in map
-        // !!!!! P.S: check that snubby initial position is given first
         cout << "move on" << endl;
         continuer = 0;
-
         return 0;
     }
     return -1;

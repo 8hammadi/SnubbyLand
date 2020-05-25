@@ -2,7 +2,7 @@ void init()
 {
     SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     window = SDL_CreateWindow("Snubby Land", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1024, 668, SDL_WINDOW_OPENGL);
-    render = SDL_CreateRenderer(window, -1, 0);
+    render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
 
     if (!TTF_Init())
@@ -36,7 +36,7 @@ void init()
     textureSlides[9] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/ga_continue.png"));
     textureSlides[10] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/again.png"));
     textureSlides[11] = SDL_CreateTextureFromSurface(render, IMG_Load("../images/ng.png"));
-    textureblack=SDL_CreateTextureFromSurface(render, IMG_Load("../images/black.png"));
+    textureblack = SDL_CreateTextureFromSurface(render, IMG_Load("../images/black.png"));
     texture_wait = SDL_CreateTextureFromSurface(render, IMG_Load("../images/wait.gif"));
     texturePlayer = SDL_CreateTextureFromSurface(render, IMG_Load("../images/player.png"));
     texturePlayer2 = SDL_CreateTextureFromSurface(render, IMG_Load("../images/play2.png"));
