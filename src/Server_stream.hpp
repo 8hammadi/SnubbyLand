@@ -69,7 +69,9 @@ int thread_playing_online(void *_)
                 i_win = 0;
                 text = "WIN";
                 cout << "you win";
-                break;
+                //send to server that i win
+                ws.write(net::buffer(text));
+                free_memory();
             }
             // Send the message
             ws.write(net::buffer(text));
@@ -82,8 +84,13 @@ int thread_playing_online(void *_)
             {
 
                 cout << "disconnect" << endl;
-                //todo
-                break;
+                free_memory();
+            }
+            if(text == "WIN")
+            {
+
+                cout << "loser" << endl;
+                free_memory();
             }
 
             streams = stringstream(text);

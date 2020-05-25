@@ -49,7 +49,6 @@ void  pause_game()
                     PAUSE_restart_y <= y && y <= PAUSE_restart_y + PAUSE_button_height)
             {
                 cout<<"RESTART"<<endl;
-                // play();
                 is_playing=0;
                 load_level(l);
                 is_playing = 1;
@@ -65,7 +64,6 @@ void  pause_game()
                 is_pause = 0;
                 is_playing=0;
                 l = get_level();
-                // play();
                 load_level(l);
                 is_playing=1;
             }
