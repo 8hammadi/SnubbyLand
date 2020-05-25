@@ -73,8 +73,16 @@ int thread_playing_online(void *_)
                 ws.write(net::buffer(text));
                 free_memory();
             }
+            else if(ocoins != -1)
+            {
+                cout << "->"<<ocoins << endl;
+                text = "-" + to_string(ocoins);
+                //send to server that eat coin
+                ws.write(net::buffer(text));
+                ocoins = -1;
+            }
             // Send the message
-            ws.write(net::buffer(text));
+            else ws.write(net::buffer(text));
             // This buffer will hold the incoming message
             // Read a message into our buffer
             ws.read(buffer);
@@ -86,15 +94,23 @@ int thread_playing_online(void *_)
                 cout << "disconnect" << endl;
                 free_memory();
             }
-            if(text == "WIN")
+            else if(text == "WIN")
             {
-
                 cout << "loser" << endl;
                 free_memory();
             }
-
-            streams = stringstream(text);
-            streams >> player2.first >> player2.second;
+            else if(text[0] == '-')
+            {
+                sscanf(text.c_str(), "-%d", &ocoins);
+                cout << "<-:"<<ocoins << endl;
+                level.coins[ocoins].is_taked = 1;
+                ocoins = -1;
+            }
+            else
+            {
+                streams = stringstream(text);
+                streams >> player2.first >> player2.second;
+            }
         }
         // Close the WebSocket connection
         ws.close(websocket::close_code::normal);

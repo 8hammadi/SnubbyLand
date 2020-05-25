@@ -15,6 +15,7 @@ void update()
 }
 void check_status_of_playing()
 {
+    int i=0;
     for(auto &c : level.coins)
     {
         if(!c.is_taked && c.take(level.player))
@@ -30,7 +31,10 @@ void check_status_of_playing()
                     i_win=1;
                 }
             }
+            ocoins=i;
+            cout<<"++"<<ocoins<<endl;
         }
+        i++;
     }
     for(auto e : level.get_enemys())
     {

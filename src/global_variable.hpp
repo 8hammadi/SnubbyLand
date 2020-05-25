@@ -39,3 +39,4 @@ string host = SERVER_STREAM;
 string port = "80";
 
 
+int ocoins=-1;
