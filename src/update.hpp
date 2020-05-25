@@ -20,6 +20,9 @@ void check_status_of_playing()
     {
         if(!c.is_taked && c.take(level.player))
         {
+            ocoins=i;
+            cout<<"++"<<ocoins<<endl;
+
             coin_sound();
             level.n_coins--;
             if( level.n_coins == 0)
@@ -28,11 +31,9 @@ void check_status_of_playing()
                     return local_win();
                 else
                 {
-                    i_win=1;
+                    // i_win=1;
                 }
             }
-            ocoins=i;
-            cout<<"++"<<ocoins<<endl;
         }
         i++;
     }
