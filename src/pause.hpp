@@ -66,6 +66,7 @@ void  pause_game()
                 l = get_level();
                 load_level(l);
                 is_playing=1;
+                return;
             }
             // Quit button
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&

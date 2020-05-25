@@ -81,18 +81,18 @@ void local_win()
             if(WIN_LOSE_button_x <= x && x <= WIN_LOSE_button_x + WIN_LOSE_button_width &&
                     WIN_LOSE_levels_y <= y && y <= WIN_LOSE_levels_y + WIN_LOSE_button_height)
             {
-                cout<<"LEVELS"<<endl;
+                cout << "LEVELS" << endl;
                 is_pause = 0;
-                is_playing=0;
+                is_playing = 0;
                 l = get_level();
                 load_level(l);
-                is_playing=1;
+                is_playing = 1;
             }
             // Quit button
             if(WIN_LOSE_button_x <= x && x <= WIN_LOSE_button_x + WIN_LOSE_button_width &&
                     WIN_LOSE_quit_y <= y && y <= WIN_LOSE_quit_y + WIN_LOSE_button_height)
             {
-                cout<<"QUIT"<<endl;
+                cout << "QUIT" << endl;
                 is_pause = 0;
                 is_playing = 0;
                 return index();
@@ -108,6 +108,10 @@ void local_win()
                     if(l == 0)l++;
                     cout << "Level " << l << endl;
                     load_level(l);
+                    is_playing = 1;
+                    is_pause = 0;
+
+                    return;
                 }
                 cout << "Previous" << endl;
             }
@@ -125,6 +129,10 @@ void local_win()
                         if(l == N_LEVELS + 1)l = 1;
                         cout << "Level " << l << endl;
                         load_level(l);
+                        is_playing = 1;
+                        is_pause = 0;
+
+                        return ;
                     }
                     cout << "NEXT" << endl;
                 }

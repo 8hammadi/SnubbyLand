@@ -31,13 +31,15 @@ int get_level()
                         rect.y + LEVEL_share_y <= b  && b  <= rect.y + LEVEL_share_y + LEVEL_share_height)
                 {
                     cout << "SENT: " << endl;
-                    send_level_to_server(k);
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Level Sharing Code",
+                                             send_level_to_server(k).c_str(),
+                                             window);
                     break;
                 }
 
                 if( x > rect.x and x < rect.x + rect.w and b  > rect.y and b  < rect.y + rect.h )
                 {
-                    cout << i<<" FOUND: "<<j << endl;
+                    cout << i << " FOUND: " << j << endl;
                     if(k > N_OPEN_LEVEL)
                         break;
                     load_level(k);
@@ -58,11 +60,14 @@ int get_level()
                 if( x > rect.x and x < rect.x + rect.w and b > rect.y and b < rect.y + rect.h )
                 {
                     cout << "Upload" << endl;
-                    string k=get_text();
-                    if (get_level_from_server(k)){
+                    string k = get_text();
+                    if (get_level_from_server(k))
+                    {
                         return -1;
-                    }else{
-                        cout<<"Level not exist"<<endl;
+                    }
+                    else
+                    {
+                        cout << "Level not exist" << endl;
                         return 0;
                     }
                     break;
@@ -81,7 +86,7 @@ int get_level()
                 }
             }
             else  if(event.wheel.y <= -1)
-            {   
+            {
                 N_LEVELS++;
                 int max = (N_LEVELS / LEVEL_level_row + (N_LEVELS % LEVEL_level_row != 0)) * (LEVEL_level_height + LEVEL_level_margin);
                 max = (WINDOW_HEIGHT <  max) ? max : WINDOW_HEIGHT;

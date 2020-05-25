@@ -40,25 +40,28 @@ string POST(string data)
 }
 
 
-void send_level_to_server(int k){
+string send_level_to_server(int k)
+{
 
-    cout<<"SEND LEVEL "<<k<<" Level"<<endl;
+    cout << "SEND LEVEL " << k << " Level" << endl;
     std::ifstream t("../levels/" + to_string(k));
     std::string str((std::istreambuf_iterator<char>(t)),
-                 std::istreambuf_iterator<char>());
-    cout<<"ID OF LEVEL :"<<POST(str)<<endl;
+                    std::istreambuf_iterator<char>());
+    // cout<<"ID OF LEVEL :"<<POST(str)<<endl;
+    return POST(str);
 }
 
 
-bool get_level_from_server(string levelid){// ex:k="L201"
-    cout<<"GET LEVEL ONLINE .."<<endl;
-    string input=POST(levelid);
-    if(input==".")return 0;
+bool get_level_from_server(string levelid) // ex:k="L201"
+{
+    cout << "GET LEVEL ONLINE .." << endl;
+    string input = POST(levelid);
+    if(input == ".")return 0;
     ofstream out(levelid);
     out << input;
     out.close();
 
-    cout<<input<<endl;
+    cout << input << endl;
     ifstream ifs(levelid);
     boost::archive::text_iarchive ar(ifs);
     ar &ll;
