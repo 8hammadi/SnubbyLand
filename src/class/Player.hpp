@@ -1,3 +1,24 @@
+class Simulator
+{
+public:
+    // snubby,coins,walls,obstacles
+    double q1, q2, q3, q4;
+    int radius;
+    vector<int> stop;
+    Simulator()
+    {
+        init();
+    }
+    void init()
+    {
+        // radius = SNUBBY_SIZE * 3. / 2;
+        q1 = 1;
+        q2 = -5000;
+        // q3 = 40;
+        q4 = 500;
+    }
+};
+
 class Player
 {
 private:
@@ -10,6 +31,7 @@ private:
         ar &y;
     }
 public:
+    Simulator sim;
     int x = 100, y = 100, w = 30, h = 30, p;
     vector<double> input;
     int score = 0;

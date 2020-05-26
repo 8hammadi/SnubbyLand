@@ -48,7 +48,6 @@ string get_text()
                     ;
                 else break;
             case SDL_QUIT:
-                cout << 10101010 << endl;
                 SDL_DestroyRenderer(render2);
                 SDL_DestroyWindow(window2);
                 done = true;

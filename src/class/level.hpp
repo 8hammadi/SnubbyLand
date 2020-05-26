@@ -1,3 +1,4 @@
+#include "../Simulation.hpp"
 
 class Level
 {
@@ -92,7 +93,9 @@ public:
 
 
         return v;
+
     };
+
     void random_map()
     {
         cout << "GENERATING " << endl;
@@ -172,7 +175,44 @@ public:
 
         N_Snubbys_a_life = Snubbys.size();
     }
+
+    vector<pair<int, int>> getEnvironment(Player &s);
+    pair<int, int> getVector( int x, int y, pair<int, int> center);
+    void commandSnubby(Player &s);
 };
+
+vector<pair<int, int>> Level::getEnvironment(Player &s)
+{
+    vector<pair<int, int>> env;
+    for(auto &ob : get_enemys())
+        env.push_back(getVector(s.x, s.y, make_pair(ob.first, ob.second)));
+    for(auto &c : coins)
+        env.push_back(getVector(s.x, s.y, make_pair(c.x, c.y)));
+    return env;
+}
+
+pair<int, int> Level::getVector( int x, int y, pair<int, int> center)
+{
+    return make_pair(center.first - x, center.second - y);
+}
+
+void Level::commandSnubby(Player &s)
+{
+    static int i = 0;
+    i++;
+    if(i == 300)
+    {
+        i = 0;
+        n_coins++;
+        coins.push_back(Coin(rand() % 200 + s.x, rand() % 200 + s.y));
+    }
+    int cmd = getWhere(s, getEnvironment(s), enemys.size());
+    T[0] = (cmd & 2) != 0;
+    T[1] = (cmd & 8) != 0;
+    T[2] = (cmd & 1) != 0;
+    T[3] = (cmd & 4) != 0;
+}
+
 
 
 

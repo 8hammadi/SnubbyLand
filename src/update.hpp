@@ -4,6 +4,7 @@ void update()
     for(auto &sp : level.big_spiral_dots)sp.next_move();
     for(auto &e : level.linear_enemys)e.next_move();
     for(auto &e : level.squar_enemys)e.next_move();
+
     if(automatique)
     {
         for(auto &p : level.Snubbys)
@@ -71,6 +72,8 @@ int thread_update_position(void *_)
             continue;
         }
         SDL_Delay(1 / sensitivity);
+            level.commandSnubby(level.player);
+
         if(T[0])
         {
             if(check_it_free_area(level.player.x - SPEED, level.player.y) && is_player_inside_after(level.player.x - 12, level.player.y))
