@@ -5,8 +5,9 @@ void init()
     render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawBlendMode(render, SDL_BLENDMODE_BLEND);
 
-    if (!TTF_Init())
+    if (TTF_Init() != -1)
     {
+        cout<<"TTF INITIALIZED"<<endl;
         font = TTF_OpenFont("../images/AMA.ttf", 50);
     }
     SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);

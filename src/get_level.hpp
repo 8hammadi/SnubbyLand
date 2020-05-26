@@ -61,12 +61,18 @@ int get_level()
                 {
                     cout << "Upload" << endl;
                     string k = get_text();
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "WAIT... ",
+                                             "Loading Level ......",
+                                             window);
                     if (get_level_from_server(k))
                     {
                         return -1;
                     }
                     else
                     {
+                        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
+                                                 "Level does not exist",
+                                                 window);
                         cout << "Level not exist" << endl;
                         return 0;
                     }

@@ -2,9 +2,19 @@
 //Mémorisez le numéro de niveau
 void save_n()
 {
-    ofstream ofs("../levels/n");
-    boost::archive::text_oarchive ar(ofs);
-    ar &N_LEVELS;
+    try
+    {
+        ofstream ofs("../levels/n");
+        boost::archive::text_oarchive ar(ofs);
+        ar &N_LEVELS;
+    }
+    catch (const std::exception &e)
+    {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
+                                 e.what(),
+                                 window);
+    }
+
 }
 //Connaître le numéro du niveau
 void load_n()
@@ -15,25 +25,49 @@ void load_n()
         boost::archive::text_iarchive ar(ifs);
         ar &N_LEVELS;
     }
-    catch(...)
+    catch (const std::exception &e)
     {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
+                                 e.what(),
+                                 window);
         free_memory();
-    };
+    }
 }
 
 //Mémorisez le numéro des niveaus ouvert
 void save_n_open()
 {
-    ofstream ofs("../levels/n_open");
-    boost::archive::text_oarchive ar(ofs);
-    ar &N_OPEN_LEVEL;
+    try
+    {
+        ofstream ofs("../levels/n_open");
+        boost::archive::text_oarchive ar(ofs);
+        ar &N_OPEN_LEVEL;
+    }
+    catch (const std::exception &e)
+    {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
+                                 e.what(),
+                                 window);
+    }
+
 }
 //Connaître le numéro des niveaus overts
 void load_n_open()
 {
-    ifstream ifs("../levels/n_open");
-    boost::archive::text_iarchive ar(ifs);
-    ar &N_OPEN_LEVEL;
+
+    try
+    {
+        ifstream ifs("../levels/n_open");
+        boost::archive::text_iarchive ar(ifs);
+        ar &N_OPEN_LEVEL;
+    }
+    catch (const std::exception &e)
+    {
+        N_OPEN_LEVEL = 200;
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
+                                 e.what(),
+                                 window);
+    }
 }
 
 
@@ -67,8 +101,11 @@ void load_level(int k)
             level = *ll;
             level.n_coins = level.coins.size();
         }
-        catch(...)
+        catch(const std::exception &e)
         {
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
+                                 e.what(),
+                                 window);
             free_memory();
         };
     }
