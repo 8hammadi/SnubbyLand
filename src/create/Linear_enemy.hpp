@@ -18,11 +18,10 @@ void add_linear_enemy()
             free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
-            x = event.motion.x;
-            y = event.motion.y;
+            x = event.motion.x-cx;
+            y = event.motion.y-cy;
             if(eventLevelCreator( x,  y) == 0)
                 return;
-            // draw_game();
             renderLevelCreator(render, 5);
             texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
             rect = {0, 100 + 40 * 12, 1024, 100} ;
