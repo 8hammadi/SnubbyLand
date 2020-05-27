@@ -10,6 +10,8 @@
 
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
 
+/home/run/Desktop/SnubbyLand/src/Simulation.hpp
+
 /home/run/Desktop/SnubbyLand/src/class/Big_spiral_dot.hpp
 
 /home/run/Desktop/SnubbyLand/src/class/Coin.hpp
@@ -25,6 +27,8 @@
 /home/run/Desktop/SnubbyLand/src/class/brain.hpp
 
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
+../Simulation.hpp
+/home/run/Desktop/SnubbyLand/src/Simulation.hpp
 
 /home/run/Desktop/SnubbyLand/src/constant.hpp
 
