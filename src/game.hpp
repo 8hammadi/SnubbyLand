@@ -30,6 +30,7 @@ void play()
 {
     cout << "the game began" << endl;
     is_playing = 1;
+    int i = 0;
     while(is_playing)
     {
         if(!is_playing or is_pause)
@@ -39,6 +40,21 @@ void play()
         }
         update();
         check_status_of_playing();
+
+        i++;
+        if(i == 300)
+        {
+            cout << "ADDING...." << endl;
+            i = 0;
+            for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
+                                    , level.getCoins())
+               )
+            {
+                level.coins.push_back(Coin(pai.first, pai.second));
+                level.n_coins++;
+            }
+        }
+
         draw_game();
         rect = {0, 100 + 40 * 12, 1024, 100} ;
         SDL_RenderCopy(render, textureSlides[6], NULL, &rect);

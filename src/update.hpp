@@ -13,16 +13,17 @@ void update()
                 p.think(level);
         }
     }
+    
 }
 void check_status_of_playing()
 {
-    int i=0;
+    int i = 0;
     for(auto &c : level.coins)
     {
         if(!c.is_taked && c.take(level.player))
         {
-            ocoins=i;
-            cout<<"++"<<ocoins<<endl;
+            ocoins = i;
+            cout << "++" << ocoins << endl;
 
             coin_sound();
             level.n_coins--;
@@ -64,15 +65,18 @@ void check_status_of_playing()
 
 int thread_update_position(void *_)
 {
+    int i = 0;
     while(1)
     {
+        i++;
         if(!is_playing)
         {
             SDL_Delay(2);
             continue;
         }
         SDL_Delay(1 / sensitivity);
-            level.commandSnubby(level.player);
+
+        level.commandSnubby(level.player);
 
         if(T[0])
         {

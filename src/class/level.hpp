@@ -56,6 +56,15 @@ public:
 
         N_Snubbys_a_life = N_POPULATION;
     }
+
+    vector<pair<int, int>> getCoins()
+    {
+        vector<pair<int, int>> list;
+        for(auto c : coins)
+            list.push_back(make_pair(c.x, c.y));
+        return list;
+    }
+
     vector<pair<int, int>> get_enemys()
     {
         enemys.clear();
@@ -198,14 +207,6 @@ pair<int, int> Level::getVector( int x, int y, pair<int, int> center)
 
 void Level::commandSnubby(Player &s)
 {
-    static int i = 0;
-    i++;
-    if(i == 300)
-    {
-        i = 0;
-        n_coins++;
-        coins.push_back(Coin(rand() % 200 + s.x, rand() % 200 + s.y));
-    }
     int cmd = getWhere(s, getEnvironment(s), enemys.size());
     T[0] = (cmd & 2) != 0;
     T[1] = (cmd & 8) != 0;
