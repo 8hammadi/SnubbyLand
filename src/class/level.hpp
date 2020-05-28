@@ -205,7 +205,7 @@ pair<int, int> Level::getVector( int x, int y, pair<int, int> center)
     return make_pair(center.first - x, center.second - y);
 }
 
-void Level::commandSnubby(Player &s)
+void Level::commandSnubby(int T[4],Player &s)
 {
     int cmd = getWhere(s, getEnvironment(s), enemys.size());
     T[0] = (cmd & 2) != 0;

@@ -1,3 +1,18 @@
+void moveSnubby(int T[4], Player &s)
+{
+	static int i = 0;
+	level.command(T, s);
+	if(i == 100)
+	{
+		// todo djikstra
+		i = 0;
+	}
+	i++;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
+
 int n = 12, m = 20;
 bool done[1000][1000];
 
