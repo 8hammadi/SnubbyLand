@@ -39,7 +39,7 @@ void  pause_game()
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
                     PAUSE_resume_y <= y && y <= PAUSE_resume_y + PAUSE_button_height)
             {
-                cout<<"RESUME"<<endl;
+                cout << "RESUME" << endl;
                 is_pause = 0;
                 return;
             }
@@ -48,8 +48,8 @@ void  pause_game()
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
                     PAUSE_restart_y <= y && y <= PAUSE_restart_y + PAUSE_button_height)
             {
-                cout<<"RESTART"<<endl;
-                is_playing=0;
+                cout << "RESTART" << endl;
+                is_playing = 0;
                 load_level(l);
                 is_playing = 1;
                 is_pause = 0;
@@ -60,19 +60,18 @@ void  pause_game()
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
                     PAUSE_levels_y <= y && y <= PAUSE_levels_y + PAUSE_button_height)
             {
-                cout<<"LEVELS"<<endl;
+                cout << "LEVELS" << endl;
                 is_pause = 0;
-                is_playing=0;
+                is_playing = 0;
                 l = get_level();
                 load_level(l);
-                is_playing=1;
-                return;
+                is_playing = 1;
             }
             // Quit button
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
                     PAUSE_quit_y <= y && y <= PAUSE_quit_y + PAUSE_button_height)
             {
-                cout<<"QUIT"<<endl;
+                cout << "QUIT" << endl;
                 is_pause = 0;
                 is_playing = 0;
                 return index();

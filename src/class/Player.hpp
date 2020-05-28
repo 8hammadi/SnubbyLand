@@ -40,8 +40,8 @@ public:
     Player() {};
     Player(int a, int b)
     {
-        x = a;
-        y = b;
+        x = a+cx;
+        y = b+cy;
     }
 
     bool touche_enemy(pair<int, int> enemy, int r)

@@ -18,7 +18,6 @@ void add_squar_enemy()
             y = event.motion.y-cy;
             if(eventLevelCreator( x,  y) == 0)
                 return;
-            // draw_game();
             renderLevelCreator(render, 6);
             rect = {-level.player.w / 2  + x, -level.player.h / 2 + y, level.player.w, level.player.h};
             SDL_SetRenderDrawColor(render, 255, 0, 0, 255);

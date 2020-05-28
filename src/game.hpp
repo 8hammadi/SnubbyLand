@@ -37,7 +37,7 @@ void play()
     cout << "the game began" << endl;
     is_playing = 1;
     int i = 0;
-    while(is_playing)
+    while(1)
     {
         if(!is_playing or is_pause)
         {

@@ -13,7 +13,7 @@ void update()
                 p.think(level);
         }
     }
-    
+
 }
 void check_status_of_playing()
 {
@@ -33,7 +33,6 @@ void check_status_of_playing()
                     return local_win();
                 else
                 {
-                    // i_win=1;
                 }
             }
         }
@@ -46,6 +45,14 @@ void check_status_of_playing()
             hit_sound();
             level.player.x = level.last_touch_on_green_area.first;
             level.player.y = level.last_touch_on_green_area.second;
+            again--;
+            cout << again << endl;
+            if(!again)
+            {
+                cout << "loser" << endl;
+                //todo
+                free_memory();
+            }
         };
         if(automatique)
         {

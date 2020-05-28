@@ -142,12 +142,6 @@ void draw_levels()
 
     SDL_RenderCopy(render, LEVEL_download, NULL, &rect);
 
-    // if(k > N_OPEN_LEVEL and mode == "1OFF")
-    // {
-    //     SDL_RenderCopy(render, textureblack, NULL, &rect);
-    // }
-
-
     SDL_RenderPresent(render);
     SDL_Delay(4);
 }
