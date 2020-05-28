@@ -185,17 +185,59 @@ public:
     }
 
     vector<pair<int, int>> getEnvironment(Player &s);
+    vector<pair<int, int>> wallDirections( int x, int y);
     pair<int, int> getVector( int x, int y, pair<int, int> center);
     void commandSnubby(bool T[4], Player &s);
 };
+
+///////////////////////////////////////////////////////////
+vector<pair<int, int>> Level::wallDirections( int x, int y)
+{
+
+    // if no mobile obstacle is found at top of snubby.
+    int w0 = (x / size_squar), w1 = ((x + player.w) / size_squar), h0 = (y / size_squar), h1;
+
+    while(h0 >= 0 && map[h0][w0] != RESTRICTED && map[h0][w1] != RESTRICTED )
+        h0--;
+    int firstUp = y - (1 + h0) * size_squar;
+
+    // if no mobile obstacle is found at bottom of snubby.
+    w0 = (x / size_squar);
+    w1 = ((x + player.w) / size_squar);
+    h0 = (y + player.w) / size_squar;
+    while(h0 < WINDOW_HEIGHT  && map[h0][w0] != RESTRICTED && map[h0][w1] != RESTRICTED )
+        h0++;
+    int firstDown =  h0 * size_squar - (y + player.w);
+
+    // if no mobile obstacle is found at Left of snubby.
+    w0 = (x / size_squar);
+    h1 = ((y + player.w) / size_squar);
+    h0 = (y / size_squar);
+    while(w0 >= 0 && map[h0][w0] != RESTRICTED && map[h1][w0] != RESTRICTED )
+        w0--;
+    int firstLeft = x - (1 + w0) * size_squar;
+
+    // if no mobile obstacle is found at right of snubby.
+    w0 = (x + player.w) / size_squar;
+    h1 = ((y + player.w) / size_squar);
+    h0 = (y / size_squar);
+    while(w0 < WINDOW_WIDTH && map[h0][w0] != RESTRICTED && map[h1][w0] != RESTRICTED )
+        w0++;
+    int firstRight = w0 * size_squar - (x + player.w );
+    return vector<pair<int, int>> {make_pair(0, -firstUp), make_pair(0, firstDown), make_pair(-firstLeft, 0), make_pair(firstRight, 0)};
+
+}
 
 vector<pair<int, int>> Level::getEnvironment(Player &s)
 {
     vector<pair<int, int>> env;
     for(auto &ob : get_enemys())
         env.push_back(getVector(s.x, s.y, make_pair(ob.first, ob.second)));
+    for(auto &p:wallDirections(s.x,s.y))
+        env.push_back(p);
     for(auto &c : coins)
-        env.push_back(getVector(s.x, s.y, make_pair(c.x, c.y)));
+        if(!c.is_taked)
+            env.push_back(getVector(s.x, s.y, make_pair(c.x, c.y)));
     return env;
 }
 

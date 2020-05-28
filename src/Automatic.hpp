@@ -5,20 +5,20 @@ void directSnubby(bool T[4], Player &s)
 {
 	static int i = 0;
 	level.commandSnubby(T, s);
-	if(i == 10)
+	if(i == 150)
 	{
-		cout<<"START dijkstra"<<endl;
+		cout << "START dijkstra" << endl;
 		for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
 								, level.getCoins())
 		   )
 		{
 			level.coins.push_back(Coin(pai.first, pai.second));
-			level.coins[level.coins.size()-1].is_virtual=true;
+			level.coins[level.coins.size() - 1].is_virtual = true;
 			level.n_coins++;
 		}
-				cout<<"END dijkstra"<<endl;
+		cout << "END dijkstra" << endl;
 
-		i = 10;
+		i = 0;
 	}
 	i++;
 }
@@ -70,11 +70,11 @@ vector<pair<int, int>> dijkstra(int map[12][20], pair<int, int> snubby, vector<p
 	}
 	for(auto c : coins)
 	{
-		st[(int)c.second / 40][(int)c.first / 40] = 'B';
+		st[(int)(c.second - cy ) / 40][(int)(c.first - cx) / 40] = 'B';
 	}
 	int dist[n][m];
-	p = snubby.second / 40;
-	q = snubby.first / 40;
+	p = (snubby.second - cy) / 40;
+	q = (snubby.first - cx) / 40;
 	done[p][q] = 1;
 	dist[p][q] = 0;
 	queue<pair<int, int>> qu;
@@ -184,7 +184,13 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 	int i;
 	for (i = 0; i < obs; ++i)
 	{
-		a = force(20, s.sim.q1, s.sim.q4, r[i]);
+		a = force(0, s.sim.q1, s.sim.q4, r[i]);
+		b.first += a.first;
+		b.second += a.second;
+	}
+	for(; i < obs + 4; i++)
+	{
+		a = force(10, s.sim.q1, s.sim.q3, r[i]);
 		b.first += a.first;
 		b.second += a.second;
 	}
@@ -201,11 +207,11 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 
 pair<double, double> force(int radius, double q1, double q2, pair<int, int> r)
 {
-	double dist = Distance(r.first, r.second, 0, 0) ;
-	if(dist <= 37)
+	double dist = Distance(r.first, r.second, 0, 0) + radius ;
+	if(dist <= 57)
 		dist = dist * pow(10, -40);
 	if(dist == 0)
-		dist = pow(10, -60);
+		dist = pow(10, -30);
 	double norm = -9 * pow(10, 9) * q1 * q2 / pow(dist, 3);
 	return make_pair(r.first * norm, r.second * norm);
 }

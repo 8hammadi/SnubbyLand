@@ -14,6 +14,7 @@ public:
         // radius = SNUBBY_SIZE * 3. / 2;
         q1 = 1;
         q2 = -500;
+        q3 = 0.001;
         q4 = 420;
     }
 };
@@ -31,7 +32,7 @@ private:
     }
 public:
     Simulator sim;
-    int x = 100, y = 100, w = 30, h = 30, p;
+    int x = 100, y = 100, w = 20, h = 20, p;
     vector<double> input;
     int score = 0;
     double fitness = 0;

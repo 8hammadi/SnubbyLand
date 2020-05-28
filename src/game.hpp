@@ -44,7 +44,7 @@ void play()
         update();
 
         directSnubby(T, level.player);
-        move(T,level.player);
+        move(T, level.player);
 
         check_status_of_playing();
 

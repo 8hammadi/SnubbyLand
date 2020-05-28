@@ -22,6 +22,8 @@ void check_status_of_playing()
     {
         if(!c.is_taked && c.take(level.player))
         {
+            if(c.is_virtual)
+                level.coins.erase(level.coins.begin() + i);
             ocoins = i;
             cout << "++" << ocoins << endl;
 
@@ -71,7 +73,7 @@ void check_status_of_playing()
 }
 
 
-void move(bool T[4],Player& player)
+void move(bool T[4], Player &player)
 {
     SDL_Delay(1 / sensitivity);
 
