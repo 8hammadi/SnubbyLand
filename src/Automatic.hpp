@@ -5,8 +5,9 @@ void directSnubby(bool T[4], Player &s)
 {
 	static int i = 0;
 	level.commandSnubby(T, s);
-	if(i == 100)
+	if(i == 10)
 	{
+		cout<<"START dijkstra"<<endl;
 		for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
 								, level.getCoins())
 		   )
@@ -15,7 +16,9 @@ void directSnubby(bool T[4], Player &s)
 			level.coins[level.coins.size()-1].is_virtual=true;
 			level.n_coins++;
 		}
-		i = 0;
+				cout<<"END dijkstra"<<endl;
+
+		i = 10;
 	}
 	i++;
 }
@@ -198,7 +201,7 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 
 pair<double, double> force(int radius, double q1, double q2, pair<int, int> r)
 {
-	double dist = Distance(r.first, r.second, 0, 0) /*- radius - SNUBBY_SIZE / 2*/ ;
+	double dist = Distance(r.first, r.second, 0, 0) ;
 	if(dist <= 37)
 		dist = dist * pow(10, -40);
 	if(dist == 0)
