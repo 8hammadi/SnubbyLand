@@ -76,7 +76,7 @@ int thread_update_position(void *_)
         }
         SDL_Delay(1 / sensitivity);
 
-        level.commandSnubby(level.player);
+        // level.commandSnubby(level.player);
 
         if(T[0])
         {

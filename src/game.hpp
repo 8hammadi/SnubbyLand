@@ -4,8 +4,14 @@
 #define WIN_LOSE_button_x (WINDOW_WIDTH-WIN_LOSE_button_width)/2
 #define WIN_LOSE_button_margin 20
 
+// WIN LOSE IMAGE
+#define WIN_LOSE_image_width 400
+#define WIN_LOSE_image_height 270
+#define WIN_LOSE_image_x (WINDOW_WIDTH-WIN_LOSE_image_width)/2
+#define WIN_LOSE_image_y 30
+
 // restart
-#define WIN_LOSE_restart_y (WINDOW_HEIGHT-4*WIN_LOSE_button_height-3*WIN_LOSE_button_margin)/2
+#define WIN_LOSE_restart_y WIN_LOSE_button_margin*2+WIN_LOSE_image_height+WIN_LOSE_image_y
 
 // levels
 #define WIN_LOSE_levels_y WIN_LOSE_restart_y+WIN_LOSE_button_height+WIN_LOSE_button_margin
@@ -23,7 +29,7 @@
 #define WIN_LOSE_next_x WIN_LOSE_previous_x+WIN_LOSE_button_width+WIN_LOSE_button_margin
 
 
-inline void renderPause_win_lose(SDL_Renderer *render);
+inline void renderPause_win_lose(SDL_Renderer *render, bool win);
 
 
 void play()
@@ -41,19 +47,19 @@ void play()
         update();
         check_status_of_playing();
 
-        i++;
-        if(i == 300)
-        {
-            cout << "ADDING...." << endl;
-            i = 0;
-            for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
-                                    , level.getCoins())
-               )
-            {
-                level.coins.push_back(Coin(pai.first, pai.second));
-                level.n_coins++;
-            }
-        }
+        // i++;
+        // if(i == 100)
+        // {
+        //     cout << "ADDING...." << endl;
+        //     i = 0;
+        //     for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
+        //                             , level.getCoins())
+        //        )
+        //     {
+        //         level.coins.push_back(Coin(pai.first, pai.second));
+        //         level.n_coins++;
+        //     }
+        // }
 
         draw_game();
         rect = {0, 100 + 40 * 12, 1024, 100} ;
@@ -70,7 +76,7 @@ void local_win()
     is_pause = 1;
     draw_game();
 
-    renderPause_win_lose(render);
+    renderPause_win_lose(render, true);
 
     show();
     while(is_pause)
@@ -193,20 +199,26 @@ void free_memory()
     exit(1);
 }
 
-inline void renderPause_win_lose(SDL_Renderer *render)
+inline void renderPause_win_lose(SDL_Renderer *render, bool win)
 {
 
-    static SDL_Texture *WIN_LOSE_resume =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/resume.png"));
+    SDL_Texture *WIN_LOSE_image =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/you win.png"));
+    if(!win)
+        WIN_LOSE_image =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/you lose.png"));
+
     static SDL_Texture *WIN_LOSE_restart =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/restart.png"));
     static SDL_Texture *WIN_LOSE_levels =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/levels.png"));
     static SDL_Texture *WIN_LOSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/quit.png"));
     static SDL_Texture *WIN_LOSE_previous =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/previous.png"));
     static SDL_Texture *WIN_LOSE_next =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/next.png"));
 
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 120);
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 150);
     SDL_RenderFillRect(render, NULL);
 
-    SDL_Rect rect = {WIN_LOSE_button_x, WIN_LOSE_restart_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
+    SDL_Rect rect = {WIN_LOSE_image_x, WIN_LOSE_image_y, WIN_LOSE_image_width, WIN_LOSE_image_height};
+    SDL_RenderCopy(render, WIN_LOSE_image, NULL, &rect);
+
+    rect = {WIN_LOSE_button_x, WIN_LOSE_restart_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
     SDL_RenderCopy(render, WIN_LOSE_restart, NULL, &rect);
 
     rect = {WIN_LOSE_button_x, WIN_LOSE_levels_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
@@ -220,11 +232,11 @@ inline void renderPause_win_lose(SDL_Renderer *render)
 
     rect = {WIN_LOSE_next_x, WIN_LOSE_prev_next_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
     SDL_RenderCopy(render, WIN_LOSE_next, NULL, &rect);
-    if(1 == 0)
+    if(!win)
     {
         // add condition if player loses
         // TODO
-        SDL_SetRenderDrawColor(render, 0, 0, 0, 0.50);
+        SDL_SetRenderDrawColor(render, 0, 0, 0, 170);
         SDL_RenderFillRect(render, &rect);
     }
 }

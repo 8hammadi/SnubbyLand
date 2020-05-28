@@ -1,7 +1,7 @@
-#define LEVEL_share_x 5
-#define LEVEL_share_y 5
-#define LEVEL_share_width 40
-#define LEVEL_share_height 20
+#define LEVEL_share_x 0
+#define LEVEL_share_y 0
+#define LEVEL_share_width 60
+#define LEVEL_share_height 30
 
 int get_level()
 {

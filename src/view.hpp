@@ -3,10 +3,10 @@
 #define GAME_pause_width 70
 #define GAME_pause_height 30
 
-#define LEVEL_share_x 5
-#define LEVEL_share_y 5
-#define LEVEL_share_width 40
-#define LEVEL_share_height 20
+// #define LEVEL_share_x 5
+// #define LEVEL_share_y 5
+// #define LEVEL_share_width 40
+// #define LEVEL_share_height 20
 
 void draw_text(char const *t, int x, int y, int w, int h)
 {
