@@ -7,13 +7,15 @@ int get_level()
 {
     y = 0;
     draw_levels();
-    while(true)
+    while(1)
     {
-        cout << "HERE" << endl;
         SDL_WaitEvent(&event);
+
         switch (event.type)
         {
         case SDL_MOUSEBUTTONDOWN:
+
+
             x = event.motion.x;
             b = event.motion.y;
 
@@ -85,12 +87,13 @@ int get_level()
 
             break;
         case SDL_MOUSEWHEEL:
-            cout << "scrolling .." << endl;
+            // cout << "scrolling .." << endl;
+
             if(event.wheel.y >= 1)
             {
                 if(y - 10 >= 0)
                 {
-                    cout << "Y1: " << y << endl;
+                    // cout << "Y1: " << y << endl;
                     y -= 10;
                 }
             }
@@ -102,7 +105,7 @@ int get_level()
                 N_LEVELS--;
                 if(y + WINDOW_HEIGHT + 10 <= max)
                 {
-                    cout << "Y2: " << y << endl;
+                    // cout << "Y2: " << y << endl;
                     y += 10;
                 }
             };
@@ -110,6 +113,8 @@ int get_level()
 
             break;
         case SDL_QUIT:
+            // cout << "HERE 5" << endl;
+
             free_memory();
             break;
         }
