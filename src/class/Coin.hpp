@@ -13,6 +13,7 @@ private:
     }
 public:
     bool is_taked = 0;
+    bool is_virtual = false;
     int x, y;
     int w = 10, h = 10;
     Coin() {};

@@ -71,50 +71,81 @@ void check_status_of_playing()
 }
 
 
+void move()
+{
+    SDL_Delay(1 / sensitivity);
+
+    if(T[0])
+    {
+        if(check_it_free_area(level.player.x - SPEED, level.player.y) && is_player_inside_after(level.player.x - 12, level.player.y))
+        {
+            level.player.x -= SPEED;
+        }
+
+    }
+    if(T[1])
+    {
+        if(check_it_free_area(level.player.x, level.player.y - SPEED ) && is_player_inside_after(level.player.x, level.player.y - 12))
+        {
+            level.player.y -= SPEED;
+        }
+    }
+    if(T[2])
+    {
+        if(check_it_free_area(level.player.x + SPEED, level.player.y) && is_player_inside_after(level.player.x + 12, level.player.y))
+        {
+            level.player.x += SPEED;
+        }
+    }
+    if(T[3])
+    {
+        if(check_it_free_area(level.player.x, level.player.y + SPEED) && is_player_inside_after(level.player.x, level.player.y + 12))
+        {
+            level.player.y += SPEED;
+        }
+    }
+}
+
 int thread_update_position(void *_)
 {
-    int i = 0;
     while(1)
     {
-        i++;
         if(!is_playing)
         {
             SDL_Delay(2);
             continue;
         }
-        SDL_Delay(1 / sensitivity);
+        // SDL_Delay(1 / sensitivity);
 
-        // level.commandSnubby(level.player);
+        // if(T[0])
+        // {
+        //     if(check_it_free_area(level.player.x - SPEED, level.player.y) && is_player_inside_after(level.player.x - 12, level.player.y))
+        //     {
+        //         level.player.x -= SPEED;
+        //     }
 
-        if(T[0])
-        {
-            if(check_it_free_area(level.player.x - SPEED, level.player.y) && is_player_inside_after(level.player.x - 12, level.player.y))
-            {
-                level.player.x -= SPEED;
-            }
-
-        }
-        if(T[1])
-        {
-            if(check_it_free_area(level.player.x, level.player.y - SPEED ) && is_player_inside_after(level.player.x, level.player.y - 12))
-            {
-                level.player.y -= SPEED;
-            }
-        }
-        if(T[2])
-        {
-            if(check_it_free_area(level.player.x + SPEED, level.player.y) && is_player_inside_after(level.player.x + 12, level.player.y))
-            {
-                level.player.x += SPEED;
-            }
-        }
-        if(T[3])
-        {
-            if(check_it_free_area(level.player.x, level.player.y + SPEED) && is_player_inside_after(level.player.x, level.player.y + 12))
-            {
-                level.player.y += SPEED;
-            }
-        }
+        // }
+        // if(T[1])
+        // {
+        //     if(check_it_free_area(level.player.x, level.player.y - SPEED ) && is_player_inside_after(level.player.x, level.player.y - 12))
+        //     {
+        //         level.player.y -= SPEED;
+        //     }
+        // }
+        // if(T[2])
+        // {
+        //     if(check_it_free_area(level.player.x + SPEED, level.player.y) && is_player_inside_after(level.player.x + 12, level.player.y))
+        //     {
+        //         level.player.x += SPEED;
+        //     }
+        // }
+        // if(T[3])
+        // {
+        //     if(check_it_free_area(level.player.x, level.player.y + SPEED) && is_player_inside_after(level.player.x, level.player.y + 12))
+        //     {
+        //         level.player.y += SPEED;
+        //     }
+        // }
     }
     return 1;
 }

@@ -1,10 +1,20 @@
-void moveSnubby(int T[4], Player &s)
+
+
+///////////////////////////////////////////////////////////////////////
+void directSnubby(bool T[4], Player &s)
 {
 	static int i = 0;
-	level.command(T, s);
+	level.commandSnubby(T, s);
 	if(i == 100)
 	{
-		// todo djikstra
+		for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
+								, level.getCoins())
+		   )
+		{
+			level.coins.push_back(Coin(pai.first, pai.second));
+			level.coins[level.coins.size()-1].is_virtual=true;
+			level.n_coins++;
+		}
 		i = 0;
 	}
 	i++;
@@ -27,127 +37,114 @@ int dx[] = {0, 1, 0, -1};
 int dy[] = {1, 0, -1, 0};
 
 
-vector<pair<int, int>> dijkstra(int map[12][20], pair<int, int> snubby, vector<pair<int, int>> coins);
-vector<pair<int, int>> whenBlocked(vector<vector<data>> map, vector<Coin> coins, int x, int y);
-pair<int, int> getNearest(vector<Coin> &coins, int x, int y);
-void aitHammadi(vector<vector<data>> &map, pair<int, int> coin, pair<int, int> snubby);
-vector<pair<int, int>> path(vector<vector<data>> &map, pair<int, int> coin, pair<int, int> snubby);
-/////////////////
-int getWhere(Player &s, vector<pair<int, int>> r, int obs);
-int step(pair<double, double> b);
-pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs);
-pair<double, double> force(int radius, double q1, double q2, pair<int, int> r);
-double Distance( int x0, int y0, int x1, int y1);
-
-
 //////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \\\\ \  \\\\\\\\\\\\ 
 
 vector<pair<int, int>> dijkstra(int map[12][20], pair<int, int> snubby, vector<pair<int, int>> coins)
 {
-    int p, q, r, s, x, y, a, b;
-    string st[n] = {"....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "....................",
-                    "...................."
-                   };
-    for(int i = 0; i < 12; i++)
-    {
-        for(int j = 0; j < 20; j++)
-        {
-            if(map[i][j] == -1)
-            {
-                st[i][j] = '#';
-            }
-        }
-    }
-    for(auto c : coins)
-    {
-        st[(int)c.second / 40][(int)c.first / 40] = 'B';
-    }
-    int dist[n][m];
-    p = snubby.second / 40;
-    q = snubby.first / 40;
-    done[p][q] = 1;
-    dist[p][q] = 0;
-    queue<pair<int, int>> qu;
-    pair<int, int> pa;
-    qu.push({p, q});
-    bool end = 0;
-    while (!qu.empty() and !end)
-    {
-        pa = qu.front();
-        qu.pop();
-        for (int i = 0; i < 4; ++i)
-        {
-            x = pa.first + dx[i];
-            y = pa.second + dy[i];
-            if (isOk(x, y) && !done[x][y] && st[x][y] != '#')
-            {
-                done[x][y] = 1;
-                dist[x][y] = dist[pa.first][pa.second] + 1;
-                qu.push({x, y});
-                if(st[x][y] == 'B')
-                {
-                    end = 1;
-                    break;
-                }
-            }
-        }
-    }
-    string ans = "";
-    while (!(x == p && y == q))
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            a = x + dx[i];
-            b = y + dy[i];
-            if (isOk(a, b) && done[a][b] && dist[a][b] < dist[x][y])
-            {
-                x = a;
-                y = b;
-                if (i == 0)
-                    ans += 'L';
-                else if (i == 1)
-                    ans += 'U';
-                else if (i == 2)
-                    ans += 'R';
-                else
-                    ans += 'D';
-                break;
-            }
-        }
-    }
-    vector<pair<int, int>> path = {snubby};
+	int p, q, r, s, x, y, a, b;
+	string st[n] = {"....................",
+					"....................",
+					"....................",
+					"....................",
+					"....................",
+					"....................",
+					"....................",
+					"....................",
+					"....................",
+					"....................",
+					"....................",
+					"...................."
+				   };
+	for(int i = 0; i < 12; i++)
+	{
+		for(int j = 0; j < 20; j++)
+		{
+			if(map[i][j] == -1)
+			{
+				st[i][j] = '#';
+			}
+		}
+	}
+	for(auto c : coins)
+	{
+		st[(int)c.second / 40][(int)c.first / 40] = 'B';
+	}
+	int dist[n][m];
+	p = snubby.second / 40;
+	q = snubby.first / 40;
+	done[p][q] = 1;
+	dist[p][q] = 0;
+	queue<pair<int, int>> qu;
+	pair<int, int> pa;
+	qu.push({p, q});
+	bool end = 0;
+	while (!qu.empty() and !end)
+	{
+		pa = qu.front();
+		qu.pop();
+		for (int i = 0; i < 4; ++i)
+		{
+			x = pa.first + dx[i];
+			y = pa.second + dy[i];
+			if (isOk(x, y) && !done[x][y] && st[x][y] != '#')
+			{
+				done[x][y] = 1;
+				dist[x][y] = dist[pa.first][pa.second] + 1;
+				qu.push({x, y});
+				if(st[x][y] == 'B')
+				{
+					end = 1;
+					break;
+				}
+			}
+		}
+	}
+	string ans = "";
+	while (!(x == p && y == q))
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			a = x + dx[i];
+			b = y + dy[i];
+			if (isOk(a, b) && done[a][b] && dist[a][b] < dist[x][y])
+			{
+				x = a;
+				y = b;
+				if (i == 0)
+					ans += 'L';
+				else if (i == 1)
+					ans += 'U';
+				else if (i == 2)
+					ans += 'R';
+				else
+					ans += 'D';
+				break;
+			}
+		}
+	}
+	vector<pair<int, int>> path = {snubby};
 
-    while ((int)(ans).size())
-    {
-        switch(ans.back())
-        {
-        case 'R':
-            path.push_back(make_pair(path.back().first + 40, path.back().second));
-            break;
-        case 'L':
-            path.push_back(make_pair(path.back().first - 40, path.back().second));
-            break;
-        case 'U':
-            path.push_back(make_pair(path.back().first, path.back().second - 40));
-            break;
-        case 'D':
-            path.push_back(make_pair(path.back().first, path.back().second + 40));
-            break;
-        }
+	while ((int)(ans).size())
+	{
+		switch(ans.back())
+		{
+		case 'R':
+			path.push_back(make_pair(path.back().first + 40, path.back().second));
+			break;
+		case 'L':
+			path.push_back(make_pair(path.back().first - 40, path.back().second));
+			break;
+		case 'U':
+			path.push_back(make_pair(path.back().first, path.back().second - 40));
+			break;
+		case 'D':
+			path.push_back(make_pair(path.back().first, path.back().second + 40));
+			break;
+		}
 
-        ans.pop_back();
-    }
-    return path;
+		ans.pop_back();
+	}
+	return path;
 }
 
 

@@ -1,4 +1,3 @@
-#include "../Simulation.hpp"
 
 class Level
 {
@@ -187,7 +186,7 @@ public:
 
     vector<pair<int, int>> getEnvironment(Player &s);
     pair<int, int> getVector( int x, int y, pair<int, int> center);
-    void commandSnubby(Player &s);
+    void commandSnubby(bool T[4], Player &s);
 };
 
 vector<pair<int, int>> Level::getEnvironment(Player &s)
@@ -202,10 +201,10 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
 
 pair<int, int> Level::getVector( int x, int y, pair<int, int> center)
 {
-    return make_pair(center.first - x, center.second - y);
+    return make_pair(center.first - (x + 10), center.second - (y + 10));
 }
 
-void Level::commandSnubby(int T[4],Player &s)
+void Level::commandSnubby(bool T[4], Player &s)
 {
     int cmd = getWhere(s, getEnvironment(s), enemys.size());
     T[0] = (cmd & 2) != 0;
@@ -213,9 +212,6 @@ void Level::commandSnubby(int T[4],Player &s)
     T[2] = (cmd & 1) != 0;
     T[3] = (cmd & 4) != 0;
 }
-
-
-
 
 void Player::update_input(Level &level)
 {

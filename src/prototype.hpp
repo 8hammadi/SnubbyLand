@@ -31,6 +31,7 @@ void save_level();//claire
 void load_level(int k);//claire
 
 int thread_playing_online(void *_);
+void move(); // move snubby
 int thread_update_position(void *_);
 void draw_wall();//claire
 void draw_enemys();//claire
@@ -47,3 +48,18 @@ void save_n_open();//les niveau ouverts
 string send_level_to_server(int k);
 bool get_level_from_server(string k	);
 string get_text();
+
+/////////////////////////////////   AUTOMATIC FUNCTIONS
+void directSnubby(bool T[4], Player &s);
+
+vector<pair<int, int>> dijkstra(int map[12][20], pair<int, int> snubby, vector<pair<int, int>> coins);
+vector<pair<int, int>> whenBlocked(vector<vector<data>> map, vector<Coin> coins, int x, int y);
+pair<int, int> getNearest(vector<Coin> &coins, int x, int y);
+void aitHammadi(vector<vector<data>> &map, pair<int, int> coin, pair<int, int> snubby);
+vector<pair<int, int>> path(vector<vector<data>> &map, pair<int, int> coin, pair<int, int> snubby);
+/////////////////
+int getWhere(Player &s, vector<pair<int, int>> r, int obs);
+int step(pair<double, double> b);
+pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs);
+pair<double, double> force(int radius, double q1, double q2, pair<int, int> r);
+double Distance( int x0, int y0, int x1, int y1);

@@ -42,6 +42,8 @@ void play()
             continue;
         }
         update();
+        directSnubby(T, level.player);
+        move();
         check_status_of_playing();
 
         // i++;
@@ -149,7 +151,7 @@ void local_win(bool win)
                         load_level(l);
                         is_playing = 1;
                         is_pause = 0;
-                    cout << "NEXT" << endl;
+                        cout << "NEXT" << endl;
                         return ;
                     }
                 }

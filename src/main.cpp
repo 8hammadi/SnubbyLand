@@ -29,7 +29,6 @@ using namespace std;
 #include "map_generateur.hpp"
 #include "global_variable.hpp"
 #include "util.hpp"
-#include "prototype.hpp"
 #include "class/brain.hpp"
 #include "class/Player.hpp"
 #include "class/Spiral_dot.hpp"
@@ -37,10 +36,12 @@ using namespace std;
 #include "class/Squar_enemy.hpp"
 #include "class/Big_spiral_dot.hpp"
 #include "class/Coin.hpp"
+#include "prototype.hpp"
 #include "class/level.hpp"
 
 Level  level,*ll ;
 
+#include "Automatic.hpp"
 #include "init.hpp"
 #include "index.hpp"
 #include "get_level.hpp"
