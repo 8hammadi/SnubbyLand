@@ -42,8 +42,10 @@ void play()
             continue;
         }
         update();
+
         directSnubby(T, level.player);
-        move();
+        move(T,level.player);
+
         check_status_of_playing();
 
         // i++;
