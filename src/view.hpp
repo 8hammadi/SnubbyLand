@@ -1,12 +1,7 @@
 #define GAME_pause_x 10
 #define GAME_pause_y 10
-#define GAME_pause_width 70
-#define GAME_pause_height 30
-
-// #define LEVEL_share_x 5
-// #define LEVEL_share_y 5
-// #define LEVEL_share_width 40
-// #define LEVEL_share_height 20
+#define GAME_pause_width 120
+#define GAME_pause_height 50
 
 void draw_text(char const *t, int x, int y, int w, int h)
 {
@@ -115,6 +110,7 @@ void draw_levels()
     SDL_RenderClear(render);
     SDL_RenderCopy(render, textures[0], NULL, NULL);
     static SDL_Texture *LEVEL_share = SDL_CreateTextureFromSurface(render, IMG_Load("../images/share.png"));
+    static SDL_Texture *LEVEL_download = SDL_CreateTextureFromSurface(render, IMG_Load("../images/download.png"));
     for(int i, j, k = 1; k < N_LEVELS + 1; k++)
     {
         j = (k - 1) / LEVEL_level_row;
@@ -144,7 +140,7 @@ void draw_levels()
             LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y, LEVEL_level_width, LEVEL_level_height
            } ;
 
-    SDL_RenderCopy(render, LEVEL_share, NULL, &rect);
+    SDL_RenderCopy(render, LEVEL_download, NULL, &rect);
 
     // if(k > N_OPEN_LEVEL and mode == "1OFF")
     // {

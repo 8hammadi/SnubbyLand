@@ -7,8 +7,9 @@ int get_level()
 {
     y = 0;
     draw_levels();
-    while(1)
+    while(true)
     {
+        cout << "HERE" << endl;
         SDL_WaitEvent(&event);
         switch (event.type)
         {
@@ -61,6 +62,8 @@ int get_level()
                 {
                     cout << "Upload" << endl;
                     string k = get_text();
+                    if(k == "-1")
+                        continue ;
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "WAIT... ",
                                              "Loading Level ......",
                                              window);

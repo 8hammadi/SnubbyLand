@@ -1,7 +1,7 @@
-#define GAME_pause_x 10
-#define GAME_pause_y 10
-#define GAME_pause_width 70
-#define GAME_pause_height 30
+// #define GAME_pause_x 10
+// #define GAME_pause_y 10
+// #define GAME_pause_width 120
+// #define GAME_pause_height 50
 
 bool is_player_inside_after(int x, int y)
 {

@@ -26,7 +26,7 @@ void draw_text2( SDL_Renderer *render2, char const *t, int x, int y)
 
 string get_text()
 {
-    string in = "";
+    string in = "Code ...";
     SDL_Window *window2 = SDL_CreateWindow("Enter Level Code", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, TMP_WINDOW_WIDTH, TMP_WINDOW_HEIGHT, 0);
     SDL_Renderer *render2 = SDL_CreateRenderer(window2, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawBlendMode(render2, SDL_BLENDMODE_BLEND);
@@ -39,6 +39,8 @@ string get_text()
     bool done = false;
     while (!done)
     {
+        if(in.size() == 0)
+            in = "Code ...";
         if (SDL_WaitEvent(&event))
         {
             switch (event.type)
@@ -54,12 +56,16 @@ string get_text()
                 break;
             case SDL_TEXTINPUT:
                 if(in.size() < 10)
+                {
+                    if(in == "Code ...")
+                        in = "";
                     in.push_back(*event.text.text);
+                }
                 break;
             case SDL_KEYDOWN:
             {
                 char keyDown = event.key.keysym.scancode;
-                if (keyDown == SDL_SCANCODE_BACKSPACE and in.size() > 0)  in.pop_back();
+                if (keyDown == SDL_SCANCODE_BACKSPACE and in.size() > 0) in.pop_back();
                 else if (keyDown == SDL_SCANCODE_RETURN)
                 {
                     SDL_DestroyRenderer(render2);
@@ -69,10 +75,10 @@ string get_text()
             }
             break;
             }
-            cout << in << endl;
+            // cout << in << endl;
             draw_text2( render2, in.c_str(), TMP_TEXT_X, TMP_TEXT_Y);
         }
         // Redraw();
     }
-    return "202";
+    return "-1";
 }
