@@ -31,7 +31,7 @@ void save_level();//claire
 void load_level(int k);//claire
 
 int thread_playing_online(void *_);
-void move(); // move snubby
+void move(bool T[4],Player& player); // move snubby based on T values
 int thread_update_position(void *_);
 void draw_wall();//claire
 void draw_enemys();//claire

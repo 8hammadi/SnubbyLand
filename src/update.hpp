@@ -71,37 +71,37 @@ void check_status_of_playing()
 }
 
 
-void move()
+void move(bool T[4],Player& player)
 {
     SDL_Delay(1 / sensitivity);
 
     if(T[0])
     {
-        if(check_it_free_area(level.player.x - SPEED, level.player.y) && is_player_inside_after(level.player.x - 12, level.player.y))
+        if(check_it_free_area(player.x - SPEED, player.y) && is_player_inside_after(player.x - 12, player.y))
         {
-            level.player.x -= SPEED;
+            player.x -= SPEED;
         }
 
     }
     if(T[1])
     {
-        if(check_it_free_area(level.player.x, level.player.y - SPEED ) && is_player_inside_after(level.player.x, level.player.y - 12))
+        if(check_it_free_area(player.x, player.y - SPEED ) && is_player_inside_after(player.x, player.y - 12))
         {
-            level.player.y -= SPEED;
+            player.y -= SPEED;
         }
     }
     if(T[2])
     {
-        if(check_it_free_area(level.player.x + SPEED, level.player.y) && is_player_inside_after(level.player.x + 12, level.player.y))
+        if(check_it_free_area(player.x + SPEED, player.y) && is_player_inside_after(player.x + 12, player.y))
         {
-            level.player.x += SPEED;
+            player.x += SPEED;
         }
     }
     if(T[3])
     {
-        if(check_it_free_area(level.player.x, level.player.y + SPEED) && is_player_inside_after(level.player.x, level.player.y + 12))
+        if(check_it_free_area(player.x, player.y + SPEED) && is_player_inside_after(player.x, player.y + 12))
         {
-            level.player.y += SPEED;
+            player.y += SPEED;
         }
     }
 }
