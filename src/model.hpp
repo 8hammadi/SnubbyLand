@@ -100,12 +100,13 @@ void load_level(int k)
             ar &ll;
             level = *ll;
             level.n_coins = level.coins.size();
+            again = 5;
         }
         catch(const std::exception &e)
         {
             SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
-                                 e.what(),
-                                 window);
+                                     e.what(),
+                                     window);
             free_memory();
         };
     }

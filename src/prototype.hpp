@@ -1,3 +1,4 @@
+inline void renderPause_win_lose(SDL_Renderer *render, bool win);
 void renderLevelCreator(SDL_Renderer *render, int step);
 int eventLevelCreator(int x, int y);
 
@@ -37,7 +38,7 @@ void draw_game();//claire
 void online_game();
 void save_n();
 void load_n();
-void local_win();
+void local_win(bool win);
 void coin_sound();
 void hit_sound();
 void load_n_open();//les niveau ouverts

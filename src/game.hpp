@@ -29,9 +29,6 @@
 #define WIN_LOSE_next_x WIN_LOSE_previous_x+WIN_LOSE_button_width+WIN_LOSE_button_margin
 
 
-inline void renderPause_win_lose(SDL_Renderer *render, bool win);
-
-
 void play()
 {
     cout << "the game began" << endl;
@@ -70,13 +67,13 @@ void play()
 
 }
 
-void local_win()
+void local_win(bool win)
 {
     cout << "You win  .." << endl;
     is_pause = 1;
     draw_game();
 
-    renderPause_win_lose(render, true);
+    renderPause_win_lose(render, win);
 
     show();
     while(is_pause)
@@ -127,23 +124,22 @@ void local_win()
                 if(!automatique)
                 {
                     l--;
-                    if(l == 0)l++;
+                    if(l == 0)l = N_LEVELS;
                     cout << "Level " << l << endl;
                     load_level(l);
                     is_playing = 1;
                     is_pause = 0;
-
+                    again = 5;
                     return;
                 }
                 cout << "Previous" << endl;
             }
             // Next button
-            if(1 == 1)
+
+            if(WIN_LOSE_next_x <= x && x <= WIN_LOSE_next_x + WIN_LOSE_button_width &&
+                    WIN_LOSE_prev_next_y <= y && y <= WIN_LOSE_prev_next_y + WIN_LOSE_button_height)
             {
-                // add condition if player wins
-                // TODO
-                if(WIN_LOSE_next_x <= x && x <= WIN_LOSE_next_x + WIN_LOSE_button_width &&
-                        WIN_LOSE_prev_next_y <= y && y <= WIN_LOSE_prev_next_y + WIN_LOSE_button_height)
+                if(win)
                 {
                     if(!automatique)
                     {
@@ -153,11 +149,11 @@ void local_win()
                         load_level(l);
                         is_playing = 1;
                         is_pause = 0;
-
+                    cout << "NEXT" << endl;
                         return ;
                     }
-                    cout << "NEXT" << endl;
                 }
+                else cout << "No NEXT" << endl;
             }
 
 

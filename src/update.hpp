@@ -30,7 +30,7 @@ void check_status_of_playing()
             if( level.n_coins == 0)
             {
                 if(!is_online_game)
-                    return local_win();
+                    return local_win(true);
                 else
                 {
                 }
@@ -51,7 +51,8 @@ void check_status_of_playing()
             {
                 cout << "loser" << endl;
                 //todo
-                free_memory();
+                local_win(false);
+                // free_memory();
             }
         };
         if(automatique)

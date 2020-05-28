@@ -71,7 +71,7 @@ int thread_playing_online(void *_)
                 text = "-" + to_string(ocoins);
                 //send to server that eat coin
                 ws.write(net::buffer(text));
-                
+
                 ocoins = -1;
             }
             else if(i_win)
@@ -91,14 +91,16 @@ int thread_playing_online(void *_)
 
             if(text == "disconnect")
             {
-
                 cout << "disconnect" << endl;
-                free_memory();
+                local_win(false);
+                // free_memory();
             }
             else if(text == "WIN")
             {
                 cout << "loser" << endl;
-                free_memory();
+                local_win(false);
+
+                // free_memory();
             }
             else if(text[0] == '-')
             {
