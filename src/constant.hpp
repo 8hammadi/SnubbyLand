@@ -5,7 +5,7 @@
 #define TOKEN_SIZE 10
 // #define SERVER_STREAM "localhost:8000"
 #define SERVER_STREAM "snubbyland.herokuapp.com"
-#define SPEED 5
+#define SPEED 1
 #define COEURS 5
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 668

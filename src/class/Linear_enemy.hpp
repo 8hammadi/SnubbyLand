@@ -23,7 +23,7 @@ public:
 
     void next_move()
     {
-        t += sens * 0.03;
+        t += sens * 0.01;
 
 
         if(t > 1 or t < 0)
