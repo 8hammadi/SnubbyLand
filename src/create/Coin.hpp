@@ -20,7 +20,7 @@ void add_coins()
             y = event.motion.y;
             if(eventLevelCreator( x,  y) == 0)
                 return;
-            level.coins.push_back(Coin(10 * (int)(x / 10), 10 * (int)(y / 10)));
+            level.coins.push_back(Coin(10 * (int)(x / 10)-cx, 10 * (int)(y / 10)-cy));
             // draw_game();
             renderLevelCreator(render, 2);
             rect = {0, 100 + 40 * 12, 1024, 100} ;
@@ -33,7 +33,6 @@ void add_coins()
             {
             case SDLK_LEFT:
                 level.coins.pop_back();
-                // draw_game();
                 renderLevelCreator(render, 2);
                 rect = {0, 100 + 40 * 12, 1024, 100} ;
                 SDL_RenderCopy(render, textureSlides[2], NULL, &rect);

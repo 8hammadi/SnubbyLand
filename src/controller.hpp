@@ -7,9 +7,6 @@ bool is_player_inside_after(int x, int y)
 {
     if(
         level.map[(int)((y - cy ) / size_squar)][(int)((x - cx ) / size_squar)] == -1
-        // level.map[(int)((y - cy + level.player.w / 2) / size_squar)][(int)((x - cx + level.player.w / 2 ) / size_squar)] == -1
-        // level.map[(int)(((y - cy - 10) / size_squar))][(int)(((x - cx + 10 ) / size_squar))] == -1
-        // level.map[(int)((y - cy + level.player.w / 2) / size_squar)][(int)((x - cx - level.player.w / 2 ) / size_squar)] == -1
 
     )
     {
