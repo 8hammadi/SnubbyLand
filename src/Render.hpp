@@ -58,7 +58,7 @@ int threadRender(void *_)
 			// SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
 			renderLevelCreator(render, stepp);
 			SDL_RenderPresent(render);
-			cout << "LEVEL_CREATOR: " << interface << endl;
+			cout << stepp << " LEVEL_CREATOR: " << interface << endl;
 			interface = NOTHING;
 			SDL_Delay(TIME);
 			break;

@@ -99,8 +99,8 @@ void renderLevelCreator(SDL_Renderer *render, int stepp)
     else
         draw_game();
 
-    static SDL_Texture *plan;
-    static SDL_Texture *guide ;
+    SDL_Texture *plan ;
+    SDL_Texture *guide ;
     switch(stepp)
     {
     case 0:

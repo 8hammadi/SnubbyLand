@@ -8,14 +8,15 @@ void get_wall()
     while(continuer)
     {
         SDL_WaitEvent(&event);
+        if(!&event)
+            continue;
         xx = x;
         yy = y;
         x = event.motion.x;
         y = event.motion.y;
-        if(x != xx and y != yy and x >= cx and y >= cy and x < cx + 20 * size_squar and y < cy + 20 * size_squar and on)
+        if( on and x != xx and y != yy and x >= cx and y >= cy and x < cx + 20 * size_squar and y < cy + 20 * size_squar)
         {
             level.map[(int)((y - cx) / size_squar)][(int)((x - cy) / size_squar)] = -1;
-
             interface = LEVEL_CREATOR;
         }
         switch (event.type)
@@ -41,9 +42,10 @@ void get_wall()
 
                 interface = LEVEL_CREATOR;
 
-                SDL_Delay(5);
                 break;
             }
+            break;
         }
+        // SDL_Delay(16);
     }
 }

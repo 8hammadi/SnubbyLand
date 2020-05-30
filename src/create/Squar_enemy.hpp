@@ -14,9 +14,9 @@ void add_squar_enemy()
             free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
-            x = event.motion.x - cx;
-            y = event.motion.y - cy;
-            if(eventLevelCreator( x,  y) == 0)
+            x = event.motion.x ;
+            y = event.motion.y ;
+            if(eventLevelCreator( x ,  y ) == 0)
                 return;
             renderLevelCreator(render, 6);
             rect = {-level.player.w / 2  + x, -level.player.h / 2 + y, level.player.w, level.player.h};
