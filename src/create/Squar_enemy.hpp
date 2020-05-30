@@ -1,6 +1,6 @@
 void add_squar_enemy()
 {
-    // draw_game();
+    draw_game();
     renderLevelCreator(render, 6);
     SDL_RenderPresent(render);
     SDL_Delay(5);
@@ -14,8 +14,8 @@ void add_squar_enemy()
             free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
-            x = event.motion.x-cx;
-            y = event.motion.y-cy;
+            x = event.motion.x - cx;
+            y = event.motion.y - cy;
             if(eventLevelCreator( x,  y) == 0)
                 return;
             renderLevelCreator(render, 6);

@@ -1,13 +1,15 @@
 void add_linear_enemy()
 {
     // draw_game();
-    renderLevelCreator(render, 5);
-    texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
-    rect = {0, 100 + 40 * 12, 1024, 100} ;
-    SDL_RenderCopy(render, texture, NULL, &rect);
+    // renderLevelCreator(render, 5);
+    // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
+    // rect = {0, 100 + 40 * 12, 1024, 100} ;
+    // SDL_RenderCopy(render, texture, NULL, &rect);
 
-    SDL_RenderPresent(render);
-    SDL_Delay(5);
+    // SDL_RenderPresent(render);
+    // SDL_Delay(5);
+                interface = LEVEL_CREATOR;
+
     continuer = 1;
     while(continuer)
     {
@@ -23,9 +25,9 @@ void add_linear_enemy()
             if(eventLevelCreator( x,  y) == 0)
                 return;
             renderLevelCreator(render, 5);
-            texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
-            rect = {0, 100 + 40 * 12, 1024, 100} ;
-            SDL_RenderCopy(render, texture, NULL, &rect);
+            // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
+            // rect = {0, 100 + 40 * 12, 1024, 100} ;
+            // SDL_RenderCopy(render, texture, NULL, &rect);
             rect = {-level.player.w / 2  + x, -level.player.h / 2 + y, level.player.w, level.player.h};
             SDL_SetRenderDrawColor(render, 255, 0, 0, 255);
             SDL_RenderFillRect(render, &rect );

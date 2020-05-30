@@ -1,12 +1,14 @@
 void get_green_area()
 {
-    draw_wall();
+    // draw_wall();
     int g = 0;
-    rect = {0, 100 + 40 * 12, 1024, 100} ;
-    SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
-    renderLevelCreator(render, 1);
-    SDL_RenderPresent(render);
-    SDL_Delay(5);
+    // rect = {0, 100 + 40 * 12, 1024, 100} ;
+    // SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
+    // renderLevelCreator(render, 1);
+    // SDL_RenderPresent(render);
+    // SDL_Delay(5);
+                interface = LEVEL_CREATOR;
+
     on = 0;
     continuer = 1;
     while(continuer)
@@ -20,13 +22,14 @@ void get_green_area()
         {
             level.map[(int)((y - cx) / size_squar)][(int)((x - cx) / size_squar)] = g;
             // draw_wall();
-            rect = {0, 100 + 40 * 12, 1024, 100} ;
-            SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
-            renderLevelCreator(render, 1);
+            // rect = {0, 100 + 40 * 12, 1024, 100} ;
+            // SDL_RenderCopy(render, textureSlides[4], NULL, &rect);
+            // renderLevelCreator(render, 1);
 
-            SDL_RenderPresent(render);
-            SDL_Delay(5);
-        }
+            // SDL_RenderPresent(render);
+            // SDL_Delay(5);
+                    interface = LEVEL_CREATOR;
+}
         switch (event.type)
         {
         case SDL_QUIT:

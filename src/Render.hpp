@@ -54,7 +54,13 @@ int threadRender(void *_)
 			break;
 
 		case LEVEL_CREATOR:
-
+			// rect = {0, 100 + 40 * 12, 1024, 100} ;
+			// SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
+			renderLevelCreator(render, stepp);
+			SDL_RenderPresent(render);
+			cout << "LEVEL_CREATOR: " << interface << endl;
+			interface = NOTHING;
+			SDL_Delay(TIME);
 			break;
 
 		}

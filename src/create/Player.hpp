@@ -1,9 +1,11 @@
 void get_position_player()
 {
-    rect = {0, 100 + 40 * 12, 1024, 100} ;
-    SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
-    renderLevelCreator(render, 7);
-    SDL_RenderPresent(render);
+    // rect = {0, 100 + 40 * 12, 1024, 100} ;
+    // SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
+    // renderLevelCreator(render, 7);
+    // SDL_RenderPresent(render);
+                interface = LEVEL_CREATOR;
+
     continuer = 1;
     while(continuer)
     { 
@@ -21,11 +23,13 @@ void get_position_player()
             if(eventLevelCreator( x,  y) == 0)
                 return;
             // draw_game();
-            renderLevelCreator(render, 7);
-            rect = {0, 100 + 40 * 12, 1024, 100} ;
-            SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
-            SDL_RenderPresent(render);
-            SDL_Delay(40);
+            // renderLevelCreator(render, 7);
+            // rect = {0, 100 + 40 * 12, 1024, 100} ;
+            // SDL_RenderCopy(render, textureSlides[3], NULL, &rect);
+            // SDL_RenderPresent(render);
+            // SDL_Delay(40);
+                        interface = LEVEL_CREATOR;
+
             break;
         }
     }

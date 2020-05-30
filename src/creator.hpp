@@ -22,6 +22,8 @@
 #define CREATOR_next_x (WINDOW_WIDTH+CREATOR_guide_width+CREATOR_guide_x-CREATOR_next_width)/2
 #define CREATOR_next_y CREATOR_previous_y
 
+int stepp;
+
 void create_level()
 {
     N_LEVELS++;
@@ -33,42 +35,50 @@ LEVEL0:
     SDL_RenderPresent(render);
     SDL_Delay(5);
 WALL:
+    stepp = 0;
     go_back = 0;
     cout << "wall ..." << endl;
     get_wall();
     if(go_back)goto LEVEL0;
 
 GREEN:
+    stepp = 1;
     go_back = 0;
     cout << "grean zone ..." << endl;
     get_green_area();
     if(go_back)goto WALL;
 COIN:
+    stepp = 2;
     go_back = 0;
     cout << "coins ..." << endl;
     add_coins();
     if(go_back)goto GREEN;
 SPIRAL:
+    stepp = 3;
     go_back = 0;
     cout << "apirals ..." << endl;
     add_spiral_dot();
     if(go_back)goto COIN;
 BIG_SPIRAL:
+    stepp = 4;
     go_back = 0;
     cout << "adding big spiral ..." << endl;
     add_big_spiral_dot();
     if(go_back)goto SPIRAL;
 LINEAR:
+    stepp = 5;
     go_back = 0;
     cout << "linear enemy ..." << endl;
     add_linear_enemy();
     if(go_back)goto BIG_SPIRAL;
 SQUAR:
+    stepp = 6;
     go_back = 0;
     cout << "squar enemy ..." << endl;
     add_squar_enemy();
     if(go_back)goto LINEAR;
 POSITION:
+    stepp = 7;
     go_back = 0;
     cout << "initial position ..." << endl;
     get_position_player();
@@ -82,16 +92,16 @@ POSITION:
 
 }
 
-void renderLevelCreator(SDL_Renderer *render, int step)
+void renderLevelCreator(SDL_Renderer *render, int stepp)
 {
-    if(step <= 1)
+    if(stepp <= 1)
         draw_wall();
     else
         draw_game();
 
-    static SDL_Texture *plan; 
+    static SDL_Texture *plan;
     static SDL_Texture *guide ;
-    switch(step)
+    switch(stepp)
     {
     case 0:
         plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));;

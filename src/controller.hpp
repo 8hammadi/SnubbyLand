@@ -26,6 +26,11 @@ int control_event(void *_)
 {
     while(1)
     {
+        if(!is_playing)
+        {
+            SDL_Delay(200);
+            continue;
+        }
         while(SDL_WaitEvent(&event_control))
         {
             if(event_control.type == SDL_QUIT)free_memory();
@@ -42,37 +47,34 @@ int control_event(void *_)
                     T[3] = event_control.type == SDL_KEYDOWN;
             }
 
-            if(is_playing)
+            switch (event_control.type)
             {
-                switch (event_control.type)
+            case SDL_MOUSEBUTTONDOWN:
+                x = event_control.motion.x;
+                y = event_control.motion.y;
+                if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
+                        && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
                 {
-                case SDL_MOUSEBUTTONDOWN:
-                    x = event_control.motion.x;
-                    y = event_control.motion.y;
-                    if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
-                            && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
-                    {
-                        pause_game();
-                    }
-                    break;
-                case SDL_KEYDOWN:
-                    switch (event_control.key.keysym.sym)
-                    {
-                    case SDLK_n:
-                        break;
-                    case SDLK_KP_PLUS:
-                        sensitivity += 0.03;
-                        cout << sensitivity << endl;
-                        break;
-                    case SDLK_KP_MINUS:
-                        sensitivity -= 0.03;
-                        cout << sensitivity << endl;
-                        break;
-                    }
+                    pause_game();
                 }
-                if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
+                break;
+            case SDL_KEYDOWN:
+                switch (event_control.key.keysym.sym)
+                {
+                case SDLK_n:
+                    break;
+                case SDLK_KP_PLUS:
+                    sensitivity += 0.03;
+                    cout << sensitivity << endl;
+                    break;
+                case SDLK_KP_MINUS:
+                    sensitivity -= 0.03;
+                    cout << sensitivity << endl;
+                    break;
+                }
             }
-            else SDL_Delay(200);
+            if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
+
         }
     }
 }
