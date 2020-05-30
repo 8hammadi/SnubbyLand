@@ -36,7 +36,7 @@ public:
 
     void next_move()
     {
-        ongle += PI / 100;
+        ongle += PI / 140;
         enemys.clear();
         for(int i = 0; i < 4; i++)
         {

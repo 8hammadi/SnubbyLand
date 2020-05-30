@@ -26,88 +26,56 @@ int control_event(void *_)
 {
     while(1)
     {
+        if(!is_playing)
+        {
+            SDL_Delay(200);
+            continue;
+        }
         while(SDL_WaitEvent(&event_control))
         {
+            cout<<"eveeent"<<endl;
             if(event_control.type == SDL_QUIT)free_memory();
 
-            if(event_control.type == SDL_KEYDOWN)
+            if(event_control.type == SDL_KEYDOWN || event_control.type == SDL_KEYUP)
             {
                 if( event_control.key.keysym.sym == SDLK_LEFT )
-                {
-                    T[0] = 1;
-                }
+                    T[0] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_UP )
-                {
-                    T[1] = 1;
-                }
+                    T[1] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_RIGHT )
-                {
-                    T[2] = 1;
-                }
+                    T[2] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_DOWN )
-                {
-                    T[3] = 1;
-                }
+                    T[3] = event_control.type == SDL_KEYDOWN;
             }
 
-            if(event_control.type == SDL_KEYUP)
+            switch (event_control.type)
             {
-                if( event_control.key.keysym.sym == SDLK_LEFT )
+            case SDL_MOUSEBUTTONDOWN:
+                x = event_control.motion.x;
+                y = event_control.motion.y;
+                if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
+                        && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
                 {
-                    T[0] = 0;
+                    pause_game();
                 }
-                if( event_control.key.keysym.sym == SDLK_UP )
+                break;
+            case SDL_KEYDOWN:
+                switch (event_control.key.keysym.sym)
                 {
-                    T[1] = 0;
-                }
-                if( event_control.key.keysym.sym == SDLK_RIGHT )
-                {
-                    T[2] = 0;
-                }
-                if( event_control.key.keysym.sym == SDLK_DOWN )
-                {
-                    T[3] = 0;
-                }
-            }
-            if(is_playing)
-            {
-                switch (event_control.type)
-                {
-                case SDL_MOUSEBUTTONDOWN:
-                    x = event_control.motion.x;
-                    y = event_control.motion.y;
-                    if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
-                            && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
-                    {
-
-                        pause_game();
-
-                    }
-                    // if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
-                    // {
-                    //     is_pause = 1;
-                    //     level.next_generation();
-                    //     is_pause = 0;
-                    // }
+                case SDLK_n:
                     break;
-                case SDL_KEYDOWN:
-                    switch (event_control.key.keysym.sym)
-                    {
-                    case SDLK_n:
-                        break;
-                    case SDLK_KP_PLUS:
-                        sensitivity += 0.03;
-                        cout << sensitivity << endl;
-                        break;
-                    case SDLK_KP_MINUS:
-                        sensitivity -= 0.03;
-                        cout << sensitivity << endl;
-                        break;
-                    }
+                case SDLK_KP_PLUS:
+                    sensitivity += 0.03;
+                    cout << sensitivity << endl;
+                    break;
+                case SDLK_KP_MINUS:
+                    sensitivity -= 0.03;
+                    cout << sensitivity << endl;
+                    break;
                 }
-                if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
             }
-            else SDL_Delay(200);
+            if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
+
         }
     }
 }

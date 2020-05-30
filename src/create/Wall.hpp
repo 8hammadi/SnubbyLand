@@ -1,28 +1,23 @@
 //pour creer le tableau de map
 void get_wall()
 {
-    rect = {0, 100 + 40 * 12, 1024, 100} ;
-    SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
-    renderLevelCreator(render, 0);
-    SDL_RenderPresent(render);
+    interface = LEVEL_CREATOR;
+
     on = 0;
     continuer = 1;
     while(continuer)
     {
         SDL_WaitEvent(&event);
+        if(!&event)
+            continue;
         xx = x;
         yy = y;
         x = event.motion.x;
         y = event.motion.y;
-        if(x != xx and y != yy and x >= cx and y >= cy and x < cx + 20 * size_squar and y < cy + 20 * size_squar and on)
+        if( on and x != xx and y != yy and x >= cx and y >= cy and x < cx + 20 * size_squar and y < cy + 20 * size_squar)
         {
             level.map[(int)((y - cx) / size_squar)][(int)((x - cy) / size_squar)] = -1;
-            // draw_wall();
-            rect = {0, 100 + 40 * 12, 1024, 100} ;
-            SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
-            renderLevelCreator(render, 0);
-            SDL_RenderPresent(render);
-            SDL_Delay(5);
+            interface = LEVEL_CREATOR;
         }
         switch (event.type)
         {
@@ -44,13 +39,13 @@ void get_wall()
                 break;
             case SDLK_g:
                 level.random_map();
-                rect = {0, 100 + 40 * 12, 1024, 100} ;
-                SDL_RenderCopy(render, textureSlides[1], NULL, &rect);
-                renderLevelCreator(render, 0);
-                SDL_RenderPresent(render);
-                SDL_Delay(5);
+
+                interface = LEVEL_CREATOR;
+
                 break;
             }
+            break;
         }
+        // SDL_Delay(16);
     }
 }

@@ -18,14 +18,13 @@
 
 inline void renderPause(SDL_Renderer *render);
 
-void  pause_game()
+void pause_game()
 {
-    cout << "PAUSE" << endl;
+    cout << "START PAUSE" << endl;
     is_pause = 1;
-    SDL_Delay(20);
-    draw_game();
-    renderPause(render);
-    show();
+
+    interface = PAUSE;
+    cout << interface << endl;
     while(is_pause)
     {
         SDL_WaitEvent(&event);
@@ -77,7 +76,7 @@ void  pause_game()
                 return index();
             }
 
-            //drawing
+            // drawing
             draw_game();
             rect = {312, 100, 400, 540} ;
             if(automatique)
@@ -104,7 +103,6 @@ void  pause_game()
                 break;
             }
         }
-        SDL_Delay(10);
     }
 }
 
