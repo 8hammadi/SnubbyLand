@@ -62,6 +62,7 @@ int thread_playing_online(void *_)
         cout << text << endl;
         while(1)
         {
+            cout << "onliiiiine" << endl;
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
 

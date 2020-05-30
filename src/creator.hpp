@@ -94,60 +94,72 @@ POSITION:
 
 void renderLevelCreator(SDL_Renderer *render, int stepp)
 {
+    static int last = -1;
+
     if(stepp <= 1)
         draw_wall();
     else
         draw_game();
 
-    SDL_Texture *plan ;
-    SDL_Texture *guide ;
-    switch(stepp)
+    static SDL_Texture *prev = IMG_LoadTexture(render,  "../images/previous.png");
+    static SDL_Texture *next = IMG_LoadTexture(render,  "../images/next.png");
+    rect = {CREATOR_previous_x, CREATOR_previous_y, CREATOR_previous_width, CREATOR_previous_height};
+    SDL_RenderCopy(render, prev, NULL, &rect);
+    rect = {CREATOR_next_x, CREATOR_next_y, CREATOR_next_width, CREATOR_next_height};
+    SDL_RenderCopy(render, next, NULL, &rect);
+
+    static SDL_Texture *plan = IMG_LoadTexture(render,  "../images/creator/drawzone.png");
+    static SDL_Texture *guide  = IMG_LoadTexture(render,  "../images/creator/wall.png");
+    if(last != stepp)
     {
-    case 0:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/drawzone.png"));;
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/wall.png"));
-        break;
-    case 1:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/safezone.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/greenarea.png"));
-        break;
-    case 2:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/coins.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/coin.png"));
-        break;
-    case 3:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/spiral.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidespiral.png"));
-        break;
-    case 4:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/bigspiral.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidebigspiral.png"));
-        break;
-    case 5:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/linear.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidelinear.png"));
-        break;
-    case 6:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/polygon.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidepolygon.png"));
-        break;
-    case 7:
-        plan = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/snubbyposition.png"));
-        guide = SDL_CreateTextureFromSurface(render, IMG_Load("../images/creator/guidesnubbyposition.png"));
-        break;
+
+        SDL_DestroyTexture(plan);
+        SDL_DestroyTexture(guide);
+        switch(stepp)
+        {
+        case 0:
+            plan = IMG_LoadTexture(render,  "../images/creator/drawzone.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/wall.png");
+            break;
+        case 1:
+            plan = IMG_LoadTexture(render,  "../images/creator/safezone.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/greenarea.png");
+            break;
+        case 2:
+            plan = IMG_LoadTexture(render,  "../images/creator/coins.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/coin.png");
+            break;
+        case 3:
+            plan = IMG_LoadTexture(render,  "../images/creator/spiral.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/guidespiral.png");
+            break;
+        case 4:
+            plan = IMG_LoadTexture(render,  "../images/creator/bigspiral.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/guidebigspiral.png");
+            break;
+        case 5:
+            plan = IMG_LoadTexture(render,  "../images/creator/linear.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/guidelinear.png");
+            break;
+        case 6:
+            plan = IMG_LoadTexture(render,  "../images/creator/polygon.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/guidepolygon.png");
+            break;
+        case 7:
+            plan = IMG_LoadTexture(render,  "../images/creator/snubbyposition.png");
+            guide = IMG_LoadTexture(render,  "../images/creator/guidesnubbyposition.png");
+            break;
+        }
+        last = stepp;
     }
     rect = {CREATOR_plan_x, CREATOR_plan_y, CREATOR_plan_width, CREATOR_plan_height};
     SDL_RenderCopy(render, plan, NULL, &rect);
     rect = {CREATOR_guide_x, CREATOR_guide_y, CREATOR_guide_width, CREATOR_guide_height};
     SDL_RenderCopy(render, guide, NULL, &rect);
 
-    static SDL_Texture *prev = SDL_CreateTextureFromSurface(render, IMG_Load("../images/previous.png"));
-    static SDL_Texture *next = SDL_CreateTextureFromSurface(render, IMG_Load("../images/next.png"));
-    rect = {CREATOR_previous_x, CREATOR_previous_y, CREATOR_previous_width, CREATOR_previous_height};
-    SDL_RenderCopy(render, prev, NULL, &rect);
-    rect = {CREATOR_next_x, CREATOR_next_y, CREATOR_next_width, CREATOR_next_height};
-    SDL_RenderCopy(render, next, NULL, &rect);
 
+    // SDL_DestroyTexture(prev);
+    // SDL_DestroyTexture(next);
 }
 
 int eventLevelCreator(int x, int y)

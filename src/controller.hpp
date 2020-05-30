@@ -33,6 +33,7 @@ int control_event(void *_)
         }
         while(SDL_WaitEvent(&event_control))
         {
+            cout<<"eveeent"<<endl;
             if(event_control.type == SDL_QUIT)free_memory();
 
             if(event_control.type == SDL_KEYDOWN || event_control.type == SDL_KEYUP)

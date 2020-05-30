@@ -62,7 +62,9 @@ int threadRender(void *_)
 			interface = NOTHING;
 			SDL_Delay(TIME);
 			break;
-
+		default :
+			SDL_Delay(TIME);
+			break;
 		}
 	}
 }
