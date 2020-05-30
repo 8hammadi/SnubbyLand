@@ -190,7 +190,7 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 	}
 	for(; i < obs + 4; i++)
 	{
-		a = force(10, s.sim.q1, s.sim.q3, r[i]);
+		a = force(0, s.sim.q1, s.sim.q3, r[i]);
 		b.first += a.first;
 		b.second += a.second;
 	}

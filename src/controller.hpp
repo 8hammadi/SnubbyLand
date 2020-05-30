@@ -30,45 +30,18 @@ int control_event(void *_)
         {
             if(event_control.type == SDL_QUIT)free_memory();
 
-            if(event_control.type == SDL_KEYDOWN)
+            if(event_control.type == SDL_KEYDOWN || event_control.type == SDL_KEYUP)
             {
                 if( event_control.key.keysym.sym == SDLK_LEFT )
-                {
-                    T[0] = 1;
-                }
+                    T[0] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_UP )
-                {
-                    T[1] = 1;
-                }
+                    T[1] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_RIGHT )
-                {
-                    T[2] = 1;
-                }
+                    T[2] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_DOWN )
-                {
-                    T[3] = 1;
-                }
+                    T[3] = event_control.type == SDL_KEYDOWN;
             }
 
-            if(event_control.type == SDL_KEYUP)
-            {
-                if( event_control.key.keysym.sym == SDLK_LEFT )
-                {
-                    T[0] = 0;
-                }
-                if( event_control.key.keysym.sym == SDLK_UP )
-                {
-                    T[1] = 0;
-                }
-                if( event_control.key.keysym.sym == SDLK_RIGHT )
-                {
-                    T[2] = 0;
-                }
-                if( event_control.key.keysym.sym == SDLK_DOWN )
-                {
-                    T[3] = 0;
-                }
-            }
             if(is_playing)
             {
                 switch (event_control.type)
@@ -79,16 +52,8 @@ int control_event(void *_)
                     if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
                             && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
                     {
-
                         pause_game();
-
                     }
-                    // if(x > 1024 - 400 and x <= 1024 and y > 0 and y <= 100 and automatique)
-                    // {
-                    //     is_pause = 1;
-                    //     level.next_generation();
-                    //     is_pause = 0;
-                    // }
                     break;
                 case SDL_KEYDOWN:
                     switch (event_control.key.keysym.sym)

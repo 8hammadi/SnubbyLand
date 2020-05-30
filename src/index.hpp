@@ -35,20 +35,21 @@ void index()
     cout << "Hello " << id << endl;
     coin_sound();
 
-    renderHome(render);
-    SDL_RenderPresent(render);
+    interface = INDEX;
 
     continuer = 1;
-    while(SDL_WaitEvent(&event))
+    while(1)
     {
+        SDL_WaitEvent(&event);
+        if(!&event)
+            continue;
         switch (event.type)
         {
         case SDL_MOUSEBUTTONDOWN:
-        {
+            coin_sound();
             x = event.motion.x;
             y = event.motion.y;
-            static int i = 0;
-            cout << i++ << endl;
+
             //ONE PLAYER OFFLIN
             if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_normal_y <= y && y <= HOME_normal_y + HOME_button_height)
@@ -62,7 +63,7 @@ void index()
             {
                 return online_game();
             }
-            //GENETIC ALGORITHM (n'est pas encore terminé)
+            //Automatic
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_automatic_y <= y && y <= HOME_automatic_y + HOME_button_height)
             {
@@ -96,8 +97,7 @@ void index()
                 cout << "le niveau créé avec succès" << endl;
                 return play();
             }
-        }
-        break ;
+            break ;
         case SDL_QUIT:
             return free_memory();
             break;
@@ -134,66 +134,3 @@ inline void renderHome(SDL_Renderer *render)
     rect = {HOME_createLevel_x, HOME_createLevel_y, HOME_createLevel_width, HOME_createLevel_height};
     SDL_RenderCopy(render, HOME_createLevel, NULL, &rect);
 }
-
-/* void index()
-{
-    cout << "Hello " << id << endl;
-    // SDL_RenderCopy(render, textureSlides[0], NULL, NULL);
-    // SDL_RenderPresent(render);
-    continuer = 1;
-    while(continuer)
-    {
-        SDL_WaitEvent(&event);
-        switch (event.type)
-        {
-        case SDL_MOUSEBUTTONDOWN:
-            coin_sound();
-            x = event.motion.x;
-            y = event.motion.y;
-            //ONE PLAYER OFFLIN
-            if(x >= 156 and x <= 156 + 700 and y >= 210 and y <= 210 + 100)
-            {
-                y = 0;
-                mode="1OFF";
-                l = get_level();
-                play();
-            }
-            //TWO PLAYER thread_playing_online
-            if(x >= 156 and x <= 156 + 700 and y >= 320 and y <= 420)
-            {
-                mode="2ON";
-                online_game();
-            }
-            //GENETIC ALGORITHM (n'est pas encore terminé)
-            if(x >= 156 and x <= 156 + 700 and y >= 430 and y <= 430 + 100)
-            {
-                mode="GA";
-                y = 0;
-                l = get_level();
-                level.get_enemys();
-                level.player.update_input(level);
-                update();
-                automatique = 1;
-                //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
-                level.A = make_pair(level.player.x, level.player.y);
-                level.B = make_pair(level.coins[0].x, level.coins[0].y);
-
-                level.init_population(NEURAL_NETWORK);
-
-                play();
-            }
-            //CREATE NEW LEVEL
-            if(x >= 156 and x <= 156 + 700 and y >= 540 and y <= 540 + 100)
-            {
-                mode="NEW";
-                create_level();
-                cout << "le niveau créé avec succès" << endl;
-                play();
-            }
-            break ;
-        case SDL_QUIT:
-            free_memory();
-            break;
-        }
-    }
-}*/

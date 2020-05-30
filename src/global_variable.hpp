@@ -1,3 +1,10 @@
+
+enum Interface
+{
+	NOTHING, INDEX, GET_LEVEL, GAME, LOCAL_WIN, PAUSE,LEVEL_CREATOR
+};
+
+Interface interface;
 class Level;
 SDL_Window *window;
 SDL_Renderer *render;
@@ -15,7 +22,8 @@ int N_LEVELS = 0 ,N_OPEN_LEVEL;
 double sensitivity = 0.2;
 string text;
 string mode;// "2ON" :2 players online "1OFF" : 1 player ofline
-bool  T[4] = {0, 0, 0, 0};
+bool  T[4] = {0, 0, 0, 0};	// for player 1
+bool  T2[4] = {0, 0, 0, 0}; // for player 2
 //les variable de son
 SDL_AudioSpec wav_spec[2];
 Uint32 wav_length[2];

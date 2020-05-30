@@ -41,31 +41,29 @@ void play()
             SDL_Delay(200);
             continue;
         }
+
+        interface = GAME;
+
         update();
 
-        directSnubby(T, level.player);
+        // directSnubby(T, level.player);
         move(T, level.player);
 
         check_status_of_playing();
 
-        draw_game();
-        rect = {0, 100 + 40 * 12, 1024, 100} ;
-        SDL_RenderCopy(render, textureSlides[6], NULL, &rect);
-        show();
-        SDL_Delay(20);
+        SDL_Delay(16);
     }
 
 }
+bool win;
 
-void local_win(bool win)
+void local_win(bool wi)
 {
     cout << "You win  .." << endl;
     is_pause = 1;
-    draw_game();
+    win = wi;
+    interface = LOCAL_WIN;
 
-    renderPause_win_lose(render, win);
-
-    show();
     while(is_pause)
     {
         SDL_WaitEvent(&event);

@@ -66,6 +66,7 @@ Level  level,*ll ;
 #include "creator.hpp"
 #include "pause.hpp"
 #include "game.hpp"
+#include "Render.hpp"
 
 
 int main(int argc, char const *argv[])
@@ -73,7 +74,8 @@ int main(int argc, char const *argv[])
     init();    
     SDL_CreateThread( control_event, "", (void *)NULL);
     SDL_CreateThread( thread_playing_online, "", (void *)NULL);
-    SDL_CreateThread( thread_update_position, "", (void *)NULL);
+    // SDL_CreateThread( thread_update_position, "", (void *)NULL);
+    SDL_CreateThread( threadRender, "", (void *)NULL);
     index();
 
 

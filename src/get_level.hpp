@@ -6,7 +6,8 @@
 int get_level()
 {
     y = 0;
-    draw_levels();
+    interface = GET_LEVEL;
+
     while(1)
     {
         SDL_WaitEvent(&event);
@@ -102,7 +103,7 @@ int get_level()
                     y += 10;
                 }
             };
-            draw_levels();
+            interface = GET_LEVEL;
             break;
         case SDL_QUIT:
             free_memory();

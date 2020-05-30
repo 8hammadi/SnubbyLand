@@ -10,6 +10,8 @@ private:
         ar &map;
         ar &coins;
         ar &player;
+        player2.x = player.x;
+        player2.y = player.y;
         ar &linear_enemys;
         ar &stable_enemys;
         ar &spiral_dots;
@@ -23,6 +25,7 @@ public:
     };
     vector<Coin> coins;
     Player player = Player(500, 500);
+    Player player2 = Player(500, 500);
     vector<Player> Snubbys;
     int w_enemy = 20;
     pair<int, int> last_touch_on_green_area = make_pair(500, 500);
@@ -233,7 +236,7 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
     vector<pair<int, int>> env;
     for(auto &ob : get_enemys())
         env.push_back(getVector(s.x, s.y, make_pair(ob.first, ob.second)));
-    for(auto &p:wallDirections(s.x,s.y))
+    for(auto &p : wallDirections(s.x, s.y))
         env.push_back(p);
     for(auto &c : coins)
         if(!c.is_taked)

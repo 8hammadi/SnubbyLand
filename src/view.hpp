@@ -88,7 +88,6 @@ void draw_game()
     {
         rect = {1024 - 400, 0, 400, 100};
         SDL_RenderCopy(render, textureSlides[11], NULL, &rect);
-
     }
 
     // Pause Button:
@@ -101,7 +100,6 @@ void draw_game()
 void show()
 {
     SDL_RenderPresent(render);
-    SDL_Delay(30);
 }
 
 
@@ -143,5 +141,4 @@ void draw_levels()
     SDL_RenderCopy(render, LEVEL_download, NULL, &rect);
 
     SDL_RenderPresent(render);
-    SDL_Delay(4);
 }
