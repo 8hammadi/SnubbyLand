@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
+/home/run/Desktop/SnubbyLand/src/Automatic.hpp
+
 /home/run/Desktop/SnubbyLand/src/Server_level.hpp
 
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
-
-/home/run/Desktop/SnubbyLand/src/Simulation.hpp
 
 /home/run/Desktop/SnubbyLand/src/class/Big_spiral_dot.hpp
 
@@ -27,8 +27,6 @@
 /home/run/Desktop/SnubbyLand/src/class/brain.hpp
 
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
-../Simulation.hpp
-/home/run/Desktop/SnubbyLand/src/Simulation.hpp
 
 /home/run/Desktop/SnubbyLand/src/constant.hpp
 
@@ -113,8 +111,6 @@ global_variable.hpp
 /home/run/Desktop/SnubbyLand/src/global_variable.hpp
 util.hpp
 /home/run/Desktop/SnubbyLand/src/util.hpp
-prototype.hpp
-/home/run/Desktop/SnubbyLand/src/prototype.hpp
 class/brain.hpp
 /home/run/Desktop/SnubbyLand/src/class/brain.hpp
 class/Player.hpp
@@ -129,8 +125,12 @@ class/Big_spiral_dot.hpp
 /home/run/Desktop/SnubbyLand/src/class/Big_spiral_dot.hpp
 class/Coin.hpp
 /home/run/Desktop/SnubbyLand/src/class/Coin.hpp
+prototype.hpp
+/home/run/Desktop/SnubbyLand/src/prototype.hpp
 class/level.hpp
 /home/run/Desktop/SnubbyLand/src/class/level.hpp
+Automatic.hpp
+/home/run/Desktop/SnubbyLand/src/Automatic.hpp
 init.hpp
 /home/run/Desktop/SnubbyLand/src/init.hpp
 index.hpp
