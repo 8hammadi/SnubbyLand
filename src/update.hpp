@@ -94,11 +94,11 @@ void check_status_of_playing()
 }
 
 
-void move(bool T[4], Player &player)
+void move(bool Tt[4], Player &player)
 {
     SDL_Delay(1 / sensitivity);
-
-    if(T[0])
+    cout<<Tt[0]<<Tt[1]<<Tt[2]<<Tt[3]<<endl;
+    if(Tt[0])
     {
         if(check_it_free_area(player.x - SPEED, player.y) && is_player_inside_after(player.x - 12, player.y))
         {
@@ -106,21 +106,21 @@ void move(bool T[4], Player &player)
         }
 
     }
-    if(T[1])
+    if(Tt[1])
     {
         if(check_it_free_area(player.x, player.y - SPEED ) && is_player_inside_after(player.x, player.y - 12))
         {
             player.y -= SPEED;
         }
     }
-    if(T[2])
+    if(Tt[2])
     {
         if(check_it_free_area(player.x + SPEED, player.y) && is_player_inside_after(player.x + 12, player.y))
         {
             player.x += SPEED;
         }
     }
-    if(T[3])
+    if(Tt[3])
     {
         if(check_it_free_area(player.x, player.y + SPEED) && is_player_inside_after(player.x, player.y + 12))
         {

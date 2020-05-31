@@ -47,10 +47,10 @@ void play()
         update();
 
         move(T, level.player);
+        move(TT, level.player2);
 
         if(automatique)
             directSnubby(TT, level.player2);
-        move(TT, level.player2);
 
         check_status_of_playing();
         check_status_of_playing2();

@@ -38,6 +38,17 @@ int control_event(void *_)
 
             if(event_control.type == SDL_KEYDOWN || event_control.type == SDL_KEYUP)
             {
+                cout << event_control.key.keysym.sym << endl;
+                if( event_control.key.keysym.sym == SDLK_KP_4 )
+                    TT[0] = event_control.type == SDL_KEYDOWN;
+                if( event_control.key.keysym.sym == SDLK_KP_8 )
+                    TT[1] = event_control.type == SDL_KEYDOWN;
+                if( event_control.key.keysym.sym == SDLK_KP_6 )
+                    TT[2] = event_control.type == SDL_KEYDOWN;
+                if( event_control.key.keysym.sym == SDLK_KP_2 )
+                    TT[3] = event_control.type == SDL_KEYDOWN;
+
+
 
                 if( event_control.key.keysym.sym == SDLK_LEFT )
                     T[0] = event_control.type == SDL_KEYDOWN;
@@ -48,14 +59,6 @@ int control_event(void *_)
                 if( event_control.key.keysym.sym == SDLK_DOWN )
                     T[3] = event_control.type == SDL_KEYDOWN;
 
-                if( event_control.key.keysym.sym == SDLK_a )
-                    TT[0] = event_control.type == SDL_KEYDOWN;
-                if( event_control.key.keysym.sym == SDLK_w )
-                    TT[1] = event_control.type == SDL_KEYDOWN;
-                if( event_control.key.keysym.sym == SDLK_d )
-                    TT[2] = event_control.type == SDL_KEYDOWN;
-                if( event_control.key.keysym.sym == SDLK_s )
-                    TT[3] = event_control.type == SDL_KEYDOWN;
 
 
             }

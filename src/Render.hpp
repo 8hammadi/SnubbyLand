@@ -49,7 +49,7 @@ int threadRender(void *_)
 			rect = {0, 100 + 40 * 12, 1024, 100} ;
 			SDL_RenderCopy(render, textureSlides[6], NULL, &rect);
 			show();
-			cout << "GAME: " << interface << endl;
+			// cout << "GAME: " << interface << endl;
 			SDL_Delay(TIME);
 			break;
 
