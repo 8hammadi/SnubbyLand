@@ -4,17 +4,43 @@ void update()
     for(auto &sp : level.big_spiral_dots)sp.next_move();
     for(auto &e : level.linear_enemys)e.next_move();
     for(auto &e : level.squar_enemys)e.next_move();
-
-    if(automatique)
-    {
-        for(auto &p : level.Snubbys)
-        {
-            if(p.is_a_life)
-                p.think(level);
-        }
-    }
-
 }
+
+void check_status_of_playing2()
+{
+    int i = 0;
+    for(auto &c : level.coins)
+    {
+        if(!c.is_taked && c.take(level.player2))
+        {
+            if(c.is_virtual){
+                level.virtuals--;
+                level.coins.erase(level.coins.begin() + i);
+            }
+            level.c2++;
+            coin_sound();
+            level.n_coins--;
+        }
+        i++;
+    }
+    for(auto e : level.get_enemys())
+    {
+        if(level.player2.touche_enemy(e, level.w_enemy / 2))
+        {
+            hit_sound();
+            level.player2.x = level.last_touch_on_green_area2.first;
+            level.player2.y = level.last_touch_on_green_area2.second;
+            again2--;
+            if(!again2)
+            {
+                cout << "loser" << endl;
+                //todo
+                local_win(false);
+            }
+        };
+    }
+}
+
 void check_status_of_playing()
 {
     int i = 0;
@@ -22,21 +48,16 @@ void check_status_of_playing()
     {
         if(!c.is_taked && c.take(level.player))
         {
-            if(c.is_virtual)
+            if(c.is_virtual){
+                            level.virtuals--;
                 level.coins.erase(level.coins.begin() + i);
+            }
             ocoins = i;
             cout << "++" << ocoins << endl;
-
+            level.c1++;
             coin_sound();
             level.n_coins--;
-            if( level.n_coins == 0)
-            {
-                if(!is_online_game)
-                    return local_win(true);
-                else
-                {
-                }
-            }
+
         }
         i++;
     }

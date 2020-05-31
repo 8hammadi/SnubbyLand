@@ -41,8 +41,8 @@ public:
     Player() {};
     Player(int a, int b)
     {
-        x = a+cx;
-        y = b+cy;
+        x = a + cx;
+        y = b + cy;
     }
 
     bool touche_enemy(pair<int, int> enemy, int r)

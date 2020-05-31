@@ -52,29 +52,35 @@ void draw_enemys()
 void draw_game()
 {
     draw_wall();
-    if(!automatique)
+    // if(!automatique)
+    // {
+    if(is_online_game)
     {
-        if(is_online_game)
-        {
-            rect = {-level.player.w / 2  + player2.first, -level.player.h / 2 + player2.second, level.player.w, level.player.h};
-            SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
-        }
-        rect = {-level.player.w / 2  + level.player.x, -level.player.h / 2 + level.player.y, level.player.w, level.player.h};
-        SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+        rect = {-level.player.w / 2  + player2.first, -level.player.h / 2 + player2.second, level.player.w, level.player.h};
+        SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
     }
     else
     {
-        for(auto sn : level.Snubbys)
-        {
-
-            if(!sn.is_a_life)   continue;
-            rect = {-level.player.w / 2  + sn.x, -level.player.h / 2 + sn.y, level.player.w, level.player.h};
-            SDL_RenderCopy(render, texturePlayer, NULL, &rect);
-        }
+        rect = {-level.player2.w / 2  + level.player2.x, -level.player2.h / 2 + level.player2.y, level.player2.w, level.player2.h};
+        SDL_RenderCopy(render, texturePlayer2, NULL, &rect);
     }
+
+    rect = {-level.player.w / 2  + level.player.x, -level.player.h / 2 + level.player.y, level.player.w, level.player.h};
+    SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+    // }
+    // else
+    // {
+    //     for(auto sn : level.Snubbys)
+    //     {
+
+    //         if(!sn.is_a_life)   continue;
+    //         rect = {-level.player.w / 2  + sn.x, -level.player.h / 2 + sn.y, level.player.w, level.player.h};
+    //         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
+    //     }
+    // }
     for(auto e : level.coins)
     {
-        if(e.is_taked)continue;
+        if(e.is_taked || e.is_virtual)continue;
         rect = {e.x - e.w / 2, e.y - e.h / 2, e.w, e.h};
         SDL_RenderCopy(render, textureCoin, NULL, &rect);
     }
@@ -84,11 +90,11 @@ void draw_game()
         rect = {0, 0, 400, 100};
         SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
     }
-    if(automatique)
-    {
-        rect = {1024 - 400, 0, 400, 100};
-        SDL_RenderCopy(render, textureSlides[11], NULL, &rect);
-    }
+    // if(automatique)
+    // {
+    //     rect = {1024 - 400, 0, 400, 100};
+    //     SDL_RenderCopy(render, textureSlides[11], NULL, &rect);
+    // }
 
     // Pause Button:
     rect = {GAME_pause_x, GAME_pause_y, GAME_pause_width, GAME_pause_height};

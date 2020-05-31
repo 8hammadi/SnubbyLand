@@ -46,10 +46,26 @@ void play()
 
         update();
 
-        // directSnubby(T, level.player);
         move(T, level.player);
 
+        if(automatique)
+            directSnubby(TT, level.player2);
+        move(TT, level.player2);
+
         check_status_of_playing();
+        check_status_of_playing2();
+
+        if( level.n_coins == level.virtuals)
+        {
+            if(!is_online_game)
+            {
+                if(level.c1 >= level.c2)
+                    return local_win(true);
+                else
+                    return local_win(false);
+            }
+
+        }
 
         SDL_Delay(16);
     }
@@ -127,24 +143,15 @@ void local_win(bool wi)
             if(WIN_LOSE_next_x <= x && x <= WIN_LOSE_next_x + WIN_LOSE_button_width &&
                     WIN_LOSE_prev_next_y <= y && y <= WIN_LOSE_prev_next_y + WIN_LOSE_button_height)
             {
-                if(win)
-                {
-                    if(!automatique)
-                    {
-                        l++;
-                        if(l == N_LEVELS + 1)l = 1;
-                        cout << "Level " << l << endl;
-                        load_level(l);
-                        is_playing = 1;
-                        is_pause = 0;
-                        cout << "NEXT" << endl;
-                        return ;
-                    }
-                }
-                else cout << "No NEXT" << endl;
+                l++;
+                if(l == N_LEVELS + 1)l = 1;
+                cout << "Level " << l << endl;
+                load_level(l);
+                is_playing = 1;
+                is_pause = 0;
+                cout << "NEXT" << endl;
+                return ;
             }
-
-
 
             draw_game();
             rect = {312, 100, 400, 540} ;
@@ -186,10 +193,8 @@ void free_memory()
 inline void renderPause_win_lose(SDL_Renderer *render, bool win)
 {
 
-    SDL_Texture *WIN_LOSE_image =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/you win.png"));
-    if(!win)
-        WIN_LOSE_image =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/you lose.png"));
-
+    static SDL_Texture *WIN_LOSE_image_WIN =  IMG_LoadTexture(render, "../images/you win.png" );
+    static SDL_Texture *WIN_LOSE_image_LOSE =  IMG_LoadTexture(render, "../images/you lose.png" );
     static SDL_Texture *WIN_LOSE_restart =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/restart.png"));
     static SDL_Texture *WIN_LOSE_levels =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/levels.png"));
     static SDL_Texture *WIN_LOSE_quit =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/quit.png"));
@@ -199,8 +204,39 @@ inline void renderPause_win_lose(SDL_Renderer *render, bool win)
     SDL_SetRenderDrawColor(render, 0, 0, 0, 150);
     SDL_RenderFillRect(render, NULL);
 
-    SDL_Rect rect = {WIN_LOSE_image_x, WIN_LOSE_image_y, WIN_LOSE_image_width, WIN_LOSE_image_height};
-    SDL_RenderCopy(render, WIN_LOSE_image, NULL, &rect);
+    /////////////////////////////
+    SDL_Rect rect;
+    if(automatique || offline)
+    {
+        rect = {WIN_LOSE_image_x - ( WIN_LOSE_image_width / 2 + 50), WIN_LOSE_image_y, WIN_LOSE_image_width, WIN_LOSE_image_height};
+        if(win)
+            SDL_RenderCopy(render, WIN_LOSE_image_WIN, NULL, &rect);
+        else
+            SDL_RenderCopy(render, WIN_LOSE_image_LOSE, NULL, &rect);
+        rect.y += rect.h;
+        rect.h = 70;
+        draw_text("Player 1", rect.x, rect.y, rect.w, rect.h);
+        //////////////////////////////////////////
+        rect = {WIN_LOSE_image_x + ( WIN_LOSE_image_width / 2 + 50), WIN_LOSE_image_y, WIN_LOSE_image_width, WIN_LOSE_image_height};
+        if(!win)
+            SDL_RenderCopy(render, WIN_LOSE_image_WIN, NULL, &rect);
+        else
+            SDL_RenderCopy(render, WIN_LOSE_image_LOSE, NULL, &rect);
+        rect.y += rect.h;
+        rect.h = 70;
+        draw_text("Player 2", rect.x, rect.y, rect.w, rect.h);
+    }
+    else
+    {
+        rect = {WIN_LOSE_image_x, WIN_LOSE_image_y, WIN_LOSE_image_width, WIN_LOSE_image_height};
+        if(win)
+            SDL_RenderCopy(render, WIN_LOSE_image_WIN, NULL, &rect);
+        else
+            SDL_RenderCopy(render, WIN_LOSE_image_LOSE, NULL, &rect);
+    }
+
+
+
 
     rect = {WIN_LOSE_button_x, WIN_LOSE_restart_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
     SDL_RenderCopy(render, WIN_LOSE_restart, NULL, &rect);
@@ -216,11 +252,7 @@ inline void renderPause_win_lose(SDL_Renderer *render, bool win)
 
     rect = {WIN_LOSE_next_x, WIN_LOSE_prev_next_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
     SDL_RenderCopy(render, WIN_LOSE_next, NULL, &rect);
-    if(!win)
-    {
-        // add condition if player loses
-        // TODO
-        SDL_SetRenderDrawColor(render, 0, 0, 0, 170);
-        SDL_RenderFillRect(render, &rect);
-    }
+
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 170);
+    SDL_RenderFillRect(render, &rect);
 }

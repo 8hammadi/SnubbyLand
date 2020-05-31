@@ -22,6 +22,7 @@ bool check_it_free_area(int x, int y)
     }
     return 1;
 }
+
 int control_event(void *_)
 {
     while(1)
@@ -33,11 +34,11 @@ int control_event(void *_)
         }
         while(SDL_WaitEvent(&event_control))
         {
-            cout<<"eveeent"<<endl;
             if(event_control.type == SDL_QUIT)free_memory();
 
             if(event_control.type == SDL_KEYDOWN || event_control.type == SDL_KEYUP)
             {
+
                 if( event_control.key.keysym.sym == SDLK_LEFT )
                     T[0] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_UP )
@@ -46,6 +47,17 @@ int control_event(void *_)
                     T[2] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_DOWN )
                     T[3] = event_control.type == SDL_KEYDOWN;
+
+                if( event_control.key.keysym.sym == SDLK_a )
+                    TT[0] = event_control.type == SDL_KEYDOWN;
+                if( event_control.key.keysym.sym == SDLK_w )
+                    TT[1] = event_control.type == SDL_KEYDOWN;
+                if( event_control.key.keysym.sym == SDLK_d )
+                    TT[2] = event_control.type == SDL_KEYDOWN;
+                if( event_control.key.keysym.sym == SDLK_s )
+                    TT[3] = event_control.type == SDL_KEYDOWN;
+
+
             }
 
             switch (event_control.type)
@@ -74,7 +86,10 @@ int control_event(void *_)
                     break;
                 }
             }
-            if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
+            if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)
+                level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
+            if(level.map[(int)((level.player2.y - cx) / size_squar)][(int)((level.player2.x - cy) / size_squar)] == 0)
+                level.last_touch_on_green_area2 = make_pair(level.player2.x, level.player2.y);
 
         }
     }

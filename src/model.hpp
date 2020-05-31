@@ -101,6 +101,19 @@ void load_level(int k)
             level = *ll;
             level.n_coins = level.coins.size();
             again = 5;
+            again2 = 5;
+            level.c1 = 0;
+            level.c2 = 0;
+            level.virtuals=0;
+            
+            if(automatique || offline)
+                level.player2 = level.player;
+            else
+            {
+                level.player2.x = -200;
+                level.player2.y = -200;
+            }
+
         }
         catch(const std::exception &e)
         {

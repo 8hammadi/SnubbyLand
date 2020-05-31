@@ -73,11 +73,11 @@ void index()
                 level.player.update_input(level);
                 update();
                 automatique = 1;
-                //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
-                level.A = make_pair(level.player.x, level.player.y);
-                level.B = make_pair(level.coins[0].x, level.coins[0].y);
+                // //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
+                // level.A = make_pair(level.player.x, level.player.y);
+                // level.B = make_pair(level.coins[0].x, level.coins[0].y);
 
-                level.init_population(NEURAL_NETWORK);
+                // level.init_population(NEURAL_NETWORK);
 
                 return play();
             }
@@ -87,6 +87,9 @@ void index()
             {
                 // TODO 2Players Offline
                 cout << "2Players Offline: TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
+                offline = 1;
+                l = get_level();
+                return play();
             }
 
             //CREATE NEW LEVEL

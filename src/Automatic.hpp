@@ -5,7 +5,7 @@ void directSnubby(bool T[4], Player &s)
 {
 	static int i = 0;
 	level.commandSnubby(T, s);
-	if(i == 150)
+	if(i == 550)
 	{
 		cout << "START dijkstra" << endl;
 		for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
@@ -15,6 +15,7 @@ void directSnubby(bool T[4], Player &s)
 			level.coins.push_back(Coin(pai.first, pai.second));
 			level.coins[level.coins.size() - 1].is_virtual = true;
 			level.n_coins++;
+			level.virtuals++;
 		}
 		cout << "END dijkstra" << endl;
 

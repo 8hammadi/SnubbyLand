@@ -23,12 +23,14 @@ private:
 public:
     int map[12][20] = {{1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}, {1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2}, {2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1}
     };
+    int c1 = 0, c2 = 0;
     vector<Coin> coins;
     Player player = Player(500, 500);
     Player player2 = Player(500, 500);
     vector<Player> Snubbys;
     int w_enemy = 20;
     pair<int, int> last_touch_on_green_area = make_pair(500, 500);
+    pair<int, int> last_touch_on_green_area2 = make_pair(500, 500);
     vector<Linear_enemy> linear_enemys;
     vector<pair<int, int>> stable_enemys;
     vector<Spiral_dot> spiral_dots;
@@ -38,7 +40,7 @@ public:
     int n, last_direction = 1, N_Snubbys_a_life = 0;
     pair<double, double> A = {500, 500}, B = {100, 100} ;
     int generation = 0;
-    int n_coins;
+    int n_coins,virtuals;
     Level()
     {
         for(int i = 0; i < N_POPULATION; i++)
