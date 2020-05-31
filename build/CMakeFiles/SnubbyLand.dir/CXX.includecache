@@ -8,6 +8,8 @@
 
 /home/run/Desktop/SnubbyLand/src/Automatic.hpp
 
+/home/run/Desktop/SnubbyLand/src/Render.hpp
+
 /home/run/Desktop/SnubbyLand/src/Server_level.hpp
 
 /home/run/Desktop/SnubbyLand/src/Server_stream.hpp
@@ -175,6 +177,8 @@ pause.hpp
 /home/run/Desktop/SnubbyLand/src/pause.hpp
 game.hpp
 /home/run/Desktop/SnubbyLand/src/game.hpp
+Render.hpp
+/home/run/Desktop/SnubbyLand/src/Render.hpp
 
 /home/run/Desktop/SnubbyLand/src/map_generateur.hpp
 

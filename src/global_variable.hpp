@@ -49,3 +49,5 @@ string port = "80";
 
 int ocoins = -1;
 int again = 5, again2 = 5;
+
+bool play_function_is_run=0;

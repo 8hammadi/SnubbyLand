@@ -55,7 +55,16 @@ void index()
                     HOME_normal_y <= y && y <= HOME_normal_y + HOME_button_height)
             {
                 l = get_level();
-                return play();
+                if (play_function_is_run)
+                {
+                    is_playing = 1;
+                    return ;
+                }
+                else
+                {
+                    play_function_is_run = 1;
+                    return play();
+                }
             }
             //TWO PLAYER thread_playing_online
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
@@ -79,7 +88,16 @@ void index()
 
                 // level.init_population(NEURAL_NETWORK);
 
-                return play();
+                if (play_function_is_run)
+                {
+                    is_playing = 1;
+                    return ;
+                }
+                else
+                {
+                    play_function_is_run = 1;
+                    return play();
+                }
             }
             //2Players Offline
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
@@ -89,7 +107,16 @@ void index()
                 cout << "2Players Offline: TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
                 offline = 1;
                 l = get_level();
-                return play();
+                if (play_function_is_run)
+                {
+                    is_playing = 1;
+                    return ;
+                }
+                else
+                {
+                    play_function_is_run = 1;
+                    return play();
+                }
             }
 
             //CREATE NEW LEVEL
@@ -98,7 +125,16 @@ void index()
             {
                 create_level();
                 cout << "le niveau créé avec succès" << endl;
-                return play();
+                if (play_function_is_run)
+                {
+                    is_playing = 1;
+                    return ;
+                }
+                else
+                {
+                    play_function_is_run = 1;
+                    return play();
+                }
             }
             break ;
         case SDL_QUIT:
