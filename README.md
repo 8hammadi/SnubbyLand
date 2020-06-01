@@ -43,4 +43,4 @@ The World's Hardest Game est un jeu 2D jeu à un joueur stimulant développé pa
 # Resultats (photos de jeu)
 
 
-# Simulation (video de jeu khdam)
+# Simulation
