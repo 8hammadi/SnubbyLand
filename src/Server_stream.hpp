@@ -62,7 +62,7 @@ int thread_playing_online(void *_)
         cout << text << endl;
         while(1)
         {
-            cout << "onliiiiine" << endl;
+            // cout << "onliiiiine" << endl;
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
 
@@ -72,7 +72,6 @@ int thread_playing_online(void *_)
                 text = "-" + to_string(ocoins);
                 //send to server that eat coin
                 ws.write(net::buffer(text));
-
                 ocoins = -1;
             }
             else if(i_win)

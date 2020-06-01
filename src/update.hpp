@@ -57,6 +57,9 @@ void check_status_of_playing()
             level.c1++;
             coin_sound();
             level.n_coins--;
+            if(level.n_coins==0){
+                i_win=1;
+            }
 
         }
         i++;
@@ -75,7 +78,6 @@ void check_status_of_playing()
                 cout << "loser" << endl;
                 //todo
                 local_win(false);
-                // free_memory();
             }
         };
         if(automatique)
@@ -97,7 +99,7 @@ void check_status_of_playing()
 void move(bool Tt[4], Player &player)
 {
     SDL_Delay(1 / sensitivity);
-    cout<<Tt[0]<<Tt[1]<<Tt[2]<<Tt[3]<<endl;
+
     if(Tt[0])
     {
         if(check_it_free_area(player.x - SPEED, player.y) && is_player_inside_after(player.x - 12, player.y))

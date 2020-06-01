@@ -38,7 +38,7 @@ int control_event(void *_)
 
             if(event_control.type == SDL_KEYDOWN || event_control.type == SDL_KEYUP)
             {
-                cout << event_control.key.keysym.sym << endl;
+                // cout << event_control.key.keysym.sym << endl;
                 if( event_control.key.keysym.sym == SDLK_KP_4 )
                     TT[0] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_KP_8 )
