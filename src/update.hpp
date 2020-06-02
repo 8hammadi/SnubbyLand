@@ -34,9 +34,9 @@ void check_status_of_playing2()
             again2--;
             if(!again2)
             {
-                cout << "loser" << endl;
+                cout << "P2 Loser" << endl;
                 //todo
-                local_win(false);
+                local_win(true);
             }
         };
     }
@@ -86,18 +86,6 @@ void check_status_of_playing()
                 local_win(false);
             }
         };
-        if(automatique)
-        {
-            for(auto &sn : level.Snubbys)
-            {
-                if(!sn.is_a_life)continue;
-                if(sn.touche_enemy(e, level.w_enemy / 2))
-                {
-                    sn.is_a_life = 0;
-                    level.N_Snubbys_a_life--;
-                };
-            }
-        }
     }
 }
 

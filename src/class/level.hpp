@@ -38,7 +38,7 @@ public:
     int n, last_direction = 1, N_Snubbys_a_life = 0;
     pair<double, double> A = {500, 500}, B = {100, 100} ;
     int generation = 0;
-    int n_coins,virtuals;
+    int n_coins, virtuals;
     Level()
     {
         for(int i = 0; i < N_POPULATION; i++)
@@ -236,8 +236,8 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
     vector<pair<int, int>> env;
     for(auto &ob : get_enemys())
         env.push_back(getVector(s.x, s.y, make_pair(ob.first, ob.second)));
-    for(auto &p : wallDirections(s.x, s.y))
-        env.push_back(p);
+    // for(auto &p : wallDirections(s.x, s.y))
+    //     env.push_back(p);
     for(auto &c : coins)
         if(!c.is_taked)
             env.push_back(getVector(s.x, s.y, make_pair(c.x, c.y)));
@@ -246,7 +246,7 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
 
 pair<int, int> Level::getVector( int x, int y, pair<int, int> center)
 {
-    return make_pair(center.first - (x + 10), center.second - (y + 10));
+    return make_pair(center.first - x, center.second - y);
 }
 
 void Level::commandSnubby(bool T[4], Player &s)

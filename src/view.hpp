@@ -52,8 +52,7 @@ void draw_enemys()
 void draw_game()
 {
     draw_wall();
-    // if(!automatique)
-    // {
+
     if(is_online_game)
     {
         rect = {-level.player.w / 2  + player2.first, -level.player.h / 2 + player2.second, level.player.w, level.player.h};
@@ -67,20 +66,10 @@ void draw_game()
 
     rect = {-level.player.w / 2  + level.player.x, -level.player.h / 2 + level.player.y, level.player.w, level.player.h};
     SDL_RenderCopy(render, texturePlayer, NULL, &rect);
-    // }
-    // else
-    // {
-    //     for(auto sn : level.Snubbys)
-    //     {
 
-    //         if(!sn.is_a_life)   continue;
-    //         rect = {-level.player.w / 2  + sn.x, -level.player.h / 2 + sn.y, level.player.w, level.player.h};
-    //         SDL_RenderCopy(render, texturePlayer, NULL, &rect);
-    //     }
-    // }
     for(auto e : level.coins)
     {
-        if(e.is_taked || e.is_virtual)continue;
+        if(e.is_taked /*|| e.is_virtual*/)continue;
         rect = {e.x - e.w / 2, e.y - e.h / 2, e.w, e.h};
         SDL_RenderCopy(render, textureCoin, NULL, &rect);
     }

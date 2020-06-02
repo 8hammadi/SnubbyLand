@@ -31,7 +31,7 @@ void save_level();//claire
 void load_level(int k);//claire
 
 int thread_playing_online(void *_);
-void move(bool T[4],Player& player); // move snubby based on T values
+void move(bool T[4], Player &player); // move snubby based on T values
 int thread_update_position(void *_);
 void draw_wall();//claire
 void draw_enemys();//claire
@@ -52,8 +52,8 @@ string get_text();
 /////////////////////////////////   AUTOMATIC FUNCTIONS
 void directSnubby(bool T[4], Player &s);
 
-vector<pair<int, int>> dijkstra(int map[12][20], pair<int, int> snubby, vector<pair<int, int>> coins);
-vector<pair<int, int>> whenBlocked(vector<vector<data>> map, vector<Coin> coins, int x, int y);
+// vector<pair<int, int>> dijkstra(int map[12][20], pair<int, int> snubby, vector<pair<int, int>> coins);
+int whenBlocked(vector<vector<int>> map, vector<Coin> &coins, int x, int y);
 pair<int, int> getNearest(vector<Coin> &coins, int x, int y);
 void aitHammadi(vector<vector<data>> &map, pair<int, int> coin, pair<int, int> snubby);
 vector<pair<int, int>> path(vector<vector<data>> &map, pair<int, int> coin, pair<int, int> snubby);

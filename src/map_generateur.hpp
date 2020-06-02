@@ -9,8 +9,6 @@
 
 /////////////////////////////////////////////////////////////////////////// Preprocessors
 
-#define CAVE_ITERAIONS 5
-
 typedef int data;
 
 typedef struct _
@@ -34,7 +32,6 @@ void caveGeneration(vector<vector<data>> &map);
 void caveGeneration(vector<vector<data>> &map)
 {
 	bool stop = false;
-	// for (int k = 0; k < CAVE_ITERAIONS; ++k)
 	while(stop == false )
 	{
 		stop = true;
