@@ -43,17 +43,22 @@ void play()
         }
 
         interface = GAME;
-
+        cout<<2<<endl;
         update();
+        cout<<3<<endl;
 
         move(T, level.player);
         move(TT, level.player2);
+        cout<<4<<endl;
 
         if(automatique)
             directSnubby(TT, level.player2);
+        cout<<5<<endl;
 
         check_status_of_playing();
-        check_status_of_playing2();
+              cout<<5.5<<endl;
+  check_status_of_playing2();
+        cout<<6<<endl;
 
         if( level.n_coins == level.virtuals)
         {
@@ -66,6 +71,7 @@ void play()
             }
 
         }
+        cout<<7<<endl;
 
         SDL_Delay(16);
     }

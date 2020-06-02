@@ -1,11 +1,6 @@
 void add_coins()
 {
-    // draw_game();
-    // renderLevelCreator(render, 2);
-    // rect = {0, 100 + 40 * 12, 1024, 100} ;
-    // SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
-    // SDL_RenderPresent(render);
-    // SDL_Delay(10);
+
     interface = LEVEL_CREATOR;
 
     continuer = 1;
@@ -24,10 +19,6 @@ void add_coins()
                 return;
             level.coins.push_back(Coin(x, y));
 
-            // renderLevelCreator(render, 2);
-            // rect = {0, 100 + 40 * 12, 1024, 100} ;
-            // SDL_RenderCopy(render, textureSlides[2], NULL, &rect);
-            // SDL_RenderPresent(render);
             interface = LEVEL_CREATOR;
 
             SDL_Delay(40);

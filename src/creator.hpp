@@ -24,12 +24,24 @@
 
 int stepp;
 
+void flashLevel()
+{
+    level.n_coins = 0;
+    level.coins.clear();
+    level.linear_enemys.clear();
+    level.spiral_dots.clear();
+    level.big_spiral_dots.clear();
+    level.squar_enemys.clear();
+}
+
 void create_level()
 {
     N_LEVELS++;
     l = N_LEVELS;
 LEVEL0:
     go_back = 0;
+    flashLevel();
+
     load_level(0);
     renderLevelCreator(render, 0);
     SDL_RenderPresent(render);
@@ -89,7 +101,8 @@ POSITION:
     cout << "save level ..." << endl;
     save_level();
     save_n();
-
+    l=N_LEVELS;
+    load_level(l);
 }
 
 void renderLevelCreator(SDL_Renderer *render, int stepp)

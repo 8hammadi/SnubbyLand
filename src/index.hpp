@@ -54,6 +54,9 @@ void index()
             if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_normal_y <= y && y <= HOME_normal_y + HOME_button_height)
             {
+                is_online_game = 0;
+                automatique = 0;
+                offline = 0;
                 l = get_level();
                 if (play_function_is_run)
                 {
@@ -119,6 +122,9 @@ void index()
             else if(HOME_createLevel_x <= x && x <= HOME_createLevel_x + HOME_createLevel_width &&
                     HOME_createLevel_y <= y && y <= HOME_createLevel_y + HOME_createLevel_height)
             {
+                is_online_game = 0;
+                automatique = 0;
+                offline = 0;
                 create_level();
                 cout << "le niveau créé avec succès" << endl;
                 if (play_function_is_run)

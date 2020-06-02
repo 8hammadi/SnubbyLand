@@ -49,17 +49,20 @@ void check_status_of_playing()
     {
         if(!c.is_taked && c.take(level.player))
         {
-            if(c.is_virtual){
-                            level.virtuals--;
+            if(c.is_virtual)
+            {
+                level.virtuals--;
                 level.coins.erase(level.coins.begin() + i);
             }
+            else
+                level.c1++;
+
             ocoins = i;
             cout << "++" << ocoins << endl;
-            level.c1++;
             coin_sound();
             level.n_coins--;
             cout << level.n_coins << " - ---" << endl;
-            if(level.n_coins == 0)
+            if(level.n_coins == level.virtuals)
             {
                 i_win = 1;
             }
