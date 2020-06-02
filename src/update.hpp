@@ -19,8 +19,10 @@ void check_status_of_playing2()
                 level.coins.erase(level.coins.begin() + i);
             }
             else
+            {
                 level.c2++;
-            coin_sound();
+                coin_sound();
+            }
             level.n_coins--;
         }
         i++;
@@ -56,20 +58,21 @@ void check_status_of_playing()
                 level.coins.erase(level.coins.begin() + i);
             }
             else
-                level.c1++;
-
-            ocoins = i;
-            cout << "++" << ocoins << endl;
-            coin_sound();
-            level.n_coins--;
-            cout << level.n_coins << " - ---" << endl;
-            if(level.n_coins == level.virtuals)
             {
-                i_win = 1;
+                ocoins = i;
+                cout << "++" << ocoins << endl;
+                coin_sound();
+                level.c1++;
+                cout << level.n_coins << " - ---" << endl;
             }
 
+            level.n_coins--;
         }
         i++;
+    }
+    if(level.n_coins == level.virtuals)
+    {
+        i_win = 1;
     }
     for(auto e : level.get_enemys())
     {
@@ -93,8 +96,6 @@ void check_status_of_playing()
 
 void move(bool Tt[4], Player &player)
 {
-    SDL_Delay(1 / sensitivity);
-
     if(Tt[0])
     {
         if(check_it_free_area(player.x - SPEED, player.y) && is_player_inside_after(player.x - SPEED, player.y))

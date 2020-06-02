@@ -28,7 +28,7 @@ public:
         this->x = x;
         this->y = y;
     }
-    bool take(Player p)
+    bool take(Player& p)
     {
         if( Distance(x, y, p.x, p.y) <= (w + p.w) / 2 + 3 )
         {
