@@ -227,7 +227,11 @@ vector<pair<int, int>> Level::wallDirections( int x, int y)
     while(w0 < WINDOW_WIDTH && map[h0][w0] != RESTRICTED && map[h1][w0] != RESTRICTED )
         w0++;
     int firstRight = w0 * size_squar - (x + player.w );
-    return vector<pair<int, int>> {make_pair(0, -firstUp), make_pair(0, firstDown), make_pair(-firstLeft, 0), make_pair(firstRight, 0)};
+    return vector<pair<int, int>> {make_pair(0, -firstUp),
+                                   make_pair(0, firstDown),
+                                   make_pair(-firstLeft, 0),
+                                   make_pair(firstRight, 0)
+                                  };
 
 }
 

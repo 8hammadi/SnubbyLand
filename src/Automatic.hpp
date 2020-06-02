@@ -204,9 +204,9 @@ pair<double, double> force(int radius, double q1, double q2, pair<int, int> r)
 {
 	double dist = Distance(r.first, r.second, 0, 0) ;
 	if(dist <= 47)
-		dist = pow(dist,3) * pow(10, -40);
+		dist = pow(dist,3) * pow(10, -30);
 	if(dist == 0)
-		dist = pow(10, -30);
+		dist = pow(10, -10);
 	double norm = -9 * pow(10, 9) * q1 * q2 / pow(dist, 3);
 	return make_pair(r.first * norm, r.second * norm);
 }

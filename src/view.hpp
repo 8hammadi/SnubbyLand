@@ -79,11 +79,6 @@ void draw_game()
         rect = {0, 0, 400, 100};
         SDL_RenderCopy(render, textureSlides[7], NULL, &rect);
     }
-    // if(automatique)
-    // {
-    //     rect = {1024 - 400, 0, 400, 100};
-    //     SDL_RenderCopy(render, textureSlides[11], NULL, &rect);
-    // }
 
     // Pause Button:
     rect = {GAME_pause_x, GAME_pause_y, GAME_pause_width, GAME_pause_height};
