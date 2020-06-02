@@ -2,8 +2,10 @@
 bool is_player_inside_after(int x, int y)
 {
     if(
-        level.map[(int)((y - cy ) / size_squar)][(int)((x - cx ) / size_squar)] == -1
-
+        level.map[(int)((y - 10 - cy ) / size_squar)][(int)((x - 10 - cx ) / size_squar)] == -1 ||
+        level.map[(int)((y + 5 - cy ) / size_squar)][(int)((x - 10 - cx ) / size_squar)] == -1 ||
+        level.map[(int)((y - 10 - cy ) / size_squar)][(int)((x + 5 - cx ) / size_squar)] == -1 ||
+        level.map[(int)((y + 5 - cy ) / size_squar)][(int)((x + 5 - cx ) / size_squar)] == -1
     )
     {
         return 0;

@@ -142,8 +142,6 @@ public:
         return A.fitness < B.fitness;
     }
 
-
-
     void next_generation()
     {
         generation++;
@@ -196,7 +194,8 @@ public:
 ///////////////////////////////////////////////////////////
 vector<pair<int, int>> Level::wallDirections( int x, int y)
 {
-
+    x -= player.w / 2 + cx;
+    y -= player.h / 2 + cy;
     // if no mobile obstacle is found at top of snubby.
     int w0 = (x / size_squar), w1 = ((x + player.w) / size_squar), h0 = (y / size_squar), h1;
 
@@ -240,8 +239,8 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
     vector<pair<int, int>> env;
     for(auto &ob : get_enemys())
         env.push_back(getVector(s.x, s.y, make_pair(ob.first, ob.second)));
-    // for(auto &p : wallDirections(s.x, s.y))
-    //     env.push_back(p);
+    for(auto &p : wallDirections(s.x, s.y))
+        env.push_back(p);
     for(auto &c : coins)
         if(!c.is_taked)
             env.push_back(getVector(s.x, s.y, make_pair(c.x, c.y)));

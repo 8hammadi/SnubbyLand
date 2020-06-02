@@ -183,12 +183,12 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 		b.first += a.first;
 		b.second += a.second;
 	}
-	// for(; i < obs + 4; i++)
-	// {
-	// 	a = force(0, s.sim.q1, s.sim.q3, r[i]);
-	// 	b.first += a.first;
-	// 	b.second += a.second;
-	// }
+	for(; i < obs + 4; i++)
+	{
+		a = force(0, s.sim.q1, s.sim.q3, r[i]);
+		b.first += a.first;
+		b.second += a.second;
+	}
 
 	for(; i < r.size(); i++)
 	{
@@ -203,7 +203,7 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 pair<double, double> force(int radius, double q1, double q2, pair<int, int> r)
 {
 	double dist = Distance(r.first, r.second, 0, 0) ;
-	if(dist <= 47)
+	if(dist <= 68)
 		dist = pow(dist,3) * pow(10, -30);
 	if(dist == 0)
 		dist = pow(10, -10);

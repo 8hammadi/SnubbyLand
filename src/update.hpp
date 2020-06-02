@@ -96,7 +96,7 @@ void move(bool Tt[4], Player &player)
 
     if(Tt[0])
     {
-        if(check_it_free_area(player.x - SPEED, player.y) && is_player_inside_after(player.x - 12, player.y))
+        if(check_it_free_area(player.x - SPEED, player.y) && is_player_inside_after(player.x - SPEED, player.y))
         {
             player.x -= SPEED;
         }
@@ -104,21 +104,21 @@ void move(bool Tt[4], Player &player)
     }
     if(Tt[1])
     {
-        if(check_it_free_area(player.x, player.y - SPEED ) && is_player_inside_after(player.x, player.y - 12))
+        if(check_it_free_area(player.x, player.y - SPEED ) && is_player_inside_after(player.x, player.y - SPEED))
         {
             player.y -= SPEED;
         }
     }
     if(Tt[2])
     {
-        if(check_it_free_area(player.x + SPEED, player.y) && is_player_inside_after(player.x + 12, player.y))
+        if(check_it_free_area(player.x + SPEED, player.y) && is_player_inside_after(player.x + SPEED, player.y))
         {
             player.x += SPEED;
         }
     }
     if(Tt[3])
     {
-        if(check_it_free_area(player.x, player.y + SPEED) && is_player_inside_after(player.x, player.y + 12))
+        if(check_it_free_area(player.x, player.y + SPEED) && is_player_inside_after(player.x, player.y + SPEED))
         {
             player.y += SPEED;
         }
