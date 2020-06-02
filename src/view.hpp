@@ -1,12 +1,12 @@
-#define GAME_pause_x 10
-#define GAME_pause_y 10
+#define GAME_pause_x 0
+#define GAME_pause_y 0
 #define GAME_pause_width 120
 #define GAME_pause_height 50
 
 void draw_text(char const *t, int x, int y, int w, int h)
 {
     rect = {  x, y, w, h};
-    s = TTF_RenderText_Solid(font, t, {0, 0, 0, 0});
+    s = TTF_RenderText_Solid(font, t, {250, 250, 250, 0});
     texture = SDL_CreateTextureFromSurface(render, s);
     SDL_RenderCopy(render, texture, NULL, &rect);
 }

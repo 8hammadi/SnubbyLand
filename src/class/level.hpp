@@ -10,8 +10,6 @@ private:
         ar &map;
         ar &coins;
         ar &player;
-        player2.x = player.x;
-        player2.y = player.y;
         ar &linear_enemys;
         ar &stable_enemys;
         ar &spiral_dots;

@@ -1,12 +1,10 @@
 void online_game()
 {
-
-    y = 0;
+    is_online_game = 1;
     l = get_level();
     cout << "level : " << l << endl;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
-    is_online_game = 1;
     while(id2 == "0")
     {
         SDL_Delay(50);   //finding a player
@@ -46,7 +44,7 @@ int thread_playing_online(void *_)
 
         cout << "connecting ..." << endl;
 
-        //demmand id of player 2
+        //demand id from player 2
 
         do
         {
@@ -81,7 +79,8 @@ int thread_playing_online(void *_)
                 cout << "you win";
                 //send to server that i win
                 ws.write(net::buffer(text));
-                free_memory();
+                // free_memory();
+                local_win(true);
             }
             else ws.write(net::buffer(text));
             // This buffer will hold the incoming message
@@ -92,7 +91,7 @@ int thread_playing_online(void *_)
             if(text == "disconnect")
             {
                 cout << "disconnect" << endl;
-                local_win(false);
+                local_win(true);
                 // free_memory();
             }
             else if(text == "WIN")

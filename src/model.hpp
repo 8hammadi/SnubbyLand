@@ -104,14 +104,21 @@ void load_level(int k)
             again2 = 5;
             level.c1 = 0;
             level.c2 = 0;
-            level.virtuals=0;
-            
-            if(automatique || offline)
-                level.player2 = level.player;
+            level.virtuals = 0;
+            for (int i = 0; i < 4; ++i)
+            {
+                T[i] = 0;
+                TT[i] = 0;
+            }
+            if(automatique || offline || is_online_game)
+            {
+                level.player2.x = level.player.x;
+                level.player2.y = level.player.y;
+            }
             else
             {
-                level.player2.x = -200;
-                level.player2.y = -200;
+                level.player2.x = 0;
+                level.player2.y = 0;
             }
 
         }

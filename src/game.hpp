@@ -60,9 +60,9 @@ void play()
             if(!is_online_game)
             {
                 if(level.c1 >= level.c2)
-                    return local_win(true);
+                    local_win(true);
                 else
-                    return local_win(false);
+                    local_win(false);
             }
 
         }
@@ -77,6 +77,7 @@ void local_win(bool wi)
 {
     cout << "You win  .." << endl;
     is_pause = 1;
+    is_playing = 0;
     win = wi;
     interface = LOCAL_WIN;
 
@@ -94,7 +95,6 @@ void local_win(bool wi)
                     WIN_LOSE_restart_y <= y && y <= WIN_LOSE_restart_y + WIN_LOSE_button_height)
             {
                 cout << "RESTART" << endl;
-                is_playing = 0;
                 load_level(l);
                 is_playing = 1;
                 is_pause = 0;
@@ -106,7 +106,6 @@ void local_win(bool wi)
             {
                 cout << "LEVELS" << endl;
                 is_pause = 0;
-                is_playing = 0;
                 l = get_level();
                 load_level(l);
                 is_playing = 1;
@@ -117,29 +116,23 @@ void local_win(bool wi)
             {
                 cout << "QUIT" << endl;
                 is_pause = 0;
-                is_playing = 0;
-                return index();
+                index();
             }
 
             // Previous button
             if(WIN_LOSE_previous_x <= x && x <= WIN_LOSE_previous_x + WIN_LOSE_button_width &&
                     WIN_LOSE_prev_next_y <= y && y <= WIN_LOSE_prev_next_y + WIN_LOSE_button_height)
             {
-                if(!automatique)
-                {
-                    l--;
-                    if(l == 0)l = N_LEVELS;
-                    cout << "Level " << l << endl;
-                    load_level(l);
-                    is_playing = 1;
-                    is_pause = 0;
-                    again = 5;
-                    return;
-                }
+                l--;
+                if(l == 0)l = N_LEVELS;
+                cout << "Level " << l << endl;
+                load_level(l);
+                is_playing = 1;
+                is_pause = 0;
                 cout << "Previous" << endl;
             }
-            // Next button
 
+            // Next button
             if(WIN_LOSE_next_x <= x && x <= WIN_LOSE_next_x + WIN_LOSE_button_width &&
                     WIN_LOSE_prev_next_y <= y && y <= WIN_LOSE_prev_next_y + WIN_LOSE_button_height)
             {
@@ -150,17 +143,8 @@ void local_win(bool wi)
                 is_playing = 1;
                 is_pause = 0;
                 cout << "NEXT" << endl;
-                return ;
             }
-
-            draw_game();
-            rect = {312, 100, 400, 540} ;
-            if(automatique)
-                SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
-            else
-                SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
             break;
-            show();
         case SDL_QUIT:
             free_memory();
 
@@ -201,7 +185,7 @@ inline void renderPause_win_lose(SDL_Renderer *render, bool win)
     static SDL_Texture *WIN_LOSE_previous =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/previous.png"));
     static SDL_Texture *WIN_LOSE_next =  SDL_CreateTextureFromSurface(render, IMG_Load("../images/next.png"));
 
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 150);
+    SDL_SetRenderDrawColor(render, 0, 0, 0, 180);
     SDL_RenderFillRect(render, NULL);
 
     /////////////////////////////
@@ -224,7 +208,10 @@ inline void renderPause_win_lose(SDL_Renderer *render, bool win)
             SDL_RenderCopy(render, WIN_LOSE_image_LOSE, NULL, &rect);
         rect.y += rect.h;
         rect.h = 70;
-        draw_text("Player 2", rect.x, rect.y, rect.w, rect.h);
+        if( automatique)
+            draw_text("Computer", rect.x + 30, rect.y, rect.w, rect.h);
+        else
+            draw_text("Player 2", rect.x + 30, rect.y, rect.w, rect.h);
     }
     else
     {
@@ -253,6 +240,6 @@ inline void renderPause_win_lose(SDL_Renderer *render, bool win)
     rect = {WIN_LOSE_next_x, WIN_LOSE_prev_next_y, WIN_LOSE_button_width, WIN_LOSE_button_height};
     SDL_RenderCopy(render, WIN_LOSE_next, NULL, &rect);
 
-    SDL_SetRenderDrawColor(render, 0, 0, 0, 170);
-    SDL_RenderFillRect(render, &rect);
+    // SDL_SetRenderDrawColor(render, 0, 0, 0, 170);
+    // SDL_RenderFillRect(render, &rect);
 }

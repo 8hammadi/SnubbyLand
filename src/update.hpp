@@ -49,10 +49,10 @@ void check_status_of_playing()
     {
         if(!c.is_taked && c.take(level.player))
         {
-            // if(c.is_virtual){
-            //                 level.virtuals--;
-            //     level.coins.erase(level.coins.begin() + i);
-            // }
+            if(c.is_virtual){
+                            level.virtuals--;
+                level.coins.erase(level.coins.begin() + i);
+            }
             ocoins = i;
             cout << "++" << ocoins << endl;
             level.c1++;

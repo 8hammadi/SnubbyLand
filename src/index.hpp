@@ -70,24 +70,19 @@ void index()
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_online_y <= y && y <= HOME_online_y + HOME_button_height)
             {
+                is_online_game = 1;
+                automatique = 0;
+                offline = 0;
                 return online_game();
             }
             //Automatic
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_automatic_y <= y && y <= HOME_automatic_y + HOME_button_height)
             {
-                y = 0;
-                l = get_level();
-                level.get_enemys();
-                level.player.update_input(level);
-                update();
+                is_online_game = 0;
                 automatique = 1;
-                // //Les joeurs sont en position inital A et leur objectif est d'atteindre la position B (la position de premier coins) todo(Le plus proche)
-                // level.A = make_pair(level.player.x, level.player.y);
-                // level.B = make_pair(level.coins[0].x, level.coins[0].y);
-
-                // level.init_population(NEURAL_NETWORK);
-
+                offline = 0;
+                l = get_level();
                 if (play_function_is_run)
                 {
                     is_playing = 1;
@@ -104,8 +99,9 @@ void index()
                     HOME_offline_y <= y && y <= HOME_offline_y + HOME_button_height)
             {
                 // TODO 2Players Offline
-                cout << "2Players Offline: TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
                 offline = 1;
+                is_online_game = 0;
+                automatique = 0;
                 l = get_level();
                 if (play_function_is_run)
                 {
