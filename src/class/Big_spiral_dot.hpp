@@ -55,7 +55,7 @@ public:
             sleep--;
             return;
         }
-        ongle += PI / 50;
+        ongle += PI / 130;
 
         if( (ongle > PI / 2 and next_stop == 2) or (ongle > PI and next_stop == 3) or (ongle > 3 * PI / 2 and next_stop == 4))
         {

@@ -1,3 +1,9 @@
+
+double Distance( int x0, int y0, int x1, int y1)
+{
+    return sqrt(pow(x0 - x1, 2) + pow(y0 - y1, 2)) ;
+}
+
 class Coin
 {
 private:
@@ -24,9 +30,7 @@ public:
     }
     bool take(Player p)
     {
-        if( x - w / 2 >= p.x - p.w / 2 && x - w / 2 <= p.x + p.w / 2 && y - (h / 2) >= p.y - p.h / 2 &&  y - h / 2 <= p.y + p.h / 2
-
-          )
+        if( Distance(x, y, p.x, p.y) <= (w + p.w) / 2 + 3 )
         {
             is_taked = 1;
             return 1;

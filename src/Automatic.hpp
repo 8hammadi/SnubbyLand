@@ -179,20 +179,20 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 	int i;
 	for (i = 0; i < obs; ++i)
 	{
-		a = force(0, s.sim.q1, s.sim.q4, r[i]);
+		a = force(s.sim.radius, s.sim.q1, s.sim.q4, r[i]);
 		b.first += a.first;
 		b.second += a.second;
 	}
 	for(; i < obs + 4; i++)
 	{
-		a = force(0, s.sim.q1, s.sim.q3, r[i]);
+		a = force(s.sim.radius, s.sim.q1, s.sim.q3, r[i]);
 		b.first += a.first;
 		b.second += a.second;
 	}
 
 	for(; i < r.size(); i++)
 	{
-		a = force(10, s.sim.q1, s.sim.q2, r[i]);
+		a = force(s.sim.radius, s.sim.q1, s.sim.q2, r[i]);
 		b.first += a.first;
 		b.second += a.second;
 	}
@@ -203,15 +203,11 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 pair<double, double> force(int radius, double q1, double q2, pair<int, int> r)
 {
 	double dist = Distance(r.first, r.second, 0, 0) ;
-	if(dist <= 68)
-		dist = pow(dist,3) * pow(10, -30);
+	if(dist <= radius)
+		dist = dist * pow(10, -10);
 	if(dist == 0)
-		dist = pow(10, -10);
+		dist = pow(10, -2);
 	double norm = -9 * pow(10, 9) * q1 * q2 / pow(dist, 3);
 	return make_pair(r.first * norm, r.second * norm);
 }
 
-double Distance( int x0, int y0, int x1, int y1)
-{
-	return sqrt(pow(x0 - x1, 2) + pow(y0 - y1, 2)) ;
-}

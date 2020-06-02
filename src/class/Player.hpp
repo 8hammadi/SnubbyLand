@@ -11,11 +11,11 @@ public:
     }
     void init()
     {
-        // radius = SNUBBY_SIZE * 3. / 2;
+        radius = 50;
         q1 = 1;
         q2 = -700;
-        q3 = 0.001;
-        q4 = 700;
+        q3 = 10;
+        q4 = 17000;
     }
 };
 

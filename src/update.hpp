@@ -18,7 +18,8 @@ void check_status_of_playing2()
                 level.virtuals--;
                 level.coins.erase(level.coins.begin() + i);
             }
-            level.c2++;
+            else
+                level.c2++;
             coin_sound();
             level.n_coins--;
         }

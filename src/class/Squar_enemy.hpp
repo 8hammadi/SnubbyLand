@@ -27,7 +27,7 @@ public:
 
     void next_move()
     {
-        t -= 0.01;
+        t -= 0.003;
 
 
         if(t < 0 )
