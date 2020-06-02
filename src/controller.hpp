@@ -32,7 +32,7 @@ int control_event(void *_)
             SDL_Delay(200);
             continue;
         }
-        while(SDL_WaitEvent(&event_control))
+        if(SDL_WaitEvent(&event_control))
         {
             if(event_control.type == SDL_QUIT)free_memory();
 
@@ -48,8 +48,6 @@ int control_event(void *_)
                 if( event_control.key.keysym.sym == SDLK_KP_2 )
                     TT[3] = event_control.type == SDL_KEYDOWN;
 
-
-
                 if( event_control.key.keysym.sym == SDLK_LEFT )
                     T[0] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_UP )
@@ -58,9 +56,6 @@ int control_event(void *_)
                     T[2] = event_control.type == SDL_KEYDOWN;
                 if( event_control.key.keysym.sym == SDLK_DOWN )
                     T[3] = event_control.type == SDL_KEYDOWN;
-
-
-
             }
 
             switch (event_control.type)
@@ -70,9 +65,8 @@ int control_event(void *_)
                 y = event_control.motion.y;
                 if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
                         && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
-                {
                     pause_game();
-                }
+
                 break;
             case SDL_KEYDOWN:
                 switch (event_control.key.keysym.sym)
@@ -89,7 +83,7 @@ int control_event(void *_)
                     break;
                 }
             }
-            if(!automatique and level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)
+            if(level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)
                 level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
             if(level.map[(int)((level.player2.y - cx) / size_squar)][(int)((level.player2.x - cy) / size_squar)] == 0)
                 level.last_touch_on_green_area2 = make_pair(level.player2.x, level.player2.y);

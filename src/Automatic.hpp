@@ -5,18 +5,24 @@ void directSnubby(bool T[4], Player &s)
 {
 	static int i = 0;
 	level.commandSnubby(T, s);
-	if(i == 550)
+
+	if(i == 200)
 	{
 		cout << "START dijkstra" << endl;
-		for(auto pai : dijkstra(level.map, make_pair(level.player.x, level.player.y)
-								, level.getCoins())
-		   )
+
+		vector<vector<int>> map;
+		for (int i = 0; i < 12; ++i)
 		{
-			level.coins.push_back(Coin(pai.first, pai.second));
-			level.coins[level.coins.size() - 1].is_virtual = true;
-			level.n_coins++;
-			level.virtuals++;
+			vector<int> tmp;
+			for (int j = 0; j < 20; ++j)
+				tmp.push_back(level.map[i][j]);
+			map.push_back(tmp);
 		}
+		cout << "Do it" << endl;
+		int added = whenBlocked(map, level.coins, s.x, s.y);
+		level.n_coins += added;
+		level.virtuals += added;
+
 		cout << "END dijkstra" << endl;
 
 		i = 0;
@@ -24,131 +30,119 @@ void directSnubby(bool T[4], Player &s)
 	i++;
 }
 
-
-///////////////////////////////////////////////////////////////////////////////////////////
-
-int n = 12, m = 20;
-bool done[1000][1000];
-
-bool isOk(int x, int y)
+int whenBlocked(vector<vector<int>> map, vector<Coin> &coins, int x, int y)
 {
-	if (-1 < x && x < n && -1 < y && y < m)
-		return 1;
-	return 0;
+	pair<int, int> nearest = getNearest(coins, x, y);
+	nearest = {nearest.first - cx, nearest.second - cy};
+	nearest.first /= 40;
+	nearest.second /= 40;
+	x -= cx;
+	y -= cy;
+	if(nearest.first < 0)
+		return 0;
+	cout << "Here" << endl;
+	aitHammadi(map, nearest, make_pair(x / 40, y / 40));
+	cout << "Here 2" << endl;
+
+	vector<pair<int, int>> paths = path(map, nearest, make_pair(x / 40, y / 40));
+	cout << "Here 3" << endl;
+
+	for(auto &p : paths)
+	{
+		coins.push_back(Coin(cx + p.first * 40 + (rand() % 40),
+							 cy + p.second * 40 + (rand() % 40)));
+		coins[coins.size() - 1].is_virtual = true;
+	}
+	return paths.size();
 }
 
-int dx[] = {0, 1, 0, -1};
-int dy[] = {1, 0, -1, 0};
-
-
-//////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \\\\ \  \\\\\\\\\\\\ 
-
-vector<pair<int, int>> dijkstra(int map[12][20], pair<int, int> snubby, vector<pair<int, int>> coins)
+vector<pair<int, int>> path(vector<vector<int>> &map, pair<int, int> coin, pair<int, int> snubby)
 {
-	int p, q, r, s, x, y, a, b;
-	string st[n] = {"....................",
-					"....................",
-					"....................",
-					"....................",
-					"....................",
-					"....................",
-					"....................",
-					"....................",
-					"....................",
-					"....................",
-					"....................",
-					"...................."
-				   };
-	for(int i = 0; i < 12; i++)
+	vector<pair<int, int>> paths{snubby};
+	while(coin != snubby)
 	{
-		for(int j = 0; j < 20; j++)
+		paths.push_back(coin);
+		switch(map[coin.second][coin.first])
 		{
-			if(map[i][j] == -1)
-			{
-				st[i][j] = '#';
-			}
+		case 6:
+			coin = make_pair( coin.first + 1, coin.second);
+			break;
+		case 7:
+			coin = make_pair( coin.first - 1, coin.second);
+			break;
+		case 8:
+			coin = make_pair( coin.first, coin.second + 1);
+			break;
+		case 9:
+			coin = make_pair( coin.first, coin.second - 1 );
+			break;
 		}
 	}
-	for(auto c : coins)
-	{
-		st[(int)(c.second - cy ) / 40][(int)(c.first - cx) / 40] = 'B';
-	}
-	int dist[n][m];
-	p = (snubby.second - cy) / 40;
-	q = (snubby.first - cx) / 40;
-	done[p][q] = 1;
-	dist[p][q] = 0;
-	queue<pair<int, int>> qu;
-	pair<int, int> pa;
-	qu.push({p, q});
-	bool end = 0;
-	while (!qu.empty() and !end)
-	{
-		pa = qu.front();
-		qu.pop();
-		for (int i = 0; i < 4; ++i)
-		{
-			x = pa.first + dx[i];
-			y = pa.second + dy[i];
-			if (isOk(x, y) && !done[x][y] && st[x][y] != '#')
-			{
-				done[x][y] = 1;
-				dist[x][y] = dist[pa.first][pa.second] + 1;
-				qu.push({x, y});
-				if(st[x][y] == 'B')
-				{
-					end = 1;
-					break;
-				}
-			}
-		}
-	}
-	string ans = "";
-	while (!(x == p && y == q))
-	{
-		for (int i = 0; i < 4; ++i)
-		{
-			a = x + dx[i];
-			b = y + dy[i];
-			if (isOk(a, b) && done[a][b] && dist[a][b] < dist[x][y])
-			{
-				x = a;
-				y = b;
-				if (i == 0)
-					ans += 'L';
-				else if (i == 1)
-					ans += 'U';
-				else if (i == 2)
-					ans += 'R';
-				else
-					ans += 'D';
-				break;
-			}
-		}
-	}
-	vector<pair<int, int>> path = {snubby};
+	return paths;
+}
 
-	while ((int)(ans).size())
+void aitHammadi(vector<vector<int>> &map, pair<int, int> coin, pair<int, int> snubby)
+{
+	vector<pair<int, int>> queue;
+	map[snubby.second][snubby.first] = -1;
+	queue.push_back(snubby);
+
+	while(queue.size() >= 1)
 	{
-		switch(ans.back())
+		snubby = queue[0];
+		queue.erase(queue.begin());
+		if(snubby == coin)
+			break;
+
+		// we went left
+		if(snubby.first - 1 >= 0 && (map[snubby.second][snubby.first - 1] == ALLOWED ||
+									 map[snubby.second][snubby.first - 1] == 2 ||
+									 map[snubby.second][snubby.first - 1] == 0) )
 		{
-		case 'R':
-			path.push_back(make_pair(path.back().first + 40, path.back().second));
-			break;
-		case 'L':
-			path.push_back(make_pair(path.back().first - 40, path.back().second));
-			break;
-		case 'U':
-			path.push_back(make_pair(path.back().first, path.back().second - 40));
-			break;
-		case 'D':
-			path.push_back(make_pair(path.back().first, path.back().second + 40));
-			break;
+			queue.push_back(make_pair(snubby.first - 1, snubby.second));
+			map[snubby.second][snubby.first - 1] = 6;
 		}
 
-		ans.pop_back();
+		// we went right
+		if(snubby.first + 1 < map[0].size() && (map[snubby.second][snubby.first + 1] == ALLOWED ||
+												map[snubby.second][snubby.first + 1] == 2 ||
+												map[snubby.second][snubby.first + 1] == 0) )
+		{
+			queue.push_back(make_pair( snubby.first + 1, snubby.second));
+			map[snubby.second][snubby.first + 1] = 7;
+		}
+
+		// we went up
+		if(snubby.second - 1 >= 0 && (map[snubby.second - 1][snubby.first] == ALLOWED ||
+									  map[snubby.second - 1][snubby.first] == 2 ||
+									  map[snubby.second - 1][snubby.first] == 0) )
+		{
+			queue.push_back(make_pair(snubby.first, snubby.second - 1));
+			map[snubby.second - 1][snubby.first] = 8;
+		}
+
+		// we went down
+		if(snubby.second + 1 < map.size() && (map[snubby.second + 1][snubby.first] == ALLOWED ||
+											  map[snubby.second + 1][snubby.first] == 2 ||
+											  map[snubby.second + 1][snubby.first] == 0) )
+		{
+			queue.push_back(make_pair( snubby.first, snubby.second + 1));
+			map[snubby.second + 1][snubby.first] = 9;
+		}
 	}
-	return path;
+}
+
+pair<int, int> getNearest(vector<Coin> &coins, int x, int y)
+{
+	pair<int, int> near(-10000, -10000);
+	double D = Distance(x, y, near.first, near.second);
+	for(auto &c : coins)
+		if(!c.is_virtual && D > Distance(x, y, c.x, c.y))
+		{
+			D = Distance(x, y, c.x, c.y);
+			near = {c.x, c.y};
+		}
+	return near;
 }
 
 
@@ -189,12 +183,12 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 		b.first += a.first;
 		b.second += a.second;
 	}
-	for(; i < obs + 4; i++)
-	{
-		a = force(0, s.sim.q1, s.sim.q3, r[i]);
-		b.first += a.first;
-		b.second += a.second;
-	}
+	// for(; i < obs + 4; i++)
+	// {
+	// 	a = force(0, s.sim.q1, s.sim.q3, r[i]);
+	// 	b.first += a.first;
+	// 	b.second += a.second;
+	// }
 
 	for(; i < r.size(); i++)
 	{
@@ -208,9 +202,9 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 
 pair<double, double> force(int radius, double q1, double q2, pair<int, int> r)
 {
-	double dist = Distance(r.first, r.second, 0, 0) + radius ;
-	if(dist <= 57)
-		dist = dist * pow(10, -40);
+	double dist = Distance(r.first, r.second, 0, 0) ;
+	if(dist <= 47)
+		dist = pow(dist,3) * pow(10, -40);
 	if(dist == 0)
 		dist = pow(10, -30);
 	double norm = -9 * pow(10, 9) * q1 * q2 / pow(dist, 3);

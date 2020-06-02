@@ -13,7 +13,8 @@ void check_status_of_playing2()
     {
         if(!c.is_taked && c.take(level.player2))
         {
-            if(c.is_virtual){
+            if(c.is_virtual)
+            {
                 level.virtuals--;
                 level.coins.erase(level.coins.begin() + i);
             }
@@ -33,9 +34,9 @@ void check_status_of_playing2()
             again2--;
             if(!again2)
             {
-                cout << "loser" << endl;
+                cout << "P2 Loser" << endl;
                 //todo
-                local_win(false);
+                local_win(true);
             }
         };
     }
@@ -48,17 +49,22 @@ void check_status_of_playing()
     {
         if(!c.is_taked && c.take(level.player))
         {
-            if(c.is_virtual){
-                            level.virtuals--;
+            if(c.is_virtual)
+            {
+                level.virtuals--;
                 level.coins.erase(level.coins.begin() + i);
             }
+            else
+                level.c1++;
+
             ocoins = i;
             cout << "++" << ocoins << endl;
-            level.c1++;
             coin_sound();
             level.n_coins--;
-            if(level.n_coins==0){
-                i_win=1;
+            cout << level.n_coins << " - ---" << endl;
+            if(level.n_coins == level.virtuals)
+            {
+                i_win = 1;
             }
 
         }
@@ -80,18 +86,6 @@ void check_status_of_playing()
                 local_win(false);
             }
         };
-        if(automatique)
-        {
-            for(auto &sn : level.Snubbys)
-            {
-                if(!sn.is_a_life)continue;
-                if(sn.touche_enemy(e, level.w_enemy / 2))
-                {
-                    sn.is_a_life = 0;
-                    level.N_Snubbys_a_life--;
-                };
-            }
-        }
     }
 }
 

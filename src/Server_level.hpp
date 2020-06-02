@@ -71,7 +71,7 @@ bool get_level_from_server(string levelid) // ex:k="L201"
     }
     catch(exception &e)
     {
-         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR Downloading the level ",
+         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR while downloading the level ",
                                  e.what(),
                                  window);
     }

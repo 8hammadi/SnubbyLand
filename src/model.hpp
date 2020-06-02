@@ -91,38 +91,41 @@ void save_level()
 }
 void load_level(int k)
 {
-    if(k)
+    try
     {
-        try
+        ifstream ifs("../levels/" + to_string(k));
+        boost::archive::text_iarchive ar(ifs);
+        ar &ll;
+        level = *ll;
+        level.n_coins = level.coins.size();
+        again = 5;
+        again2 = 5;
+        level.c1 = 0;
+        level.c2 = 0;
+        level.virtuals = 0;
+        for (int i = 0; i < 4; ++i)
         {
-            ifstream ifs("../levels/" + to_string(k));
-            boost::archive::text_iarchive ar(ifs);
-            ar &ll;
-            level = *ll;
-            level.n_coins = level.coins.size();
-            again = 5;
-            again2 = 5;
-            level.c1 = 0;
-            level.c2 = 0;
-            level.virtuals=0;
-            
-            if(automatique || offline)
-                level.player2 = level.player;
-            else
-            {
-                level.player2.x = -200;
-                level.player2.y = -200;
-            }
-
+            T[i] = 0;
+            TT[i] = 0;
         }
-        catch(const std::exception &e)
+        if(automatique || offline || is_online_game)
         {
-            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
-                                     e.what(),
-                                     window);
-            free_memory();
-        };
+            level.player2.x = level.player.x;
+            level.player2.y = level.player.y;
+        }
+        else
+        {
+            level.player2.x = 0;
+            level.player2.y = 0;
+        }
+
     }
-    else {};
+    catch(const std::exception &e)
+    {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR ",
+                                 e.what(),
+                                 window);
+        free_memory();
+    };
 }
 

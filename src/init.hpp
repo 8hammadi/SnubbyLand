@@ -8,7 +8,7 @@ void init()
     if (TTF_Init() != -1)
     {
         cout<<"TTF INITIALIZED"<<endl;
-        font = TTF_OpenFont("../images/AMA.ttf", 50);
+        font = TTF_OpenFont("../images/AMA.ttf", 30);
     }
     SDL_LoadWAV("../sound/hit.wav", &wav_spec[0], &wav_buffer[0], &wav_length[0]);
     device_enemy = SDL_OpenAudioDevice(NULL, 0, &wav_spec[0], NULL, 0);
