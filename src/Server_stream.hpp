@@ -74,7 +74,7 @@ int thread_playing_online(void *_)
                 ws.write(net::buffer(text));
                 ocoins = -1;
             }
-            else if(i_win)
+            if(i_win)
             {
                 i_win = 0;
                 text = "WIN";

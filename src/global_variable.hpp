@@ -15,11 +15,8 @@ SDL_Texture *texture, *textureblack, *texturePlayer2, *texture_wait, *texturePla
 int l;//level
 int continuer = 1, on = 0, p;
 SDL_Event event, event_control, event2;
-<<<<<<< HEAD
 int x, y, xx, yy, cx =100, cy = 100, size_squar = 40, b;
-=======
-int x, y, xx, yy, cx = 100, cy = 100, size_squar = 40, b;
->>>>>>> 3e632433e6de01d023c36fabcf544f5fd499898b
+
 bool go_back = 0, is_playing = 0, is_pause = 0, is_index = 0, automatique,offline, is_thinking = 0, status_thread_playing_online = 0;
 TTF_Font *font;
 int N_LEVELS = 0, N_OPEN_LEVEL;
