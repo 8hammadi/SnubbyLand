@@ -37,6 +37,22 @@ public:
             t = 1;
         }
     }
+    pair<int, int> getDirection()
+    {
+        switch(r)
+        {
+        case 0:
+            return make_pair(B.first - A.first,  B.second - A.second );
+        case 1:
+            return make_pair(C.first - B.first,  C.second - B.second );
+        case 2:
+            return make_pair(D.first - C.first,  D.second - C.second );
+        case 3:
+            return make_pair(A.first - D.first,  A.second - D.second );
+        default:
+            return make_pair(0, 0);
+        }
+    }
 
     pair<int, int> enemy()
     {

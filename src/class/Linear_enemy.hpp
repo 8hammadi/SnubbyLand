@@ -21,11 +21,16 @@ public:
         B = b;
     }
 
+
+    pair<int, int> getDirection()
+    {
+        pair<int, int> pai = make_pair( sens * (B.first - A.first),  sens * (B.second - A.second));
+        return pai;
+    }
+
     void next_move()
     {
         t += sens * 0.003;
-
-
         if(t > 1 or t < 0)
         {
             sens *= -1;

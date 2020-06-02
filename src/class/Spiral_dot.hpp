@@ -27,11 +27,21 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx+C.first + R * cos(i * PI / 2)*j / n,cy+ C.second + R * sin(i * PI / 2)*j / n));
+                enemys.push_back(make_pair(cx + C.first + R * cos(i * PI / 2)*j / n, cy + C.second + R * sin(i * PI / 2)*j / n));
 
             }
         }
 
+    }
+
+    vector<pair<int, int>> getDirection()
+    {
+        vector<pair<int, int>> pais;
+        for(int i = 0; i < 4; i++)
+            for(int j = 1; j <= n; j++)
+                pais.push_back(make_pair( -R * sin((i * PI / 2) + ongle)*j / n, R * cos((i * PI / 2) + ongle)*j / n));
+
+        return pais;
     }
 
     void next_move()
@@ -42,7 +52,7 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx+C.first + R * cos((i * PI / 2) + ongle)*j / n,cy+ C.second + R * sin((i * PI / 2) + ongle)*j / n));
+                enemys.push_back(make_pair(cx + C.first + R * cos((i * PI / 2) + ongle)*j / n, cy + C.second + R * sin((i * PI / 2) + ongle)*j / n));
 
             }
         }
@@ -54,7 +64,7 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx+C.first + R * cos(i * PI / 2)*j / n, cy+C.second + R * sin(i * PI / 2)*j / n));
+                enemys.push_back(make_pair(cx + C.first + R * cos(i * PI / 2)*j / n, cy + C.second + R * sin(i * PI / 2)*j / n));
 
             }
         }
