@@ -142,8 +142,6 @@ public:
         return A.fitness < B.fitness;
     }
 
-
-
     void next_generation()
     {
         generation++;
@@ -196,7 +194,8 @@ public:
 ///////////////////////////////////////////////////////////
 vector<pair<int, int>> Level::wallDirections( int x, int y)
 {
-
+    x -= player.w / 2 + cx;
+    y -= player.h / 2 + cy;
     // if no mobile obstacle is found at top of snubby.
     int w0 = (x / size_squar), w1 = ((x + player.w) / size_squar), h0 = (y / size_squar), h1;
 
@@ -227,17 +226,104 @@ vector<pair<int, int>> Level::wallDirections( int x, int y)
     while(w0 < WINDOW_WIDTH && map[h0][w0] != RESTRICTED && map[h1][w0] != RESTRICTED )
         w0++;
     int firstRight = w0 * size_squar - (x + player.w );
-    return vector<pair<int, int>> {make_pair(0, -firstUp), make_pair(0, firstDown), make_pair(-firstLeft, 0), make_pair(firstRight, 0)};
+    return vector<pair<int, int>> {make_pair(0, -firstUp),
+                                   make_pair(0, firstDown),
+                                   make_pair(-firstLeft, 0),
+                                   make_pair(firstRight, 0)
+                                  };
 
 }
+
+int added;
 
 vector<pair<int, int>> Level::getEnvironment(Player &s)
 {
     vector<pair<int, int>> env;
-    for(auto &ob : get_enemys())
-        env.push_back(getVector(s.x, s.y, make_pair(ob.first, ob.second)));
-    // for(auto &p : wallDirections(s.x, s.y))
-    //     env.push_back(p);
+    added = 0;
+
+    //////////////////////// Linear
+    for( auto &e : linear_enemys)
+    {
+        pair<int, int> vect = getVector(s.x, s.y, e.enemy());
+        pair<int, int> vect2 = e.getDirection();
+        double dot_pro = vect.first * vect2.first + vect.second * vect2.second;
+        if(dot_pro == 0)
+            continue;
+        double dist = Distance(vect.first, vect.second, 0, 0);
+        dot_pro /= (dist * Distance(vect2.first, vect2.second, 0, 0)) ;
+        if((0.9 <= dot_pro && dist < s.sim.radius2) ||
+                ( dist <= s.sim.radius && -0.7 <= dot_pro))
+        {
+                cout << "Speed: " << dist / dot_pro << endl;
+            added++;
+            env.push_back(vect);
+        }
+    }
+    //////////////////////// Linear
+    for( auto &e : spiral_dots)
+    {
+        int i = 0;
+        vector<pair<int, int>> vect2s = e.getDirection();
+        vector<pair<int, int>> vects = e.enemys;
+        for(auto &vect2 : vect2s)
+        {
+            pair<int, int> vect = getVector(s.x, s.y, vects[i]);
+            double dot_pro = vect.first * vect2.first + vect.second * vect2.second;
+            if(dot_pro == 0)
+                continue;
+            double dist = Distance(vect.first, vect.second, 0, 0);
+            dot_pro /= (dist * Distance(vect2.first, vect2.second, 0, 0)) ;
+            if((0.9 <= dot_pro && dist < s.sim.radius2 * (1 + dist / dot_pro)) ||
+                    ( dist <= s.sim.radius && -0.75 <= dot_pro))
+            {
+                added++;
+                env.push_back(vect);
+            }
+            i++;
+
+        }
+    }
+    // //////////////////////// Linear
+    // for( auto &e : linear_enemys)
+    // {
+    //     pair<int, int> vect = getVector(s.x, s.y, e.enemy());
+    //     pair<int, int> vect2 = e.getDirection();
+    //     double dot_pro = vect.first * vect2.first + vect.second * vect2.second;
+    //     if(dot_pro == 0)
+    //         continue;
+    //     double dist = Distance(vect.first, vect.second, 0, 0);
+    //     dot_pro /= (dist * Distance(vect2.first, vect2.second, 0, 0)) ;
+    //     if((0.95 <= dot_pro && dist < s.sim.radius2) ||
+    //             ( dist <= s.sim.radius && -0.05 <= dot_pro))
+    //     {
+    //         cout << "Dot :" << dot_pro << " - ";
+
+    //         added++;
+    //         env.push_back(vect);
+    //     }
+    // }
+    // //////////////////////// Square
+    // for( auto &e : squar_enemys)
+    // {
+    //     pair<int, int> vect = getVector(s.x, s.y, e.enemy());
+    //     pair<int, int> vect2 = e.getDirection();
+    //     double dot_pro = vect.first * vect2.first + vect.second * vect2.second;
+    //     if(dot_pro == 0)
+    //         continue;
+    //     double dist = Distance(vect.first, vect.second, 0, 0);
+    //     dot_pro /= (dist * Distance(vect2.first, vect2.second, 0, 0)) ;
+    //     if((0.95 <= dot_pro && dist < s.sim.radius2) ||
+    //             ( dist <= s.sim.radius && -0.05 <= dot_pro))
+    //     {
+    //         cout << "Dot :" << dot_pro << " - ";
+
+    //         added++;
+    //         env.push_back(vect);
+    //     }
+    // }
+
+    for(auto &p : wallDirections(s.x, s.y))
+        env.push_back(p);
     for(auto &c : coins)
         if(!c.is_taked)
             env.push_back(getVector(s.x, s.y, make_pair(c.x, c.y)));
@@ -251,7 +337,8 @@ pair<int, int> Level::getVector( int x, int y, pair<int, int> center)
 
 void Level::commandSnubby(bool T[4], Player &s)
 {
-    int cmd = getWhere(s, getEnvironment(s), enemys.size());
+    cout << "Added: " << added << endl;
+    int cmd = getWhere(s, getEnvironment(s), added);
     T[0] = (cmd & 2) != 0;
     T[1] = (cmd & 8) != 0;
     T[2] = (cmd & 1) != 0;

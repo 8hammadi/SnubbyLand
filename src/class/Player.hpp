@@ -3,7 +3,7 @@ class Simulator
 public:
     // snubby,coins,walls,obstacles
     double q1, q2, q3, q4;
-    int radius;
+    int radius,radius2;
     vector<int> stop;
     Simulator()
     {
@@ -11,11 +11,12 @@ public:
     }
     void init()
     {
-        // radius = SNUBBY_SIZE * 3. / 2;
-        q1 = 1;
+        radius = 49;
+        radius2 = 120;
+        q1 = 10;
         q2 = -700;
-        q3 = 0.001;
-        q4 = 4020;
+        q3 = 0.1;
+        q4 = 20000;
     }
 };
 

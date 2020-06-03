@@ -6,7 +6,7 @@ void directSnubby(bool T[4], Player &s)
 	static int i = 0;
 	level.commandSnubby(T, s);
 
-	if(i == 200)
+	if(i == 0)
 	{
 		cout << "START dijkstra" << endl;
 
@@ -25,9 +25,9 @@ void directSnubby(bool T[4], Player &s)
 
 		cout << "END dijkstra" << endl;
 
-		i = 0;
+		i = 700;
 	}
-	i++;
+	i--;
 }
 
 int whenBlocked(vector<vector<int>> map, vector<Coin> &coins, int x, int y)
@@ -49,11 +49,17 @@ int whenBlocked(vector<vector<int>> map, vector<Coin> &coins, int x, int y)
 
 	for(auto &p : paths)
 	{
-		coins.push_back(Coin(cx + p.first * 40 + (rand() % 40),
-							 cy + p.second * 40 + (rand() % 40)));
-		coins[coins.size() - 1].is_virtual = true;
+		for (int i = 0; i < 1; ++i)
+		{
+			if(map[p.second + i][p.first + i] == -1)
+				continue;
+			coins.push_back(Coin(cx + (p.first + i) * 40 + (rand() % 40),
+								 cy + (p.second + i) * 40 + (rand() % 40)));
+			coins[coins.size() - 1].is_virtual = true;
+		}
+
 	}
-	return paths.size();
+	return paths.size() * 3;
 }
 
 vector<pair<int, int>> path(vector<vector<int>> &map, pair<int, int> coin, pair<int, int> snubby)
@@ -137,7 +143,7 @@ pair<int, int> getNearest(vector<Coin> &coins, int x, int y)
 	pair<int, int> near(-10000, -10000);
 	double D = Distance(x, y, near.first, near.second);
 	for(auto &c : coins)
-		if(!c.is_virtual && D > Distance(x, y, c.x, c.y))
+		if(/*!c.is_virtual &&*/ D > Distance(x, y, c.x, c.y))
 		{
 			D = Distance(x, y, c.x, c.y);
 			near = {c.x, c.y};
@@ -179,20 +185,20 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 	int i;
 	for (i = 0; i < obs; ++i)
 	{
-		a = force(0, s.sim.q1, s.sim.q4, r[i]);
+		a = force(s.sim.radius, s.sim.q1, s.sim.q4, r[i]);
 		b.first += a.first;
 		b.second += a.second;
 	}
-	// for(; i < obs + 4; i++)
-	// {
-	// 	a = force(0, s.sim.q1, s.sim.q3, r[i]);
-	// 	b.first += a.first;
-	// 	b.second += a.second;
-	// }
+	for(; i < obs + 4; i++)
+	{
+		a = force(s.sim.radius / 2, s.sim.q1, s.sim.q3, r[i]);
+		b.first += a.first;
+		b.second += a.second;
+	}
 
 	for(; i < r.size(); i++)
 	{
-		a = force(10, s.sim.q1, s.sim.q2, r[i]);
+		a = force(s.sim.radius, s.sim.q1, s.sim.q2, r[i]);
 		b.first += a.first;
 		b.second += a.second;
 	}
@@ -203,15 +209,11 @@ pair<double, double> gothere(Player &s, vector<pair<int, int>> r, int obs)
 pair<double, double> force(int radius, double q1, double q2, pair<int, int> r)
 {
 	double dist = Distance(r.first, r.second, 0, 0) ;
-	if(dist <= 47)
-		dist = pow(dist,3) * pow(10, -40);
+	// if(dist <= radius)
+	// 	dist = pow(dist, 2) * pow(10, -10);
 	if(dist == 0)
-		dist = pow(10, -30);
+		dist = pow(10, 0);
 	double norm = -9 * pow(10, 9) * q1 * q2 / pow(dist, 3);
 	return make_pair(r.first * norm, r.second * norm);
 }
 
-double Distance( int x0, int y0, int x1, int y1)
-{
-	return sqrt(pow(x0 - x1, 2) + pow(y0 - y1, 2)) ;
-}
