@@ -11,12 +11,12 @@ public:
     }
     void init()
     {
-        radius = 33;
-        radius2 = 90;
+        radius = 49;
+        radius2 = 120;
         q1 = 10;
         q2 = -700;
         q3 = 0.1;
-        q4 = 10000;
+        q4 = 20000;
     }
 };
 

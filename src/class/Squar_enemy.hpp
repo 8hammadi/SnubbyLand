@@ -27,7 +27,7 @@ public:
 
     void next_move()
     {
-        t -= 0.003;
+        t -= 0.004;
 
 
         if(t < 0 )
@@ -42,13 +42,13 @@ public:
         switch(r)
         {
         case 0:
-            return make_pair(B.first - A.first,  B.second - A.second );
+            return make_pair(t * (B.first - A.first),  t * (B.second - A.second) );
         case 1:
-            return make_pair(C.first - B.first,  C.second - B.second );
+            return make_pair(t * (C.first - B.first),  t * (C.second - B.second) );
         case 2:
-            return make_pair(D.first - C.first,  D.second - C.second );
+            return make_pair(t * (D.first - C.first),  t * (D.second - C.second) );
         case 3:
-            return make_pair(A.first - D.first,  A.second - D.second );
+            return make_pair(t * (A.first - D.first),  t * (A.second - D.second) );
         default:
             return make_pair(0, 0);
         }

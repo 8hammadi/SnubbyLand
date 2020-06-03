@@ -24,13 +24,13 @@ public:
 
     pair<int, int> getDirection()
     {
-        pair<int, int> pai = make_pair( sens * (B.first - A.first),  sens * (B.second - A.second));
+        pair<int, int> pai = make_pair( t * sens * (B.first - A.first), t * sens * (B.second - A.second));
         return pai;
     }
 
     void next_move()
     {
-        t += sens * 0.003;
+        t += sens * 0.004;
         if(t > 1 or t < 0)
         {
             sens *= -1;

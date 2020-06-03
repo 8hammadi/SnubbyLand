@@ -73,7 +73,7 @@ void play()
             }
 
         }
-        SDL_Delay(16);
+        SDL_Delay(13);
     }
 
 }
