@@ -81,6 +81,17 @@ void screen_level()
     IMG_SavePNG(s, z.c_str());
 }
 
+void screen()
+{
+    cout<<"taper s"<<endl;
+    string s;
+    cin>>s;
+    int width = 1024, height = 668;
+    s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+    SDL_RenderReadPixels(render, NULL, s->format->format, s->pixels, s->pitch);
+    string z = s+ ".png";
+    IMG_SavePNG(s, z.c_str());
+}
 void save_level()
 {
     ofstream ofs( "../levels/" + to_string(l));
