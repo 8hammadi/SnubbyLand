@@ -41,8 +41,6 @@ int get_level()
                 if( x > rect.x and x < rect.x + rect.w and b  > rect.y and b  < rect.y + rect.h )
                 {
                     cout << i << " FOUND: " << j << endl;
-                    if(k > N_OPEN_LEVEL)
-                        break;
                     load_level(k);
                     return k;
                     break;
@@ -64,12 +62,10 @@ int get_level()
                     string k = get_text();
                     if(k == "-1")
                         continue ;
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "WAIT... ",
-                                             "Loading Level ......",
-                                             window);
+                    
                     if (get_level_from_server(k))
                     {
-                        return -1;
+                        return l;
                     }
                     else
                     {
@@ -77,7 +73,7 @@ int get_level()
                                                  "Level does not exist",
                                                  window);
                         cout << "Level not exist" << endl;
-                        return 0;
+                        return -1;
                     }
                     break;
                 }
@@ -87,9 +83,9 @@ int get_level()
         case SDL_MOUSEWHEEL:
             if(event.wheel.y >= 1)
             {
-                if(y - 10 >= 0)
+                if(y - 20 >= 0)
                 {
-                    y -= 10;
+                    y -= 20;
                 }
             }
             else  if(event.wheel.y <= -1)
@@ -98,9 +94,9 @@ int get_level()
                 int max = (N_LEVELS / LEVEL_level_row + (N_LEVELS % LEVEL_level_row != 0)) * (LEVEL_level_height + LEVEL_level_margin);
                 max = (WINDOW_HEIGHT <  max) ? max : WINDOW_HEIGHT;
                 N_LEVELS--;
-                if(y + WINDOW_HEIGHT + 10 <= max)
+                if(y + WINDOW_HEIGHT + 20 <= max)
                 {
-                    y += 10;
+                    y += 20;
                 }
             };
             interface = GET_LEVEL;

@@ -108,11 +108,11 @@ void draw_levels()
                } ;
         SDL_RenderCopy(render, textures[k], NULL, &rect);
 
-        if(k > N_OPEN_LEVEL/* and mode == "1OFF"*/)
-        {
-            SDL_SetRenderDrawColor(render, 0, 0, 0, 200);
-            SDL_RenderFillRect(render, &rect);
-        }
+        // if(k > N_OPEN_LEVEL/* and mode == "1OFF"*/)
+        // {
+        //     SDL_SetRenderDrawColor(render, 0, 0, 0, 200);
+        //     SDL_RenderFillRect(render, &rect);
+        // }
         //send to server
         rect.w = LEVEL_share_width;
         rect.h = LEVEL_share_height;

@@ -23,7 +23,7 @@
 #define WIN_LOSE_prev_next_y  WIN_LOSE_quit_y+WIN_LOSE_button_height+WIN_LOSE_button_margin
 
 // previous
-#define WIN_LOSE_previous_x (WINDOW_WIDTH -2*WIN_LOSE_button_width-WIN_LOSE_button_margin)/2
+#define WIN_LOSE_previous_x (WINDOW_WIDTH-2*WIN_LOSE_button_width-WIN_LOSE_button_margin)/2
 
 // next
 #define WIN_LOSE_next_x WIN_LOSE_previous_x+WIN_LOSE_button_width+WIN_LOSE_button_margin
@@ -31,9 +31,11 @@
 
 void play()
 {
+    interface = GAME;
     cout << "the game began" << endl;
     is_playing = 1;
     int i = 0;
+    screen_level();
     while(1)
     {
         if(!is_playing or is_pause)
@@ -113,8 +115,11 @@ void local_win(bool wi)
                 cout << "LEVELS" << endl;
                 is_pause = 0;
                 l = get_level();
-                load_level(l);
-                is_playing = 1;
+                if( l != -1)
+                {
+                    load_level(l);
+                    is_playing = 1;
+                }
             }
             // Quit button
             if(WIN_LOSE_button_x <= x && x <= WIN_LOSE_button_x + WIN_LOSE_button_width &&

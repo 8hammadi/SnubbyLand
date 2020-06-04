@@ -15,6 +15,7 @@ void check_status_of_playing2()
         {
             if(c.is_virtual)
             {
+                cout << "is Virtual 2" << endl;
                 level.virtuals--;
                 level.coins.erase(level.coins.begin() + i);
             }
@@ -54,6 +55,7 @@ void check_status_of_playing()
         {
             if(c.is_virtual)
             {
+                cout << "is Virtual" << endl;
                 level.virtuals--;
                 level.coins.erase(level.coins.begin() + i);
             }

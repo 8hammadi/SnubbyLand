@@ -41,7 +41,6 @@ void create_level()
 LEVEL0:
     go_back = 0;
     flashLevel();
-
     load_level(0);
     renderLevelCreator(render, 0);
     SDL_RenderPresent(render);

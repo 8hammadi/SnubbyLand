@@ -14,21 +14,22 @@ private:
     {
         ar &x;
         ar &y;
-
-
     }
 public:
     bool is_taked = 0;
-    bool is_virtual = false;
+    bool is_virtual ;
     int x, y;
     int w = 10, h = 10;
-    Coin() {};
-    Coin(int x, int y)
+    Coin()
+    {
+        is_virtual = false;
+    }
+    Coin(int x, int y): Coin()
     {
         this->x = x;
         this->y = y;
     }
-    bool take(Player& p)
+    bool take(Player &p)
     {
         if( Distance(x, y, p.x, p.y) <= (w + p.w) / 2 + 3 )
         {

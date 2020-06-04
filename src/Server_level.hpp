@@ -52,26 +52,35 @@ string send_level_to_server(int k)
 }
 
 
-bool get_level_from_server(string levelid) // ex:k="L201"
+bool  get_level_from_server(string levelid) // ex:k="L201"
 {
     try
     {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "WAIT... ",
+                                 "Loading Level ......",
+                                 window);
+
+        ++N_LEVELS;
+        l = N_LEVELS;
+        cout<<"Level Numbers: "<<l<<endl;
         cout << "GET LEVEL ONLINE .." << endl;
         string input = POST(levelid);
         if(input == ".")return 0;
-        ofstream out(levelid);
+        ofstream out("../levels/" +to_string(l));
         out << input;
         out.close();
 
         cout << input << endl;
-        ifstream ifs(levelid);
+
+        ifstream ifs("../levels/" +to_string(l));
         boost::archive::text_iarchive ar(ifs);
         ar &ll;
         level = *ll;
+        save_n();
     }
     catch(exception &e)
     {
-         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR while downloading the level ",
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "ERROR while downloading the level ",
                                  e.what(),
                                  window);
     }

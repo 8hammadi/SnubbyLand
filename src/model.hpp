@@ -83,7 +83,7 @@ void screen_level()
 
 void save_level()
 {
-    ofstream ofs( "../levels/" + to_string(N_LEVELS));
+    ofstream ofs( "../levels/" + to_string(l));
     boost::archive::text_oarchive ar(ofs);
     ll = &level;
     ar &ll;
@@ -93,6 +93,7 @@ void load_level(int k)
 {
     try
     {
+        delete ll;
         ifstream ifs("../levels/" + to_string(k));
         boost::archive::text_iarchive ar(ifs);
         ar &ll;
@@ -116,8 +117,8 @@ void load_level(int k)
         }
         else
         {
-            level.player2.x = 0;
-            level.player2.y = 0;
+            level.player2.x = 1000;
+            level.player2.y = 1000;
         }
 
     }
