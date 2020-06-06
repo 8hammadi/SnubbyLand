@@ -1,7 +1,7 @@
 void online_game()
 {
-    is_online_game = 1;
     l = get_level();
+    is_online_game = 1;
     cout << "level : " << l << endl;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
@@ -64,13 +64,13 @@ int thread_playing_online(void *_)
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
 
-            if(ocoins != -1)
+            if(level.ocoins != -1 )
             {
-                cout << "->" << ocoins << endl;
-                text = "-" + to_string(ocoins);
+                cout << "->" << level.ocoins << endl;
+                text = "-" + to_string(level.ocoins);
                 //send to server that eat coin
                 ws.write(net::buffer(text));
-                ocoins = -1;
+                level.ocoins = -1;
             }
             if(i_win)
             {
@@ -103,10 +103,10 @@ int thread_playing_online(void *_)
             }
             else if(text[0] == '-')
             {
-                sscanf(text.c_str(), "-%d", &ocoins);
-                cout << "<-:" << ocoins << endl;
-                level.coins[ocoins].is_taked = 1;
-                ocoins = -1;
+                int q;
+                sscanf(text.c_str(), "-%d", &q);
+                cout << "<-:" << q << endl;
+                level.coins[q].is_taked = 1;
             }
             else
             {

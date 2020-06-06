@@ -73,7 +73,6 @@ void index()
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_online_y <= y && y <= HOME_online_y + HOME_button_height)
             {
-                is_online_game = 1;
                 automatique = 0;
                 offline = 0;
                 return online_game();
