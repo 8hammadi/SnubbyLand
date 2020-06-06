@@ -34,7 +34,6 @@ void play()
     interface = GAME;
     cout << "the game began" << endl;
     is_playing = 1;
-    int i = 0;
     while(1)
     {
         if(!is_playing or is_pause)
@@ -49,16 +48,12 @@ void play()
 
         move(T, level.player);
         move(TT, level.player2);
-        cout << 4 << endl;
 
         if(automatique)
             directSnubby(TT, level.player2);
-        cout << 5 << endl;
 
         check_status_of_playing();
         check_status_of_playing2();
-
-        i++;
 
         if( level.n_coins == level.virtuals)
         {
