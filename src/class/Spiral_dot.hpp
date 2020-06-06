@@ -27,7 +27,7 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx + C.first + R * cos(i * PI / 2)*j / n, cy + C.second + R * sin(i * PI / 2)*j / n));
+                enemys.push_back(make_pair( C.first + R * cos(i * PI / 2)*j / n,  C.second + R * sin(i * PI / 2)*j / n));
 
             }
         }
@@ -52,7 +52,7 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx + C.first + R * cos((i * PI / 2) + ongle)*j / n, cy + C.second + R * sin((i * PI / 2) + ongle)*j / n));
+                enemys.push_back(make_pair(C.first + R * cos((i * PI / 2) + ongle)*j / n, C.second + R * sin((i * PI / 2) + ongle)*j / n));
 
             }
         }
@@ -64,7 +64,7 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx + C.first + R * cos(i * PI / 2)*j / n, cy + C.second + R * sin(i * PI / 2)*j / n));
+                enemys.push_back(make_pair( C.first + R * cos(i * PI / 2)*j / n, C.second + R * sin(i * PI / 2)*j / n));
 
             }
         }

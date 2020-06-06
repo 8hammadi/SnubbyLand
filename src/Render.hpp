@@ -7,11 +7,14 @@
 
 int threadRender(void *_)
 {
+
+	int i = -1;
 	while(1)
 	{
 		switch(interface)
 		{
 		case INDEX:
+			i = 0;
 			renderHome(render);
 			SDL_RenderPresent(render);
 			cout << "INDEX: " << interface << endl;
@@ -20,6 +23,7 @@ int threadRender(void *_)
 			break;
 
 		case GET_LEVEL:
+			i = 0;
 			draw_levels();
 			cout << "GET_LEVEL: " << interface << endl;
 			interface = NOTHING;
@@ -27,6 +31,7 @@ int threadRender(void *_)
 			break;
 
 		case LOCAL_WIN:
+			i = 0;
 			draw_game();
 			renderPause_win_lose(render, win);
 			show();
@@ -46,14 +51,16 @@ int threadRender(void *_)
 
 		case GAME:
 			draw_game();
-			rect = {0, 100 + 40 * 12, 1024, 100} ;
-			SDL_RenderCopy(render, textureSlides[6], NULL, &rect);
 			show();
+			i++;
+			if(i == 4)
+				screen_level();
 			// cout << "GAME: " << interface << endl;
 			SDL_Delay(TIME);
 			break;
 
 		case LEVEL_CREATOR:
+			i = 0;
 			renderLevelCreator(render, stepp);
 			SDL_RenderPresent(render);
 			cout << stepp << " LEVEL_CREATOR: " << interface << endl;

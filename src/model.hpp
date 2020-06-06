@@ -79,6 +79,9 @@ void screen_level()
     SDL_RenderReadPixels(render, NULL, s->format->format, s->pixels, s->pitch);
     string z = "../levels/" + to_string(l) + ".png";
     IMG_SavePNG(s, z.c_str());
+    SDL_DestroyTexture(textures[l]);
+    textures[l] = SDL_CreateTextureFromSurface(render, IMG_Load(z.c_str()));
+    cout << "ScreenShot: " << z << endl;
 }
 
 

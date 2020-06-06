@@ -43,9 +43,6 @@ void play()
             continue;
         }
 
-        if(i == 4)
-            screen_level();
-
         interface = GAME;
 
         update();
@@ -75,6 +72,7 @@ void play()
 
         }
         SDL_Delay(13);
+
     }
 
 }

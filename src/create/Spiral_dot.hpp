@@ -19,8 +19,8 @@ void add_spiral_dot()
             free_memory();
             break;
         case SDL_MOUSEBUTTONDOWN:
-            x = event.motion.x - cx;
-            y = event.motion.y - cy;
+            x = event.motion.x ;
+            y = event.motion.y ;
             if(eventLevelCreator( x + cx,  y + cy) == 0)
                 return;
             level.spiral_dots.push_back(Spiral_dot(make_pair(x, y), 5, 100));
