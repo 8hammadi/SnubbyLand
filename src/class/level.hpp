@@ -113,7 +113,7 @@ public:
         int T[3] = {-1, 1, 0};
         int lvl = 10, w = 20, h = 12;
 
-        vector<vector<int>> rmap = generateLevel(time(NULL), w / 2 - 1, h - 2);
+        vector<vector<int>> rmap = generateLevel(time(NULL), w , h );
 
         for(int i = 0; i < h; i++)
             for(int j = 0; j < w; j++)

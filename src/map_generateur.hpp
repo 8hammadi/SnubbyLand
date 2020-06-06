@@ -157,14 +157,14 @@ vector<vector<data>> generateLevel(int lvl, int mapW, int mapH)
 	map.insert(map.begin(), tobo);
 	map.insert(map.end(), tobo);
 
-	for (int y = 0; y < map.size() ; ++y)
-	{
-		map[y].insert(map[y].begin(), RESTRICTED);
-		int len = map[y].size();
-		for (int x = 0 ; x < len ; ++x)
-			map[y].push_back(map[y][len - x - 1]);
+	// for (int y = 0; y < map.size() ; ++y)
+	// {
+	// 	map[y].insert(map[y].begin(), RESTRICTED);
+	// 	int len = map[y].size();
+	// 	for (int x = 0 ; x < len ; ++x)
+	// 		map[y].push_back(map[y][len - x - 1]);
 
-	}
+	// }
 
 	caveGeneration(map);
 	// addGreenZone(map);
