@@ -35,7 +35,6 @@ void play()
     cout << "the game began" << endl;
     is_playing = 1;
     int i = 0;
-    screen_level();
     while(1)
     {
         if(!is_playing or is_pause)
@@ -43,6 +42,9 @@ void play()
             SDL_Delay(200);
             continue;
         }
+
+        if(i == 4)
+            screen_level();
 
         interface = GAME;
 
@@ -56,12 +58,9 @@ void play()
             directSnubby(TT, level.player2);
         cout << 5 << endl;
 
-        if(i % 10 == 0)
-        {
-            check_status_of_playing();
-            check_status_of_playing2();
-            i = 0;
-        }
+        check_status_of_playing();
+        check_status_of_playing2();
+
         i++;
 
         if( level.n_coins == level.virtuals)
