@@ -53,7 +53,7 @@ int threadRender(void *_)
 			draw_game();
 			show();
 			i++;
-			if(i == 4)
+			if(i == 4 || i == 5)
 				screen_level();
 			// cout << "GAME: " << interface << endl;
 			SDL_Delay(TIME);

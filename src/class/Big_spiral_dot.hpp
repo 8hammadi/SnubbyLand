@@ -29,7 +29,7 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx + C.first + R * cos(i * PI / 2)*j / n, cy + C.second + R * sin(i * PI / 2)*j / n));
+                enemys.push_back(make_pair( C.first + R * cos(i * PI / 2)*j / n,  C.second + R * sin(i * PI / 2)*j / n));
 
             }
         }
@@ -43,7 +43,7 @@ public:
         {
             for(int j = 1; j <= n; j++)
             {
-                enemys.push_back(make_pair(cx + C.first + R * cos(i * PI / 2)*j / n, cy + C.second + R * sin(i * PI / 2)*j / n));
+                enemys.push_back(make_pair( C.first + R * cos(i * PI / 2)*j / n,  C.second + R * sin(i * PI / 2)*j / n));
 
             }
         }
@@ -98,8 +98,12 @@ public:
             for(int j = 1; j <= n; j++)
             {
 
-                enemys.push_back(make_pair(cx + C.first + (R * cos(ongle + i * PI / 2)*j / n) + 20 * cos(PI / 2 - ongle - i * PI / 2 ), cy + C.second + (R * sin(ongle + i * PI / 2 )*j / n) + 20 * sin(PI / 2 - ongle - i * PI / 2)));
-                enemys.push_back(make_pair(cx + C.first + (R * cos(ongle + i * PI / 2)*j / n) - 20 * cos(PI / 2 - ongle - i * PI / 2 ), cy + C.second + (R * sin(ongle + i * PI / 2)*j / n) - 20 * sin(PI / 2 - ongle - i * PI / 2)));
+                enemys.push_back(make_pair(
+                                     C.first + (R * cos(ongle + i * PI / 2)*j / n) + 20 * cos(PI / 2 - ongle - i * PI / 2 ),
+                                     C.second + (R * sin(ongle + i * PI / 2 )*j / n) + 20 * sin(PI / 2 - ongle - i * PI / 2)));
+                enemys.push_back(make_pair(
+                                     C.first + (R * cos(ongle + i * PI / 2)*j / n) - 20 * cos(PI / 2 - ongle - i * PI / 2 ),
+                                     C.second + (R * sin(ongle + i * PI / 2)*j / n) - 20 * sin(PI / 2 - ongle - i * PI / 2)));
 
 
             }

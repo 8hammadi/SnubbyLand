@@ -22,7 +22,7 @@ void add_big_spiral_dot()
             y = event.motion.y;
             if(eventLevelCreator( x,  y) == 0)
                 return;
-            level.big_spiral_dots.push_back(Big_spiral_dot(make_pair(x - cx, y - cy), 5, 100));
+            level.big_spiral_dots.push_back(Big_spiral_dot(make_pair(x , y ), 5, 100));
             // draw_game();
             // renderLevelCreator(render, 4);
             // rect = {0, 100 + 40 * 12, 1024, 100} ;
