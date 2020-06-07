@@ -15,6 +15,7 @@ bool is_player_inside_after(int x, int y)
 
 bool check_it_free_area(int x, int y)
 {
+<<<<<<< HEAD
     if(
         // (y - 49 - cy ) / size_squar < 0 || (y +49 - cy ) / size_squar >= 12 ||
         // (y - 49 - cy ) / size_squar < 0 || (y - 49 - cy ) / size_squar >= 12 ||
@@ -25,6 +26,17 @@ bool check_it_free_area(int x, int y)
         // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
         // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
     )
+=======
+    if(     (y - 49 - cy ) / size_squar < 0 || (y + 49 - cy ) / size_squar >= 12 ||
+            (y + 49 - cy ) / size_squar < 0 ||  (y + 49 - cy ) / size_squar >= 12 ||
+            (y - 49 - cy ) / size_squar < 0 || (y - 49 - cy ) / size_squar >= 12 ||
+            (y + 49 - cy ) / size_squar < 0 ||  (y + 49 - cy ) / size_squar >= 12 ||
+            (x - 49 - cx ) / size_squar < 0 || (x + 49 - cx ) / size_squar >= 20 ||
+            (x - 49 - cx ) / size_squar < 0 || (x - 49 - cx ) / size_squar >= 20 ||
+            (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
+            (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
+      )
+>>>>>>> f6e27c30c48b4d144b6fbf9791b1f2f285ee2e46
     {
         return 0;
     }
@@ -65,36 +77,15 @@ int control_event(void *_)
                 if( event_control.key.keysym.sym == SDLK_DOWN )
                     T[3] = event_control.type == SDL_KEYDOWN;
             }
-
-            switch (event_control.type)
+            else if(event_control.type == SDL_MOUSEBUTTONDOWN)
             {
-            case SDL_MOUSEBUTTONDOWN:
                 x = event_control.motion.x;
                 y = event_control.motion.y;
                 if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
                         && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
                     pause_game();
-
-                break;
-            case SDL_KEYDOWN:
-                switch (event_control.key.keysym.sym)
-                {
-                case SDLK_n:
-                    break;
-                case SDLK_KP_PLUS:
-                    sensitivity += 0.03;
-                    cout << sensitivity << endl;
-                    break;
-                case SDLK_KP_MINUS:
-                    sensitivity -= 0.03;
-                    cout << sensitivity << endl;
-                    break;
-                }
             }
-            if(level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)
-                level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
-            if(level.map[(int)((level.player2.y - cx) / size_squar)][(int)((level.player2.x - cy) / size_squar)] == 0)
-                level.last_touch_on_green_area2 = make_pair(level.player2.x, level.player2.y);
+
 
         }
     }
