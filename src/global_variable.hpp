@@ -4,7 +4,7 @@ enum Interface
 	NOTHING, INDEX, GET_LEVEL, GAME, LOCAL_WIN, PAUSE, LEVEL_CREATOR
 };
 
-Interface interface;
+Interface interface = NOTHING;
 class Level;
 SDL_Window *window;
 SDL_Renderer *render;
@@ -55,4 +55,4 @@ bool play_function_is_run = 0;
 
 
 
-bool _sync=0;
+bool _sync = 0;

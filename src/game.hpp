@@ -45,16 +45,23 @@ void play()
         if(_sync)continue;
 
         interface = GAME;
+        cout << 0 << endl;
         update();
+        cout << 1 << endl;
         move(T, level.player);
+        cout << 2 << endl;
         move(TT, level.player2);
+        cout << 3 << endl;
 
         if(automatique)
             directSnubby(TT, level.player2);
-        
+        cout << 4 << endl;
+
 
         check_status_of_playing();
+        cout << 5 << endl;
         check_status_of_playing2();
+        cout << 6 << endl;
 
         if( level.n_coins == level.virtuals)
         {
@@ -67,7 +74,9 @@ void play()
             }
 
         }
-        SDL_Delay(13);
+        cout << 7 << endl;
+
+        SDL_Delay(3);
 
     }
 

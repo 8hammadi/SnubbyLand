@@ -25,6 +25,10 @@ bool check_it_free_area(int x, int y)
         // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
         // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
     )
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7669fc5c38b7ec24e163fceceaeecba94a5eb2f4
     {
         return 0;
     }
@@ -67,8 +71,8 @@ int control_event(void *_)
             }
             else if(event_control.type == SDL_MOUSEBUTTONDOWN)
             {
-                x = event_control.motion.x;
-                y = event_control.motion.y;
+                int x = event_control.motion.x;
+                int y = event_control.motion.y;
                 if(x >= GAME_pause_x && x <= GAME_pause_x + GAME_pause_width
                         && y >= GAME_pause_y && y <= GAME_pause_y + GAME_pause_height)
                     pause_game();
