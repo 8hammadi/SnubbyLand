@@ -39,7 +39,7 @@ public:
         vector<pair<int, int>> pais;
         for(int i = 0; i < 4; i++)
             for(int j = 1; j <= n; j++)
-                pais.push_back(make_pair( -R * sin((i * PI / 2) + ongle)*j / n, R * cos((i * PI / 2) + ongle)*j / n));
+                pais.push_back(make_pair( R * sin((i * PI / 2) + ongle)*j / n, -R * cos((i * PI / 2) + ongle)*j / n));
 
         return pais;
     }
@@ -53,7 +53,6 @@ public:
             for(int j = 1; j <= n; j++)
             {
                 enemys.push_back(make_pair(C.first + R * cos((i * PI / 2) + ongle)*j / n, C.second + R * sin((i * PI / 2) + ongle)*j / n));
-
             }
         }
     }
@@ -65,7 +64,6 @@ public:
             for(int j = 1; j <= n; j++)
             {
                 enemys.push_back(make_pair( C.first + R * cos(i * PI / 2)*j / n, C.second + R * sin(i * PI / 2)*j / n));
-
             }
         }
     }

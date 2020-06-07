@@ -34,14 +34,17 @@ void flashLevel()
     level.squar_enemys.clear();
 }
 
-void create_level()
+int create_level()
 {
     N_LEVELS++;
     l = N_LEVELS;
+    stepp = -1;
 LEVEL0:
+    if(stepp == 0)
+        return -1;
     go_back = 0;
     flashLevel();
-    load_level(1);
+    load_level(0);
     renderLevelCreator(render, 0);
     SDL_RenderPresent(render);
     SDL_Delay(5);
@@ -100,15 +103,16 @@ POSITION:
     cout << "save level ..." << endl;
     save_level();
     save_n();
-    l=N_LEVELS;
+    l = N_LEVELS;
     load_level(l);
+    return 0;
 }
 
 void renderLevelCreator(SDL_Renderer *render, int stepp)
 {
     static int last = -1;
 
-    
+
     if(stepp <= 1)
         draw_wall();
     else

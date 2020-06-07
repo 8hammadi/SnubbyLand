@@ -143,7 +143,14 @@ void index()
                 is_online_game = 0;
                 automatique = 0;
                 offline = 0;
-                create_level();
+
+                if(create_level() == -1)
+                {
+                    interface = INDEX;
+                    break;
+                }
+
+
                 cout << "le niveau créé avec succès" << endl;
                 if (play_function_is_run)
                 {

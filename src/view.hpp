@@ -71,7 +71,7 @@ void draw_game()
     {
         for(auto e : level.coins)
         {
-            if(e.is_taked /*|| e.is_virtual*/)continue;
+            if(e.is_taked || e.is_virtual)continue;
             rect = {e.x - e.w / 2, e.y - e.h / 2, e.w, e.h};
             SDL_RenderCopy(render, textureCoin, NULL, &rect);
         }

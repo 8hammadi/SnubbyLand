@@ -13,7 +13,7 @@ void add_spiral_dot();//pour ajauter les spiral dot
 void add_linear_enemy();//ajauter des obstacle lineare
 void add_squar_enemy();
 void add_big_spiral_dot();
-void create_level();//le cœur du creation de nouveau niveau
+int create_level();//le cœur du creation de nouveau niveau
 //Pour le jeux
 bool check_it_free_area(int x, int y);//vérifier si une position est possible ( check_it_free_area & is_player_inside_after)
 bool is_player_inside_after(int x, int y);

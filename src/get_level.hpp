@@ -66,6 +66,7 @@ int get_level()
                     
                     if (get_level_from_server(k))
                     {
+                        load_level(l);
                         return l;
                     }
                     else
