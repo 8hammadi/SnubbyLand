@@ -161,9 +161,7 @@ void free_memory()
     is_playing = 0;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
-    SDL_Delay(4);
     cout << "libérer la mémoire ..." << endl;
-    SDL_Quit();
     SDL_DestroyTexture(texture);
     SDL_DestroyTexture(textureEnemy);
     for (int i = 0; i < 10; i++) SDL_DestroyTexture(textures[i]);
@@ -174,6 +172,7 @@ void free_memory()
     SDL_DestroyTexture(texture_wait);
     SDL_DestroyRenderer(render);
     SDL_DestroyWindow(window);
+    SDL_Quit();
     exit(1);
 }
 
