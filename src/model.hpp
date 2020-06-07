@@ -106,7 +106,6 @@ void load_level(int k)
         ar &level;
         level.n_coins = level.coins.size();
 
-        ocoins = -1;
 
         again = 5;
         again2 = 5;
