@@ -34,21 +34,21 @@ void play()
     interface = GAME;
     cout << "the game began" << endl;
     is_playing = 1;
+
     while(1)
     {
-        if(!is_playing or is_pause)
+        if(!is_playing or is_pause )
         {
             SDL_Delay(200);
             continue;
         }
+        if(_sync)continue;
 
         interface = GAME;
-
         update();
-
         move(T, level.player);
         move(TT, level.player2);
-
+        
         if(automatique)
             directSnubby(TT, level.player2);
 

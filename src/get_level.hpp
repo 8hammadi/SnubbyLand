@@ -11,6 +11,7 @@ int get_level()
     while(1)
     {
         SDL_WaitEvent(&event);
+        SDL_Delay(10);
         switch (event.type)
         {
         case SDL_MOUSEBUTTONDOWN:

@@ -63,8 +63,9 @@ void check_status_of_playing()
             }
             else
             {
-                ocoins = i;
-                cout << "++" << ocoins << endl;
+
+                level.ocoins = i;
+                cout << "++" << level.ocoins << endl;
                 coin_sound();
                 level.c1++;
                 cout << level.n_coins << " - ---" << endl;

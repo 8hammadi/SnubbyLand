@@ -1,7 +1,7 @@
 void online_game()
 {
-    is_online_game = 1;
     l = get_level();
+    is_online_game = 1;
     cout << "level : " << l << endl;
     SDL_RenderCopy(render, texture_wait, NULL, NULL);
     SDL_RenderPresent(render);
@@ -9,13 +9,25 @@ void online_game()
     {
         SDL_Delay(50);   //finding a player
     }
-    play();
+    if (play_function_is_run)
+    {
+        is_playing = 1;
+        return ;
+    }
+    else
+    {
+        play_function_is_run = 1;
+        return play();
+    }
 }
 
 int thread_playing_online(void *_)
 {
-    while(1)if(is_online_game)break;
+    while(1)
+    {
+        if(is_online_game)break;
         else SDL_Delay(300);
+    }
     i_win = 0;
     cout << "STREAMING .." << endl;
     try
@@ -63,16 +75,17 @@ int thread_playing_online(void *_)
             // cout << "onliiiiine" << endl;
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
-
-            if(ocoins != -1)
+            cout << "->" << level.ocoins << endl;
+            if(level.ocoins != -1 )
             {
-                cout << "->" << ocoins << endl;
-                text = "-" + to_string(ocoins);
+
+                text = "-" + to_string(level.ocoins);
                 //send to server that eat coin
                 ws.write(net::buffer(text));
-                ocoins = -1;
+                level.ocoins = -1;
+                continue;
             }
-            if(i_win)
+            else if(i_win)
             {
                 i_win = 0;
                 text = "WIN";
@@ -82,7 +95,10 @@ int thread_playing_online(void *_)
                 // free_memory();
                 local_win(true);
             }
-            else ws.write(net::buffer(text));
+            else
+            {
+                ws.write(net::buffer(text));
+            }
             // This buffer will hold the incoming message
             // Read a message into our buffer
             ws.read(buffer);
@@ -92,21 +108,19 @@ int thread_playing_online(void *_)
             {
                 cout << "disconnect" << endl;
                 local_win(true);
-                // free_memory();
+
             }
             else if(text == "WIN")
             {
                 cout << "loser" << endl;
                 local_win(false);
-
-                // free_memory();
             }
             else if(text[0] == '-')
             {
-                sscanf(text.c_str(), "-%d", &ocoins);
-                cout << "<-:" << ocoins << endl;
-                level.coins[ocoins].is_taked = 1;
-                ocoins = -1;
+                int q;
+                sscanf(text.c_str(), "-%d", &q);
+                cout << "<-:" << q << endl;
+                level.coins[q].is_taked = 1;
             }
             else
             {
@@ -122,7 +136,7 @@ int thread_playing_online(void *_)
     catch(exception const &e)
     {
 
-        cout << e.what() << endl;
+        cout << e.what() << "OOOOOOOO" << endl;
     }
     index();
     return 1;

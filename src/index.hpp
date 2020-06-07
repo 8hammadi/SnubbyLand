@@ -73,10 +73,30 @@ void index()
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
                     HOME_online_y <= y && y <= HOME_online_y + HOME_button_height)
             {
-                is_online_game = 1;
                 automatique = 0;
                 offline = 0;
-                return online_game();
+
+
+
+                l = get_level();
+                is_online_game = 1;
+                cout << "level : " << l << endl;
+                SDL_RenderCopy(render, texture_wait, NULL, NULL);
+                SDL_RenderPresent(render);
+                while(id2 == "0")
+                {
+                    SDL_Delay(50);   //finding a player
+                }
+                if (play_function_is_run)
+                {
+                    is_playing = 1;
+                    return ;
+                }
+                else
+                {
+                    play_function_is_run = 1;
+                    return play();
+                }
             }
             //Automatic
             else if(HOME_button_x <= x && x <= HOME_button_x + HOME_button_width &&
@@ -94,7 +114,8 @@ void index()
                 else
                 {
                     play_function_is_run = 1;
-                    return play();
+                    play();
+                    return;
                 }
             }
             //2Players Offline

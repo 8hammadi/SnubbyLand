@@ -39,6 +39,7 @@ public:
     pair<double, double> A = {500, 500}, B = {100, 100} ;
     int generation = 0;
     int n_coins, virtuals;
+    int ocoins=-1;
     Level()
     {
         for(int i = 0; i < N_POPULATION; i++)

@@ -87,21 +87,23 @@ void screen_level()
 
 void save_level()
 {
+    _sync=1;
+    SDL_Delay(100);
     ofstream ofs( "../levels/" + to_string(l));
     boost::archive::text_oarchive ar(ofs);
-    ll = &level;
-    ar &ll;
+    ar &level;
+    _sync=0;
 
 }
 void load_level(int k)
 {
+    _sync=1;
+    SDL_Delay(100);
     try
     {
-        delete ll;
         ifstream ifs("../levels/" + to_string(k));
         boost::archive::text_iarchive ar(ifs);
-        ar &ll;
-        level = *ll;
+        ar &level;
         level.n_coins = level.coins.size();
 
         ocoins = -1;
@@ -135,5 +137,6 @@ void load_level(int k)
                                  window);
         free_memory();
     };
+    _sync=0;
 }
 
