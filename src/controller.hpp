@@ -34,7 +34,7 @@ int control_event(void *_)
 {
     while(1)
     {
-        if(!is_playing)
+        if(!is_playing) 
         {
             SDL_Delay(200);
             continue;

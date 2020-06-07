@@ -8,7 +8,7 @@
 int threadRender(void *_)
 {
 
-	int i = -1;
+	int i ;
 	while(1)
 	{
 		switch(interface)
@@ -32,7 +32,7 @@ int threadRender(void *_)
 
 		case LOCAL_WIN:
 			i = 0;
-			draw_game();
+			// draw_game();
 			renderPause_win_lose(render, win);
 			show();
 			cout << "LOCAL_WIN: " << interface << endl;
@@ -41,7 +41,7 @@ int threadRender(void *_)
 			break;
 
 		case PAUSE:
-			draw_game();
+			// draw_game();
 			renderPause(render);
 			show();
 			cout << "PAUSE: " << interface << endl;
@@ -50,6 +50,7 @@ int threadRender(void *_)
 			break;
 
 		case GAME:
+			SDL_RenderClear(render);
 			draw_game();
 			show();
 			i++;

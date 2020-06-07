@@ -52,7 +52,6 @@ void pause_game()
                 load_level(l);
                 is_playing = 1;
                 is_pause = 0;
-                return;
             }
 
             // levels button
