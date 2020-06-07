@@ -15,15 +15,16 @@ bool is_player_inside_after(int x, int y)
 
 bool check_it_free_area(int x, int y)
 {
-    if(     (y - 49 - cy ) / size_squar < 0 || (y +49 - cy ) / size_squar >= 12 ||
-            (y + 49 - cy ) / size_squar < 0 ||  (y + 49 - cy ) / size_squar >= 12 ||
-            (y - 49 - cy ) / size_squar < 0 || (y - 49 - cy ) / size_squar >= 12 ||
-            (y + 49 - cy ) / size_squar < 0 ||  (y + 49 - cy ) / size_squar >= 12 ||
-            (x - 49 - cx ) / size_squar < 0 || (x +49 - cx ) / size_squar >= 20 || 
-            (x - 49 - cx ) / size_squar < 0 || (x -49 - cx ) / size_squar >= 20 ||
-            (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
-            (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
-      )
+    if(
+        // (y - 49 - cy ) / size_squar < 0 || (y +49 - cy ) / size_squar >= 12 ||
+        // (y - 49 - cy ) / size_squar < 0 || (y - 49 - cy ) / size_squar >= 12 ||
+        // (x - 49 - cx ) / size_squar < 0 || (x +49 - cx ) / size_squar >= 20 ||
+        (x - 49 - cx ) / size_squar < 0 || (x + 9 - cx ) / size_squar >= 20 ||
+        (y - 49 - cy ) / size_squar < 0 ||  (y + 9 - cy ) / size_squar >= 12 || 0
+        // (y + 49 - cy ) / size_squar < 0 ||  (y + 49 - cy ) / size_squar >= 12 ||
+        // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
+        // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
+    )
     {
         return 0;
     }
@@ -34,7 +35,7 @@ int control_event(void *_)
 {
     while(1)
     {
-        if(!is_playing) 
+        if(!is_playing)
         {
             SDL_Delay(200);
             continue;
