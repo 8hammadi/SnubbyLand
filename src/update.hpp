@@ -53,6 +53,8 @@ void check_status_of_playing()
     {
         if(!c.is_taked && c.take(level.player))
         {
+            level.n_coins--;
+
             if(c.is_virtual)
             {
                 cout << "is Virtual" << endl;
@@ -68,7 +70,6 @@ void check_status_of_playing()
                 cout << level.n_coins << " - ---" << endl;
             }
 
-            level.n_coins--;
         }
         i++;
     }

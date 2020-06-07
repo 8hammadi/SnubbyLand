@@ -251,10 +251,10 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
             continue;
         double dist = Distance(vect.first, vect.second, 0, 0);
         dot_pro /= (dist * Distance(vect2.first, vect2.second, 0, 0)) ;
-        if((0.9 <= dot_pro && dist < s.sim.radius2) ||
+        if((0.95 <= dot_pro && dist < s.sim.radius2) ||
                 ( dist <= s.sim.radius && -0.7 <= dot_pro))
         {
-                cout << "Speed: " << dist / dot_pro << endl;
+                cout << "Speed: " << Distance(vect2.first, vect2.second, 0, 0) << endl;
             added++;
             env.push_back(vect);
         }

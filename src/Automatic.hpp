@@ -143,7 +143,7 @@ pair<int, int> getNearest(vector<Coin> &coins, int x, int y)
 	pair<int, int> near(-10000, -10000);
 	double D = Distance(x, y, near.first, near.second);
 	for(auto &c : coins)
-		if(/*!c.is_virtual &&*/ D > Distance(x, y, c.x, c.y))
+		if(!c.is_taked && D > Distance(x, y, c.x, c.y))
 		{
 			D = Distance(x, y, c.x, c.y);
 			near = {c.x, c.y};
