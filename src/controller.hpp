@@ -25,10 +25,6 @@ bool check_it_free_area(int x, int y)
         // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
         // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
     )
-<<<<<<< HEAD
-=======
-
->>>>>>> 7669fc5c38b7ec24e163fceceaeecba94a5eb2f4
     {
         return 0;
     }
