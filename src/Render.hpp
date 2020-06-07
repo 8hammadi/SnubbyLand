@@ -1,9 +1,4 @@
 #define TIME 30
-// enum Interface
-// {
-// 	NOTHING, INDEX, GET_LEVEL, GAME, LOCAL_WIN, PAUSE
-// };
-
 
 int threadRender(void *_)
 {
@@ -56,7 +51,7 @@ int threadRender(void *_)
 			i++;
 			if(i == 2 || i == 5)
 				screen_level();
-			// cout << "GAME: " << interface << endl;
+			cout << "GAME: " << interface << endl;
 			SDL_Delay(TIME);
 			break;
 
