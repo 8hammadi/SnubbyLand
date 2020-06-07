@@ -75,16 +75,17 @@ int thread_playing_online(void *_)
             // cout << "onliiiiine" << endl;
             buffer.clear();
             text = to_string(level.player.x) + " " + to_string(level.player.y);
-
+            cout << "->" << level.ocoins << endl;
             if(level.ocoins != -1 )
             {
-                cout << "->" << level.ocoins << endl;
+
                 text = "-" + to_string(level.ocoins);
                 //send to server that eat coin
                 ws.write(net::buffer(text));
-                // level.ocoins = -1;
+                level.ocoins = -1;
+                continue;
             }
-            if(i_win)
+            else if(i_win)
             {
                 i_win = 0;
                 text = "WIN";
@@ -94,7 +95,10 @@ int thread_playing_online(void *_)
                 // free_memory();
                 local_win(true);
             }
-            else ws.write(net::buffer(text));
+            else
+            {
+                ws.write(net::buffer(text));
+            }
             // This buffer will hold the incoming message
             // Read a message into our buffer
             ws.read(buffer);
@@ -104,22 +108,20 @@ int thread_playing_online(void *_)
             {
                 cout << "disconnect" << endl;
                 local_win(true);
-                // free_memory();
+
             }
             else if(text == "WIN")
             {
                 cout << "loser" << endl;
                 local_win(false);
-
-                // free_memory();
             }
-            // else if(text[0] == '-')
-            // {
-            //     int q;
-            //     sscanf(text.c_str(), "-%d", &q);
-            //     cout << "<-:" << q << endl;
-            //     level.coins[q].is_taked = 1;
-            // }
+            else if(text[0] == '-')
+            {
+                int q;
+                sscanf(text.c_str(), "-%d", &q);
+                cout << "<-:" << q << endl;
+                level.coins[q].is_taked = 1;
+            }
             else
             {
                 streams = stringstream(text);
@@ -134,7 +136,7 @@ int thread_playing_online(void *_)
     catch(exception const &e)
     {
 
-        cout << e.what() << endl;
+        cout << e.what() << "OOOOOOOO" << endl;
     }
     index();
     return 1;
