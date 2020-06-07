@@ -15,6 +15,18 @@ bool is_player_inside_after(int x, int y)
 
 bool check_it_free_area(int x, int y)
 {
+<<<<<<< HEAD
+    if(
+        // (y - 49 - cy ) / size_squar < 0 || (y +49 - cy ) / size_squar >= 12 ||
+        // (y - 49 - cy ) / size_squar < 0 || (y - 49 - cy ) / size_squar >= 12 ||
+        // (x - 49 - cx ) / size_squar < 0 || (x +49 - cx ) / size_squar >= 20 ||
+        (x - 49 - cx ) / size_squar < 0 || (x + 9 - cx ) / size_squar >= 20 ||
+        (y - 49 - cy ) / size_squar < 0 ||  (y + 9 - cy ) / size_squar >= 12 || 0
+        // (y + 49 - cy ) / size_squar < 0 ||  (y + 49 - cy ) / size_squar >= 12 ||
+        // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
+        // (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
+    )
+=======
     if(     (y - 49 - cy ) / size_squar < 0 || (y + 49 - cy ) / size_squar >= 12 ||
             (y + 49 - cy ) / size_squar < 0 ||  (y + 49 - cy ) / size_squar >= 12 ||
             (y - 49 - cy ) / size_squar < 0 || (y - 49 - cy ) / size_squar >= 12 ||
@@ -24,6 +36,7 @@ bool check_it_free_area(int x, int y)
             (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20 ||
             (x + 49 - cx ) / size_squar < 0 ||  (x + 49 - cx ) / size_squar >= 20
       )
+>>>>>>> f6e27c30c48b4d144b6fbf9791b1f2f285ee2e46
     {
         return 0;
     }
