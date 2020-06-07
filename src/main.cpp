@@ -71,14 +71,12 @@ Level  level ;
 #include "game.hpp"
 #include "Render.hpp"
 
-
 int main(int argc, char const *argv[])
 {
     init();    
-    SDL_CreateThread( control_event, "", (void *)NULL);
-    SDL_CreateThread( thread_playing_online, "", (void *)NULL);
-    // SDL_CreateThread( thread_update_position, "", (void *)NULL);
-    SDL_CreateThread( threadRender, "", (void *)NULL);
+    controlThread=SDL_CreateThread( control_event, "", (void *)NULL);
+    onlineThread=SDL_CreateThread( thread_playing_online, "", (void *)NULL);
+    renderThread=SDL_CreateThread( threadRender, "", (void *)NULL);
     index();
 
 

@@ -4,6 +4,7 @@ enum Interface
 	NOTHING, INDEX, GET_LEVEL, GAME, LOCAL_WIN, PAUSE, LEVEL_CREATOR
 };
 
+SDL_Thread* controlThread,*onlineThread,*renderThread;
 Interface interface = NOTHING;
 class Level;
 SDL_Window *window;
