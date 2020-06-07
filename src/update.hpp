@@ -4,6 +4,11 @@ void update()
     for(auto &sp : level.big_spiral_dots)sp.next_move();
     for(auto &e : level.linear_enemys)e.next_move();
     for(auto &e : level.squar_enemys)e.next_move();
+
+    if(level.map[(int)((level.player.y - cx) / size_squar)][(int)((level.player.x - cy) / size_squar)] == 0)
+        level.last_touch_on_green_area = make_pair(level.player.x, level.player.y);
+    if(level.map[(int)((level.player2.y - cx) / size_squar)][(int)((level.player2.x - cy) / size_squar)] == 0)
+        level.last_touch_on_green_area2 = make_pair(level.player2.x, level.player2.y);
 }
 
 void check_status_of_playing2()
@@ -100,6 +105,7 @@ void check_status_of_playing()
 
 void move(bool Tt[4], Player &player)
 {
+
     if(Tt[0])
     {
         if(check_it_free_area(player.x - SPEED, player.y) && is_player_inside_after(player.x - SPEED, player.y))
