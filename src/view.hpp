@@ -15,8 +15,8 @@ void draw_text(char const *t, int x, int y, int w, int h)
 void draw_wall()
 {
     SDL_SetRenderDrawColor(render, 181, 181, 253.98, 255);
-    rect = {100, 100, 100 + 40 * 20, 100 + 40 * 12};
-    SDL_RenderFillRect(render, &rect );
+    // rect = {100, 100, 100 + 40 * 20, 100 + 40 * 12};
+    SDL_RenderFillRect(render, NULL );
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
     for(int i = 0; i < 12; i++)
     {

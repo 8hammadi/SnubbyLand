@@ -46,6 +46,9 @@ public:
         {
             Snubbys.push_back(Player(player));
         }
+        // for(auto&c:coins){
+        //     c.is_taked=0;
+        // }
     };
     void init_population(vector<int>nn)
     {
