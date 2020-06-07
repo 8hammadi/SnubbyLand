@@ -15,7 +15,8 @@ void draw_text(char const *t, int x, int y, int w, int h)
 void draw_wall()
 {
     SDL_SetRenderDrawColor(render, 181, 181, 253.98, 255);
-    SDL_RenderFillRect(render, NULL );
+    rect = {100, 100, 100 + 40 * 20, 100 + 40 * 12};
+    SDL_RenderFillRect(render, &rect );
     SDL_SetRenderDrawColor(render, 0, 0, 0, 255);
     for(int i = 0; i < 12; i++)
     {
@@ -66,12 +67,14 @@ void draw_game()
 
     rect = {-level.player.w / 2  + level.player.x, -level.player.h / 2 + level.player.y, level.player.w, level.player.h};
     SDL_RenderCopy(render, texturePlayer, NULL, &rect);
-
-    for(auto e : level.coins)
+    if(level.coins.size())
     {
-        if(e.is_taked /*|| e.is_virtual*/)continue;
-        rect = {e.x - e.w / 2, e.y - e.h / 2, e.w, e.h};
-        SDL_RenderCopy(render, textureCoin, NULL, &rect);
+        for(auto e : level.coins)
+        {
+            if(e.is_taked /*|| e.is_virtual*/)continue;
+            rect = {e.x - e.w / 2, e.y - e.h / 2, e.w, e.h};
+            SDL_RenderCopy(render, textureCoin, NULL, &rect);
+        }
     }
     draw_enemys();
     if(!is_pause and is_playing)
