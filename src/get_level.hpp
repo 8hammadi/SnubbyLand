@@ -11,7 +11,7 @@ int get_level()
     while(1)
     {
         SDL_WaitEvent(&event);
-        SDL_Delay(10);
+
         switch (event.type)
         {
         case SDL_MOUSEBUTTONDOWN:
@@ -22,15 +22,15 @@ int get_level()
             {
                 j = (k - 1) / LEVEL_level_row;
                 i = (k - 1) % LEVEL_level_row;
-                rect =
+                rect2 =
                 {
                     LEVEL_level_margin *(i + 1) + i * LEVEL_level_width,
                     LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y,
                     LEVEL_level_width, LEVEL_level_height
                 } ;
 
-                if( rect.x + LEVEL_share_x <= x && x <= rect.x + LEVEL_share_x + LEVEL_share_width &&
-                        rect.y + LEVEL_share_y <= b  && b  <= rect.y + LEVEL_share_y + LEVEL_share_height)
+                if( rect2.x + LEVEL_share_x <= x && x <= rect2.x + LEVEL_share_x + LEVEL_share_width &&
+                        rect2.y + LEVEL_share_y <= b  && b  <= rect2.y + LEVEL_share_y + LEVEL_share_height)
                 {
                     cout << "SENT: " << endl;
                     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Level Sharing Code",
@@ -39,7 +39,7 @@ int get_level()
                     break;
                 }
 
-                if( x > rect.x and x < rect.x + rect.w and b  > rect.y and b  < rect.y + rect.h )
+                if( x > rect2.x and x < rect2.x + rect2.w and b  > rect2.y and b  < rect2.y + rect2.h )
                 {
                     cout << i << " FOUND: " << j << endl;
                     load_level(k);
@@ -51,13 +51,13 @@ int get_level()
             {
                 int j = N_LEVELS / LEVEL_level_row;
                 int i = N_LEVELS % LEVEL_level_row;
-                rect =
+                rect2 =
                 {
                     LEVEL_level_margin *(i + 1) + i * LEVEL_level_width,
                     LEVEL_level_margin *(j + 1) + j *LEVEL_level_height - y,
                     LEVEL_level_width, LEVEL_level_height
                 };
-                if( x > rect.x and x < rect.x + rect.w and b > rect.y and b < rect.y + rect.h )
+                if( x > rect2.x and x < rect2.x + rect2.w and b > rect2.y and b < rect2.y + rect2.h )
                 {
                     cout << "Upload" << endl;
                     string k = get_text();
