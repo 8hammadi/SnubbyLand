@@ -76,7 +76,7 @@ void play()
         }
         cout << 7 << endl;
 
-        SDL_Delay(7);
+        SDL_Delay(3);
 
     }
 
