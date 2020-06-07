@@ -96,7 +96,7 @@ POSITION:
     if(go_back)goto SQUAR;
     go_back = 0;
     cout << "screen ..." << endl;
-    screen_level();
+    // screen_level();
     cout << "save level ..." << endl;
     save_level();
     save_n();

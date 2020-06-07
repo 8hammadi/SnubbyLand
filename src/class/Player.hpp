@@ -11,7 +11,7 @@ public:
     }
     void init()
     {
-        radius = 49;
+        radius = 40;
         radius2 = 120;
         q1 = 10;
         q2 = -700;
