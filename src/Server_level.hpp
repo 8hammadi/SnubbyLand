@@ -74,8 +74,7 @@ bool  get_level_from_server(string levelid) // ex:k="L201"
 
         ifstream ifs("../levels/" +to_string(l));
         boost::archive::text_iarchive ar(ifs);
-        ar &ll;
-        level = *ll;
+        ar &level;
         save_n();
     }
     catch(exception &e)

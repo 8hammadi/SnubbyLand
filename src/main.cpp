@@ -39,7 +39,7 @@ using namespace std;
 #include "prototype.hpp"
 #include "class/level.hpp"
 
-Level  level,*ll ;
+Level  level ;
 
 #include "Automatic.hpp"
 #include "init.hpp"

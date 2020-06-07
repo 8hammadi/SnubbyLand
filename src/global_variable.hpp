@@ -53,3 +53,6 @@ int again = 5, again2 = 5;
 
 bool play_function_is_run = 0;
 
+
+
+bool _sync=0;

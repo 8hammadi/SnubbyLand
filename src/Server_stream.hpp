@@ -9,13 +9,25 @@ void online_game()
     {
         SDL_Delay(50);   //finding a player
     }
-    play();
+    if (play_function_is_run)
+    {
+        is_playing = 1;
+        return ;
+    }
+    else
+    {
+        play_function_is_run = 1;
+        return play();
+    }
 }
 
 int thread_playing_online(void *_)
 {
-    while(1)if(is_online_game)break;
+    while(1)
+    {
+        if(is_online_game)break;
         else SDL_Delay(300);
+    }
     i_win = 0;
     cout << "STREAMING .." << endl;
     try
@@ -70,7 +82,7 @@ int thread_playing_online(void *_)
                 text = "-" + to_string(level.ocoins);
                 //send to server that eat coin
                 ws.write(net::buffer(text));
-                level.ocoins = -1;
+                // level.ocoins = -1;
             }
             if(i_win)
             {
@@ -101,13 +113,13 @@ int thread_playing_online(void *_)
 
                 // free_memory();
             }
-            else if(text[0] == '-')
-            {
-                int q;
-                sscanf(text.c_str(), "-%d", &q);
-                cout << "<-:" << q << endl;
-                level.coins[q].is_taked = 1;
-            }
+            // else if(text[0] == '-')
+            // {
+            //     int q;
+            //     sscanf(text.c_str(), "-%d", &q);
+            //     cout << "<-:" << q << endl;
+            //     level.coins[q].is_taked = 1;
+            // }
             else
             {
                 streams = stringstream(text);
