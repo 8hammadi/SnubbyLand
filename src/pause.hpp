@@ -75,15 +75,6 @@ void pause_game()
                 return index();
             }
 
-            // drawing
-            draw_game();
-            rect = {312, 100, 400, 540} ;
-            if(automatique)
-                SDL_RenderCopy(render, textureSlides[9], NULL, &rect);
-            else
-                SDL_RenderCopy(render, textureSlides[8], NULL, &rect);
-            break;
-            show();
         case SDL_QUIT:
             free_memory();
         case SDL_KEYDOWN:
