@@ -74,24 +74,9 @@ void pause_game()
                 is_playing = 0;
                 return index();
             }
-
+            break;
         case SDL_QUIT:
             free_memory();
-        case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_p:
-                is_pause = 0;
-                break;
-            case SDLK_s:
-                level.save_population();
-                cout << "save_population" << endl;
-                break;
-            case SDLK_l:
-                level.load_population();
-                cout << "load_population" << endl;
-                break;
-            }
         }
     }
 }
