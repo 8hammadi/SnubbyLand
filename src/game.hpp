@@ -69,7 +69,13 @@ void play()
 
         }
 
-        SDL_Delay(10);
+        SDL_RenderClear(render);
+        draw_game();
+        show();
+        if(i == 2 || i == 5)
+            screen_level();
+
+        // SDL_Delay(10);
 
     }
 

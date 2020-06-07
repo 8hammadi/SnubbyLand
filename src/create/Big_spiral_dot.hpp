@@ -1,12 +1,8 @@
 void add_big_spiral_dot()
 {
-    // draw_game();
-    // renderLevelCreator(render, 4);
-    // rect = {0, 100 + 40 * 12, 1024, 100} ;
-    // SDL_RenderCopy(render, textureSlides[5], NULL, &rect);
-    // SDL_RenderPresent(render);
-    // SDL_Delay(500);
+
     interface = LEVEL_CREATOR;
+
 
     continuer = 1;
     while(continuer)

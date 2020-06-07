@@ -45,12 +45,12 @@ int threadRender(void *_)
 			break;
 
 		case GAME:
-			SDL_RenderClear(render);
-			draw_game();
-			show();
-			i++;
-			if(i == 2 || i == 5)
-				screen_level();
+			// SDL_RenderClear(render);
+			// draw_game();
+			// show();
+			// i++;
+			// if(i == 2 || i == 5)
+			// 	screen_level();
 			// cout << "GAME: " << interface << endl;
 			SDL_Delay(TIME);
 			break;

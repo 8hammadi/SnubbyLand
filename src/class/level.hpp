@@ -39,7 +39,7 @@ public:
     pair<double, double> A = {500, 500}, B = {100, 100} ;
     int generation = 0;
     int n_coins, virtuals;
-    int ocoins=-1;
+    int ocoins = -1;
     Level()
     {
         // for(int i = 0; i < N_POPULATION; i++)
@@ -117,7 +117,7 @@ public:
         int T[3] = {-1, 1, 0};
         int lvl = 10, w = 20, h = 12;
 
-        vector<vector<int>> rmap = generateLevel(time(NULL), w , h );
+        vector<vector<int>> rmap = generateLevel(time(NULL), w, h );
 
         for(int i = 0; i < h; i++)
             for(int j = 0; j < w; j++)
@@ -251,14 +251,11 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
         pair<int, int> vect = getVector(s.x, s.y, e.enemy());
         pair<int, int> vect2 = e.getDirection();
         double dot_pro = vect.first * vect2.first + vect.second * vect2.second;
-        if(dot_pro == 0)
-            continue;
         double dist = Distance(vect.first, vect.second, 0, 0);
         dot_pro /= (dist * Distance(vect2.first, vect2.second, 0, 0)) ;
         if((0.95 <= dot_pro && dist < s.sim.radius2) ||
                 ( dist <= s.sim.radius && -0.7 <= dot_pro))
         {
-                cout << "Speed: " << Distance(vect2.first, vect2.second, 0, 0) << endl;
             added++;
             env.push_back(vect);
         }
@@ -273,12 +270,10 @@ vector<pair<int, int>> Level::getEnvironment(Player &s)
         {
             pair<int, int> vect = getVector(s.x, s.y, vects[i]);
             double dot_pro = vect.first * vect2.first + vect.second * vect2.second;
-            if(dot_pro == 0)
-                continue;
             double dist = Distance(vect.first, vect.second, 0, 0);
             dot_pro /= (dist * Distance(vect2.first, vect2.second, 0, 0)) ;
-            if((0.9 <= dot_pro && dist < s.sim.radius2 * (1 + dist / dot_pro)) ||
-                    ( dist <= s.sim.radius && -0.75 <= dot_pro))
+            if((0.9 <= dot_pro && dist < s.sim.radius2) ||
+                    ( dist <= s.sim.radius && -0.5 <= dot_pro))
             {
                 added++;
                 env.push_back(vect);
@@ -341,7 +336,7 @@ pair<int, int> Level::getVector( int x, int y, pair<int, int> center)
 
 void Level::commandSnubby(bool T[4], Player &s)
 {
-    cout << "Added: " << added << endl;
+    // cout << "Added: " << added << endl;
     int cmd = getWhere(s, getEnvironment(s), added);
     T[0] = (cmd & 2) != 0;
     T[1] = (cmd & 8) != 0;
