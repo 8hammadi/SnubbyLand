@@ -1,4 +1,4 @@
-#define TIME 30
+#define TIME 16
 
 int threadRender(void *_)
 {
