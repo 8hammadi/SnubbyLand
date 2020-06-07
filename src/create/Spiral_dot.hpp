@@ -21,7 +21,7 @@ void add_spiral_dot()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x ;
             y = event.motion.y ;
-            if(eventLevelCreator( x ,  y ) == 0)
+            if(eventLevelCreator( x,  y ) == 0)
                 return;
             level.spiral_dots.push_back(Spiral_dot(make_pair(x, y), 5, 100));
             // draw_game();
@@ -82,7 +82,8 @@ void add_spiral_dot()
                 interface = LEVEL_CREATOR;
                 break;
             case SDLK_r:
-                level.spiral_dots.pop_back();
+                if( level.spiral_dots.size() > 0)
+                    level.spiral_dots.pop_back();
                 // draw_game();
                 // renderLevelCreator(render, 3);
                 // rect = {0, 100 + 40 * 12, 1024, 100} ;

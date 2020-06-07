@@ -47,8 +47,8 @@ void pause_game()
             if(PAUSE_button_x <= x && x <= PAUSE_button_x + PAUSE_button_width &&
                     PAUSE_restart_y <= y && y <= PAUSE_restart_y + PAUSE_button_height)
             {
-                cout << "RESTART" << endl;
                 is_playing = 0;
+                cout << "RESTART" << endl;
                 load_level(l);
                 is_playing = 1;
                 is_pause = 0;

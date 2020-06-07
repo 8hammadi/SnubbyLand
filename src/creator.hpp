@@ -41,7 +41,7 @@ void create_level()
 LEVEL0:
     go_back = 0;
     flashLevel();
-    load_level(0);
+    load_level(1);
     renderLevelCreator(render, 0);
     SDL_RenderPresent(render);
     SDL_Delay(5);
@@ -108,6 +108,11 @@ void renderLevelCreator(SDL_Renderer *render, int stepp)
 {
     static int last = -1;
 
+    
+    if(stepp <= 1)
+        draw_wall();
+    else
+        draw_game();
 
     static SDL_Texture *prev = IMG_LoadTexture(render,  "../images/previous.png");
     static SDL_Texture *next = IMG_LoadTexture(render,  "../images/next.png");
@@ -120,7 +125,6 @@ void renderLevelCreator(SDL_Renderer *render, int stepp)
     static SDL_Texture *guide  = IMG_LoadTexture(render,  "../images/creator/wall.png");
     if(last != stepp)
     {
-
         SDL_DestroyTexture(plan);
         SDL_DestroyTexture(guide);
         switch(stepp)
@@ -164,11 +168,6 @@ void renderLevelCreator(SDL_Renderer *render, int stepp)
     SDL_RenderCopy(render, plan, NULL, &rect);
     rect = {CREATOR_guide_x, CREATOR_guide_y, CREATOR_guide_width, CREATOR_guide_height};
     SDL_RenderCopy(render, guide, NULL, &rect);
-
-    if(stepp <= 1)
-        draw_wall();
-    else
-        draw_game();
 
     // SDL_DestroyTexture(prev);
     // SDL_DestroyTexture(next);

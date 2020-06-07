@@ -42,10 +42,10 @@ public:
     int ocoins=-1;
     Level()
     {
-        for(int i = 0; i < N_POPULATION; i++)
-        {
-            Snubbys.push_back(Player(player));
-        }
+        // for(int i = 0; i < N_POPULATION; i++)
+        // {
+        //     Snubbys.push_back(Player(player));
+        // }
         // for(auto&c:coins){
         //     c.is_taked=0;
         // }

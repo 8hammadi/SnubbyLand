@@ -22,7 +22,7 @@ void add_linear_enemy()
         case SDL_MOUSEBUTTONDOWN:
             x = event.motion.x ;
             y = event.motion.y ;
-            if(eventLevelCreator( x ,  y ) == 0)
+            if(eventLevelCreator( x,  y ) == 0)
                 return;
             renderLevelCreator(render, 5);
             // texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_enemy.png"));
@@ -72,7 +72,8 @@ void add_linear_enemy()
                 SDL_Delay(5);
                 break;
             case SDLK_r:
-                level.linear_enemys.pop_back();
+                if(level.linear_enemys.size() > 0)
+                    level.linear_enemys.pop_back();
                 // draw_game();
                 renderLevelCreator(render, 5);
                 texture = SDL_CreateTextureFromSurface(render, IMG_Load("../images/linear_slide.png"));

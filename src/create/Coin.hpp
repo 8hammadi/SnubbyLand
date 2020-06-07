@@ -29,7 +29,7 @@ void add_coins()
             switch (event.key.keysym.sym)
             {
             case SDLK_LEFT:
-                if(level.coins.size())
+                if(level.coins.size()>0)
                 {
                     level.coins.pop_back();
                 }

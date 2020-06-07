@@ -75,9 +75,6 @@ void index()
             {
                 automatique = 0;
                 offline = 0;
-
-
-
                 l = get_level();
                 is_online_game = 1;
                 cout << "level : " << l << endl;
