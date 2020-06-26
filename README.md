@@ -11,6 +11,6 @@ This Project was made as an university project.
 
 <h3>DEMO</h3>
 
-<a href="https://www.youtube.com/embed/h6qdAJO26tc" rel="nofollow"><img src="https://makeagif.com/i/b-acdc" alt="Demo Application" data-canonical-src="https://www.youtube.com/embed/h6qdAJO26tc&t=" style="max-width:100%;"></a>
+<a href="https://www.youtube.com/embed/h6qdAJO26tc" rel="nofollow"><img src="https://i.makeagif.com/media/6-26-2020/b-acdc.gif" alt="Demo Application" data-canonical-src="https://www.youtube.com/embed/h6qdAJO26tc&t=" style="max-width:100%;"></a>
 
 Have Fun.
